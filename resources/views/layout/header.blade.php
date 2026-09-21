@@ -584,7 +584,8 @@
         z-index: 1050 !important;
     }
 
-    .header .drop-down-notification {
+    .header .drop-down-notification,
+    .header .project-type-menu {
         position: absolute !important;
         top: 100% !important;
         right: 0 !important;
