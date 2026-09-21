@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     @media screen and (max-width:767px) {
@@ -180,21 +180,21 @@
                                     <!-- Clinic Details Tab -->
                                     <div class="tab-pane fade show active " id="clinicDetails" role="tabpanel">
                                         <div class="row">
-                                            <div class="col-4">
+                                            <div class="col-12 col-md-4">
                                                 <div class="form-group">
                                                     <label for="clinic-name" class="text-dark">Clinic/Hospital Name:</label>
                                                     <input type="text" id="clinic-name" name="clinic_name"
                                                         class="form-control text-dark" value="{{ $clinicName }}" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-12 col-md-4">
                                                 <div class="form-group">
                                                     <label class="text-dark"> Email</label>
                                                     <input type="email" name="clinic_email" class="form-control"
                                                         value="{{ $email }}" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-12 col-md-4">
                                                 <div class="form-group">
                                                     <label class="text-dark"> Phone</label>
                                                     <input type="text" name="clinic_phone" class="form-control"
@@ -203,21 +203,21 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-4">
+                                            <div class="col-12 col-md-4">
                                                 <div class="form-group">
                                                     <label class="text-dark"> Address</label>
                                                     <input type="text" name="clinic_address" class="form-control"
                                                         value="{{ $address }}" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-12 col-md-4">
                                                 <div class="form-group">
                                                     <label class="text-dark"> City</label>
                                                     <input type="text" name="clinic_city" class="form-control"
                                                         value="{{ $city }}" readonly>
                                                 </div>
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-12 col-md-4">
                                                 <div class="form-group">
                                                     <label class="text-dark"> State</label>
                                                     <input type="text" name="clinic_state" class="form-control"
@@ -1323,7 +1323,7 @@
                             let statusClass = {
                                 'upcoming': 'upcoming',
                                 'confirmed': 'confirmed',
-                                'completed': 'completed', // ✅ corrected
+                                'completed': 'completed', // ? corrected
                                 'cancelled': 'cancelled',
                                 'follow-up': 'follow-up'
                             } [appointmentStatus] || 'btn-secondary';
@@ -1363,7 +1363,7 @@
                             "paging": true,
                             "searching": true,
                             "ordering": true,
-                            "destroy": true // ✅ Important: destroy previous DataTable instance if any
+                            "destroy": true // ? Important: destroy previous DataTable instance if any
                         });
                     } else {
                         $("#appointmentRecords").empty();

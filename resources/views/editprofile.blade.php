@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     .icon-style {
         margin-right: 5px;
@@ -225,9 +225,8 @@
                     <h4 class="page-title profile-title" style="">Edit Profile</h4>
                 </div>
                 <div class="col-6  profile-btn m-b-2" style="">
-                    <a href="{{ route('profile') }}" class="btn btn-primary btn-rounded btn-hdr">
-                        <i class="fa fa-eye m-r-5"></i>
-                        Go To Profile
+                    <a href="{{ route('profile') }}" class="btn btn-primary btn-rounded float-right">
+                        <i class="fa fa-eye"></i> Go To Profile
                     </a>
                 </div>
             </div>

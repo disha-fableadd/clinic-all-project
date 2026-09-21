@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 @section('content')
 
     <!-- Plan Expiration Warning Modal for Physio -->
@@ -666,7 +666,7 @@
                                 <span class="dash-widget-bg1"><i class="fa fa-money-bill" aria-hidden="true"></i></span>
                                 <div class="dash-widget-info text-right">
                                     <span class="widget-title1">Today Income</span>
-                                    <h3 class="today-income text-dark">₹ 0</h3>
+                                    <h3 class="today-income text-dark">? 0</h3>
                                 </div>
                             </div>
                         </a>
@@ -678,7 +678,7 @@
                                 <span class="dash-widget-bg2"><i class="fa fa-wallet" aria-hidden="true"></i> </span>
                                 <div class="dash-widget-info text-right">
                                     <span class="widget-title2">Today Expense</span>
-                                    <h3 class="total-expense text-dark">₹ 0</h3>
+                                    <h3 class="total-expense text-dark">? 0</h3>
                                 </div>
                             </div>
                         </a>
@@ -719,7 +719,7 @@
                                         aria-hidden="true"></i> Upcoming Appointments</h4>
                                 @if (app('hasPermission')(29, 'view'))
                                     <a href="{{ route('appointment.index') }}"
-                                        class="btn btn-primary btn-rounded btn-hdr float-right button">View all <i
+                                        class="btn btn-primary btn-rounded float-right">View all <i
                                             class="fas fa-arrow-right ml-1"></i></a>
                                 @endif
                             </div>
@@ -753,7 +753,7 @@
                                                 url: "/api/appointments",
                                                 type: "GET",
                                                 data: {
-                                                    branch_id: branchId // ✅ send branch to API
+                                                    branch_id: branchId // ? send branch to API
                                                 },
                                                 dataType: "json",
                                                 success: function(response) {
@@ -762,7 +762,7 @@
                                                     if (response.appointments && response.appointments.length > 0) {
                                                         let rows = "";
 
-                                                        // ✅ Only upcoming appointments
+                                                        // ? Only upcoming appointments
                                                         let appointmentsData = response.appointments.filter(a =>
                                                             a.status?.toLowerCase() === "upcoming"
                                                         );
@@ -883,7 +883,7 @@
                                         <script>
                                             $(document).ready(function() {
                                                 let appointmentChartInstance = null;
-                                                let branchId = localStorage.getItem('selectedBranchId'); // ✅ get branch_id from localStorage
+                                                let branchId = localStorage.getItem('selectedBranchId'); // ? get branch_id from localStorage
 
                                                 function loadAppointmentChart(filter = 'month') {
                                                     $.ajax({
@@ -891,7 +891,7 @@
                                                         type: "GET",
                                                         data: {
                                                             filter: filter,
-                                                            branch_id: branchId // ✅ send branch_id
+                                                            branch_id: branchId // ? send branch_id
                                                         },
                                                         dataType: "json",
                                                         success: function(data) {
@@ -981,7 +981,7 @@
                                 </h4>
                                 @if (app('hasPermission')(28, 'view'))
                                     <a href="{{ route('patients.index') }}"
-                                        class="btn btn-primary btn-rounded btn-hdr float-right button">
+                                        class="btn btn-primary btn-rounded float-right">
                                         View all <i class="fas fa-arrow-right ml-1"></i>
                                     </a>
                                 @endif
@@ -1029,10 +1029,10 @@
                                                             response.patients :
                                                             response.patients.filter(patient => patient.user_id == userId);
 
-                                                        // ✅ Sort by id in descending order
+                                                        // ? Sort by id in descending order
                                                         let sortedPatients = userPatients.sort((a, b) => b.id - a.id);
 
-                                                        // ✅ Get the first 5 records after sorting
+                                                        // ? Get the first 5 records after sorting
                                                         let latestPatients = sortedPatients.slice(0, 5);
 
                                                         let defaultImage =
@@ -1181,7 +1181,7 @@
                                     Upcoming Appointments</h4>
                                 @if (app('hasPermission')(29, 'view'))
                                     <a href="{{ route('appointment.index') }}"
-                                        class="btn btn-primary btn-rounded btn-hdr float-right button">View
+                                        class="btn btn-primary btn-rounded float-right">View
                                         all <i class="fas fa-arrow-right ml-1"></i></a>
                                 @endif
 
@@ -1453,7 +1453,7 @@
 
                                                             appointmentChartInstance.setOption(option);
 
-                                                            // ✅ Handle click on bar chart
+                                                            // ? Handle click on bar chart
                                                             appointmentChartInstance.on('click', function(
                                                                 params) {
                                                                 const clickedStatus = data.statuses[
@@ -1497,7 +1497,7 @@
                                 </h4>
                                 @if (app('hasPermission')(28, 'view'))
                                     <a href="{{ route('patients.index') }}"
-                                        class="btn btn-primary btn-rounded btn-hdr float-right button">
+                                        class="btn btn-primary btn-rounded float-right">
                                         View all <i class="fas fa-arrow-right ml-1"></i>
                                     </a>
                                 @endif
@@ -1526,13 +1526,13 @@
 
                                     <script>
                                         $(document).ready(function() {
-                                            let branchId = localStorage.getItem('selectedBranchId'); // ✅ get from localStorage
+                                            let branchId = localStorage.getItem('selectedBranchId'); // ? get from localStorage
                                             // console.log("Branch ID from localStorage:", branchId);
                                             $.ajax({
                                                 url: "{{ url('/api/patient') }}",
                                                 type: "GET",
                                                 data: {
-                                                    branch_id: branchId, // ✅ send branch_id
+                                                    branch_id: branchId, // ? send branch_id
                                                     type: "" // optional: if you want to send "home" or "op", otherwise keep empty
                                                 },
                                                 dataType: "json",
@@ -1540,7 +1540,7 @@
                                                     let patientTableBody = $("#patientTableBody");
                                                     patientTableBody.empty();
 
-                                                    //console.log("Patients response:", response.patients); // ✅ debug log
+                                                    //console.log("Patients response:", response.patients); // ? debug log
 
                                                     if (response.patients && response.patients.length > 0) {
                                                         // Already branch filtered by backend
@@ -1576,7 +1576,7 @@
                                                             patientTableBody.append(row);
                                                         });
 
-                                                        // ✅ clickable row redirect
+                                                        // ? clickable row redirect
                                                         $(".custom-table tbody").on("click", ".clickable-row", function() {
                                                             let patientId = $(this).data("id");
                                                             window.location.href = `/patient/show/${patientId}`;
@@ -1675,7 +1675,7 @@
                                         aria-hidden="true"></i> Upcoming Appointments</h4>
                                 @if (app('hasPermission')(29, 'view'))
                                     <a href="{{ route('appointment.index') }}"
-                                        class="btn btn-primary btn-rounded btn-hdr float-right button">View all <i
+                                        class="btn btn-primary btn-rounded float-right">View all <i
                                             class="fas fa-arrow-right ml-1"></i></a>
                                 @endif
                             </div>
@@ -1701,13 +1701,13 @@
                                                 url: "/api/appointments",
                                                 type: "GET",
                                                 data: {
-                                                    branch_id: branchId // ✅ send branch to API
+                                                    branch_id: branchId // ? send branch to API
                                                 },
                                                 dataType: "json",
                                                 success: function(response) {
                                                     //  console.log("API Response:", response);
 
-                                                    // ✅ Use response.data instead of response.appointments
+                                                    // ? Use response.data instead of response.appointments
                                                     if (response.appointments && response.appointments.length > 0) {
                                                         let rows = "";
                                                         let appointmentsData = [];
@@ -1985,7 +1985,7 @@
                                 </h4>
                                 @if (app('hasPermission')(28, 'view'))
                                     <a href="{{ route('patients.index') }}"
-                                        class="btn btn-primary btn-rounded btn-hdr float-right button">
+                                        class="btn btn-primary btn-rounded float-right">
                                         View all <i class="fas fa-arrow-right ml-1"></i>
                                     </a>
                                 @endif
@@ -2031,7 +2031,7 @@
                                                             response.patients.filter(patient => patient
                                                                 .user_id == userId);
 
-                                                        // ✅ Get the first 5 records after sorting
+                                                        // ? Get the first 5 records after sorting
                                                         let latestPatients = sortedPatients.slice(0, 5);
 
 
@@ -2177,7 +2177,7 @@
                                         aria-hidden="true"></i> Upcoming Appointments</h4>
                                 @if (app('hasPermission')(29, 'view'))
                                     <a href="{{ route('appointment.index') }}"
-                                        class="btn btn-primary btn-rounded btn-hdr float-right button">View all <i
+                                        class="btn btn-primary btn-rounded float-right">View all <i
                                             class="fas fa-arrow-right ml-1"></i></a>
                                 @endif
                             </div>
@@ -2494,7 +2494,7 @@
                                                         Plan: <strong>{{ ucfirst($plan->plan ?? '-') }}</strong> |
                                                         Remaining Amount: <strong>{{ $plan->remain_amount }}</strong> <br>
                                                         <span class="text-danger">
-                                                            ⚠️ This treatment plan will expire today
+                                                            ?? This treatment plan will expire today
                                                             ({{ \Carbon\Carbon::parse($plan->payment_date)->format('d M Y') }})
                                                         </span>
                                                     </p>
@@ -2633,7 +2633,7 @@
                 url: '/api/patient',
                 method: 'GET',
                 data: {
-                    branch_id: branchId // ✅ send selected branch
+                    branch_id: branchId // ? send selected branch
                 },
                 headers: {
                     "Authorization": "Bearer " + token,
@@ -2661,7 +2661,7 @@
                 method: 'GET',
                 data: {
                     branch_id: branchId
-                }, // ✅ send branch id
+                }, // ? send branch id
                 headers: {
                     "Authorization": "Bearer " + token,
                     "User-ID": userId
@@ -2680,7 +2680,7 @@
                 method: 'GET',
                 data: {
                     branch_id: branchId
-                }, // ✅ send branch id
+                }, // ? send branch id
                 headers: {
                     "Authorization": "Bearer " + token,
                     "User-ID": userId
@@ -2699,10 +2699,10 @@
             //         url: '/api/today-stats',
             //         method: 'GET',
             //         success: function(response) {
-            //             // Format income with ₹ and commas
+            //             // Format income with ? and commas
             //             let formattedIncome = new Intl.NumberFormat('en-IN').format(response
             //                 .today_income);
-            //             $('.today-income').text('₹ ' + formattedIncome);
+            //             $('.today-income').text('? ' + formattedIncome);
 
             //             // Patients
             //             $('.today-patients').text(response.today_patients);
@@ -2710,7 +2710,7 @@
             //             $('.today-birthdays').text(response.today_birthdays);
 
             //             //expenses
-            //             $('.total-expense ').text('₹ ' + response.today_expense);
+            //             $('.total-expense ').text('? ' + response.today_expense);
             //         }
             //     });
             // });
@@ -2725,12 +2725,12 @@
                     method: 'GET',
                     data: {
                         branch_id: branchId
-                    }, // ✅ send branch_id
+                    }, // ? send branch_id
                     success: function(response) {
-                        // Format income with ₹ and commas
+                        // Format income with ? and commas
                         let formattedIncome = new Intl.NumberFormat('en-IN').format(response
                             .today_income);
-                        $('.today-income').text('₹ ' + formattedIncome);
+                        $('.today-income').text('? ' + formattedIncome);
 
                         // Patients
                         $('.today-patients').text(response.today_patients);
@@ -2740,7 +2740,7 @@
 
 
                         // Expenses
-                        $('.total-expense').text('₹ ' + response.today_expense);
+                        $('.total-expense').text('? ' + response.today_expense);
                     }
                 });
             });
@@ -2751,14 +2751,14 @@
                 $('.today-birthdays').closest('.col-6').on('click', function(e) {
                     e.preventDefault();
 
-                    let branchId = localStorage.getItem('selectedBranchId'); // ✅ get branch id
+                    let branchId = localStorage.getItem('selectedBranchId'); // ? get branch id
 
                     $.ajax({
                         url: '/api/today-birthday-users',
                         method: 'GET',
                         data: {
                             branch_id: branchId
-                        }, // ✅ send branch_id
+                        }, // ? send branch_id
                         success: function(response) {
                             if (response.count === 0) {
                                 Swal.fire({
@@ -2788,7 +2788,7 @@
                                                                                 ${user?.fullname || 'N/A'}
                                                                             </span>
                                                                             <span style="font-size: 14px; color: #666;">
-                                                                                🎂 ${user.birth_date}
+                                                                                ?? ${user.birth_date}
                                                                             </span>
                                                                         </div>
                                                                     `;
