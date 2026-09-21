@@ -560,6 +560,11 @@
 
     .header .project-type-menu {
         width: min(260px, calc(100vw - 32px)) !important;
+        position: absolute !important;
+        top: 100% !important;
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
     }
 
     /* Header Dropdowns Normalization */
@@ -584,8 +589,7 @@
         z-index: 1050 !important;
     }
 
-    .header .drop-down-notification,
-    .header .project-type-menu {
+    .header .drop-down-notification {
         position: absolute !important;
         top: 100% !important;
         right: 0 !important;
@@ -1170,7 +1174,7 @@
             @endif
         @endauth
         <li class="nav-item dropdown has-arrow">
-            <a href="#" class="btn custom-btn dropdown-toggle d-flex align-items-center" data-toggle="dropdown">
+            <a href="#" class="btn custom-btn dropdown-toggle d-flex align-items-center" data-toggle="dropdown" data-display="static">
                 <i class="fas fa-layer-group"></i>
                 <span id="selectedProjectTypeLabel">{{ $currentProjectType->name ?? 'Hospital HMS' }}</span>
             </a>
