@@ -6030,7 +6030,9 @@ blockquote p {
 @media only screen and (max-width: 767.98px) {
 	.page-wrapper > .content,
 	.content {
-		padding: 12px 10px calc(68px + env(safe-area-inset-bottom)) 10px !important;
+		padding: 12px 10px calc(88px + env(safe-area-inset-bottom)) 10px !important;
+		height: auto !important;
+		min-height: calc(100vh - 60px) !important;
 	}
 
 	.content > .row,
@@ -6268,6 +6270,47 @@ blockquote p {
 		display: inline-flex !important;
 		align-items: center !important;
 		justify-content: center !important;
+	}
+
+	/* =========================================================
+	   Action Buttons on View/Show & Detail Pages (Mobile)
+	   ========================================================= */
+	.content .button,
+	.card-body > .button,
+	.card-body .button,
+	.action-buttons,
+	.button.mb-4,
+	.button.mt-4.mb-4 {
+		margin-top: 20px !important;
+		margin-bottom: calc(25px + env(safe-area-inset-bottom)) !important;
+		display: flex !important;
+		flex-direction: row !important;
+		justify-content: center !important;
+		align-items: center !important;
+		flex-wrap: wrap !important;
+		gap: 12px !important;
+		width: 100% !important;
+		padding: 0 10px !important;
+		box-sizing: border-box !important;
+	}
+
+	.content .button .btn,
+	.card-body > .button .btn,
+	.card-body .button .btn,
+	.action-buttons .btn,
+	.button.mb-4 .btn,
+	.button.mt-4.mb-4 .btn {
+		margin: 0 !important;
+		min-width: 110px !important;
+		height: 38px !important;
+		padding: 8px 20px !important;
+		font-size: 13.5px !important;
+		font-weight: 600 !important;
+		display: inline-flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		gap: 6px !important;
+		border-radius: 50px !important;
 	}
 
 	/* =========================================================
@@ -6598,5 +6641,32 @@ blockquote p {
 		width: 100% !important;
 		height: 100% !important;
 		min-height: 105px !important;
+	}
+
+	/* Action Buttons on View/Show & Detail Pages (Desktop) */
+	.content .button,
+	.card-body > .button,
+	.card-body .button,
+	.action-buttons {
+		margin-top: 20px !important;
+		margin-bottom: 24px !important;
+		display: flex !important;
+		justify-content: flex-end !important;
+		align-items: center !important;
+		gap: 12px !important;
+	}
+
+	.content .button .btn,
+	.card-body > .button .btn,
+	.card-body .button .btn,
+	.action-buttons .btn {
+		min-width: 100px !important;
+		height: 38px !important;
+		padding: 8px 18px !important;
+		display: inline-flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		gap: 6px !important;
+		border-radius: 50px !important;
 	}
 }

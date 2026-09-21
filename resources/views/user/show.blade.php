@@ -117,7 +117,51 @@
 
 
 
+    .action-buttons,
+    .content .button,
+    .button {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        margin-top: 20px;
+        margin-bottom: 24px;
+    }
+
     @media screen and (max-width: 767px) {
+        .page-wrapper > .content,
+        .content {
+            height: auto !important;
+            min-height: calc(100vh - 60px) !important;
+            padding-bottom: calc(88px + env(safe-area-inset-bottom)) !important;
+        }
+
+        .action-buttons,
+        .content .button,
+        .button {
+            margin-top: 20px !important;
+            margin-bottom: calc(25px + env(safe-area-inset-bottom)) !important;
+            justify-content: center !important;
+            align-items: center !important;
+            gap: 12px !important;
+            width: 100% !important;
+        }
+
+        .action-buttons .btn,
+        .content .button .btn,
+        .button .btn {
+            margin: 0 !important;
+            min-width: 110px !important;
+            height: 38px !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            border-radius: 50px !important;
+        }
+
         .permission-scroll-wrapper {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -134,7 +178,7 @@
 </style>
 @section('content')
     <div class="page-wrapper">
-        <div class="content" style="height:100vh">
+        <div class="content">
             <div class="row mt-3">
                 <div class="col-sm-8 col-8">
                     <h4 class="page-title" style="text-align:left;">
@@ -277,10 +321,10 @@
                                 </div>
                             </div>
 
-                            <div class="button mb-4" style="display: flex; justify-content: end; margin: 0 5px;">
+                            <div class="button mb-4 action-buttons">
                                 @if(app('hasPermission')(3, 'update'))
                                     <a href="#" class="btn btn-primary btn-rounded edit-user-btn"
-                                        style="color:black; margin-right:10px">
+                                        style="color:black;">
                                         <i class="fa fa-pencil-alt"></i> Edit 
                                     </a>
                                 @endif
