@@ -1258,9 +1258,10 @@
             .card-header button,
             .card .card-header a.btn,
             .card-header a.btn {
-                height: 30px !important;
-                padding: 4px 10px !important;
-                font-size: 12px !important;
+                height: 32px !important;
+                padding: 6px 10px !important;
+                font-size: 0 !important;
+                /* Hide text, keep icon */
                 line-height: 1 !important;
                 margin: 0 !important;
                 float: none !important;
@@ -1269,6 +1270,22 @@
                 justify-content: center !important;
                 flex-shrink: 0 !important;
                 white-space: nowrap !important;
+                border-radius: 50px !important;
+                min-width: 32px !important;
+            }
+
+            /* Restore icon size inside card-header buttons */
+            .card .card-header .btn i,
+            .card-header .btn i,
+            .card .card-header button i,
+            .card-header button i,
+            .card .card-header a.btn i,
+            .card-header a.btn i {
+                font-size: 14px !important;
+                margin: 0 !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
             }
 
             /* =========================================================
