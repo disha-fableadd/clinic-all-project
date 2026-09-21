@@ -215,8 +215,8 @@
                                 <!-- Credentials Tab -->
                                 <div class="tab-pane fade show active" id="credentials" role="tabpanel"
                                     aria-labelledby="credentials-tab">
-                                    <div class="row mt-3 align-items-end">
-                                        <div class="col-8 col-md-6">
+                                    <div class="row mt-3">
+                                        <div class="col-12 col-md-6">
                                             <div class="form-group mb-0">
                                                 <label for="smsMethod">Select SMS Method</label>
                                                 <select class="form-control" id="smsMethod" name="smsMethod">
@@ -226,8 +226,15 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-4 col-md-6 pb-2">
-                                            <div class="d-flex align-items-center justify-content-end justify-content-md-start">
+                                    </div>
+                                    <hr>
+
+                                    <div class="row mt-3 d-flex justify-content-between align-items-center">
+                                        <div class="col-8 col-md-6">
+                                            <h4 class="mb-0" style="font-size: 1.1rem;">API Credentials</h4>
+                                        </div>
+                                        <div class="col-4 col-md-6 text-right">
+                                            <div class="d-flex align-items-center justify-content-end">
                                                 <small id="smsStatusText" class="text-muted mr-2 mb-0">Loading...</small>
                                                 <label class="switch mb-0">
                                                     <input type="checkbox" id="smsStatus" checked>
@@ -236,13 +243,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <hr>
-
-                                    <div class="row mt-3">
+                                    <div class="row mt-1">
                                         <div class="col-md-12">
-                                            <h4>API Credentials</h4>
-                                            <hr>
-                                            <form class="mt-5" id="twilioform">
+                                            <hr class="mt-2">
+                                            <form class="mt-4" id="twilioform">
 
                                                 <!-- Twilio Credentials -->
                                                 <div id="twilio-credentials">
