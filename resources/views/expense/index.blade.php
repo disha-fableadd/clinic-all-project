@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .row.mb-3.filter {
@@ -106,9 +106,10 @@
                             @endif
                         </div>
 
-                        <div class="row mb-3 filter ">
+                        <div class="card-body">
+                            <div class="row mb-3 filter ">
 
-                            <div class="col-12 col-md-3 mb-2 px-2">
+                                <div class="col-6 col-md-3 mb-2 px-2">
                                 <select id="filterMonth" class="form-control select2 filter">
                                     <option value="">All Months</option>
                                     @for ($m = 1; $m <= 12; $m++)
@@ -118,7 +119,7 @@
                                     @endfor
                                 </select>
                             </div>
-                            <div class="col-12 col-md-3 mb-2 px-2 ">
+                                <div class="col-6 col-md-3 mb-2 px-2 ">
                                 <select id="filterYear" class="form-control select2 filter">
                                     <option value="">All Years</option>
                                     @for ($y = date('Y'); $y >= 2000; $y--)
@@ -131,7 +132,7 @@
 
 
                         </div>
-                        <div class="card-body">
+                        </div>
                             <div class="table-responsive">
                                 <table id="expensestbl" class="table custom-table">
                                     <thead style="background-color:#ff8e29;" class="text-center">
