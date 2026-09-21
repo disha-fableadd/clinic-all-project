@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 @php
     use App\Models\Setting;
@@ -222,9 +222,8 @@
                 </div>
                 @if (app('hasPermission')(5, 'view'))
                     <div class=" col-6 m-b-2 eye-btn patient-button">
-                        <a href="{{ route('patients.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3  "></i>
-                            Back
+                        <a href="{{ route('patients.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3  "></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -312,7 +311,7 @@
                                             @if (app('hasPermission')(7, 'create'))
                                                 <a href="{{ route('diagnosis.create') }}" target="_blank"
                                                     class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> Add
+                                                    <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                                 </a>
                                             @endif
                                         </div>
@@ -328,9 +327,9 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                             <label><i class="fas fa-notes-medical icon-style"></i> Symptoms</label>
                                             <div class="m-b-2 eye-btn">
-                                                <a href="#" class="btn btn-primary btn-rounded" data-bs-toggle="modal"
+                                                <a href="#" class="btn btn-primary btn-rounded btn-hdr" data-bs-toggle="modal"
                                                     data-bs-target="#addSymptomModal" style="padding:4px 8px !important;">
-                                                    <i class="fa fa-plus m-r-2 icon3"></i> Add
+                                                    <i class="fa fa-plus m-r-2 icon3"></i> <span class="hdr-btn-text">Add</span>
                                                 </a>
                                             </div>
                                         </div>

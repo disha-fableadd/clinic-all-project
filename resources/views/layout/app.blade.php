@@ -992,14 +992,72 @@
         }
 
         /* =========================================================
+           Header Button Class: full on desktop, icon-only on mobile
+           ========================================================= */
+        .btn-hdr {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 5px !important;
+            float: none !important;
+            margin: 0 !important;
+            border-radius: 50px !important;
+        }
+
+        .btn-hdr .hdr-btn-text {
+            display: inline !important;
+        }
+
+        @media only screen and (max-width: 767.98px) {
+            .btn-hdr .hdr-btn-text {
+                display: none !important;
+            }
+
+            .btn-hdr {
+                min-width: 32px !important;
+                height: 32px !important;
+                padding: 6px 8px !important;
+                gap: 0 !important;
+            }
+
+            .btn-hdr i {
+                font-size: 14px !important;
+                margin: 0 !important;
+            }
+        }
+
+        /* =========================================================
            Mobile View Padding, Dashboard & Modal Fixes (<= 767.98px)
            ========================================================= */
         @media only screen and (max-width: 767.98px) {
             .page-wrapper > .content,
             .content {
-                padding: 12px 10px calc(88px + env(safe-area-inset-bottom)) 10px !important;
+                padding: 10px 8px calc(88px + env(safe-area-inset-bottom)) 8px !important;
                 height: auto !important;
                 min-height: calc(100vh - 60px) !important;
+            }
+
+            /* Global minimal padding/margin for Cards, Rows, Forms on mobile */
+            .card {
+                margin-bottom: 12px !important;
+            }
+            
+            .card-body {
+                padding: 12px !important;
+            }
+            
+            .form-group {
+                margin-bottom: 12px !important;
+            }
+
+            .row {
+                margin-left: -8px !important;
+                margin-right: -8px !important;
+            }
+            
+            .row > [class*="col-"] {
+                padding-left: 8px !important;
+                padding-right: 8px !important;
             }
 
             .row.calender-apointment {
@@ -1013,7 +1071,7 @@
             .row.about-padding {
                 display: flex !important;
                 flex-wrap: wrap !important;
-                /* margin-top: 14px !important; */
+                margin-top: 14px !important;
                 margin-left: -5px !important;
                 margin-right: -5px !important;
                 padding-left: 0 !important;

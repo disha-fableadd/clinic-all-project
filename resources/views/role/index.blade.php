@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     .swal-confirm-btn {
         color: rgb(58, 58, 58) !important;
@@ -20,7 +20,7 @@
                     <h4 class="page-title" style="text-align:left; !important">All Role Details</h4>
                 </div>
                 <!-- <div class="col-sm-4 col-4 text-right ">
-                    <a href="{{ route('dashboard') }}" class="btn  btn-rounded" style="background-color:#fed9cf;">
+                    <a href="{{ route('dashboard') }}" class="btn btn-rounded btn-hdr" style="background-color:#fed9cf;">
                             <i class="fa fa-arrow-left m-r-1"></i> Back to Dashboard
                         </a>
                     </div> -->
@@ -37,7 +37,7 @@
                                 <i class="fas fa-user-tag  px-2" style="font-size:20px"></i> All Role
                             </h2>
                             @if (app('hasPermission')(2, 'create'))
-                                <a href="{{ route('role.create') }}" class="btn btn-rounded float-right"
+                                <a href="{{ route('role.create') }}" class="btn btn-rounded btn-hdr"
                                     style="background-color: #fed9cf; padding: 6px 12px;">
                                     <i class="fa fa-plus"></i> Add Role
                                 </a>

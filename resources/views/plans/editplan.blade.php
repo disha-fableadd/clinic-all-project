@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .form-control.is-invalid,
@@ -142,7 +142,7 @@
             </div>
             <div class="col-6 m-b-2 eye-btn plan-button">
                 <a href="{{ route('plans.planlist') }}" class="btn btn-back">
-                    <i class="fa fa-arrow-left m-r-5"></i> Back
+                    <i class="fa fa-arrow-left m-r-5"></i> <span class="hdr-btn-text">Back</span>
                 </a>
             </div>
         </div>
@@ -255,7 +255,7 @@
                         <!-- Status -->
                         <div class="col-12 col-md-6">
                             <div class="form-group">
-                                <label><i class="fas fa-toggle-on icon-style"></i>Status</label>
+                                <label><i class="fas fa-toggle-on icon-style"></i> <span class="hdr-btn-text">Status</span></label>
                                 <select name="is_active" class="form-control">
                                     <option value="1" {{ old('is_active', $plan->is_active) == 1 ? 'selected' : '' }}>Active</option>
                                     <option value="0" {{ old('is_active', $plan->is_active) == 0 ? 'selected' : '' }}>Inactive</option>

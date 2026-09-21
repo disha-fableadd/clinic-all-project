@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     @media screen and (max-width: 767px) {
         .page-title {
@@ -19,7 +19,7 @@
                 </div>
 
                 <div class=" col-6 text-right m-b-2">
-                    <a href="{{ route('email.index') }}" class="btn btn-primary btn-rounded">
+                    <a href="{{ route('email.index') }}" class="btn btn-primary btn-rounded btn-hdr">
                         <i class="fa fa-eye m-r-5 icon3"></i> Email Template
                     </a>
                 </div>
@@ -60,11 +60,11 @@
                                 </div>
                             </div>
                             <div class="button mb-4" style="display: flex; justify-content: end; margin: 0 5px;">
-                                <a href="#" class="btn btn-primary btn-rounded edit-user-btn"
+                                <a href="#" class="btn btn-primary btn-rounded btn-hdr edit-user-btn"
                                     style="color:black; margin-right:10px">
                                     <i class="fa fa-pencil-alt"></i> Edit Report
                                 </a>
-                                <button type="button" class="btn btn-danger btn-rounded delete-user"
+                                <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-user"
                                     data-id="${template.id}">
                                     <i class="fa fa-trash"></i> Delete Report
                                 </button>

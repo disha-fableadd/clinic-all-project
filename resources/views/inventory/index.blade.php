@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     .swal-confirm-btn {
         color: rgb(58, 58, 58) !important;
@@ -70,8 +70,8 @@
                             <h3 class="card-title d-inline-block text-white">
                                 <i class="fa fa-cogs px-2" style="font-size:20px"></i>All Inventory
                             </h3>
-                            <button class="btn btn-rounded float-right ml-2" id="exportInventoryBtn">
-                                <i class="fa fa-download"></i> Export 
+                            <button class="btn btn-rounded btn-hdr" id="exportInventoryBtn">
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span> 
                             </button>
                         </div>
                         <div class="card-body">

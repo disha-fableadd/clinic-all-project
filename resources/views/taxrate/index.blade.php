@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     .custom-close {
         background-color: #f5b6a5 !important;
@@ -142,9 +142,9 @@
                                 <i class="fa fa-percent px-2" style="font-size:20px"></i> All Tax Rates
                             </h3>
                             @if (app('hasPermission')(36, 'create'))
-                                <a href="" class="btn btn-rounded float-right" data-bs-toggle="modal"
+                                <a href="" class="btn btn-rounded btn-hdr" data-bs-toggle="modal"
                                     data-bs-target="#addTaxRateModal">
-                                    <i class="fa fa-plus"></i> Add
+                                    <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                 </a>
                             @endif
                         </div>

@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .radiology-btn {
@@ -68,8 +68,8 @@
                 </div>
                 @if (app('hasPermission')(22, 'view'))
                     <div class="col-sm-4 col-6 radiology-btn">
-                        <a href="{{ route('radiology-reports.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5"></i> Back
+                        <a href="{{ route('radiology-reports.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif

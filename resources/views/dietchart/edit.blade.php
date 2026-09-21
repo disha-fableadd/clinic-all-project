@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <link rel="stylesheet" href="{{ asset(env('IMAGE_PATH').'admin/assets/css/dietchart-edit.css') }}"> 
 
 @section('content')
@@ -9,8 +9,8 @@
                     <h4 class="page-title m-0">Edit Diet Chart</h4>
                 </div>
                 <div class="col-sm-6 col-6 text-right m-b-2">
-                    <a href="{{ route('dietchart.index') }}" class="btn btn-primary btn-rounded" style="float: right;margin-left:0 !important">
-                        <i class="fa fa-arrow-left m-r-5 icon3"></i> Back
+                    <a href="{{ route('dietchart.index') }}" class="btn btn-primary btn-rounded btn-hdr" style="float: right;margin-left:0 !important">
+                        <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                     </a>
                 </div>
             </div>

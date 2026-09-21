@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .card-footer {
@@ -34,18 +34,17 @@
                             <div class="d-flex text-right" style="justify-content: end;">
 
                                 <div class="mr-2 m-b-2">
-                                    <a href="javascript:void(0)" class="btn btn-primary btn-rounded download-report"
+                                    <a href="javascript:void(0)" class="btn btn-primary btn-rounded btn-hdr download-report"
                                         data-id="{{ $report_id}}">
-                                        <i class="fa fa-download"></i> PDF
+                                        <i class="fa fa-download"></i> <span class="hdr-btn-text">PDF</span>
                                     </a>
                                 </div>
 
 
                                 @if (app('hasPermission')(13, 'view'))
                                     <div class="text-right m-b-2">
-                                        <a href="{{ route('report.index') }}" class="btn btn-primary btn-rounded">
-                                            <i class="fa fa-arrow-left m-r-5 icon3"></i>Back
-                                        </a>
+                                        <a href="{{ route('report.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span></a>
                                     </div>
                                 @endif
                             </div>
@@ -112,15 +111,15 @@
                                 </button>
 
                                 @if (app('hasPermission')(13, 'update'))
-                                    <a href="#" class="btn btn-primary btn-rounded edit-report-btn"
+                                    <a href="#" class="btn btn-primary btn-rounded btn-hdr edit-report-btn"
                                         style="color:black; margin-right:10px">
-                                        <i class="fa fa-pencil-alt"></i> Edit
+                                        <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span>
                                     </a>
                                 @endif
                                 @if (app('hasPermission')(13, 'delete'))
-                                    <button type="button" class="btn btn-danger btn-rounded delete-report"
+                                    <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-report"
                                         data-id="{{ $report_id }}">
-                                        <i class="fa fa-trash"></i> Delete
+                                        <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span>
                                     </button>
                                 @endif
                             </div>

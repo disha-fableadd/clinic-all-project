@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     .error {
         color: red;
@@ -48,9 +48,8 @@
                 </div>
                 @if (app('hasPermission')(11, 'view'))
                     <div class="col-6 inventory-btn ">
-                        <a href="{{ route('inventory.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i>
-                            Back
+                        <a href="{{ route('inventory.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -119,7 +118,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label><i class="fas fa-toggle-on icon-style"></i> Status</label>
+                                        <label><i class="fas fa-toggle-on icon-style"></i> <span class="hdr-btn-text">Status</span></label>
                                         <select class="form-control select2" name="status" id="status">
                                             <option value="">Select</option>
                                             <option value="active">Active</option>

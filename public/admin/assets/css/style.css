@@ -6523,12 +6523,6 @@ blockquote p {
 	gap: 5px !important;
 	margin: 0 !important;
 	float: none !important;
-	height: 34px !important;
-	padding: 6px 14px !important;
-	font-size: 13px !important;
-	line-height: 1 !important;
-	vertical-align: middle !important;
-	border-radius: 50px !important;
 }
 
 .card .card-header .btn i,
@@ -6539,9 +6533,6 @@ blockquote p {
 	align-items: center !important;
 	justify-content: center !important;
 	line-height: 1 !important;
-	margin: 0 !important;
-	padding: 0 !important;
-	font-size: 12px !important;
 }
 
 /* =========================================================

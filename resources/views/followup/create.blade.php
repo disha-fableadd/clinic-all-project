@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 
 <style>
@@ -46,9 +46,8 @@
                 </div>
                 @if (app('hasPermission')(2, 'view'))
                     <div class="col-6 followup-button m-b-2 eye-btn">
-                        <a href="{{ route('followup.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i>
-                            Back
+                        <a href="{{ route('followup.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif

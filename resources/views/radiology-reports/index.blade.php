@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .download {
@@ -78,10 +78,10 @@ colgroup {
                             <h3 class="card-title d-inline-block text-white">
                                 <i class="fa fa-flask px-2" style="font-size:20px"></i> All Radiology Reports
                             </h3>
-                            <button class="btn btn-rounded float-right ml-2" id="exportButton"> <i class="fa fa-download"></i> Export</button>
+                            <button class="btn btn-rounded btn-hdr" id="exportButton"> <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span></button>
                             @if (app('hasPermission')(22, 'create'))
-                                <a href="{{ route('radiology-reports.create') }}" class="btn btn-rounded float-right">
-                                    <i class="fa fa-plus"></i> Add
+                                <a href="{{ route('radiology-reports.create') }}" class="btn btn-rounded btn-hdr">
+                                    <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                 </a>
                             @endif
                         </div>

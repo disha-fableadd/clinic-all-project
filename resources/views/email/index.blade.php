@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     .swal-confirm-btn {
         color: rgb(58, 58, 58) !important;
@@ -53,13 +53,12 @@
                                     @if (app('hasPermission')(16, 'create'))
                                         <a href="{{ route('email.create') }}" class="btn  btn-rounded float-right emailtemp"
                                             style="background-color: #fed9cf;text-decoration:none"><i
-                                                class="fa fa-plus"></i>
-                                            Create
+                                                class="fa fa-plus"></i> <span class="hdr-btn-text">Create</span>
 
                                         </a>
                                     @endif
 
-                                    <a href="" class="btn btn-rounded float-right"
+                                    <a href="" class="btn btn-rounded btn-hdr"
                                         style="background-color: #fed9cf; margin-right:10px; text-decoration:none;color:black"
                                         data-toggle="modal" data-target="#sendEmailModal">
                                         <i class="fa fa-paper-plane"></i> Send Email
@@ -107,9 +106,9 @@
                                 <div class="tab-pane fade show active" id="template" role="tabpanel"
                                     aria-labelledby="template-tab">
 
-                                    <button class="btn btn-rounded float-right ml-2" id="exportButton1"
+                                    <button class="btn btn-rounded btn-hdr" id="exportButton1"
                                         style="background-color: #fed9cf;">
-                                        <i class="fa fa-download"></i> Export
+                                        <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                                     </button>
                                     <div class="table-responsive">
                                         <div id="demo_info" class="box"></div>
@@ -134,9 +133,9 @@
 
                                 <!-- log Tab -->
                                 <div class="tab-pane fade  " id="log" role="tabpanel" aria-labelledby="log-tab">
-                                    <button class="btn btn-rounded float-right ml-2" id="exportButton2"
+                                    <button class="btn btn-rounded btn-hdr" id="exportButton2"
                                         style="background-color: #fed9cf;">
-                                        <i class="fa fa-download"></i> Export
+                                        <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                                     </button>
                                     <div class="table-responsive">
                                         <div id="demo_info" class="box"></div>

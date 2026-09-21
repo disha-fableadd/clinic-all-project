@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <link rel="stylesheet" href="{{ asset(env('IMAGE_PATH').'admin/assets/css/category-create.css') }}">
 @section('content')
@@ -11,8 +11,7 @@
 
                 <div class="col-6 category-button  m-b-2 ">
                     <a href="{{ route('category.index') }}" class="btn btn-primary  btn-rounded">
-                        <i class="fa fa-arrow-left m-r-5 icon3  "></i>
-                        Back</a>
+                        <i class="fa fa-arrow-left m-r-5 icon3  "></i> <span class="hdr-btn-text">Back</span></a>
                 </div>
 
             </div>

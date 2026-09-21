@@ -1,4 +1,4 @@
-<style>
+﻿<style>
     .dropdown-item.active,
     .dropdown-item:active {
         color: #16181b;
@@ -1222,7 +1222,7 @@
             @if (app('hasPermission')(6, 'create') && optional(auth()->user()?->role)->name !== 'Patient')
                 <a href="{{ route('appointment.create') }}" style="padding-right:10px">
 
-                    <button class="btn custom-btn appointments"><i class="fa-solid fa-plus"></i> Create
+                    <button class="btn custom-btn appointments"><i class="fa-solid fa-plus"></i> <span class="hdr-btn-text">Create</span>
                         Appointment</button>
 
                 </a>

@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 @section('content')
     <style>
@@ -98,17 +98,17 @@
                     <div class="d-flex text-right" style="justify-content: end;">
 
                         <div class="mr-2 m-b-2">
-                            <a href="javascript:void(0)" class="btn btn-primary btn-rounded download-soap"
+                            <a href="javascript:void(0)" class="btn btn-primary btn-rounded btn-hdr download-soap"
                                 data-id="{{ $soap_id}}">
-                                <i class="fa fa-download"></i> PDF
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">PDF</span>
                             </a>
                         </div>
 
 
                         @if (app('hasPermission')(32, 'view'))
                             <div class="  m-b-2">
-                                <a href="{{ route('soap.index') }}" class="btn btn-primary btn-rounded">
-                                    <i class="fa fa-arrow-left"></i> Back
+                                <a href="{{ route('soap.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                                    <i class="fa fa-arrow-left"></i> <span class="hdr-btn-text">Back</span>
                                 </a>
                             </div>
                         @endif
@@ -168,10 +168,10 @@
 
                 <div class="action-buttons">
                     <a href="{{ route('soap.edit', $soap_id) }}" class="btn btn-primary">
-                        <i class="fa fa-edit"></i> Edit
+                        <i class="fa fa-edit"></i> <span class="hdr-btn-text">Edit</span>
                     </a>
                     <button class="btn btn-danger delete-soap" data-id="{{ $soap_id }}" style="border-radius: 50px;">
-                        <i class="fa fa-trash"></i> Delete
+                        <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span>
                     </button>
                 </div>
             </div>

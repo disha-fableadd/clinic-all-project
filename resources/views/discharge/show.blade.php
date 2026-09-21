@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 
 <style>
@@ -38,9 +38,8 @@
                 </div>
                 @if (app('hasPermission')(10, 'view'))
                     <div class="col-sm-6 col-4 text-right m-b-2">
-                        <a href="{{ route('discharge.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i>Back
-                        </a>
+                        <a href="{{ route('discharge.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span></a>
                     </div>
                 @endif
             </div>
@@ -180,15 +179,15 @@
 
 
                                 @if (app('hasPermission')(10, 'update'))
-                                    <a href="#" class="btn btn-primary btn-rounded edit-discharge-btn"
+                                    <a href="#" class="btn btn-primary btn-rounded btn-hdr edit-discharge-btn"
                                         style="color:black; margin-right:10px">
-                                        <i class="fa fa-pencil-alt"></i> Edit
+                                        <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span>
                                     </a>
                                 @endif
                                 @if (app('hasPermission')(10, 'delete'))
-                                    <button type="button" class="btn btn-danger btn-rounded delete-report"
+                                    <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-report"
                                         data-id="{{ $discharge_id }}">
-                                        <i class="fa fa-trash"></i> Delete
+                                        <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span>
                                     </button>
                                 @endif
                             </div>

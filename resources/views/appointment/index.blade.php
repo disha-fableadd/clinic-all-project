@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <link rel="stylesheet" href="{{ asset(env('IMAGE_PATH') . 'admin/assets/css/appointment-index.css') }}">
 <style>
     .btn-outline-success:hover {
@@ -46,12 +46,12 @@
 
 
 
-                            <button class="btn btn-rounded float-right ml-2" id="exportButton">
-                                <i class="fa fa-download"></i> Export
+                            <button class="btn btn-rounded btn-hdr" id="exportButton">
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                             </button>
                             @if (app('hasPermission')(6, 'create') && !$isPatientRole)
-                                <a href="{{ route('appointment.create') }}" class="btn  btn-rounded float-right"><i
-                                        class="fa fa-plus"></i> Add
+                                <a href="{{ route('appointment.create') }}" class="btn btn-rounded btn-hdr"><i
+                                        class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                 </a>
                             @endif
                         </div>
@@ -330,7 +330,7 @@
                             data-id="${appointment.id}"
                             data-amount="${appointment.amount ?? 0}"
                             data-status="${appointment.payment_status ?? ''}">
-                            <i class="fa fa-link"></i> Generate
+                            <i class="fa fa-link"></i> <span class="hdr-btn-text">Generate</span>
                         </button>
                     `;
                 @else

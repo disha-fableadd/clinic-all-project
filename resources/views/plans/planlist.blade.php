@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .card-header {
@@ -78,7 +78,7 @@
                             <i class="fa fa-cube px-2" style="font-size:20px"></i>All Plans
                         </h3>
                         <!-- @if (app('hasPermission')(26, 'create')) -->
-                            <a href="{{ route('plans.create') }}" class="btn btn-rounded float-right">
+                            <a href="{{ route('plans.create') }}" class="btn btn-rounded btn-hdr">
                                 <i class="fa fa-plus"></i> Add Plan
                             </a>
                         <!-- @endif -->

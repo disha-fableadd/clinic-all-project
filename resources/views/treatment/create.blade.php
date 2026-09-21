@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
@@ -117,9 +117,8 @@
                 </div>
                 @if (app('hasPermission')(7, 'view'))
                     <div class="col-sm-6 col-6 treatment-button m-b-2">
-                        <a href="{{ route('treatment.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i>
-                            Back
+                        <a href="{{ route('treatment.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif

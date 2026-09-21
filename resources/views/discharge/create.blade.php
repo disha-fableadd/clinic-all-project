@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .select2-container--default .select2-selection--multiple {
@@ -89,9 +89,8 @@
                 </div>
                 @if (app('hasPermission')(10, 'view'))
                     <div class="col-4  m-b-2 view-discharge discharge-btn">
-                        <a href="{{ route('discharge.index') }}" class="btn btn-primary btn-rounded ">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i>
-                            Back
+                        <a href="{{ route('discharge.index') }}" class="btn btn-primary btn-rounded btn-hdr ">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif

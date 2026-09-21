@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     @media screen and (max-width:767px) {
@@ -20,8 +20,8 @@
                     </h4>
                 </div>
                 <div class="col-sm-6 col-4 text-right">
-                    <a href="{{ route('dashboard') }}" class="btn btn-primary btn-rounded">
-                        <i class="fa fa-arrow-left"></i> Back
+                    <a href="{{ route('dashboard') }}" class="btn btn-primary btn-rounded btn-hdr">
+                        <i class="fa fa-arrow-left"></i> <span class="hdr-btn-text">Back</span>
                     </a>
                 </div>
             </div>
@@ -53,8 +53,8 @@
                                     <i class="fa fa-info-circle icon-style2"></i>
                                     <span class="user-name"></span>'s Profile
                                 </h3>
-                                <a href="#" id="edit-profile-btn" class="btn btn-primary btn-rounded">
-                                    <i class="fa fa-pencil-alt"></i> Edit
+                                <a href="#" id="edit-profile-btn" class="btn btn-primary btn-rounded btn-hdr">
+                                    <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span>
                                 </a>
                             </div>
 
@@ -491,7 +491,7 @@
                                                 <input type="password" id="confirm-password"
                                                     name="new_password_confirmation" class="form-control" required>
                                             </div>
-                                            <button type="submit" class="btn btn-primary btn-rounded">
+                                            <button type="submit" class="btn btn-primary btn-rounded btn-hdr">
                                                 <i class="fa fa-save"></i> Update Password
                                             </button>
                                             <br><br>
@@ -650,8 +650,8 @@
                                     <i class="fa fa-info-circle icon-style2 text-white"></i>
                                     <span class="Patient_name"></span> ' s Details
                                 </h3>
-                                <a href="#" id="edit-profile-btn" class="btn btn-primary btn-rounded">
-                                    <i class="fa fa-pencil-alt"></i> Edit
+                                <a href="#" id="edit-profile-btn" class="btn btn-primary btn-rounded btn-hdr">
+                                    <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span>
                                 </a>
                             </div>
                             <div class="card-body mt-3">
@@ -774,15 +774,15 @@
                                 </div>
                                 <div class="button mb-4" style="display: flex; justify-content: end; margin: 0 5px;">
                                     @if (app('hasPermission')(5, 'update'))
-                                        <a href="#" class="btn btn-primary btn-rounded edit-patient-btn"
+                                        <a href="#" class="btn btn-primary btn-rounded btn-hdr edit-patient-btn"
                                             style="color:black; margin-right:10px">
-                                            <i class="fa fa-pencil-alt"></i> Edit
+                                            <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span>
                                         </a>
                                     @endif
                                     @if (app('hasPermission')(5, 'delete'))
-                                        <button type="button" class="btn btn-danger btn-rounded delete-patient"
+                                        <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-patient"
                                             data-id="{{ $patient_id }}">
-                                            <i class="fa fa-trash"></i> Delete
+                                            <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span>
                                         </button>
                                     @endif
                                 </div>

@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .custom-close {
@@ -37,7 +37,7 @@
                         </h3>
 
                         @if (app('hasPermission')(7, 'create'))
-                            <a href="" class="btn btn-rounded float-right" data-bs-toggle="modal"
+                            <a href="" class="btn btn-rounded btn-hdr" data-bs-toggle="modal"
                                data-bs-target="#addSymptomModal">
                                 <i class="fa fa-plus"></i> Add Symptom
                             </a>

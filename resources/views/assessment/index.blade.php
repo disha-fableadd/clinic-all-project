@@ -15,14 +15,14 @@
                                 <i class="fa fa-calendar-check-o px-2" style="font-size:20px"></i>
                                 All Assessment
                             </h3>
-                            <button class="btn btn-rounded float-right ml-2" id="assessmentExportButton"
+                            <button class="btn btn-rounded btn-hdr" id="assessmentExportButton"
                                 >
-                                <i class="fa fa-download"></i> Export
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                             </button>
                             @if (app('hasPermission')(28, 'create'))
-                                <a href="{{ route('assessment.create') }}" class="btn btn-rounded float-right"
+                                <a href="{{ route('assessment.create') }}" class="btn btn-rounded btn-hdr"
                                     >
-                                    <i class="fa fa-plus"></i> Add
+                                    <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                 </a>
                             @endif
                         </div>

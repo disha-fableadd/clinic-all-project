@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 @section('content')
 <div class="page-wrapper">
@@ -11,7 +11,7 @@
             </div>
             @if(app('hasPermission')(2, 'view'))
                 <div class="col-sm-8 col-9 text-right m-b-2">
-                    <a href="{{ route('role.index') }}" class="btn btn-primary btn-rounded">
+                    <a href="{{ route('role.index') }}" class="btn btn-primary btn-rounded btn-hdr">
                         <i class="fa fa-arrow-left"></i> Back to Roles
                     </a>
                 </div>
@@ -57,14 +57,14 @@
 
                         <div class="button mb-4" style="display: flex; justify-content: end; margin: 0 5px;">
                             @if(app('hasPermission')(2, 'update'))
-                                <a href="#" class="btn btn-primary btn-rounded edit-role-btn"
+                                <a href="#" class="btn btn-primary btn-rounded btn-hdr edit-role-btn"
                                     style="color:black; margin-right:10px">
                                     <i class="fa fa-pencil-alt"></i> Edit Role
                                 </a>
                             @endif
 
                             @if(app('hasPermission')(2, 'delete'))
-                                <button type="button" class="btn btn-danger btn-rounded delete-role"
+                                <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-role"
                                     data-id="{{ $role_id }}">
                                     <i class="fa fa-trash"></i> Delete Role
                                 </button>

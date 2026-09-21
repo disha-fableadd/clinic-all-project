@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .select2-container--default .select2-selection--multiple {
@@ -89,9 +89,8 @@
                 </div>
                 @if (app('hasPermission')(30, 'view'))
                     <div class=" col-6 m-b-2 eye-btn daily_data-button">
-                        <a href="{{ route('daily_data.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3  "></i>
-                            Back
+                        <a href="{{ route('daily_data.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3  "></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -121,7 +120,7 @@
                                         @if (app('hasPermission')(30, 'create'))
                                             <a href="{{ route('patients.create') }}" target="_blank"
                                                 class="btn btn-primary btn-sm">
-                                                <i class="fas fa-plus"></i> Add
+                                                <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                             </a>
                                         @endif
 
@@ -145,7 +144,7 @@
                                         @if (app('hasPermission')(7, 'create'))
                                             <a href="{{ route('treatment.create') }}" target="_blank"
                                                 class="btn btn-primary btn-sm">
-                                                <i class="fas fa-plus"></i> Add
+                                                <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                             </a>
                                         @endif
 

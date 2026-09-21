@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     .service-btn {
         /* padding-right: 143px !important; */
@@ -47,9 +47,8 @@
                 </div>
                 @if (app('hasPermission')(23, 'view'))
                     <div class="col-sm-4 col-6 service-btn" style=" ">
-                        <a href="{{ route('opd_visit.index') }}" class="btn btn-primary btn-rounded view-service">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i>
-                            Back
+                        <a href="{{ route('opd_visit.index') }}" class="btn btn-primary btn-rounded btn-hdr view-service">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -121,7 +120,7 @@
                             <div class="col-lg-6">
                                 <!-- Prescription -->
                                 <div class="form-group">
-                                    <label><i class="fas fa-pills icon-style"></i> Prescription</label>
+                                    <label><i class="fas fa-pills icon-style"></i> <span class="hdr-btn-text">Prescription</span></label>
                                     <textarea name="prescription" id="prescription" class="form-control" rows="3" style="border-radius: 10px;"
                                         placeholder=''></textarea>
                                     <div class="invalid-feedback d-block" id="error_prescription"></div>
@@ -130,8 +129,7 @@
                             <div class="col-lg-6">
                                 <!-- Status -->
                                 <div class="form-group">
-                                    <label class="display-block"><i class="fas fa-check-circle icon-style"></i>
-                                        Status</label>
+                                    <label class="display-block"><i class="fas fa-check-circle icon-style"></i> <span class="hdr-btn-text">Status</span></label>
                                     <div class="form-control">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="status" id="active"
