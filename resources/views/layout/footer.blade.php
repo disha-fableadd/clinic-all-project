@@ -10,10 +10,10 @@
             inset: auto 0 0;
             z-index: 1040;
             display: flex;
-            align-items: stretch;
+            align-items: center;
             justify-content: space-around;
-            min-height: 64px;
-            padding: 5px 4px calc(5px + env(safe-area-inset-bottom));
+            height: 62px;
+            padding: 4px 2px calc(4px + env(safe-area-inset-bottom));
             background: #fff;
             border-top: 1px solid #cfece0;
             box-shadow: 0 -2px 12px rgba(0, 0, 0, .08);
@@ -25,14 +25,39 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 3px;
-            color: #333;
-            font-size: 11px;
-            line-height: 1.2;
+            padding: 4px 1px;
+            color: #4a5568;
             text-decoration: none;
+            text-align: center;
         }
-        .mobile-bottom-nav a i { font-size: 19px; }
-        .mobile-bottom-nav a.active { color: #26846b; font-weight: 600; }
+        .mobile-bottom-nav a i {
+            font-size: 19px;
+            line-height: 1;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 22px;
+            width: 22px;
+        }
+        .mobile-bottom-nav a span {
+            display: block;
+            width: 100%;
+            font-size: 10.5px;
+            line-height: 1.2;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 1px;
+        }
+        .mobile-bottom-nav a.active {
+            color: #26846b;
+            font-weight: 600;
+        }
+        .mobile-bottom-nav a.active i {
+            color: #26846b;
+        }
         .mobile-bottom-nav a:focus-visible { outline: 2px solid #26846b; outline-offset: -2px; }
     }
 </style>
@@ -52,8 +77,8 @@
         </a>
     @endif
     @if (app('hasPermission')(30, 'create'))
-        <a href="{{ route('daily_data.create') }}" class="{{ request()->routeIs('daily_data.create') ? 'active' : '' }}" @if(request()->routeIs('daily_data.create')) aria-current="page" @endif>
-            <i class="fa fa-plus-circle" aria-hidden="true"></i><span>Daily Register</span>
+        <a href="{{ route('daily_data.create') }}" class="{{ request()->routeIs('daily_data.*') ? 'active' : '' }}" @if(request()->routeIs('daily_data.*')) aria-current="page" @endif>
+            <i class="fas fa-file-medical-alt" aria-hidden="true"></i><span><span class="d-none d-sm-inline">Daily </span>Register</span>
         </a>
     @endif
     <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}" @if(request()->routeIs('profile')) aria-current="page" @endif>
