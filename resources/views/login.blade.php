@@ -95,6 +95,10 @@
         .login-image {
             height: 250px;
         }
+
+        .login-form {
+            padding: 25px 15px 20px 15px;
+        }
     }
     </style>
 </head>
