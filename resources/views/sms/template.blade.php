@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     .nav-tabs .nav-link:focus,
     .nav-tabs .nav-link:hover {
@@ -215,29 +215,24 @@
                                 <!-- Credentials Tab -->
                                 <div class="tab-pane fade show active" id="credentials" role="tabpanel"
                                     aria-labelledby="credentials-tab">
-                                    <div class="row mt-3 float-right">
-                                        <div class="col-md-12 ">
-                                            <div class="d-flex align-items-center justify-content-end">
-                                                <!-- <h4>SMS Service</h4> -->
-                                                <small id="smsStatusText" class="text-muted mr-2"
-                                                    style="margin-bottom:7px">Loading...</small>
-
-                                                <label class="switch">
-                                                    <input type="checkbox" id="smsStatus" checked>
-                                                    <span class="slider round"></span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
+                                    <div class="row mt-3 align-items-end">
+                                        <div class="col-8 col-md-6">
+                                            <div class="form-group mb-0">
                                                 <label for="smsMethod">Select SMS Method</label>
                                                 <select class="form-control" id="smsMethod" name="smsMethod">
                                                     <option value="">-- Select Method --</option>
                                                     <option value="twilio" selected>Twilio</option>
                                                     <option value="2factor">2 Factor</option>
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 col-md-6 pb-2">
+                                            <div class="d-flex align-items-center justify-content-end justify-content-md-start">
+                                                <small id="smsStatusText" class="text-muted mr-2 mb-0">Loading...</small>
+                                                <label class="switch mb-0">
+                                                    <input type="checkbox" id="smsStatus" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
