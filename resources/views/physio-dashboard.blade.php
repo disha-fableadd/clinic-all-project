@@ -251,7 +251,10 @@
 
             .card-title {
                 font-size: 14px !important;
-                text-align: center;
+            }
+
+            #todaysAppointmentsModal .card-title {
+                text-align: left !important;
             }
 
             /* Stack left, center, right toolbar */
@@ -426,7 +429,15 @@
             }
 
             .about-padding {
-                padding: 12px 8px 8px;
+                padding: 0 0 5px 0 !important;
+                margin-left: -5px !important;
+                margin-right: -5px !important;
+            }
+
+            .content [class*="col-"],
+            .boxes {
+                padding-left: 5px !important;
+                padding-right: 5px !important;
             }
 
             .icon-style1 {
@@ -1553,10 +1564,10 @@
                                         <a href="{{ route('appointment.show', $appointment->id) }}"
                                             class="text-decoration-none text-dark view-appointment" data-id="{{ $appointment->id }}"
                                             style="cursor: pointer;">
-                                            <div class="card shadow-sm border rounded-3 m-0">
-                                                <div class="card-body py-3">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
+                                            <div class="card shadow-sm border rounded-3 m-0 today-schedule-card">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-start">
+                                                        <div class="schedule-info">
                                                             <h5 class="card-title">
                                                                 Dr. <strong class="fw-bold">
                                                                     {{ $appointment->doctor['fullname'] ?? '-' }}
@@ -1574,9 +1585,9 @@
                                                             </p>
                                                         </div>
 
-                                                        <div>
+                                                        <div class="schedule-badge-wrap">
                                                             <span
-                                                                class="custom-badge btn btn-rounded float-end {{ $appointment->status ?? '' }}">
+                                                                class="custom-badge {{ $appointment->status ?? '' }}">
                                                                 {{ ucfirst($appointment->status) }}
                                                             </span>
                                                         </div>
@@ -1602,10 +1613,10 @@
                                         <a href="{{ route('followup.show', $followup->id) }}"
                                             class="text-decoration-none text-dark view-followup" data-id="{{ $followup->id ?? '' }}"
                                             style="cursor: pointer;">
-                                            <div class="card shadow-sm border rounded-3 m-0">
-                                                <div class="card-body py-3">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
+                                            <div class="card shadow-sm border rounded-3 m-0 today-schedule-card">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-start">
+                                                        <div class="schedule-info">
                                                             <h5 class="card-title">
                                                                 Dr. <strong class="fw-bold">
                                                                     {{ $followup->doctor['fullname'] ?? '-' }}
@@ -1620,6 +1631,11 @@
                                                                 Treatment:
                                                                 <strong>{{ $followup->treatment['name'] ?? '-' }}</strong>
                                                             </p>
+                                                        </div>
+                                                        <div class="schedule-badge-wrap">
+                                                            <span class="custom-badge follow-up">
+                                                                Follow-up
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1641,10 +1657,10 @@
                                         <a href="{{ route('treatment.show', $plan->id) }}"
                                             class="text-decoration-none text-dark view-plan" data-id="{{ $plan->id }}"
                                             style="cursor: pointer;">
-                                            <div class="card shadow-sm border rounded-3 m-0">
-                                                <div class="card-body py-3">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
+                                            <div class="card shadow-sm border rounded-3 m-0 today-schedule-card">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-start">
+                                                        <div class="schedule-info">
                                                             <h5 class="card-title">
                                                                 Patient:
                                                                 <strong>{{ $plan->patient->fullname ?? '-' }}</strong> <br>
@@ -1652,15 +1668,13 @@
                                                                 <strong>{{ $plan->treatment->name ?? '-' }}</strong>
                                                             </h5>
                                                         </div>
-                                                        <div>
-                                                            <span class="badge"
-                                                                style="padding: 8px 15px;background-color: #f5b6a5 !important;border-radius: 50px !important;font-size: 12px;">
+                                                        <div class="schedule-badge-wrap">
+                                                            <span class="badge expiring-badge">
                                                                 Expiring Today
                                                             </span>
-
                                                         </div>
                                                     </div>
-                                                    <p class="card-text mb-0">
+                                                    <p class="card-text mb-0 mt-2">
                                                         Plan: <strong>{{ ucfirst($plan->plan ?? '-') }}</strong> |
                                                         Remaining Amount: <strong>{{ $plan->remain_amount }}</strong> <br>
                                                         <span class="text-danger">
@@ -1668,8 +1682,6 @@
                                                             ({{ \Carbon\Carbon::parse($plan->payment_date)->format('d M Y') }})
                                                         </span>
                                                     </p>
-
-
 
                                                 </div>
                                             </div>
