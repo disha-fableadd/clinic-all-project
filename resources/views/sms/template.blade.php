@@ -229,17 +229,17 @@
                                     </div>
                                     <hr>
 
-                                    <div class="row mt-3 d-flex justify-content-between align-items-center">
-                                        <div class="col-8 col-md-6">
-                                            <h4 class="mb-0" style="font-size: 1.1rem;">API Credentials</h4>
-                                        </div>
-                                        <div class="col-4 col-md-6 text-right">
-                                            <div class="d-flex align-items-center justify-content-end">
-                                                <small id="smsStatusText" class="text-muted mr-2 mb-0">Loading...</small>
-                                                <label class="switch mb-0">
-                                                    <input type="checkbox" id="smsStatus" checked>
-                                                    <span class="slider round"></span>
-                                                </label>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h4 class="mb-0" style="font-size: 1.1rem;">API Credentials</h4>
+                                                <div class="d-flex align-items-center">
+                                                    <small id="smsStatusText" class="text-muted mr-2 mb-0">Loading...</small>
+                                                    <label class="switch mb-0">
+                                                        <input type="checkbox" id="smsStatus" checked>
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -309,18 +309,17 @@
 
 
 
-                                    <div class="row mt-3 d-flex justify-content-between align-items-center">
-                                        <div class="col-8 col-md-6">
-                                            <h4 class="mb-0" style="font-size: 1.1rem;">WhatsApp API Credentials</h4>
-                                        </div>
-                                        <div class="col-4 col-md-6 text-right">
-                                            <div class="d-flex align-items-center justify-content-end">
-                                                <!-- <h4 class="mb-0 mr-2">WhatsApp Service</h4> -->
-                                                <small id="whatsappStatusText" class="text-muted mr-2 mb-0">OFF</small>
-                                                <label class="switch">
-                                                    <input type="checkbox" id="whatsappStatus">
-                                                    <span class="slider round"></span>
-                                                </label>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h4 class="mb-0" style="font-size: 1.1rem;">WhatsApp API Credentials</h4>
+                                                <div class="d-flex align-items-center">
+                                                    <small id="whatsappStatusText" class="text-muted mr-2 mb-0">OFF</small>
+                                                    <label class="switch mb-0">
+                                                        <input type="checkbox" id="whatsappStatus">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -379,17 +378,17 @@
 
                                 <div class="tab-pane fade" id="smtp-credentials" role="tabpanel"
                                     aria-labelledby="smtp-credentials-tab">
-                                    <div class="row mt-3 d-flex justify-content-between align-items-center">
-                                        <div class="col-8 col-md-6">
-                                            <h4 class="mb-0" style="font-size: 1.1rem;">SMTP Configuration</h4>
-                                        </div>
-                                        <div class="col-4 col-md-6 text-right">
-                                            <div class="d-flex align-items-center justify-content-end">
-                                                <small id="smtpStatusText" class="text-muted mr-2 mb-0">OFF</small>
-                                                <label class="switch">
-                                                    <input type="checkbox" id="smtpStatus">
-                                                    <span class="slider round"></span>
-                                                </label>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h4 class="mb-0" style="font-size: 1.1rem;">SMTP Configuration</h4>
+                                                <div class="d-flex align-items-center">
+                                                    <small id="smtpStatusText" class="text-muted mr-2 mb-0">OFF</small>
+                                                    <label class="switch mb-0">
+                                                        <input type="checkbox" id="smtpStatus">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -496,17 +495,17 @@
 
                                 <div class="tab-pane fade" id="firebase-credentials" role="tabpanel"
                                     aria-labelledby="firebase-credentials-tab">
-                                    <div class="row mt-3 d-flex justify-content-between align-items-center">
-                                        <div class="col-8 col-md-6">
-                                            <h4 class="mb-0" style="font-size: 1.1rem;">Firebase Configuration</h4>
-                                        </div>
-                                        <div class="col-4 col-md-6 text-right">
-                                            <div class="d-flex align-items-center justify-content-end">
-                                                <small id="firebaseStatusText" class="text-muted mr-2 mb-0">OFF</small>
-                                                <label class="switch">
-                                                    <input type="checkbox" id="firebaseStatus">
-                                                    <span class="slider round"></span>
-                                                </label>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h4 class="mb-0" style="font-size: 1.1rem;">Firebase Configuration</h4>
+                                                <div class="d-flex align-items-center">
+                                                    <small id="firebaseStatusText" class="text-muted mr-2 mb-0">OFF</small>
+                                                    <label class="switch mb-0">
+                                                        <input type="checkbox" id="firebaseStatus">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -557,19 +556,17 @@
                                 <div class="tab-pane fade" id="razorpay-credentials" role="tabpanel"
                                     aria-labelledby="razorpay-credentials-tab">
 
-                                    <div class="row mt-3 d-flex justify-content-between align-items-center">
-                                        <div class="col-8 col-md-6">
-                                            <h4 class="mb-0" style="font-size: 1.1rem;">Razorpay Configuration</h4>
-                                           
-
-                                        </div>
-                                        <div class="col-4 col-md-6 text-right">
-                                            <div class="d-flex align-items-center justify-content-end">
-                                                <small id="razorpayStatusText" class="text-muted mr-2 mb-0">OFF</small>
-                                                <label class="switch">
-                                                    <input type="checkbox" id="razorpayStatus">
-                                                    <span class="slider round"></span>
-                                                </label>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h4 class="mb-0" style="font-size: 1.1rem;">Razorpay Configuration</h4>
+                                                <div class="d-flex align-items-center">
+                                                    <small id="razorpayStatusText" class="text-muted mr-2 mb-0">OFF</small>
+                                                    <label class="switch mb-0">
+                                                        <input type="checkbox" id="razorpayStatus">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
