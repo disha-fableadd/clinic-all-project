@@ -990,6 +990,107 @@
                 text-align: right !important;
             }
 
+            /* Mobile view padding & table optimizations for all pages */
+            .page-wrapper > .content,
+            .content {
+                padding: 10px 5px calc(65px + env(safe-area-inset-bottom)) 5px !important;
+            }
+
+            .content > .row {
+                margin-left: -3px !important;
+                margin-right: -3px !important;
+            }
+
+            .content [class*="col-"] {
+                padding-left: 3px !important;
+                padding-right: 3px !important;
+            }
+
+            .card {
+                margin-bottom: 12px !important;
+                border-radius: 14px !important;
+            }
+
+            .card .card-header {
+                padding: 10px 10px !important;
+                border-top-left-radius: 14px !important;
+                border-top-right-radius: 14px !important;
+            }
+
+            .card-body,
+            .card-body1 {
+                padding: 0 4px 8px 4px !important;
+            }
+
+            .table-responsive {
+                padding: 0 !important;
+                margin-bottom: 0 !important;
+                border: 0 !important;
+            }
+
+            .table.custom-table,
+            table.dataTable,
+            .table {
+                width: 100% !important;
+                margin-bottom: 0 !important;
+            }
+
+            .table.custom-table > tbody > tr > td,
+            .table.custom-table > tbody > tr > th,
+            .table.custom-table > tfoot > tr > td,
+            .table.custom-table > tfoot > tr > th,
+            .table.custom-table > thead > tr > td,
+            .table.custom-table > thead > tr > th,
+            .table td,
+            .table th,
+            table.dataTable th,
+            table.dataTable td {
+                padding: 8px 4px !important;
+            }
+
+            .table.custom-table > tbody > tr > td:first-child,
+            .table.custom-table > thead > tr > th:first-child,
+            .table td:first-child,
+            .table th:first-child,
+            table.dataTable th:first-child,
+            table.dataTable td:first-child {
+                padding-left: 4px !important;
+            }
+
+            .table.custom-table > tbody > tr > td:last-child,
+            .table.custom-table > thead > tr > th:last-child,
+            .table td:last-child,
+            .table th:last-child,
+            table.dataTable th:last-child,
+            table.dataTable td:last-child {
+                padding-right: 4px !important;
+            }
+
+            div.dataTables_wrapper {
+                padding: 0 !important;
+            }
+
+            div.dataTables_wrapper .row {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+
+            div.dataTables_wrapper [class*="col-"] {
+                padding-left: 2px !important;
+                padding-right: 2px !important;
+            }
+
+            div.dataTables_wrapper div.dataTables_length,
+            div.dataTables_wrapper div.dataTables_filter {
+                margin-bottom: 6px !important;
+            }
+
+            div.dataTables_wrapper div.dataTables_filter input {
+                margin-left: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
         }
     </style>
 
