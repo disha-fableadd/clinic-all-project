@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     colgroup {
         display: none;
@@ -110,8 +110,8 @@
                             @endif
                         </div>
 
-
-                        <div class="row mb-3 m-1">
+                        <div class="card-body">
+                            <div class="row mb-3 m-1">
 
                             <!-- Patient Type Filter -->
                             <div class="col-md-4 col-sm-6 col-12 mt-2">
@@ -151,7 +151,7 @@
 
                         </div>
 
-                        <div class="card-body">
+
                             <div class="table-responsive">
                                 <div id="demo_info" class="box"></div>
                                 <table id="patienttbl" class="table custom-table">

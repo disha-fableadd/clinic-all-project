@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .row.mb-3.filter {
@@ -80,9 +80,9 @@
 @section('content')
     <div class="page-wrapper">
         <div class="content" style="height:100vh">
-            <div class="row" style="padding-top:15px">
+            <div class="row pt-0 pt-md-3">
                 <div class="col-sm-8 col-8">
-                    <h4 class="page-title" style="text-align:left;">All Expenses</h4>
+                    <h4 class="page-title m-0" style="text-align:left;">All Expenses</h4>
                 </div>
             </div>
 
@@ -106,9 +106,10 @@
                             @endif
                         </div>
 
-                        <div class="row mb-3 filter ">
+                        <div class="card-body">
+                            <div class="row mb-3 filter ">
 
-                            <div class="col-12 col-md-3 mb-2 px-2">
+                                <div class="col-6 col-md-3 mb-2 px-2">
                                 <select id="filterMonth" class="form-control select2 filter">
                                     <option value="">All Months</option>
                                     @for ($m = 1; $m <= 12; $m++)
@@ -118,7 +119,7 @@
                                     @endfor
                                 </select>
                             </div>
-                            <div class="col-12 col-md-3 mb-2 px-2 ">
+                                <div class="col-6 col-md-3 mb-2 px-2 ">
                                 <select id="filterYear" class="form-control select2 filter">
                                     <option value="">All Years</option>
                                     @for ($y = date('Y'); $y >= 2000; $y--)
@@ -131,7 +132,7 @@
 
 
                         </div>
-                        <div class="card-body">
+
                             <div class="table-responsive">
                                 <table id="expensestbl" class="table custom-table">
                                     <thead style="background-color:#ff8e29;" class="text-center">
