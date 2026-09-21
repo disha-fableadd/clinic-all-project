@@ -995,11 +995,15 @@
            Mobile View Padding, Dashboard & Modal Fixes (<= 767.98px)
            ========================================================= */
         @media only screen and (max-width: 767.98px) {
+            .page-wrapper {
+                padding-top: 65px !important;
+            }
+
             .page-wrapper > .content,
             .content {
-                padding: 12px 10px calc(88px + env(safe-area-inset-bottom)) 10px !important;
+                padding: 18px 10px calc(88px + env(safe-area-inset-bottom)) 10px !important;
                 height: auto !important;
-                min-height: calc(100vh - 60px) !important;
+                min-height: calc(100vh - 65px) !important;
             }
 
             .content > .row,
@@ -1009,6 +1013,10 @@
                 margin-right: -5px !important;
                 padding-left: 0 !important;
                 padding-right: 0 !important;
+            }
+
+            .row.about-padding {
+                margin-top: 4px !important;
             }
 
             .content [class*="col-"],
