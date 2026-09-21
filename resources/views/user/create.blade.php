@@ -72,6 +72,12 @@
     }
 
     @media screen and (max-width: 767px) {
+        .form-container {
+            width: 100% !important;
+            padding: 16px 14px 25px 14px !important;
+            margin: 10px auto !important;
+        }
+
         .staff-title {
             padding-left: 0px !important;
             text-align: left !important;

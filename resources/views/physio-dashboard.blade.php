@@ -482,18 +482,9 @@
                 text-align: center !important;
             }
 
-            .page-wrapper {
-                padding-top: 65px !important;
-            }
-
-            .page-wrapper > .content,
-            .content {
-                padding-top: 18px !important;
-            }
-
             .about-padding {
                 padding: 4px 0 5px 0 !important;
-                margin-top: 4px !important;
+                margin-top: 14px !important;
                 margin-left: -5px !important;
                 margin-right: -5px !important;
             }

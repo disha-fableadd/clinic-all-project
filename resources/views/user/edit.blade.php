@@ -76,6 +76,12 @@
 
 
     @media screen and (max-width: 767px) {
+        .form-container {
+            width: 100% !important;
+            padding: 16px 14px 25px 14px !important;
+            margin: 10px auto !important;
+        }
+
         .staff-title {
             padding-right: 0px !important;
             padding-left: 0px !important;
@@ -123,7 +129,7 @@
 
             <div class="row">
                 <div class="col-12">
-                    <form class="form-container" id="multiStepForm" method="POST" action="">
+                    <form class="form-container all-form" id="multiStepForm" method="POST" action="">
                         @csrf
                         <input type="hidden" name="user_id" id="user_id">
 
@@ -164,7 +170,7 @@
 
                                 <div class="col-12">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <label><i class="fas fa-envelope icon-style"></i> Email <span
                                                         class="text-danger">*</span></label>
@@ -172,7 +178,7 @@
                                                     placeholder="Enter Email" required>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <label><i class="fas fa-phone icon-style"></i> Phone <span
                                                         class="text-danger">*</span></label>
@@ -208,7 +214,7 @@
 
                                 <div class="col-12">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-12 col-md-6 col-lg-6">
                                             <div class="form-group">
 
                                                 <label><i class="fas fa-image icon-style"></i> Profile Picture</label>
@@ -220,7 +226,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <label><i class="fas fa-cake-candles icon-style"></i> Birthdate</label>
                                                 <input type="date" class="form-control" name="birth_date" id="birth_date">
@@ -266,7 +272,7 @@
 
                                 <div class="col-12">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <label><i class="fas fa-city icon-style"></i> City <span
                                                         class="text-danger">*</span></label>
@@ -277,7 +283,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <label><i class="fas fa-flag icon-style"></i> State <span
                                                         class="text-danger">*</span></label>
