@@ -1,4 +1,4 @@
-﻿<style>
+<style>
     .dropdown-item.active,
     .dropdown-item:active {
         color: #16181b;
@@ -1245,12 +1245,12 @@
 
 
                 @if (isset($notifications) && $notifications->isEmpty())
-                    <li class="dropdown-header">
+                    <li class="dropdown-header" style="position: sticky; top: 0; background: white; z-index: 100; border-bottom: 1px solid #eee;">
                         You have no new notifications
                         <a href="#"><span class=" p-2 ms-2"> </span></a>
                     </li>
                 @else
-                    <li class="dropdown-header d-flex justify-content-between align-items-center">
+                    <li class="dropdown-header d-flex justify-content-between align-items-center" style="position: sticky; top: 0; background: white; z-index: 100; border-bottom: 1px solid #eee;">
                         New notifications
                         <a href="{{ route('notificationView') }}"><span class="badge rounded-pill p-2 ms-2 text-black"
                                 style="background-color: #cfece0; font-size: small; font-weight: 500;">View

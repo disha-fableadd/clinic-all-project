@@ -1071,7 +1071,7 @@
             .row.about-padding {
                 display: flex !important;
                 flex-wrap: wrap !important;
-                margin-top: 14px !important;
+                margin-top: 2px !important;
                 margin-left: -5px !important;
                 margin-right: -5px !important;
                 padding-left: 0 !important;
@@ -1105,7 +1105,7 @@
                 height: 100% !important;
                 min-height: 140px !important;
                 padding: 12px 6px !important;
-                margin-bottom: 10px !important;
+                margin-bottom: 8px !important;
                 border-radius: 18px !important;
                 box-sizing: border-box !important;
             }
