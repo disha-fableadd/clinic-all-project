@@ -1091,6 +1091,117 @@
                 max-width: 100% !important;
             }
 
+            /* Card Header Mobile Centering */
+            .card .card-header,
+            .card-header {
+                padding: 10px 12px !important;
+                min-height: 48px !important;
+                gap: 6px !important;
+            }
+
+            .card .card-header .card-title,
+            .card-header .card-title {
+                font-size: 15px !important;
+                line-height: 1 !important;
+                margin: 0 !important;
+                margin-right: auto !important;
+                display: inline-flex !important;
+                align-items: center !important;
+            }
+
+            .card .card-header .card-title i,
+            .card-header .card-title i {
+                font-size: 16px !important;
+                margin-right: 6px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+            }
+
+            .card .card-header .btn,
+            .card-header .btn,
+            .card .card-header button,
+            .card-header button,
+            .card .card-header a.btn,
+            .card-header a.btn {
+                height: 30px !important;
+                padding: 4px 10px !important;
+                font-size: 12px !important;
+                line-height: 1 !important;
+                margin: 0 !important;
+                float: none !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+        }
+
+        /* =========================================================
+           Card Header Perfect Vertical Centering (All Pages)
+           ========================================================= */
+        .card .card-header,
+        .card-header {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+            min-height: 52px !important;
+        }
+
+        .card .card-header .card-title,
+        .card-header .card-title {
+            margin: 0 !important;
+            margin-right: auto !important;
+            padding: 0 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            line-height: 1 !important;
+            vertical-align: middle !important;
+        }
+
+        .card .card-header .card-title i,
+        .card-header .card-title i {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-right: 8px !important;
+            padding: 0 !important;
+            line-height: 1 !important;
+            vertical-align: middle !important;
+        }
+
+        .card .card-header .btn,
+        .card-header .btn,
+        .card .card-header button,
+        .card-header button,
+        .card .card-header a.btn,
+        .card-header a.btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 5px !important;
+            margin: 0 !important;
+            float: none !important;
+            height: 34px !important;
+            padding: 6px 14px !important;
+            font-size: 13px !important;
+            line-height: 1 !important;
+            vertical-align: middle !important;
+            border-radius: 50px !important;
+        }
+
+        .card .card-header .btn i,
+        .card-header .btn i,
+        .card .card-header button i,
+        .card-header button i {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            line-height: 1 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            font-size: 12px !important;
         }
     </style>
 
