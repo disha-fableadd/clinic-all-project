@@ -80,9 +80,9 @@
 @section('content')
     <div class="page-wrapper">
         <div class="content" style="height:100vh">
-            <div class="row" style="padding-top:15px">
+            <div class="row pt-0 pt-md-3">
                 <div class="col-sm-8 col-8">
-                    <h4 class="page-title" style="text-align:left;">All Expenses</h4>
+                    <h4 class="page-title m-0" style="text-align:left;">All Expenses</h4>
                 </div>
             </div>
 
@@ -132,7 +132,7 @@
 
 
                         </div>
-                        </div>
+
                             <div class="table-responsive">
                                 <table id="expensestbl" class="table custom-table">
                                     <thead style="background-color:#ff8e29;" class="text-center">
