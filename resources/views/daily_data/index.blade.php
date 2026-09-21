@@ -1092,13 +1092,13 @@
 
                         });
                         $("#monthly-summary").append(`
-                                                                <div class="d-flex justify-content-center align-items-center">
+                                                                <div class="d-flex justify-content-center align-items-center w-100">
                                                                     <div class="alert alert-info"
-                                                                        style="background:transparent; font-weight:bold; border:1px solid #cfece0; color:black; border-radius:50px !important; font-size:14px; padding:10px 26px;">
-                                                                        <div style="display:flex; gap:15px;">
-                                                                            <span class="amount mr-3">Total: ₹ ${grandTotal.toFixed(2)}</span>
-                                                                            <span class="amount mr-3">Received: ₹ ${grandReceived.toFixed(2)}</span>
-                                                                            <span class="amount mr-3">Pending: ₹ ${grandPending.toFixed(2)}</span>
+                                                                        style="background:transparent; font-weight:bold; border:1px solid #cfece0; color:black; border-radius:50px !important; font-size:14px; padding:10px 26px; width: 100%; max-width: 100%;">
+                                                                        <div style="display:flex; gap:15px; flex-wrap: wrap; justify-content: center;">
+                                                                            <span class="amount" style="white-space: nowrap;">Total: ₹ ${grandTotal.toFixed(2)}</span>
+                                                                            <span class="amount" style="white-space: nowrap;">Received: ₹ ${grandReceived.toFixed(2)}</span>
+                                                                            <span class="amount" style="white-space: nowrap;">Pending: ₹ ${grandPending.toFixed(2)}</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>

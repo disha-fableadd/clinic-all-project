@@ -502,7 +502,7 @@
 
             .about-padding {
                 padding: 4px 0 5px 0 !important;
-                margin-top: 14px !important;
+                margin-top: 0px !important;
                 margin-left: -5px !important;
                 margin-right: -5px !important;
             }

@@ -1013,7 +1013,7 @@
             .row.about-padding {
                 display: flex !important;
                 flex-wrap: wrap !important;
-                margin-top: 14px !important;
+                /* margin-top: 14px !important; */
                 margin-left: -5px !important;
                 margin-right: -5px !important;
                 padding-left: 0 !important;

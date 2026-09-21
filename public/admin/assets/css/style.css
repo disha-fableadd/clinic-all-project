@@ -6028,11 +6028,15 @@ blockquote p {
    Mobile View Padding & Table Optimizations (All Pages)
    ========================================================= */
 @media only screen and (max-width: 767.98px) {
+	.page-wrapper {
+		padding-top: 65px !important;
+	}
+
 	.page-wrapper > .content,
 	.content {
-		padding: 12px 10px calc(88px + env(safe-area-inset-bottom)) 10px !important;
+		padding: 10px 10px calc(88px + env(safe-area-inset-bottom)) 10px !important;
 		height: auto !important;
-		min-height: calc(100vh - 60px) !important;
+		min-height: calc(100vh - 65px) !important;
 	}
 
 	.row.calender-apointment {
@@ -6046,7 +6050,7 @@ blockquote p {
 	.row.about-padding {
 		display: flex !important;
 		flex-wrap: wrap !important;
-		margin-top: 14px !important;
+		margin-top: 0px !important;
 		margin-left: -5px !important;
 		margin-right: -5px !important;
 		padding-left: 0 !important;
@@ -6156,11 +6160,12 @@ blockquote p {
 		border-top-right-radius: 16px !important;
 	}
 
+	.card-body,
 	.card-table .card-body,
 	.card:has(.table-responsive) .card-body,
 	.card:has(table) .card-body,
 	.card-body.p-0 {
-		padding: 0 10px 12px 10px !important;
+		padding: 12px 10px !important;
 	}
 
 	/* Form Container Mobile Width & Padding */
@@ -6437,11 +6442,10 @@ blockquote p {
 		font-size: 12px !important;
 		padding: 5px 12px !important;
 	}
-}
 
-/* =========================================================
-   Card Header Perfect Vertical Centering (All Pages)
-   ========================================================= */
+	/* =========================================================
+	   Card Header Perfect Vertical Centering (All Pages)
+	   ========================================================= */
 .card .card-header,
 .card-header {
 	display: flex !important;
@@ -6639,50 +6643,4 @@ blockquote p {
 }
 
 /* Dashboard Stat Widgets Equal Height (Desktop) */
-@media only screen and (min-width: 768px) {
-	.boxes {
-		display: flex !important;
-	}
-
-	.boxes > a {
-		display: flex !important;
-		flex-direction: column !important;
-		width: 100% !important;
-		height: 100% !important;
-		text-decoration: none !important;
-	}
-
-	.dash-widget1,
-	.dash-widget2 {
-		width: 100% !important;
-		height: 100% !important;
-		min-height: 105px !important;
-	}
-
-	/* Action Buttons on View/Show & Detail Pages (Desktop) */
-	.content .button,
-	.card-body > .button,
-	.card-body .button,
-	.action-buttons {
-		margin-top: 20px !important;
-		margin-bottom: 24px !important;
-		display: flex !important;
-		justify-content: flex-end !important;
-		align-items: center !important;
-		gap: 12px !important;
-	}
-
-	.content .button .btn,
-	.card-body > .button .btn,
-	.card-body .button .btn,
-	.action-buttons .btn {
-		min-width: 100px !important;
-		height: 38px !important;
-		padding: 8px 18px !important;
-		display: inline-flex !important;
-		align-items: center !important;
-		justify-content: center !important;
-		gap: 6px !important;
-		border-radius: 50px !important;
-	}
 }
