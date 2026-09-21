@@ -1218,6 +1218,9 @@
                 padding: 10px 12px !important;
                 min-height: 48px !important;
                 gap: 6px !important;
+                display: flex !important;
+                align-items: center !important;
+                flex-wrap: wrap !important;
             }
 
             .card .card-header .card-title,
@@ -1225,17 +1228,28 @@
                 font-size: 15px !important;
                 line-height: 1 !important;
                 margin: 0 !important;
-                margin-right: auto !important;
+                flex: 1 1 auto !important;
                 display: inline-flex !important;
                 align-items: center !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                min-width: 0 !important;
             }
 
             .card .card-header .card-title i,
             .card-header .card-title i {
                 font-size: 16px !important;
                 margin-right: 6px !important;
+                flex-shrink: 0 !important;
                 display: inline-flex !important;
                 align-items: center !important;
+            }
+
+            /* Button group wrapper inside card header */
+            .card .card-header > .card-title ~ *,
+            .card-header > .card-title ~ * {
+                flex-shrink: 0 !important;
             }
 
             .card .card-header .btn,
@@ -1253,6 +1267,8 @@
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
+                flex-shrink: 0 !important;
+                white-space: nowrap !important;
             }
 
             /* =========================================================
