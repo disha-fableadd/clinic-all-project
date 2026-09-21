@@ -109,6 +109,22 @@
             margin: auto 0;
         } */
 
+        .card-body {
+            padding: 10px 12px !important;
+        }
+
+        .card {
+            margin: 5px !important;
+        }
+
+        .row.mt-3 {
+            margin-top: 5px !important;
+        }
+        
+        .page-wrapper > .content,
+        .content {
+            padding: 10px !important;
+        }
     }
 
 
