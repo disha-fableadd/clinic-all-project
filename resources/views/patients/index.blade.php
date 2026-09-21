@@ -58,7 +58,7 @@
 
     @media screen and (max-width: 767px) {
         .card .card-header {
-            padding: 15px 0 !important;
+            padding: 10px 12px !important;
         }
     }
 
@@ -95,16 +95,16 @@
                             <h3 class="card-title d-inline-block text-white">
                                 <i class="fa fa-wheelchair px-2" style="font-size:20px"></i>All Patients
                             </h3>
-                            <button class="btn btn-rounded float-right ml-2 mr-1" id="exportButton">
+                            <button class="btn btn-rounded" id="exportButton">
                                 <i class="fa fa-download"></i> Export
                             </button>
                             @if (app('hasPermission')(5, 'create'))
-                                <a href="{{ route('patients.create') }}" class="btn btn-rounded float-right">
+                                <a href="{{ route('patients.create') }}" class="btn btn-rounded">
                                     <i class="fa fa-plus"></i> Add
                                 </a>
                             @endif
                             @if (app('hasPermission')(17, 'create'))
-                                <a href="{{ route('patient_medicine.create') }}" class="btn  btn-rounded float-right mr-2">
+                                <a href="{{ route('patient_medicine.create') }}" class="btn btn-rounded">
                                     <i class="fa fa-plus"></i> Prescription
                                 </a>
                             @endif
@@ -114,7 +114,7 @@
                         <div class="row mb-3 m-1">
 
                             <!-- Patient Type Filter -->
-                            <div class="col-md-4 col-sm-6 col-6 mt-2">
+                            <div class="col-md-4 col-sm-6 col-12 mt-2">
                                 <label>Patient Type</label>
                                 <select id="patientTypeFilter" class="form-control filter">
                                     <option value="">All</option>
