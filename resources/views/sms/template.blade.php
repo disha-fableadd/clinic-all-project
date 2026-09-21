@@ -306,13 +306,13 @@
 
 
                                     <div class="row mt-3 d-flex justify-content-between align-items-center">
-                                        <div class="col-md-6">
-                                            <h4>WhatsApp API Credentials</h4>
+                                        <div class="col-8 col-md-6">
+                                            <h4 class="mb-0" style="font-size: 1.1rem;">WhatsApp API Credentials</h4>
                                         </div>
-                                        <div class="col-md-6 text-right">
+                                        <div class="col-4 col-md-6 text-right">
                                             <div class="d-flex align-items-center justify-content-end">
                                                 <!-- <h4 class="mb-0 mr-2">WhatsApp Service</h4> -->
-                                                <small id="whatsappStatusText" class="text-muted mr-2">OFF</small>
+                                                <small id="whatsappStatusText" class="text-muted mr-2 mb-0">OFF</small>
                                                 <label class="switch">
                                                     <input type="checkbox" id="whatsappStatus">
                                                     <span class="slider round"></span>
@@ -376,12 +376,12 @@
                                 <div class="tab-pane fade" id="smtp-credentials" role="tabpanel"
                                     aria-labelledby="smtp-credentials-tab">
                                     <div class="row mt-3 d-flex justify-content-between align-items-center">
-                                        <div class="col-md-6">
-                                            <h4>SMTP Configuration</h4>
+                                        <div class="col-8 col-md-6">
+                                            <h4 class="mb-0" style="font-size: 1.1rem;">SMTP Configuration</h4>
                                         </div>
-                                        <div class="col-md-6 text-right">
+                                        <div class="col-4 col-md-6 text-right">
                                             <div class="d-flex align-items-center justify-content-end">
-                                                <small id="smtpStatusText" class="text-muted mr-2">OFF</small>
+                                                <small id="smtpStatusText" class="text-muted mr-2 mb-0">OFF</small>
                                                 <label class="switch">
                                                     <input type="checkbox" id="smtpStatus">
                                                     <span class="slider round"></span>
@@ -493,12 +493,12 @@
                                 <div class="tab-pane fade" id="firebase-credentials" role="tabpanel"
                                     aria-labelledby="firebase-credentials-tab">
                                     <div class="row mt-3 d-flex justify-content-between align-items-center">
-                                        <div class="col-md-6">
-                                            <h4>Firebase Configuration</h4>
+                                        <div class="col-8 col-md-6">
+                                            <h4 class="mb-0" style="font-size: 1.1rem;">Firebase Configuration</h4>
                                         </div>
-                                        <div class="col-md-6 text-right">
+                                        <div class="col-4 col-md-6 text-right">
                                             <div class="d-flex align-items-center justify-content-end">
-                                                <small id="firebaseStatusText" class="text-muted mr-2">OFF</small>
+                                                <small id="firebaseStatusText" class="text-muted mr-2 mb-0">OFF</small>
                                                 <label class="switch">
                                                     <input type="checkbox" id="firebaseStatus">
                                                     <span class="slider round"></span>
@@ -554,14 +554,14 @@
                                     aria-labelledby="razorpay-credentials-tab">
 
                                     <div class="row mt-3 d-flex justify-content-between align-items-center">
-                                        <div class="col-md-6">
-                                            <h4>Razorpay Configuration</h4>
+                                        <div class="col-8 col-md-6">
+                                            <h4 class="mb-0" style="font-size: 1.1rem;">Razorpay Configuration</h4>
                                            
 
                                         </div>
-                                        <div class="col-md-6 text-right">
+                                        <div class="col-4 col-md-6 text-right">
                                             <div class="d-flex align-items-center justify-content-end">
-                                                <small id="razorpayStatusText" class="text-muted mr-2">OFF</small>
+                                                <small id="razorpayStatusText" class="text-muted mr-2 mb-0">OFF</small>
                                                 <label class="switch">
                                                     <input type="checkbox" id="razorpayStatus">
                                                     <span class="slider round"></span>
