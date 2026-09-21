@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     colgroup {
         display: none;
@@ -105,7 +105,7 @@
                             @endif
                             @if (app('hasPermission')(17, 'create'))
                                 <a href="{{ route('patient_medicine.create') }}" class="btn btn-rounded btn-hdr">
-                                    <i class="fa fa-plus"></i> <span class="btn-text">Prescription</span>
+                                    <i class="fa fa-pills"></i> <span class="btn-text">Prescription</span>
                                 </a>
                             @endif
                         </div>

@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     textarea {
@@ -332,16 +332,16 @@
 
                                 <div class="mr-2 m-b-2">
                                     <a href="javascript:void(0)"
-                                        class="btn btn-primary btn-rounded download-patient-history"
+                                        class="btn btn-primary btn-rounded btn-hdr download-patient-history"
                                         data-id="{{ $patient_id }}">
-                                        <i class="fa fa-download"></i> PDF
+                                        <i class="fa fa-file-pdf"></i> <span class="btn-text">PDF</span>
                                     </a>
                                 </div>
 
 
                                 @if (app('hasPermission')(5, 'view'))
-                                    <div class="  text-right m-b-2">
-                                        <a href="{{ route('patients.index') }}" class="btn btn-primary btn-rounded">
+                                    <div class="text-right m-b-2">
+                                        <a href="{{ route('patients.index') }}" class="btn btn-primary btn-rounded btn-hdr">
                                             <i class="fa fa-arrow-left"></i> <span class="btn-text">Back</span>
                                         </a>
                                     </div>
