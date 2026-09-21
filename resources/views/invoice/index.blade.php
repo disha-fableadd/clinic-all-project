@@ -99,11 +99,11 @@
                                 <i class="fa fa-file-invoice-dollar px-2" style="font-size:20px"></i> All Invoice
                             </h3>
                             <button class="btn btn-rounded btn-hdr" id="exportButton">
-                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                             </button>
                             @if (app('hasPermission')(18, 'create'))
                                 <a href="{{ route('invoice.create') }}" class="btn btn-rounded btn-hdr">
-                                    <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
+                                    <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                 </a>
                             @endif
                         </div>
@@ -200,8 +200,7 @@
                                                         data-id="${invoiceId}"
                                                         data-amount="${total.replace('₹', '')}"
                                                         data-status="${status}">
-                                                        <i class="fa fa-link"></i>Generate
-                                                    </button>
+                                                        <i class="fa fa-link"></i> <span class="hdr-btn-text">Generate</span></button>
                                                 `;
 
                 const actions = `
@@ -293,7 +292,7 @@
                                                             data-id="${invoice.id}"
                                                             data-amount="${invoice.grand_total}"
                                                             data-status="${invoice.payment_status}">
-                                                            <i class="fa fa-link"></i> <span class="btn-text">Generate</span>
+                                                            <i class="fa fa-link"></i> <span class="hdr-btn-text">Generate</span>
                                                         </button>
                                                     </td>
 

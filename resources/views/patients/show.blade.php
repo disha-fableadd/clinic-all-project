@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     textarea {
@@ -334,7 +334,7 @@
                                     <a href="javascript:void(0)"
                                         class="btn btn-primary btn-rounded btn-hdr download-patient-history"
                                         data-id="{{ $patient_id }}">
-                                        <i class="fa fa-file-pdf"></i> <span class="btn-text">PDF</span>
+                                        <i class="fa fa-file-pdf"></i> <span class="hdr-btn-text">PDF</span>
                                     </a>
                                 </div>
 
@@ -342,7 +342,7 @@
                                 @if (app('hasPermission')(5, 'view'))
                                     <div class="text-right m-b-2">
                                         <a href="{{ route('patients.index') }}" class="btn btn-primary btn-rounded btn-hdr">
-                                            <i class="fa fa-arrow-left"></i> <span class="btn-text">Back</span>
+                                            <i class="fa fa-arrow-left"></i> <span class="hdr-btn-text">Back</span>
                                         </a>
                                     </div>
                                 @endif
@@ -466,21 +466,21 @@
 
 
                             <div class="col-12 d-flex justify-content-end">
-                                <button type="button" id="viewReferralBtn" class="btn btn-primary btn-rounded me-2">
+                                <button type="button" id="viewReferralBtn" class="btn btn-primary btn-rounded btn-hdr me-2">
                                     <i class="fas fa-eye"></i> View Referral Source
                                 </button>
 
                                 @if (app('hasPermission')(5, 'update'))
-                                    <a href="#" class="btn btn-primary btn-rounded me-2 edit-patient-btn"
+                                    <a href="#" class="btn btn-primary btn-rounded btn-hdr me-2 edit-patient-btn"
                                         data-id="{{ $patient_id }}" style="color:black;">
-                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
+                                        <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span>
                                     </a>
                                 @endif
 
                                 @if (app('hasPermission')(5, 'delete'))
-                                    <button type="button" class="btn btn-danger btn-rounded delete-patient"
+                                    <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-patient"
                                         data-id="{{ $patient_id }}">
-                                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
+                                        <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span>
                                     </button>
                                 @endif
                             </div>
@@ -1169,7 +1169,7 @@
                                     </div>
                                     <div class="col-md-4 col-sm-6 mx-auto">
                                         <div class="form-group d-none" id="remain_amount_div">
-                                            <label><i class="fas fa-hourglass-half icon-style"></i> Pending</label>
+                                            <label><i class="fas fa-hourglass-half icon-style"></i> <span class="hdr-btn-text">Pending</span></label>
                                             <input type="number" step="0.01" name="remain_amount" id="remain_amount"
                                                 class="form-control" readonly>
                                         </div>

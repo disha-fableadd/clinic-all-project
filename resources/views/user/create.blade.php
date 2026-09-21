@@ -162,8 +162,8 @@
                 </div>
                 @if (app('hasPermission')(3, 'view'))
                     <div class="col-4 staff-button m-b-2 eye-btn">
-                        <a href="{{ route('user.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5"></i> <span class="btn-text">Back</span>
+                        <a href="{{ route('user.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -404,7 +404,7 @@
                                     <div class="card-footer text-right" style="background-color:#87ceb0">
                                         <h3 style="float:left" class="text-dark"><i
                                                 class="fa fa-info-circle icon-style2"></i> Permissions</h3>
-                                        <span class="btn btn-primary btn-rounded" style="color:black">
+                                        <span class="btn btn-primary btn-rounded btn-hdr" style="color:black">
                                             <input type="checkbox" id="selectAll"> Select All Modules
                                         </span>
                                     </div>

@@ -108,18 +108,17 @@
                             <div class="d-flex text-right justify-end">
 
                                 <div class="mr-2 m-b-2">
-                                    <a href="javascript:void(0)" class="btn btn-primary btn-rounded download-appointment"
+                                    <a href="javascript:void(0)" class="btn btn-primary btn-rounded btn-hdr download-appointment"
                                         data-id="{{ $appointment_id }}">
-                                        <i class="fa fa-download"></i> PDF
+                                        <i class="fa fa-download"></i> <span class="hdr-btn-text">PDF</span>
                                     </a>
                                 </div>
 
 
                                 @if (app('hasPermission')(6, 'view'))
                                     <div class=" text-right m-b-2">
-                                        <a href="{{ route('appointment.index') }}" class="btn btn-primary btn-rounded">
-                                            <i class="fa fa-arrow-left m-r-5 icon3"></i>Back
-                                        </a>
+                                        <a href="{{ route('appointment.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span></a>
                                     </div>
                                 @endif
                             </div>
@@ -218,12 +217,12 @@
 
 
                                 @if (app('hasPermission')(6, 'update') && !$isPatientRole)
-                                    <a href="#" class="btn btn-primary btn-rounded edit-appointment-btn "> 
-                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span> </a>
+                                    <a href="#" class="btn btn-primary btn-rounded btn-hdr edit-appointment-btn "> 
+                                        <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span> </a>
                                     @endif 
                                     @if (app('hasPermission')(6, 'delete') && !$isPatientRole)
-                                        <button type="button" class="btn btn-danger btn-rounded delete-report"
-                                            data-id="{{ $appointment_id }}"> <i class="fa fa-trash"></i> <span class="btn-text">Delete</span> </button>
+                                        <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-report"
+                                            data-id="{{ $appointment_id }}"> <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span> </button>
                                     @endif
                             </div>
 

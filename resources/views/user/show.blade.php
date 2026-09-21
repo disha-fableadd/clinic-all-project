@@ -203,8 +203,8 @@
                 </div>
                 @if(app('hasPermission')(3, 'view'))
                     <div class="col-sm-4 col-4 text-right m-b-2">
-                        <a href="{{ route('user.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left"></i> <span class="btn-text">Back</span>
+                        <a href="{{ route('user.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -339,15 +339,15 @@
 
                             <div class="button mb-4 action-buttons">
                                 @if(app('hasPermission')(3, 'update'))
-                                    <a href="#" class="btn btn-primary btn-rounded edit-user-btn"
+                                    <a href="#" class="btn btn-primary btn-rounded btn-hdr edit-user-btn"
                                         style="color:black;">
-                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span> 
+                                        <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span> 
                                     </a>
                                 @endif
                                 @if(app('hasPermission')(3, 'delete'))
-                                    <button type="button" class="btn btn-danger btn-rounded delete-user"
+                                    <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-user"
                                         data-id="{{ $user_id }}">
-                                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span> 
+                                        <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span> 
                                     </button>
                                 @endif
                             </div>

@@ -12,8 +12,8 @@
                 </div>
 
                 <div class="col-sm-6 col-4 text-right m-b-2">
-                    <a href="{{ route('category.index') }}" class="btn btn-primary btn-rounded">
-                        <i class="fa fa-arrow-left"></i> <span class="btn-text">Back</span> 
+                    <a href="{{ route('category.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                        <i class="fa fa-arrow-left"></i> <span class="hdr-btn-text">Back</span> 
                     </a>
                 </div>
 
@@ -60,15 +60,15 @@
 
                             <div class="button mb-4">
 
-                                <a href="#" class="btn btn-primary btn-rounded edit-category-btn">
-                                    <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span> 
+                                <a href="#" class="btn btn-primary btn-rounded btn-hdr edit-category-btn">
+                                    <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span> 
                                 </a>
 
 
 
-                                <button type="button" class="btn btn-danger btn-rounded delete-category"
+                                <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-category"
                                     data-id="{{ $category_id }}">
-                                    <i class="fa fa-trash"></i> <span class="btn-text">Delete</span> 
+                                    <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span> 
                                 </button>
 
 

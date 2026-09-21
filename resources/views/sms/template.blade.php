@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     .nav-tabs .nav-link:focus,
     .nav-tabs .nav-link:hover {
@@ -634,8 +634,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header" style="background-color:#f89884;">
-                            <h5 class="modal-title text-white" id="sendSmsModalLabel"><i class="fa fa-paper-plane"></i>
-                                Send
+                            <h5 class="modal-title text-white" id="sendSmsModalLabel"><i class="fa fa-paper-plane"></i> <span class="hdr-btn-text">Send</span>
                                 SMS</h5>
                             <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>

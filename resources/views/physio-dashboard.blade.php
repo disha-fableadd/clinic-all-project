@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 @section('content')
 
     @if ($planExpirationWarning)
@@ -699,7 +699,7 @@
                                         aria-hidden="true"></i> Upcoming Appointments</h4>
                                 @if (app('hasPermission')(29, 'view'))
                                     <a href="{{ route('appointment.index') }}"
-                                        class="btn btn-primary btn-rounded float-right button">View all <i
+                                        class="btn btn-primary btn-rounded btn-hdr float-right button">View all <i
                                             class="fas fa-arrow-right ml-1"></i></a>
                                 @endif
                             </div>
@@ -843,7 +843,7 @@
                                         aria-hidden="true"></i>Today Followup By Staff</h4>
                                 @if (app('hasPermission')(29, 'view'))
                                     <a href="{{ route('followup.index') }}"
-                                        class="btn btn-primary btn-rounded float-right button">View all <i
+                                        class="btn btn-primary btn-rounded btn-hdr float-right button">View all <i
                                             class="fas fa-arrow-right ml-1"></i></a>
                                 @endif
                             </div>
@@ -920,7 +920,7 @@
                                 </h4>
                                 @if (app('hasPermission')(28, 'view'))
                                     <a href="{{ route('daily_data.index') }}"
-                                        class="btn btn-primary btn-rounded float-right button">
+                                        class="btn btn-primary btn-rounded btn-hdr float-right button">
                                         View all <i class="fas fa-arrow-right ml-1"></i>
                                     </a>
                                 @endif
@@ -1001,7 +1001,7 @@
                                 <h4 class="card-title d-inline-block"><i class="fa fa-user icon-style1"></i> New Patients
                                 </h4>
                                 @if (app('hasPermission')(28, 'view'))
-                                    <a href="{{ route('patients.index') }}" class="btn btn-primary btn-rounded float-right button">
+                                    <a href="{{ route('patients.index') }}" class="btn btn-primary btn-rounded btn-hdr float-right button">
                                         View all <i class="fas fa-arrow-right ml-1"></i>
                                     </a>
                                 @endif
@@ -1202,7 +1202,7 @@
                                     Upcoming Appointments</h4>
                                 @if (app('hasPermission')(29, 'view'))
                                     <a href="{{ route('appointment.index') }}"
-                                        class="btn btn-primary btn-rounded float-right button">View
+                                        class="btn btn-primary btn-rounded btn-hdr float-right button">View
                                         all <i class="fas fa-arrow-right ml-1"></i></a>
                                 @endif
 
@@ -1392,7 +1392,7 @@
                                 </h4>
                                 @if (app('hasPermission')(28, 'view'))
                                     <a href="{{ route('daily_data.index') }}"
-                                        class="btn btn-primary btn-rounded float-right button">
+                                        class="btn btn-primary btn-rounded btn-hdr float-right button">
                                         View all <i class="fas fa-arrow-right ml-1"></i>
                                     </a>
                                 @endif
@@ -1471,7 +1471,7 @@
                                 <h4 class="card-title d-inline-block"><i class="fa fa-user icon-style1"></i> New Patients
                                 </h4>
                                 @if (app('hasPermission')(28, 'view'))
-                                    <a href="{{ route('patients.index') }}" class="btn btn-primary btn-rounded float-right button">
+                                    <a href="{{ route('patients.index') }}" class="btn btn-primary btn-rounded btn-hdr float-right button">
                                         View all <i class="fas fa-arrow-right ml-1"></i>
                                     </a>
                                 @endif
@@ -1749,7 +1749,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-rounded d-flex align-items-center"
+                        <button type="button" class="btn btn-danger btn-rounded btn-hdr d-flex align-items-center"
                             id="dontShowAgainBtn">
                             Don't show again
                             <span class="spinner-border spinner-border-sm ml-2 d-none" role="status" aria-hidden="true"

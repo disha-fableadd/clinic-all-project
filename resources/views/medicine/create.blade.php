@@ -105,9 +105,8 @@
                 </div>
                 @if (app('hasPermission')(4, 'view'))
                     <div class=" col-6 medicine-button  m-b-2">
-                        <a href="{{ route('medicine.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5"></i>Back
-                        </a>
+                        <a href="{{ route('medicine.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5"></i> <span class="hdr-btn-text">Back</span></a>
                     </div>
                 @endif
             </div>
@@ -133,7 +132,7 @@
                                         @if (Auth::check() && optional(Auth::user()->role)->name == 'Admin')
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                 data-target="#addCategoryModal">
-                                                <i class="fas fa-plus"></i> <span class="btn-text">Add</span>
+                                                <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                             </button>
                                         @endif
                                     </div>

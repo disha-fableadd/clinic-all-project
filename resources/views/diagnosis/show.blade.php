@@ -15,15 +15,15 @@
                     </h3>
                     <div class="d-flex text-right">
                         {{-- <div class="mr-2 m-b-2">
-                            <a href="javascript:void(0)" class="btn btn-primary btn-rounded download-diagnosis"
+                            <a href="javascript:void(0)" class="btn btn-primary btn-rounded btn-hdr download-diagnosis"
                                 data-id="{{ $diagnosis_id }}">
-                                <i class="fa fa-download"></i> PDF
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">PDF</span>
                             </a>
                         </div> --}}
 
                         <div class="m-b-2">
-                            <a href="{{ route('diagnosis.index') }}" class="btn btn-primary btn-rounded">
-                                <i class="fa fa-arrow-left"></i> <span class="btn-text">Back</span>
+                            <a href="{{ route('diagnosis.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                                <i class="fa fa-arrow-left"></i> <span class="hdr-btn-text">Back</span>
                             </a>
                         </div>
                     </div>
@@ -46,10 +46,10 @@
 
                 <div class="action-buttons">
                     <a href="{{ route('diagnosis.edit', $diagnosis_id) }}" class="btn btn-primary">
-                        <i class="fa fa-edit"></i> <span class="btn-text">Edit</span>
+                        <i class="fa fa-edit"></i> <span class="hdr-btn-text">Edit</span>
                     </a>
                     <button class="btn btn-danger delete-diagnosis" data-id="{{ $diagnosis_id }}" style="border-radius:50px">
-                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
+                        <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span>
                     </button>
                 </div>
             </div>

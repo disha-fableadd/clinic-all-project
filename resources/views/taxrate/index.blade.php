@@ -144,7 +144,7 @@
                             @if (app('hasPermission')(36, 'create'))
                                 <a href="" class="btn btn-rounded btn-hdr" data-bs-toggle="modal"
                                     data-bs-target="#addTaxRateModal">
-                                    <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
+                                    <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                 </a>
                             @endif
                         </div>

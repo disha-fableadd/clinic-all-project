@@ -85,8 +85,8 @@
                 </div>
                 @if (app('hasPermission')(33, 'view'))
                     <div class="col-6 m-b-2 eye-btn expense-button">
-                        <a href="{{ route('expense.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
+                        <a href="{{ route('expense.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -107,7 +107,7 @@
                                         @if (app('hasPermission')(3, 'create'))
                                             <a href="{{ route('user.create') }}" target="_blank"
                                                 class="btn btn-primary btn-sm">
-                                                <i class="fas fa-plus"></i> <span class="btn-text">Add</span>
+                                                <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                             </a>
                                         @endif
 

@@ -12,8 +12,8 @@
                 </div>
                 @if (app('hasPermission')(27, 'view'))
                     <div class="col-4  m-b-2 view-discharge discharge-btn">
-                        <a href="{{ route('assign-therapy.index') }}" class="btn btn-primary btn-rounded ">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
+                        <a href="{{ route('assign-therapy.index') }}" class="btn btn-primary btn-rounded btn-hdr ">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -37,7 +37,7 @@
                                             @if (app('hasPermission')(5, 'create'))
                                                 <a href="{{ route('patients.create') }}" target="_blank"
                                                     class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> <span class="btn-text">Add</span>
+                                                    <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                                 </a>
                                             @endif
 
@@ -58,7 +58,7 @@
                                             @if (app('hasPermission')(26, 'create'))
                                                 <a href="{{ route('therapy.create') }}" target="_blank"
                                                     class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> <span class="btn-text">Add</span>
+                                                    <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                                 </a>
                                             @endif
 
@@ -77,7 +77,7 @@
                                             @if (app('hasPermission')(3, 'create'))
                                                 <a href="{{ route('user.create') }}" target="_blank"
                                                     class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> <span class="btn-text">Add</span>
+                                                    <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                                 </a>
                                             @endif
 

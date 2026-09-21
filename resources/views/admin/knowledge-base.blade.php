@@ -162,7 +162,7 @@
                             </div>
                             <div class="col-md-3 d-flex align-items-start">
                                 <button id="searchBtn" class="btn btn-primary w-100">
-                                    <i class="fas fa-search"></i> <span class="btn-text">Search</span>
+                                    <i class="fas fa-search"></i> <span class="hdr-btn-text">Search</span>
                                 </button>
                             </div>
                         </div>

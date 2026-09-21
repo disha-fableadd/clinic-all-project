@@ -95,17 +95,17 @@
 
                             <button class="btn btn-rounded btn-hdr" id="exportButton"
                                 style="background-color: #fed9cf;">
-                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                             </button>
                             <a href="{{ route('sms.create') }}" class="btn btn-rounded btn-hdr"
-                                style="background-color: #fed9cf;"><i class="fa fa-plus"></i> <span class="btn-text">Create</span>
+                                style="background-color: #fed9cf;"><i class="fa fa-plus"></i> <span class="hdr-btn-text">Create</span>
                             </a>
 
 
                             <a href="#" class="btn btn-rounded btn-hdr"
                                 style="background-color: #fed9cf; margin-right:10px" data-toggle="modal"
                                 data-target="#sendSmsModal">
-                                <i class="fa fa-paper-plane"></i> <span class="btn-text">Send</span>
+                                <i class="fa fa-paper-plane"></i> <span class="hdr-btn-text">Send</span>
                             </a>
 
 
@@ -141,7 +141,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header" style="background-color:#f89884;">
-                            <h5 class="modal-title text-white" id="sendSmsModalLabel"><i class="fa fa-paper-plane"></i> Send
+                            <h5 class="modal-title text-white" id="sendSmsModalLabel"><i class="fa fa-paper-plane"></i> <span class="hdr-btn-text">Send</span>
                                 SMS</h5>
                             <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>

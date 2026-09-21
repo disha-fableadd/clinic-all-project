@@ -53,7 +53,7 @@
                                     @if (app('hasPermission')(16, 'create'))
                                         <a href="{{ route('email.create') }}" class="btn  btn-rounded float-right emailtemp"
                                             style="background-color: #fed9cf;text-decoration:none"><i
-                                                class="fa fa-plus"></i> <span class="btn-text">Create</span>
+                                                class="fa fa-plus"></i> <span class="hdr-btn-text">Create</span>
 
                                         </a>
                                     @endif
@@ -108,7 +108,7 @@
 
                                     <button class="btn btn-rounded btn-hdr" id="exportButton1"
                                         style="background-color: #fed9cf;">
-                                        <i class="fa fa-download"></i> <span class="btn-text">Export</span>
+                                        <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                                     </button>
                                     <div class="table-responsive">
                                         <div id="demo_info" class="box"></div>
@@ -135,7 +135,7 @@
                                 <div class="tab-pane fade  " id="log" role="tabpanel" aria-labelledby="log-tab">
                                     <button class="btn btn-rounded btn-hdr" id="exportButton2"
                                         style="background-color: #fed9cf;">
-                                        <i class="fa fa-download"></i> <span class="btn-text">Export</span>
+                                        <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                                     </button>
                                     <div class="table-responsive">
                                         <div id="demo_info" class="box"></div>

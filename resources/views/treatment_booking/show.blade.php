@@ -95,17 +95,17 @@
 
                                 <div class="mr-2 m-b-2">
                                     <a href="javascript:void(0)"
-                                        class="btn btn-primary btn-rounded download-treatment-booking"
+                                        class="btn btn-primary btn-rounded btn-hdr download-treatment-booking"
                                         data-id="{{ $treatment_booking_id }}">
-                                        <i class="fa fa-download"></i> PDF
+                                        <i class="fa fa-download"></i> <span class="hdr-btn-text">PDF</span>
                                     </a>
                                 </div>
 
 
                                 @if (app('hasPermission')(23, 'view'))
                                     <div class="text-right m-b-2">
-                                        <a href="{{ route('treatment_booking.index') }}" class="btn btn-primary btn-rounded">
-                                            <i class="fa fa-arrow-left"></i> <span class="btn-text">Back</span>
+                                        <a href="{{ route('treatment_booking.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                                            <i class="fa fa-arrow-left"></i> <span class="hdr-btn-text">Back</span>
                                         </a>
                                     </div>
                                 @endif
@@ -173,22 +173,22 @@
 
 
                             <div class="button mb-4" style="display: flex; justify-content: end; margin: 0 5px;">
-                                <button type="button" class="btn btn-primary btn-rounded generate-link-btn"
+                                <button type="button" class="btn btn-primary btn-rounded btn-hdr generate-link-btn"
                                     style="color:black; margin-right:10px" data-id="{{ $treatment_booking_id }}"
                                     data-pending="{{ $remaining_amount ?? 0 }}">
                                     
                                     <i class="fa fa-link"></i> Generate Payment Link
                                 </button>
                                 @if (app('hasPermission')(31, 'update'))
-                                    <a href="#" class="btn btn-primary btn-rounded edit-appointment-btn"
+                                    <a href="#" class="btn btn-primary btn-rounded btn-hdr edit-appointment-btn"
                                         style="color:black; margin-right:10px">
-                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
+                                        <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span>
                                     </a>
                                 @endif
                                 @if (app('hasPermission')(31, 'delete'))
-                                    <button type="button" class="btn btn-danger btn-rounded delete-report"
+                                    <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-report"
                                         data-id="{{ $treatment_booking_id }}">
-                                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
+                                        <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span>
                                     </button>
                                 @endif
 

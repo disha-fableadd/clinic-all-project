@@ -53,16 +53,15 @@
 
                             <div class="d-flex text-right" style="justify-content: end;">
                                 <div class="mr-2 m-b-2">
-                                    <a href="javascript:void(0)" class="btn btn-primary btn-rounded download-medicine"
+                                    <a href="javascript:void(0)" class="btn btn-primary btn-rounded btn-hdr download-medicine"
                                         data-id="{{ $patientmedicine_id}}">
-                                        <i class="fa fa-download"></i> PDF
+                                        <i class="fa fa-download"></i> <span class="hdr-btn-text">PDF</span>
                                     </a>
                                 </div>
                                 @if (app('hasPermission')(17, 'view'))
                                     <div class="text-right m-b-2">
-                                        <a href="{{ route('patient_medicine.index') }}" class="btn btn-primary btn-rounded">
-                                            <i class="fa fa-arrow-left"></i>Back
-                                        </a>
+                                        <a href="{{ route('patient_medicine.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                                            <i class="fa fa-arrow-left"></i> <span class="hdr-btn-text">Back</span></a>
                                     </div>
                                 @endif
                             </div>
@@ -142,15 +141,15 @@
 
                             <div class="button mb-4" style="display: flex; justify-content: end; margin: 0 5px;">
                                 @if (app('hasPermission')(17, 'update'))
-                                    <a href="" class="btn btn-primary btn-rounded edit-patientmedicine-btn"
+                                    <a href="" class="btn btn-primary btn-rounded btn-hdr edit-patientmedicine-btn"
                                         style="color:black; margin-right:10px">
-                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
+                                        <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span>
                                     </a>
                                 @endif
                                 @if (app('hasPermission')(17, 'delete'))
-                                    <button type="button" class="btn btn-danger btn-rounded delete-patientMedicine"
+                                    <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-patientMedicine"
                                         style="border-radius:50px" data-id="{{ $patientmedicine_id }}">
-                                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
+                                        <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span>
                                     </button>
                                 @endif
                             </div>

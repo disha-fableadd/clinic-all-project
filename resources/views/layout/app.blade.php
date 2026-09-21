@@ -1004,12 +1004,12 @@
             border-radius: 50px !important;
         }
 
-        .btn-hdr .btn-text {
+        .btn-hdr .hdr-btn-text {
             display: inline !important;
         }
 
         @media only screen and (max-width: 767.98px) {
-            .btn-hdr .btn-text {
+            .btn-hdr .hdr-btn-text {
                 display: none !important;
             }
 

@@ -214,8 +214,8 @@
                 @if (app('hasPermission')(17, 'view'))
                     <div class="col-sm-4 col-4 pm-button m-b-2">
 
-                        <a href="{{ route('patient_medicine.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
+                        <a href="{{ route('patient_medicine.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                         </a>
 
                     </div>

@@ -10,8 +10,8 @@
                 </div>
                 @if (app('hasPermission')(28, 'view'))
                     <div class="col-sm-6 col-6 assessment-button m-b-2">
-                        <a href="{{ route('assessment.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
+                        <a href="{{ route('assessment.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif

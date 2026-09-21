@@ -64,8 +64,8 @@
                     <h4 class="page-title expense-title">Edit Expense</h4>
                 </div>
                 <div class="col-6 m-b-2 expense-button">
-                    <a href="{{ route('expense.index') }}" class="btn btn-primary btn-rounded">
-                        <i class="fa fa-arrow-left m-r-5"></i> <span class="btn-text">Back</span>
+                    <a href="{{ route('expense.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                        <i class="fa fa-arrow-left m-r-5"></i> <span class="hdr-btn-text">Back</span>
                     </a>
                 </div>
             </div>

@@ -106,7 +106,7 @@
                 @if (app('hasPermission')(4, 'view'))
                     <div class="col-6 medicine-button  medicine-title  m-b-2 ">
                         <a href="{{ route('medicine.index') }}" class="btn btn-primary  btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3  "></i> <span class="btn-text">Back</span></a>
+                            <i class="fa fa-arrow-left m-r-5 icon3  "></i> <span class="hdr-btn-text">Back</span></a>
                     </div>
                 @endif
             </div>

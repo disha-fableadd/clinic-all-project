@@ -23,8 +23,8 @@
                 </div>
                 @if (app('hasPermission')(25, 'view'))
                     <div class="col-6 diagnosis-btn m-b-2 eye-btn">
-                        <a href="{{ route('diagnosis.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
+                        <a href="{{ route('diagnosis.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif

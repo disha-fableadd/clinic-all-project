@@ -24,7 +24,7 @@
                 </div>
                 @if(app('hasPermission')(16, 'view'))
                     <div class="col-6 text-right m-b-2">
-                        <a href="{{ route('email.index') }}" class="btn btn-primary btn-rounded">
+                        <a href="{{ route('email.index') }}" class="btn btn-primary btn-rounded btn-hdr">
                             <i class="fa fa-eye m-r-5 icon3"></i>
                             Email Template
                         </a>
@@ -59,7 +59,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label class="display-block"><i class="fas fa-toggle-on icon-style"></i> <span class="btn-text">Status</span></label>
+                                    <label class="display-block"><i class="fas fa-toggle-on icon-style"></i> <span class="hdr-btn-text">Status</span></label>
                                     <div class="form-control">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="status" id="active"

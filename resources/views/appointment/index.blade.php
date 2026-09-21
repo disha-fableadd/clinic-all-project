@@ -47,11 +47,11 @@
 
 
                             <button class="btn btn-rounded btn-hdr" id="exportButton">
-                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                             </button>
                             @if (app('hasPermission')(6, 'create') && !$isPatientRole)
                                 <a href="{{ route('appointment.create') }}" class="btn btn-rounded btn-hdr"><i
-                                        class="fa fa-plus"></i> <span class="btn-text">Add</span>
+                                        class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                 </a>
                             @endif
                         </div>
@@ -330,7 +330,7 @@
                             data-id="${appointment.id}"
                             data-amount="${appointment.amount ?? 0}"
                             data-status="${appointment.payment_status ?? ''}">
-                            <i class="fa fa-link"></i> <span class="btn-text">Generate</span>
+                            <i class="fa fa-link"></i> <span class="hdr-btn-text">Generate</span>
                         </button>
                     `;
                 @else

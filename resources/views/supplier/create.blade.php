@@ -42,8 +42,8 @@
                 </div>
                 @if(app('hasPermission')(12, 'view'))
                     <div class="col-6 supplier-btn">
-                        <a href="{{ route('supplier.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
+                        <a href="{{ route('supplier.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif

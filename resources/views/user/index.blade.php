@@ -104,12 +104,12 @@ table.dataTable {
                             <h3 class="card-title d-inline-block text-white"><i class="fas fa-user  px-2"
                                     style="font-size:20px"></i>All Staffs </h3>
                             <button class="btn btn-rounded btn-hdr" id="exportButton">
-                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                             </button>
 
                             @if (app('hasPermission')(3, 'create'))
                                 <a href="{{ route('user.create') }}" class="btn btn-rounded btn-hdr">
-                                    <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
+                                    <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                 </a>
                             @endif
                         </div>

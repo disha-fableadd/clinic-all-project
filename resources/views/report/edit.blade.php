@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 
 <style>
@@ -42,9 +42,8 @@
                 </div>
                 @if (app('hasPermission')(13, 'view'))
                     <div class="col-sm-4 col-6 view-discharge report-btn report-btn m-b-2">
-                        <a href="{{ route('report.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i>Back
-                        </a>
+                        <a href="{{ route('report.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span></a>
                     </div>
                 @endif
             </div>

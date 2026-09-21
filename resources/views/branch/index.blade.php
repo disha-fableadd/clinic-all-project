@@ -96,7 +96,7 @@ button.btn.btn-link.expand-btn {
                         {{-- Add Button --}}
                         @if (app('hasPermission')(28, 'create'))
                         <a href="{{ route('branch.create') }}" class="btn btn-rounded btn-hdr">
-                            <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
+                            <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                         </a>
                         @endif
                     </div>

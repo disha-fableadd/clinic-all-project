@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     colgroup {
         display: none;
@@ -96,16 +96,16 @@
                                 <i class="fa fa-wheelchair px-2" style="font-size:20px"></i>All Patients
                             </h3>
                             <button class="btn btn-rounded btn-hdr" id="exportButton">
-                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                             </button>
                             @if (app('hasPermission')(5, 'create'))
                                 <a href="{{ route('patients.create') }}" class="btn btn-rounded btn-hdr">
-                                    <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
+                                    <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                 </a>
                             @endif
                             @if (app('hasPermission')(17, 'create'))
                                 <a href="{{ route('patient_medicine.create') }}" class="btn btn-rounded btn-hdr">
-                                    <i class="fa fa-pills"></i> <span class="btn-text">Prescription</span>
+                                    <i class="fa fa-pills"></i> <span class="hdr-btn-text">Prescription</span>
                                 </a>
                             @endif
                         </div>

@@ -107,8 +107,8 @@
                     <h4 class="page-title booking-title">Edit Booking</h4>
                 </div>
                 <div class="col-6 booking-button m-b-2">
-                    <a href="{{ route('treatment_booking.index') }}" class="btn btn-primary btn-rounded">
-                        <i class="fa fa-arrow-left m-r-5"></i> <span class="btn-text">Back</span>
+                    <a href="{{ route('treatment_booking.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                        <i class="fa fa-arrow-left m-r-5"></i> <span class="hdr-btn-text">Back</span>
                     </a>
                 </div>
             </div>

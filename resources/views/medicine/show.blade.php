@@ -63,9 +63,8 @@
                             <div class="d-flex text-right" style="justify-content: end;">
                                 @if (app('hasPermission')(4, 'view'))
                                     <div class="col-sm-4 col-4 text-right m-b-2">
-                                        <a href="{{ route('medicine.index') }}" class="btn btn-primary btn-rounded">
-                                            <i class="fa fa-arrow-left"></i>Back
-                                        </a>
+                                        <a href="{{ route('medicine.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                                            <i class="fa fa-arrow-left"></i> <span class="hdr-btn-text">Back</span></a>
                                     </div>
                                 @endif
                             </div>
@@ -176,15 +175,15 @@
 
                             <div class="button mb-4" style="display: flex; justify-content: end; margin: 0 5px;">
                                 @if (app('hasPermission')(4, 'update'))
-                                    <a href="#" class="btn btn-primary btn-rounded edit-medicine-btn"
+                                    <a href="#" class="btn btn-primary btn-rounded btn-hdr edit-medicine-btn"
                                         style="color:black; margin-right:10px">
-                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
+                                        <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span>
                                     </a>
                                 @endif
                                 @if (app('hasPermission')(4, 'delete'))
-                                    <button type="button" class="btn btn-danger btn-rounded delete-medicine"
+                                    <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-medicine"
                                         data-id="{{ $medicine_id }}">
-                                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
+                                        <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span>
                                     </button>
                                 @endif
                             </div>

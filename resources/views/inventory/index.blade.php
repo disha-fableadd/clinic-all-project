@@ -71,7 +71,7 @@
                                 <i class="fa fa-cogs px-2" style="font-size:20px"></i>All Inventory
                             </h3>
                             <button class="btn btn-rounded btn-hdr" id="exportInventoryBtn">
-                                <i class="fa fa-download"></i> <span class="btn-text">Export</span> 
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span> 
                             </button>
                         </div>
                         <div class="card-body">

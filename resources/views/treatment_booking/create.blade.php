@@ -114,8 +114,8 @@
                     <h4 class="page-title booking-title">Add Booking</h4>
                 </div>
                 <div class="col-6 booking-button m-b-2">
-                    <a href="{{ route('treatment_booking.index') }}" class="btn btn-primary btn-rounded">
-                        <i class="fa fa-arrow-left m-r-5"></i> <span class="btn-text">Back</span>
+                    <a href="{{ route('treatment_booking.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                        <i class="fa fa-arrow-left m-r-5"></i> <span class="hdr-btn-text">Back</span>
                     </a>
                 </div>
             </div>
@@ -135,7 +135,7 @@
                                     @if (app('hasPermission')(5, 'create'))
                                         <a href="{{ route('patients.create') }}" target="_blank"
                                             class="btn btn-primary btn-sm float-right">
-                                            <i class="fas fa-plus"></i> <span class="btn-text">Add</span>
+                                            <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                         </a>
                                     @endif
                                     <select class="form-control select2" name="patient_id" id="patientDropdown" required>
@@ -154,7 +154,7 @@
                                     @if (app('hasPermission')(7, 'create'))
                                         <a href="{{ route('treatment.create') }}" target="_blank"
                                             class="btn btn-primary btn-sm float-right">
-                                            <i class="fas fa-plus"></i> <span class="btn-text">Add</span>
+                                            <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                         </a>
                                     @endif
                                     <select class="form-control select2" name="treatment_id" id="treatmentDropdown"
@@ -172,7 +172,7 @@
                                 @if (app('hasPermission')(7, 'create'))
                                     <button type="button" class="btn btn-primary btn-sm float-right" data-bs-toggle="modal"
                                         data-bs-target="#addMachineModal">
-                                        <i class="fas fa-plus"></i> <span class="btn-text">Add</span>
+                                        <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                     </button>
                                 @endif
                                 <select id="machineDropdown" name="machine_id[]" class="form-control select2" multiple

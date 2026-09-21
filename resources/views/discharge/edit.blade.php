@@ -90,8 +90,8 @@
                 </div>
                 @if (app('hasPermission')(10, 'view'))
                     <div class="col-4 text-center m-b-2 view-discharge discharge-btn" style="">
-                        <a href="{{ route('discharge.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
+                        <a href="{{ route('discharge.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif

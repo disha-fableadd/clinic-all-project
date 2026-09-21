@@ -82,11 +82,11 @@
                                     style="font-size:20px"></i>All Followup </h3>
                             @if (!$isPatientRole)
                                 <button class="btn btn-rounded btn-hdr" id="exportButton">
-                                    <i class="fa fa-download"></i> <span class="btn-text">Export</span>
+                                    <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                                 </button>
                             @endif
                             @if (app('hasPermission')(2, 'create') && !$isPatientRole)
-                                <a href="{{ route('followup.create') }}" class="btn btn-rounded btn-hdr"><i class="fa fa-plus"></i> <span class="btn-text">Add</span>
+                                <a href="{{ route('followup.create') }}" class="btn btn-rounded btn-hdr"><i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                 </a>
                             @endif
                         </div>

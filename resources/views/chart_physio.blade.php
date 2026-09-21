@@ -243,7 +243,7 @@
                             </h3>
                             <button class="btn btn-rounded btn-hdr" id="exportButton"
                                 style="background-color: #fed9cf;">
-                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                             </button>
 
                         </div>
@@ -590,7 +590,7 @@
                         <span class="amount mr-3">Received: ₹ ${group.receivedAmount.toFixed(2)}</span>
                         <span class="amount mr-3">Pending: ₹ ${group.pendingAmount.toFixed(2)}</span>
                         <button class="btn btn-rounded exportButton" data-date="${date}" style="background-color: #fed9cf;">
-        <i class="fa fa-download"></i> <span class="btn-text">Export</span>
+        <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
     </button>
                     `;
                             }

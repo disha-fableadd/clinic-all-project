@@ -36,8 +36,8 @@
                 </div>
                 @if (app('hasPermission')(26, 'view'))
                     <div class=" col-4 text-right m-b-2">
-                        <a href="{{ route('therapy.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left"></i> <span class="btn-text">Back</span>
+                        <a href="{{ route('therapy.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                            <i class="fa fa-arrow-left"></i> <span class="hdr-btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -77,15 +77,15 @@
 
                             <div class="button mt-4 mb-4" style="display: flex; justify-content: end;">
                                 @if (app('hasPermission')(19, 'update'))
-                                    <a href="#" class="btn btn-primary btn-rounded edit-therapy-btn"
+                                    <a href="#" class="btn btn-primary btn-rounded btn-hdr edit-therapy-btn"
                                         style="margin-right:10px; color:black">
-                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
+                                        <i class="fa fa-pencil-alt"></i> <span class="hdr-btn-text">Edit</span>
                                     </a>
                                 @endif
                                 @if (app('hasPermission')(19, 'delete'))
-                                    <button type="button" class="btn btn-danger btn-rounded delete-therapy"
+                                    <button type="button" class="btn btn-danger btn-rounded btn-hdr delete-therapy"
                                         data-id="{{ $therapy_id }}">
-                                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
+                                        <i class="fa fa-trash"></i> <span class="hdr-btn-text">Delete</span>
                                     </button>
                                 @endif
                             </div>

@@ -69,8 +69,8 @@
                 <h4 class="page-title branch-title">Edit Branch</h4>
             </div>
             <div class="col-6 m-b-2 eye-btn branch-button">
-                <a href="{{ route('branch.index') }}" class="btn btn-primary btn-rounded">
-                    <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
+                <a href="{{ route('branch.index') }}" class="btn btn-primary btn-rounded btn-hdr">
+                    <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="hdr-btn-text">Back</span>
                 </a>
             </div>
         </div>

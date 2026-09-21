@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="col-sm-6 col-4  sms-template-btn  m-b-2">
-                    <a href="{{ route('sms.template') }}" class="btn btn-primary btn-rounded " style="margin-left: -179px;">
+                    <a href="{{ route('sms.template') }}" class="btn btn-primary btn-rounded btn-hdr " style="margin-left: -179px;">
                         <i class="fa fa-eye m-r-5 icon3"></i>
                         Sms Template
                     </a>
@@ -49,7 +49,7 @@
 
 
                         <div class="form-group">
-                            <label class="display-block"><i class="fas fa-check-circle icon-style"></i> <span class="btn-text">Status</span></label>
+                            <label class="display-block"><i class="fas fa-check-circle icon-style"></i> <span class="hdr-btn-text">Status</span></label>
                             <div class="form-control">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="status" id="active" value="active"

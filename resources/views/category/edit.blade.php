@@ -13,7 +13,7 @@
 
                 <div class="col-6 category-button m-b-2 ">
                     <a href="{{ route('category.index') }}" class="btn btn-primary  btn-rounded">
-                        <i class="fa fa-arrow-left m-r-5 icon3  "></i> <span class="btn-text">Back</span></a>
+                        <i class="fa fa-arrow-left m-r-5 icon3  "></i> <span class="hdr-btn-text">Back</span></a>
                 </div>
 
             </div>

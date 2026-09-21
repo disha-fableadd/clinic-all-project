@@ -16,13 +16,13 @@
                             </h3>
                             <button class="btn btn-rounded btn-hdr" id="dietExportButton"
                                 style="background-color: #fed9cf;">
-                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                             </button>
                             @if (app('hasPermission')(37, 'create'))
                                 {{-- Adjust permission ID --}}
                                 <a href="{{ route('dietchart.create') }}" class="btn btn-rounded btn-hdr"
                                     style="background-color: #fed9cf;">
-                                    <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
+                                    <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                 </a>
                             @endif
                         </div>

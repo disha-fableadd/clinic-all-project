@@ -162,11 +162,11 @@
                                 <i class="fa fa-calendar-check-o px-2" style="font-size:20px"></i> All Booking Details
                             </h3>
                             <button class="btn btn-rounded btn-hdr" id="exportButton">
-                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
+                                <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                             </button>
                             @if (app('hasPermission')(31, 'create'))
                                 <a href="{{ route('treatment_booking.create') }}" class="btn btn-rounded btn-hdr">
-                                    <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
+                                    <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
                                 </a>
                             @endif
                         </div>
@@ -462,7 +462,7 @@
                                     <button class="btn btn-sm btn-outline-success generate-link-btn"
                                         data-id="${row.id}"
                                         data-pending="${row.pending}">
-                                        <i class="fa fa-link"></i> <span class="btn-text">Generate</span>
+                                        <i class="fa fa-link"></i> <span class="hdr-btn-text">Generate</span>
                                     </button>
                                 `;
                             },
@@ -828,7 +828,7 @@
             <button class="btn btn-sm btn-outline-success generate-link-btn mt-2"
                 data-id="${booking.id}"
                 data-pending="${booking.pending}">
-                <i class="fa fa-link"></i> <span class="btn-text">Generate</span>
+                <i class="fa fa-link"></i> <span class="hdr-btn-text">Generate</span>
             </button>
         `;
 
