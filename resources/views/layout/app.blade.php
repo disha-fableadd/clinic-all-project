@@ -1032,9 +1032,32 @@
         @media only screen and (max-width: 767.98px) {
             .page-wrapper > .content,
             .content {
-                padding: 12px 10px calc(88px + env(safe-area-inset-bottom)) 10px !important;
+                padding: 10px 8px calc(88px + env(safe-area-inset-bottom)) 8px !important;
                 height: auto !important;
                 min-height: calc(100vh - 60px) !important;
+            }
+
+            /* Global minimal padding/margin for Cards, Rows, Forms on mobile */
+            .card {
+                margin-bottom: 12px !important;
+            }
+            
+            .card-body {
+                padding: 12px !important;
+            }
+            
+            .form-group {
+                margin-bottom: 12px !important;
+            }
+
+            .row {
+                margin-left: -8px !important;
+                margin-right: -8px !important;
+            }
+            
+            .row > [class*="col-"] {
+                padding-left: 8px !important;
+                padding-right: 8px !important;
             }
 
             .row.calender-apointment {
