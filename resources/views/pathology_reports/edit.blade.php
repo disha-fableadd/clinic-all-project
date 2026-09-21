@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .followup-title {
@@ -43,7 +43,7 @@
                 @if (app('hasPermission')(20, 'view'))
                     <div class="col-6 followup-button m-b-2 eye-btn">
                         <a href="{{ route('pathology_reports.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i> Back
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
                         </a>
                     </div>
                 @endif

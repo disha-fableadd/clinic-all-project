@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 
 <style>
@@ -133,7 +133,7 @@
                                         @if (Auth::check() && optional(Auth::user()->role)->name == 'Admin')
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                                                 data-target="#addCategoryModal">
-                                                <i class="fas fa-plus"></i> Add
+                                                <i class="fas fa-plus"></i> <span class="btn-text">Add</span>
                                             </button>
                                         @endif
                                     </div>

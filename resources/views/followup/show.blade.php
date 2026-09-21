@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 
 <style>
@@ -83,7 +83,7 @@
                                 @if (app('hasPermission')(2, 'view'))
                                     <div class=" text-right m-b-2">
                                         <a href="{{ route('followup.index') }}" class="btn btn-primary btn-rounded">
-                                            <i class="fa fa-arrow-left m-r-5 icon3"></i> Back
+                                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
                                         </a>
                                     </div>
                                 @endif
@@ -166,13 +166,13 @@
                                 @if (app('hasPermission')(2, 'update'))
                                     <a href="#" class="btn btn-primary btn-rounded edit-followup-btn"
                                         style="color:black; margin-right:10px">
-                                        <i class="fa fa-pencil-alt"></i> Edit
+                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
                                     </a>
                                 @endif
                                 @if (app('hasPermission')(2, 'delete'))
                                     <button type="button" class="btn btn-danger btn-rounded delete-report"
                                         data-id="{{ $followup_id }}">
-                                        <i class="fa fa-trash"></i> Delete
+                                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
                                     </button>
                                 @endif
                             </div>

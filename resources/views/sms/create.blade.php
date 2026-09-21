@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 
 <style>
@@ -47,8 +47,7 @@
 
                 <div class="col-sm-6 col-6 sms-float  m-b-2">
                     <a href="{{ route('sms.template') }}" class="btn btn-primary btn-rounded sms-title" style="">
-                        <i class="fa fa-arrow-left m-r-5 icon3"></i>
-                        Back
+                        <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
                     </a>
                 </div>
             </div>
@@ -68,7 +67,7 @@
 
                             <input type="hidden" name="branch_id" id="branch_id">
                         <div class="form-group">
-                            <label class="display-block"><i class="fas fa-check-circle icon-style"></i> Status</label>
+                            <label class="display-block"><i class="fas fa-check-circle icon-style"></i> <span class="btn-text">Status</span></label>
                             <div class="form-control">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="status" id="active" value="active"

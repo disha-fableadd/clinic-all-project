@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <link rel="stylesheet" href="{{ asset(env('IMAGE_PATH').'admin/assets/css/assign-therapy-show.css') }}">
 
@@ -32,7 +32,7 @@
                                 @if (app('hasPermission')(27, 'view'))
                                     <div class="text-right m-b-2">
                                         <a href="{{ route('assign-therapy.index') }}" class="btn btn-primary btn-rounded">
-                                            <i class="fa fa-arrow-left"></i> Back
+                                            <i class="fa fa-arrow-left"></i> <span class="btn-text">Back</span>
                                         </a>
                                     </div>
                                 @endif
@@ -96,13 +96,13 @@
                             <div class="button mt-4 mb-4">
                                 @if (app('hasPermission')(20, 'update'))
                                     <a href="#" class="btn btn-primary btn-rounded edit-report-btn">
-                                        <i class="fa fa-pencil-alt"></i> Edit
+                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
                                     </a>
                                 @endif
                                 @if (app('hasPermission')(20, 'delete'))
                                     <button type="button" class="btn btn-danger btn-rounded delete-report"
                                         data-id="{{ $assign_therapy_id }}">
-                                        <i class="fa fa-trash"></i> Delete
+                                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
                                     </button>
                                 @endif
                             </div>

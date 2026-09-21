@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 
 <style>
@@ -241,9 +241,9 @@
                             <h3 class="card-title d-inline-block text-white">
                                 <i class="fa fa-money px-2" style="font-size:20px"></i> Expenses
                             </h3>
-                            <button class="btn btn-rounded float-right ml-2" id="exportButton"
+                            <button class="btn btn-rounded btn-hdr" id="exportButton"
                                 style="background-color: #fed9cf;">
-                                <i class="fa fa-download"></i> Export
+                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
                             </button>
 
                         </div>
@@ -590,7 +590,7 @@
                         <span class="amount mr-3">Received: ₹ ${group.receivedAmount.toFixed(2)}</span>
                         <span class="amount mr-3">Pending: ₹ ${group.pendingAmount.toFixed(2)}</span>
                         <button class="btn btn-rounded exportButton" data-date="${date}" style="background-color: #fed9cf;">
-        <i class="fa fa-download"></i> Export
+        <i class="fa fa-download"></i> <span class="btn-text">Export</span>
     </button>
                     `;
                             }

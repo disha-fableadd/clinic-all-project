@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 
 @php
@@ -211,8 +211,7 @@
                 @if (app('hasPermission')(5, 'view'))
                     <div class="col-6 patient-button m-b-2">
                         <a href="{{ route('patients.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i>
-                            Back
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -282,7 +281,7 @@
                                             @if (app('hasPermission')(35, 'create'))
                                                 <a href="{{ route('diagnosis.create') }}" target="_blank"
                                                     class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> Add
+                                                    <i class="fas fa-plus"></i> <span class="btn-text">Add</span>
                                                 </a>
                                             @endif
                                         </div>

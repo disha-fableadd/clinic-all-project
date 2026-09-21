@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     /* Common Select2 Styling */
@@ -65,7 +65,7 @@
                 </div>
                 <div class="col-6 m-b-2 expense-button">
                     <a href="{{ route('expense.index') }}" class="btn btn-primary btn-rounded">
-                        <i class="fa fa-arrow-left m-r-5"></i> Back
+                        <i class="fa fa-arrow-left m-r-5"></i> <span class="btn-text">Back</span>
                     </a>
                 </div>
             </div>

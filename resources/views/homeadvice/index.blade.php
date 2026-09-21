@@ -92,14 +92,14 @@
                             </h3>
 
                             {{-- âœ… Export Button --}}
-                            <button class="btn btn-rounded float-right ml-2" id="homeAdviceExportButton">
-                                <i class="fa fa-download"></i> Export
+                            <button class="btn btn-rounded btn-hdr" id="homeAdviceExportButton">
+                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
                             </button>
 
 
                             @if (app('hasPermission')(28, 'create'))
-                                <a href="{{ route('homeadvice.create') }}" class="btn btn-rounded float-right">
-                                    <i class="fa fa-plus"></i> Add
+                                <a href="{{ route('homeadvice.create') }}" class="btn btn-rounded btn-hdr">
+                                    <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
                                 </a>
                             @endif
                         </div>

@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     @media screen and (max-width:767px) {
@@ -36,7 +36,7 @@
                 @if(app('hasPermission')(20, 'view'))
                     <div class=" col-4 text-right m-b-2">
                         <a href="{{ route('pathology_reports.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left"></i> Back
+                            <i class="fa fa-arrow-left"></i> <span class="btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -97,13 +97,13 @@
                                 @if(app('hasPermission')(20, 'update'))
                                     <a href="#" class="btn btn-primary btn-rounded edit-report-btn"
                                         style="margin-right:10px; color:black">
-                                        <i class="fa fa-pencil-alt"></i> Edit
+                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
                                     </a>
                                 @endif
                                 @if(app('hasPermission')(20, 'delete'))
                                     <button type="button" class="btn btn-danger btn-rounded delete-report"
                                         data-id="{{ $pathology_report_id }}">
-                                        <i class="fa fa-trash"></i> Delete
+                                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
                                     </button>
                                 @endif
                             </div>

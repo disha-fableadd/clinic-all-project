@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .treatment-title {
@@ -61,8 +61,7 @@
                 @if (app('hasPermission')(29, 'view'))
                     <div class="col-sm-6 col-6 homeadvice-button m-b-2">
                         <a href="{{ route('homeadvice.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i>
-                            Back
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
                         </a>
                     </div>
                 @endif

@@ -91,12 +91,12 @@
                             <h3 class="card-title d-inline-block text-white">
                                 <i class="fa fa-file-text px-2" style="font-size:20px"></i> All SOAP Records
                             </h3>
-                            <button class="btn btn-rounded float-right ml-2" id="soapExportButton">
-                                <i class="fa fa-download"></i> Export
+                            <button class="btn btn-rounded btn-hdr" id="soapExportButton">
+                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
                             </button>
                             @if (app('hasPermission')(32, 'create'))
-                                <a href="{{ route('soap.create') }}" class="btn btn-rounded float-right">
-                                    <i class="fa fa-plus"></i> Add
+                                <a href="{{ route('soap.create') }}" class="btn btn-rounded btn-hdr">
+                                    <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
                                 </a>
                             @endif
                         </div>

@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     /* popup box styling */
@@ -461,9 +461,9 @@
                             </h3>
 
                             @if (app('hasPermission')(30, 'create'))
-                                <a href="{{ route('daily_data.create') }}" class="btn btn-rounded float-right"
+                                <a href="{{ route('daily_data.create') }}" class="btn btn-rounded btn-hdr"
                                     style="background-color: #fed9cf;">
-                                    <i class="fa fa-plus"></i> Add
+                                    <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
                                 </a>
                             @endif
                         </div>
@@ -961,15 +961,15 @@
                                                                     <span class="amount">Received: ₹ ${group.receivedAmount.toFixed(2)}</span>
                                                                     <span class="amount">Pending: ₹ ${group.pendingAmount.toFixed(2)}</span>
                                                                     <button class="btn btn-rounded exportButton" style="background-color:#fed9cf;">
-                                                                        <i class="fa fa-download"></i> Export
+                                                                        <i class="fa fa-download"></i> <span class="btn-text">Export</span>
                                                                     </button>
                                                                 `;
                             }
                             @if (app('hasPermission')(30, 'create'))
                                 if (date >= today) {
                                     addBtnHtml = `
-                                                                                                            <a href="{{ route('daily_data.create') }}" class="btn btn-rounded" style="background-color:#fed9cf;">
-                                                                                                                <i class="fa fa-plus"></i> Add
+                                                                                                            <a href="{{ route('daily_data.create') }}" class="btn btn-rounded btn-hdr" style="background-color:#fed9cf;">
+                                                                                                                <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
                                                                                                             </a>`;
                                 }
                             @endif
@@ -1037,7 +1037,7 @@
                                                                                 <button class="btn btn-sm btn-outline-success generate-link-btn"
                                                                                     data-id="${entry.id}"
                                                                                     data-pending="${entry.pending}">
-                                                                                    <i class="fa fa-link"></i> Generate
+                                                                                    <i class="fa fa-link"></i> <span class="btn-text">Generate</span>
                                                                                 </button>
                                                                             </td>
                                                                            @endif

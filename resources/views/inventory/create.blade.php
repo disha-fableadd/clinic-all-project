@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .inventory-btn {
@@ -38,8 +38,7 @@
                 @if (app('hasPermission')(11, 'view'))
                     <div class="col-6 inventory-btn  m-b-2">
                         <a href="{{ route('inventory.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3  "></i>
-                            Back
+                            <i class="fa fa-arrow-left m-r-5 icon3  "></i> <span class="btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -118,7 +117,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label><i class="fas fa-toggle-on icon-style"></i> Status</label>
+                                        <label><i class="fas fa-toggle-on icon-style"></i> <span class="btn-text">Status</span></label>
                                         <select class="form-control select2" id="status" name="status">
                                             <option value="">Select</option>
                                             <option value="active">Active</option>

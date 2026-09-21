@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     .card-footer {
         background-color: #87ceb0 !important;
@@ -178,13 +178,13 @@
                                 @if (app('hasPermission')(4, 'update'))
                                     <a href="#" class="btn btn-primary btn-rounded edit-medicine-btn"
                                         style="color:black; margin-right:10px">
-                                        <i class="fa fa-pencil-alt"></i> Edit
+                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
                                     </a>
                                 @endif
                                 @if (app('hasPermission')(4, 'delete'))
                                     <button type="button" class="btn btn-danger btn-rounded delete-medicine"
                                         data-id="{{ $medicine_id }}">
-                                        <i class="fa fa-trash"></i> Delete
+                                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
                                     </button>
                                 @endif
                             </div>

@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 
 <style>
@@ -98,12 +98,12 @@
                             <h3 class="card-title d-inline-block text-white">
                                 <i class="fa fa-file-invoice-dollar px-2" style="font-size:20px"></i> All Invoice
                             </h3>
-                            <button class="btn btn-rounded float-right ml-2" id="exportButton">
-                                <i class="fa fa-download"></i> Export
+                            <button class="btn btn-rounded btn-hdr" id="exportButton">
+                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
                             </button>
                             @if (app('hasPermission')(18, 'create'))
-                                <a href="{{ route('invoice.create') }}" class="btn btn-rounded float-right">
-                                    <i class="fa fa-plus"></i> Add
+                                <a href="{{ route('invoice.create') }}" class="btn btn-rounded btn-hdr">
+                                    <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
                                 </a>
                             @endif
                         </div>
@@ -293,7 +293,7 @@
                                                             data-id="${invoice.id}"
                                                             data-amount="${invoice.grand_total}"
                                                             data-status="${invoice.payment_status}">
-                                                            <i class="fa fa-link"></i> Generate
+                                                            <i class="fa fa-link"></i> <span class="btn-text">Generate</span>
                                                         </button>
                                                     </td>
 

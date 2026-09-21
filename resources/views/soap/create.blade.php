@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 @section('content')
     <style>
@@ -32,7 +32,7 @@
                     </div>
                     <div class="col-sm-6 col-6 text-right">
                         <a href="{{ route('soap.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5"></i> Back
+                            <i class="fa fa-arrow-left m-r-5"></i> <span class="btn-text">Back</span>
                         </a>
                     </div>
                 </div>

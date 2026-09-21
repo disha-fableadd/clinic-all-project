@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <link rel="stylesheet" href="{{ asset(env('IMAGE_PATH').'admin/assets/css/dietchart-index.css') }}"> 
 
 @section('content')
@@ -14,15 +14,15 @@
                                 <i class="fa fa-cutlery px-2" style="font-size:20px"></i>
                                 All Diet Charts
                             </h3>
-                            <button class="btn btn-rounded float-right ml-2" id="dietExportButton"
+                            <button class="btn btn-rounded btn-hdr" id="dietExportButton"
                                 style="background-color: #fed9cf;">
-                                <i class="fa fa-download"></i> Export
+                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
                             </button>
                             @if (app('hasPermission')(37, 'create'))
                                 {{-- Adjust permission ID --}}
-                                <a href="{{ route('dietchart.create') }}" class="btn btn-rounded float-right"
+                                <a href="{{ route('dietchart.create') }}" class="btn btn-rounded btn-hdr"
                                     style="background-color: #fed9cf;">
-                                    <i class="fa fa-plus"></i> Add
+                                    <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
                                 </a>
                             @endif
                         </div>

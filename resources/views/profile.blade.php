@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     @media screen and (max-width:767px) {
@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-sm-6 col-4 text-right">
                     <a href="{{ route('dashboard') }}" class="btn btn-primary btn-rounded">
-                        <i class="fa fa-arrow-left"></i> Back
+                        <i class="fa fa-arrow-left"></i> <span class="btn-text">Back</span>
                     </a>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                                     <span class="user-name"></span>'s Profile
                                 </h3>
                                 <a href="#" id="edit-profile-btn" class="btn btn-primary btn-rounded">
-                                    <i class="fa fa-pencil-alt"></i> Edit
+                                    <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
                                 </a>
                             </div>
 
@@ -651,7 +651,7 @@
                                     <span class="Patient_name"></span> ' s Details
                                 </h3>
                                 <a href="#" id="edit-profile-btn" class="btn btn-primary btn-rounded">
-                                    <i class="fa fa-pencil-alt"></i> Edit
+                                    <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
                                 </a>
                             </div>
                             <div class="card-body mt-3">
@@ -776,13 +776,13 @@
                                     @if (app('hasPermission')(5, 'update'))
                                         <a href="#" class="btn btn-primary btn-rounded edit-patient-btn"
                                             style="color:black; margin-right:10px">
-                                            <i class="fa fa-pencil-alt"></i> Edit
+                                            <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
                                         </a>
                                     @endif
                                     @if (app('hasPermission')(5, 'delete'))
                                         <button type="button" class="btn btn-danger btn-rounded delete-patient"
                                             data-id="{{ $patient_id }}">
-                                            <i class="fa fa-trash"></i> Delete
+                                            <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
                                         </button>
                                     @endif
                                 </div>

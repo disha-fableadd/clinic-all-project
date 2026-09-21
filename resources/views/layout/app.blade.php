@@ -992,6 +992,41 @@
         }
 
         /* =========================================================
+           Header Button Class: full on desktop, icon-only on mobile
+           ========================================================= */
+        .btn-hdr {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 5px !important;
+            float: none !important;
+            margin: 0 !important;
+            border-radius: 50px !important;
+        }
+
+        .btn-hdr .btn-text {
+            display: inline !important;
+        }
+
+        @media only screen and (max-width: 767.98px) {
+            .btn-hdr .btn-text {
+                display: none !important;
+            }
+
+            .btn-hdr {
+                min-width: 32px !important;
+                height: 32px !important;
+                padding: 6px 8px !important;
+                gap: 0 !important;
+            }
+
+            .btn-hdr i {
+                font-size: 14px !important;
+                margin: 0 !important;
+            }
+        }
+
+        /* =========================================================
            Mobile View Padding, Dashboard & Modal Fixes (<= 767.98px)
            ========================================================= */
         @media only screen and (max-width: 767.98px) {
@@ -1013,7 +1048,7 @@
             .row.about-padding {
                 display: flex !important;
                 flex-wrap: wrap !important;
-                /* margin-top: 14px !important; */
+                margin-top: 14px !important;
                 margin-left: -5px !important;
                 margin-right: -5px !important;
                 padding-left: 0 !important;

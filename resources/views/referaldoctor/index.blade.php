@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .custom-close {
@@ -78,7 +78,7 @@
                                 <i class="fa fa-user-md px-2" style="font-size:20px"></i> All Referral Doctors
                             </h3>
                             @if (app('hasPermission')(39, 'create'))
-                                <a href="javascript:void(0)" class="btn btn-rounded float-right" data-bs-toggle="modal"
+                                <a href="javascript:void(0)" class="btn btn-rounded btn-hdr" data-bs-toggle="modal"
                                     data-bs-target="#addDoctorModal">
                                     <i class="fa fa-plus"></i> Add Doctor
                                 </a>

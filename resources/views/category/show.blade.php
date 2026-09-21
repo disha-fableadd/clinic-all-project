@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <link rel="stylesheet" href="{{ asset(env('IMAGE_PATH').'admin/assets/css/category-show.css') }}">
 @section('content')
@@ -13,7 +13,7 @@
 
                 <div class="col-sm-6 col-4 text-right m-b-2">
                     <a href="{{ route('category.index') }}" class="btn btn-primary btn-rounded">
-                        <i class="fa fa-arrow-left"></i> Back 
+                        <i class="fa fa-arrow-left"></i> <span class="btn-text">Back</span> 
                     </a>
                 </div>
 
@@ -61,14 +61,14 @@
                             <div class="button mb-4">
 
                                 <a href="#" class="btn btn-primary btn-rounded edit-category-btn">
-                                    <i class="fa fa-pencil-alt"></i> Edit 
+                                    <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span> 
                                 </a>
 
 
 
                                 <button type="button" class="btn btn-danger btn-rounded delete-category"
                                     data-id="{{ $category_id }}">
-                                    <i class="fa fa-trash"></i> Delete 
+                                    <i class="fa fa-trash"></i> <span class="btn-text">Delete</span> 
                                 </button>
 
 

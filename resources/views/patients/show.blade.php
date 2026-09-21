@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     textarea {
@@ -342,7 +342,7 @@
                                 @if (app('hasPermission')(5, 'view'))
                                     <div class="  text-right m-b-2">
                                         <a href="{{ route('patients.index') }}" class="btn btn-primary btn-rounded">
-                                            <i class="fa fa-arrow-left"></i> Back
+                                            <i class="fa fa-arrow-left"></i> <span class="btn-text">Back</span>
                                         </a>
                                     </div>
                                 @endif
@@ -473,14 +473,14 @@
                                 @if (app('hasPermission')(5, 'update'))
                                     <a href="#" class="btn btn-primary btn-rounded me-2 edit-patient-btn"
                                         data-id="{{ $patient_id }}" style="color:black;">
-                                        <i class="fa fa-pencil-alt"></i> Edit
+                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
                                     </a>
                                 @endif
 
                                 @if (app('hasPermission')(5, 'delete'))
                                     <button type="button" class="btn btn-danger btn-rounded delete-patient"
                                         data-id="{{ $patient_id }}">
-                                        <i class="fa fa-trash"></i> Delete
+                                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
                                     </button>
                                 @endif
                             </div>

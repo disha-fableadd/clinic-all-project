@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .branch-title {
@@ -70,7 +70,7 @@
             </div>
             <div class="col-6 m-b-2 eye-btn branch-button">
                 <a href="{{ route('branch.index') }}" class="btn btn-primary btn-rounded">
-                    <i class="fa fa-arrow-left m-r-5 icon3"></i> Back
+                    <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
                 </a>
             </div>
         </div>

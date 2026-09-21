@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 
 <style>
@@ -59,7 +59,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label class="display-block"><i class="fas fa-toggle-on icon-style"></i> Status</label>
+                                    <label class="display-block"><i class="fas fa-toggle-on icon-style"></i> <span class="btn-text">Status</span></label>
                                     <div class="form-control">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="status" id="active"

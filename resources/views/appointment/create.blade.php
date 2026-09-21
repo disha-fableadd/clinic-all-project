@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <link rel="stylesheet" href="{{ asset(env('IMAGE_PATH').'admin/assets/css/appointment-create.css') }}">
 
 
@@ -14,7 +14,7 @@
                 @if (app('hasPermission')(6, 'view'))
                     <div class="col-6 appointment-button m-b-2 eye-btn">
                         <a href="{{ route('appointment.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i> Back
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
                         </a>
                     </div>
                 @endif

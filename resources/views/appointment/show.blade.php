@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     @media screen and (max-width:767px) {
@@ -219,11 +219,11 @@
 
                                 @if (app('hasPermission')(6, 'update') && !$isPatientRole)
                                     <a href="#" class="btn btn-primary btn-rounded edit-appointment-btn "> 
-                                        <i class="fa fa-pencil-alt"></i> Edit </a>
+                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span> </a>
                                     @endif 
                                     @if (app('hasPermission')(6, 'delete') && !$isPatientRole)
                                         <button type="button" class="btn btn-danger btn-rounded delete-report"
-                                            data-id="{{ $appointment_id }}"> <i class="fa fa-trash"></i> Delete </button>
+                                            data-id="{{ $appointment_id }}"> <i class="fa fa-trash"></i> <span class="btn-text">Delete</span> </button>
                                     @endif
                             </div>
 

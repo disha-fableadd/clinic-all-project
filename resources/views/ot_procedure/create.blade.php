@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .service-btn {
@@ -49,8 +49,7 @@
                 @if (app('hasPermission')(24, 'view'))
                     <div class="col-sm-4 col-6 service-btn" style=" ">
                         <a href="{{ route('ot.index') }}" class="btn btn-primary btn-rounded view-service">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i>
-                            Back
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -117,8 +116,7 @@
                             <!-- Status -->
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="display-block"><i class="fas fa-check-circle icon-style"></i>
-                                        Status</label>
+                                    <label class="display-block"><i class="fas fa-check-circle icon-style"></i> <span class="btn-text">Status</span></label>
                                     <div class="form-control">
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="status" id="scheduled"

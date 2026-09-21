@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     .treatment-button {
         padding-right: 0 !important;
@@ -36,8 +36,7 @@
                 @if(app('hasPermission')(7, 'view'))
                     <div class="col-sm-6 col-4 treatment-button m-b-2">
                         <a href="{{ route('treatment.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i>
-                            Back
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
                         </a>
                     </div>
                 @endif
@@ -103,13 +102,13 @@
                                 @if(app('hasPermission')(31, 'update'))
                                     <a href="#" class="btn btn-primary btn-rounded edit-treatment-btn"
                                         style="color:black; margin-right:10px">
-                                        <i class="fa fa-pencil-alt"></i> Edit
+                                        <i class="fa fa-pencil-alt"></i> <span class="btn-text">Edit</span>
                                     </a>
                                 @endif
                                 @if(app('hasPermission')(31, 'delete'))
                                     <button type="button" class="btn btn-danger btn-rounded delete-treatment"
                                         data-id="{{ $treatment_id }}">
-                                        <i class="fa fa-trash"></i> Delete
+                                        <i class="fa fa-trash"></i> <span class="btn-text">Delete</span>
                                     </button>
                                 @endif
                             </div>

@@ -88,9 +88,9 @@
                                 <i class="fa fa-cogs px-2" style="font-size:20px"></i> All Machines
                             </h3>
                             @if (app('hasPermission')(8, 'create'))
-                                <a href="" class="btn btn-rounded float-right" data-bs-toggle="modal"
+                                <a href="" class="btn btn-rounded btn-hdr" data-bs-toggle="modal"
                                     data-bs-target="#addMachineModal">
-                                    <i class="fa fa-plus"></i> Add
+                                    <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
                                 </a>
                             @endif
                         </div>

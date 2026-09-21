@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <link rel="stylesheet" href="{{ asset(env('IMAGE_PATH').'admin/assets/css/category-index.css') }}">
 @section('content')
@@ -12,10 +12,10 @@
                                 <i class="fas fa-user-tag px-2" style="font-size:20px"></i> All Categories
                             </h2>
                             <button class="btn btn-rounded float-right ml-2 btn-bg-fed9cf" id="exportButton">
-                                <i class="fa fa-download"></i> Export
+                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
                             </button>
                             <a href="{{ route('category.create') }}" class="btn btn-rounded float-right btn-bg-fed9cf btn-padding">
-                                <i class="fa fa-plus"></i> Add
+                                <i class="fa fa-plus"></i> <span class="btn-text">Add</span>
                             </a>
                         </div>
 

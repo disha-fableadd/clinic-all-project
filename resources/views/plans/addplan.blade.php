@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .form-control.is-invalid,
@@ -132,7 +132,7 @@
                 </div>
                 <div class="col-6 m-b-2 eye-btn plan-button">
                     <a href="{{ route('plans.planlist') }}" class="btn btn-primary btn-rounded">
-                        <i class="fa fa-arrow-left m-r-5"></i> Back
+                        <i class="fa fa-arrow-left m-r-5"></i> <span class="btn-text">Back</span>
                     </a>
                 </div>
             </div>

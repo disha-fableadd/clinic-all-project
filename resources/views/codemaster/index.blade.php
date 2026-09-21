@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .custom-close {
@@ -36,7 +36,7 @@
                             <i class="fa fa-capsules" style="font-size:20px"></i> Code Master
                         </h3>
 
-                        <a href="" class="btn btn-rounded float-right" data-bs-toggle="modal"
+                        <a href="" class="btn btn-rounded btn-hdr" data-bs-toggle="modal"
                            data-bs-target="#addCodeModal">
                             <i class="fa fa-plus"></i> Add Code
                         </a>

@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     @media screen and (max-width: 767px) {
         .page-title {
@@ -30,8 +30,7 @@
                 @if(app('hasPermission')(18, 'view'))
                     <div class="col-6  m-b-2 eye-btn" style="text-align:end">
                         <a href="{{ route('invoice.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3"></i>
-                            Back
+                            <i class="fa fa-arrow-left m-r-5 icon3"></i> <span class="btn-text">Back</span>
                         </a>
                     </div>
                 @endif

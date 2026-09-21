@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 
 <style>
     .form-group label {
@@ -93,19 +93,19 @@
                             <h3 class="card-title d-inline-block text-white"><i class="fas fa-sms px-2"
                                     style="font-size:20px"></i>SMS </h3>
 
-                            <button class="btn btn-rounded float-right ml-2" id="exportButton"
+                            <button class="btn btn-rounded btn-hdr" id="exportButton"
                                 style="background-color: #fed9cf;">
-                                <i class="fa fa-download"></i> Export
+                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
                             </button>
-                            <a href="{{ route('sms.create') }}" class="btn  btn-rounded float-right"
-                                style="background-color: #fed9cf;"><i class="fa fa-plus"></i> Create
+                            <a href="{{ route('sms.create') }}" class="btn btn-rounded btn-hdr"
+                                style="background-color: #fed9cf;"><i class="fa fa-plus"></i> <span class="btn-text">Create</span>
                             </a>
 
 
-                            <a href="#" class="btn btn-rounded float-right"
+                            <a href="#" class="btn btn-rounded btn-hdr"
                                 style="background-color: #fed9cf; margin-right:10px" data-toggle="modal"
                                 data-target="#sendSmsModal">
-                                <i class="fa fa-paper-plane"></i> Send
+                                <i class="fa fa-paper-plane"></i> <span class="btn-text">Send</span>
                             </a>
 
 

@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     .container {
         width: 60%;
@@ -163,8 +163,7 @@
                 @if (app('hasPermission')(3, 'view'))
                     <div class="col-4 staff-button m-b-2 eye-btn">
                         <a href="{{ route('user.index') }}" class="btn btn-primary btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5"></i>
-                            Back
+                            <i class="fa fa-arrow-left m-r-5"></i> <span class="btn-text">Back</span>
                         </a>
                     </div>
                 @endif

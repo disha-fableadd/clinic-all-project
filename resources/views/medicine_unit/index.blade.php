@@ -1,4 +1,4 @@
-@extends('layout.app')
+﻿@extends('layout.app')
 <style>
     .swal-confirm-btn {
         color: rgb(58, 58, 58) !important;
@@ -83,10 +83,10 @@
                         <div class="card-header">
                             <h3 class="card-title d-inline-block text-white"><i class="fa fa-medkit "
                                     style="font-size:20px;margin-right:10px"></i>All Medicine Units </h3>
-                            <button class="btn btn-rounded float-right ml-2" id="exportButton">
-                                <i class="fa fa-download"></i> Export
+                            <button class="btn btn-rounded btn-hdr" id="exportButton">
+                                <i class="fa fa-download"></i> <span class="btn-text">Export</span>
                             </button>
-                            <button class="btn btn-rounded float-right" data-bs-toggle="modal" data-bs-target="#addUnitModal">
+                            <button class="btn btn-rounded btn-hdr" data-bs-toggle="modal" data-bs-target="#addUnitModal">
                                 <i class="fa fa-plus"></i> Add Unit
                             </button>
                         </div>
