@@ -993,33 +993,33 @@
             /* Mobile view padding & table optimizations for all pages */
             .page-wrapper > .content,
             .content {
-                padding: 10px 5px calc(65px + env(safe-area-inset-bottom)) 5px !important;
+                padding: 12px 10px calc(68px + env(safe-area-inset-bottom)) 10px !important;
             }
 
             .content > .row {
-                margin-left: -3px !important;
-                margin-right: -3px !important;
+                margin-left: -5px !important;
+                margin-right: -5px !important;
             }
 
             .content [class*="col-"] {
-                padding-left: 3px !important;
-                padding-right: 3px !important;
+                padding-left: 5px !important;
+                padding-right: 5px !important;
             }
 
             .card {
-                margin-bottom: 12px !important;
-                border-radius: 14px !important;
+                margin-bottom: 15px !important;
+                border-radius: 16px !important;
             }
 
             .card .card-header {
-                padding: 10px 10px !important;
-                border-top-left-radius: 14px !important;
-                border-top-right-radius: 14px !important;
+                padding: 12px 14px !important;
+                border-top-left-radius: 16px !important;
+                border-top-right-radius: 16px !important;
             }
 
             .card-body,
             .card-body1 {
-                padding: 0 4px 8px 4px !important;
+                padding: 0 10px 12px 10px !important;
             }
 
             .table-responsive {
@@ -1045,7 +1045,7 @@
             .table th,
             table.dataTable th,
             table.dataTable td {
-                padding: 8px 4px !important;
+                padding: 9px 7px !important;
             }
 
             .table.custom-table > tbody > tr > td:first-child,
@@ -1054,7 +1054,7 @@
             .table th:first-child,
             table.dataTable th:first-child,
             table.dataTable td:first-child {
-                padding-left: 4px !important;
+                padding-left: 6px !important;
             }
 
             .table.custom-table > tbody > tr > td:last-child,
@@ -1063,7 +1063,7 @@
             .table th:last-child,
             table.dataTable th:last-child,
             table.dataTable td:last-child {
-                padding-right: 4px !important;
+                padding-right: 6px !important;
             }
 
             div.dataTables_wrapper {
@@ -1076,13 +1076,13 @@
             }
 
             div.dataTables_wrapper [class*="col-"] {
-                padding-left: 2px !important;
-                padding-right: 2px !important;
+                padding-left: 4px !important;
+                padding-right: 4px !important;
             }
 
             div.dataTables_wrapper div.dataTables_length,
             div.dataTables_wrapper div.dataTables_filter {
-                margin-bottom: 6px !important;
+                margin-bottom: 8px !important;
             }
 
             div.dataTables_wrapper div.dataTables_filter input {
