@@ -492,16 +492,16 @@
                                 </div>
 
 
-                                <div class="col-md-3 col-sm-6 col-6 mt-2">
+                                <div class="col-md-3 col-sm-6 col-12 mt-2">
                                     <label>Date</label>
                                     <input type="date" id="filterDate" class="form-control filter" />
 
                                 </div>
 
                                 <!-- Patient Filter -->
-                                <div class="col-md-3 col-sm-6 col-6 mt-2">
+                                <div class="col-md-3 col-sm-6 col-12 mt-2">
                                     <label>Patient</label>
-                                    <select id="filterPatient" class="form-control filter">
+                                    <select id="filterPatient" class="form-control filter" style="width:100%;">
                                         <option value="">All</option>
                                     </select>
                                 </div>
@@ -843,6 +843,7 @@
             $('#filterPatient').select2({
                 placeholder: "-- Select Patient --",
                 allowClear: true,
+                width: '100%',
                 ajax: {
                     url: '/api/patients',
                     type: 'GET',
