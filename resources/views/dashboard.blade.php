@@ -215,9 +215,7 @@
                                                                                                                                                             }
                                                                                                                                                      */
 
-        .drop-down-notification {
-            transform: translate3d(-196px, 50px, 0px) !important;
-        }
+
 
         .table td,
         .table th {
