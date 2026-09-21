@@ -245,6 +245,25 @@
             font-size: 16px;
         }
 
+        .boxes {
+            display: flex !important;
+        }
+
+        .boxes > a {
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+            height: 100% !important;
+            text-decoration: none !important;
+        }
+
+        .dash-widget1,
+        .dash-widget2 {
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 105px !important;
+        }
+
 
 
         @media screen and (max-width: 767px) {
@@ -387,45 +406,80 @@
             }
 
            
-            .dash-widget-bg2,
-            .dash-widget-bg1,
-            .dash-widget-bg4,
-            .dash-widget-bg3 {
-                width: 40px;
-                float: none !important;
-                margin: auto;
-                color: black;
-                display: block;
-                font-size: 50px;
-                text-align: center;
-                line-height: 43px;
-                background: white;
-                border-radius: 50%;
-                font-size: 20px;
-                height: 40px;
-            }
-
-            .dash-widget-info,
-            .total-users-count {
-
+            .dash-widget1,
+            .dash-widget2 {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
                 text-align: center !important;
+                width: 100% !important;
+                height: 100% !important;
+                min-height: 140px !important;
+                padding: 12px 6px !important;
+                margin-bottom: 10px !important;
+                border-radius: 18px !important;
+                box-sizing: border-box !important;
             }
 
-            .dash-widget2,
-            .dash-widget1 {
-                padding: 10px 10px !important;
-                margin-bottom: 10px;
+            .dash-widget-bg1,
+            .dash-widget-bg2,
+            .dash-widget-bg3,
+            .dash-widget-bg4 {
+                width: 42px !important;
+                height: 42px !important;
+                line-height: 42px !important;
+                font-size: 20px !important;
+                border-radius: 50% !important;
+                background: #ffffff !important;
+                color: #1a1a1a !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin: 0 auto 6px auto !important;
+                float: none !important;
+                flex-shrink: 0 !important;
             }
 
-            .dash-widget-info>span.widget-title3,
-            span.widget-title2,
-            span.widget-title1 {
-                font-size: 13px;
-            }
-
-            .dash-widget-info>h3 {
+            .dash-widget-info {
+                width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
                 padding: 0 !important;
-                margin-bottom: 0 !important;
+                margin: 0 !important;
+                flex: 1 1 auto !important;
+            }
+
+            .dash-widget-info > span.widget-title1,
+            .dash-widget-info > span.widget-title2,
+            .dash-widget-info > span.widget-title3,
+            .dash-widget-info > span.widget-title4 {
+                font-size: 12.5px !important;
+                font-weight: 500 !important;
+                line-height: 1.25 !important;
+                color: #555555 !important;
+                padding: 0 4px !important;
+                margin: 0 0 4px 0 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+                min-height: 32px !important;
+                height: 32px !important;
+                word-break: break-word !important;
+            }
+
+            .dash-widget-info > h3 {
+                font-size: 20px !important;
+                font-weight: 700 !important;
+                color: #1a1a1a !important;
+                line-height: 1.2 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                text-align: center !important;
             }
 
             .about-padding {
@@ -536,7 +590,7 @@
                             <div class="dash-widget2">
                                 <span class="dash-widget-bg2"><i class="fa fa-stethoscope" aria-hidden="true"></i> </span>
                                 <div class="dash-widget-info text-right">
-                                    <span class="widget-title2 mb-3">Today Followup </span>
+                                    <span class="widget-title2">Today Followup </span>
                                     <h3 class="total-users-count text-dark">0</h3>
 
                                 </div>
@@ -559,10 +613,10 @@
 
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 p-1 boxes col-6">
                         <a href="{{ route('patients.index') }}">
-                            <div class="dash-widget2" style="padding:20px 19px 20px 20px">
+                            <div class="dash-widget2">
                                 <span class="dash-widget-bg4"><i class="fa fa-house-medical" aria-hidden="true"></i></span>
                                 <div class="dash-widget-info text-right">
-                                    <span class="widget-title2 mb-3">Today Home Patient </span>
+                                    <span class="widget-title2">Today Home Patient </span>
                                     <h3 class="home_patient text-dark">0</h3>
 
                                 </div>
@@ -603,7 +657,7 @@
                             <div class="dash-widget2">
                                 <span class="dash-widget-bg2"><i class="fa fa-wallet" aria-hidden="true"></i> </span>
                                 <div class="dash-widget-info text-right">
-                                    <span class="widget-title2 mb-3">Today Expense</span>
+                                    <span class="widget-title2">Today Expense</span>
                                     <h3 class="total-expense text-dark">₹ 0</h3>
                                 </div>
                             </div>
@@ -624,10 +678,10 @@
 
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 p-1 boxes col-6">
                         <a href="#">
-                            <div class="dash-widget2" style="padding:20px 19px 20px 20px">
+                            <div class="dash-widget2">
                                 <span class="dash-widget-bg4"><i class="fa fa-birthday-cake" aria-hidden="true"></i></span>
                                 <div class="dash-widget-info text-right">
-                                    <span class="widget-title2 mb-3">Today Birthday</span>
+                                    <span class="widget-title2">Today Birthday</span>
                                     <h3 class="today-birthdays text-dark">0</h3>
                                 </div>
                             </div>
@@ -1088,7 +1142,7 @@
                                 <span class="dash-widget-bg2"><i class="fa fa-stethoscope" aria-hidden="true"></i>
                                 </span>
                                 <div class="dash-widget-info text-right">
-                                    <span class="widget-title2 mb-3">Today Followup </span>
+                                    <span class="widget-title2">Today Followup </span>
                                     <h3 class=" total-users-count text-dark">0</h3>
 
                                 </div>
@@ -1111,10 +1165,10 @@
 
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 p-1 boxes col-6">
                         <a href="{{ route('appointment.index') }}">
-                            <div class="dash-widget2" style="padding:20px 19px 20px 20px">
+                            <div class="dash-widget2">
                                 <span class="dash-widget-bg4"><i class="fa fa-heartbeat" aria-hidden="true"></i></span>
                                 <div class="dash-widget-info text-right">
-                                    <span class="widget-title2 mb-3">All Appointment </span>
+                                    <span class="widget-title2">All Appointment </span>
                                     <h3 class=" total-appointment-count text-dark">0</h3>
 
                                 </div>

@@ -1016,30 +1016,97 @@
             }
 
             /* Dashboard Stat Widgets Mobile Sizing */
+            .row.about-padding {
+                display: flex !important;
+                flex-wrap: wrap !important;
+            }
+
+            .boxes {
+                display: flex !important;
+            }
+
+            .boxes > a {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                height: 100% !important;
+                text-decoration: none !important;
+            }
+
             .dash-widget1,
             .dash-widget2 {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+                width: 100% !important;
+                height: 100% !important;
+                min-height: 140px !important;
+                padding: 12px 6px !important;
                 margin-bottom: 10px !important;
-                border-radius: 16px !important;
-                padding: 12px 8px !important;
+                border-radius: 18px !important;
+                box-sizing: border-box !important;
+            }
+
+            .dash-widget-bg1,
+            .dash-widget-bg2,
+            .dash-widget-bg3,
+            .dash-widget-bg4 {
+                width: 42px !important;
+                height: 42px !important;
+                line-height: 42px !important;
+                font-size: 20px !important;
+                border-radius: 50% !important;
+                background: #ffffff !important;
+                color: #1a1a1a !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin: 0 auto 6px auto !important;
+                float: none !important;
+                flex-shrink: 0 !important;
             }
 
             .dash-widget-info {
+                width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
                 text-align: center !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                flex: 1 1 auto !important;
             }
 
             .dash-widget-info > span.widget-title1,
             .dash-widget-info > span.widget-title2,
-            .dash-widget-info > span.widget-title3 {
+            .dash-widget-info > span.widget-title3,
+            .dash-widget-info > span.widget-title4 {
                 font-size: 12.5px !important;
+                font-weight: 500 !important;
                 line-height: 1.25 !important;
-                padding: 2px 0 !important;
-                display: block !important;
+                color: #555555 !important;
+                padding: 0 4px !important;
+                margin: 0 0 4px 0 !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+                min-height: 32px !important;
+                height: 32px !important;
+                word-break: break-word !important;
             }
 
             .dash-widget-info > h3 {
-                font-size: 18px !important;
-                margin: 2px 0 0 0 !important;
+                font-size: 20px !important;
+                font-weight: 700 !important;
+                color: #1a1a1a !important;
+                line-height: 1.2 !important;
+                margin: 0 !important;
                 padding: 0 !important;
+                text-align: center !important;
             }
 
             .card {
@@ -1477,6 +1544,28 @@
             white-space: nowrap !important;
             background-color: #f5b6a5 !important;
             color: #000 !important;
+        }
+
+        /* Dashboard Stat Widgets Equal Height (Desktop) */
+        @media only screen and (min-width: 768px) {
+            .boxes {
+                display: flex !important;
+            }
+
+            .boxes > a {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                height: 100% !important;
+                text-decoration: none !important;
+            }
+
+            .dash-widget1,
+            .dash-widget2 {
+                width: 100% !important;
+                height: 100% !important;
+                min-height: 105px !important;
+            }
         }
     </style>
 
