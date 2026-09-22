@@ -62,7 +62,7 @@
                             <p><strong><i class="fa fa-clock icon-style1"></i> Duration (mins): </strong> <span
                                     class="duration_minutes"></span></p>
                             <hr>
-                            <p><strong><i class="fa fa-rupee-sign icon-style1"></i> Cost: </strong> <span
+                            <p><strong>₹ Cost: </strong> <span
                                     class="cost"></span></p>
                             <hr>
                             <p><strong><i class="fa fa-percent icon-style1"></i> GST Option: </strong> <span
@@ -101,3 +101,4 @@
 
     <script src="{{ asset(env('IMAGE_PATH') . 'admin/assets/js/therapy-show.js') }}"></script>
 @endsection
+

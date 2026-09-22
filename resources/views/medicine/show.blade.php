@@ -110,7 +110,7 @@
                                             </p>
                                             <hr class="margin-text">
                                             <p class="text-dark margin-text">
-                                                <strong><i class="fas fa-rupee-sign icon-style1"></i> Price : </strong>
+                                                <strong>₹ Price : </strong>
                                                 <span id="medicine_unit"></span>
                                             </p>
                                             <hr class="margin-text">
@@ -466,3 +466,4 @@
         }
     </style>
 @endsection
+

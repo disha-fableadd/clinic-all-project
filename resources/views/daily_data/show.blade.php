@@ -71,7 +71,7 @@
                                 <div class="col-lg-6 col-sm-12">
 
 
-                                    <p><strong><i class="fa fa-rupee-sign icon-style1"></i> Amount: </strong> <span
+                                    <p><strong>₹ Amount: </strong> <span
                                             class="amount"></span></p>
                                     <hr>
                                     <p><strong><i class="fa fa-toggle-on icon-style1"></i> Status: </strong> <span

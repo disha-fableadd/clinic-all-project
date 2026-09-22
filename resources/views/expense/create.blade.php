@@ -155,7 +155,7 @@
                             <!-- Amount -->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><i class="fas fa-rupee-sign icon-style"></i> Amount <span
+                                    <label>₹ Amount <span
                                             class="text-danger">*</span></label>
                                     <input type="number" step="0.01" name="amount" class="form-control" id="amount"
                                         placeholder="e.g. 1000" required>
@@ -363,3 +363,4 @@
         });
     </script>
 @endsection
+

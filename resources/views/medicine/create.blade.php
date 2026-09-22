@@ -191,7 +191,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label><i class="fas fa-rupee-sign icon-style"></i> Price <span
+                                        <label>₹ Price <span
                                                 class="text-danger">*</span></label>
                                         <input class="form-control" type="text" name="unit" required>
                                     </div>
@@ -735,3 +735,4 @@
         });
     </script>
 @endsection
+
