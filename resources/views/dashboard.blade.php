@@ -664,7 +664,7 @@
                                 <span class="dash-widget-bg1"><i class="fa fa-money-bill" aria-hidden="true"></i></span>
                                 <div class="dash-widget-info text-right">
                                     <span class="widget-title1">Today Income</span>
-                                    <h3 class="today-income text-dark">? 0</h3>
+                                    <h3 class="today-income text-dark">₹ 0</h3>
                                 </div>
                             </div>
                         </a>
@@ -676,7 +676,7 @@
                                 <span class="dash-widget-bg2"><i class="fa fa-wallet" aria-hidden="true"></i> </span>
                                 <div class="dash-widget-info text-right">
                                     <span class="widget-title2">Today Expense</span>
-                                    <h3 class="total-expense text-dark">? 0</h3>
+                                    <h3 class="total-expense text-dark">₹ 0</h3>
                                 </div>
                             </div>
                         </a>
@@ -2700,7 +2700,7 @@
             //             // Format income with ? and commas
             //             let formattedIncome = new Intl.NumberFormat('en-IN').format(response
             //                 .today_income);
-            //             $('.today-income').text('? ' + formattedIncome);
+            //             $('.today-income').text('₹ ' + formattedIncome);
 
             //             // Patients
             //             $('.today-patients').text(response.today_patients);
@@ -2708,7 +2708,7 @@
             //             $('.today-birthdays').text(response.today_birthdays);
 
             //             //expenses
-            //             $('.total-expense ').text('? ' + response.today_expense);
+            //             $('.total-expense ').text('₹ ' + response.today_expense);
             //         }
             //     });
             // });
@@ -2725,10 +2725,10 @@
                         branch_id: branchId
                     }, // ? send branch_id
                     success: function(response) {
-                        // Format income with ? and commas
+                        // Format income with ₹ and commas
                         let formattedIncome = new Intl.NumberFormat('en-IN').format(response
                             .today_income);
-                        $('.today-income').text('? ' + formattedIncome);
+                        $('.today-income').text('₹ ' + formattedIncome);
 
                         // Patients
                         $('.today-patients').text(response.today_patients);
@@ -2738,7 +2738,7 @@
 
 
                         // Expenses
-                        $('.total-expense').text('? ' + response.today_expense);
+                        $('.total-expense').text('₹ ' + response.today_expense);
                     }
                 });
             });

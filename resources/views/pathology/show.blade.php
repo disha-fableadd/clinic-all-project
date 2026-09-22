@@ -60,7 +60,7 @@
                             <p><strong><i class="fa fa-sliders-h icon-style1"></i> Normal Range: </strong> <span
                                     class="normal_range"></span></p>
                             <hr>
-                            <p><strong><i class="fa fa-rupee-sign icon-style1"></i> Cost: </strong> <span
+                            <p><strong>₹ Cost: </strong> <span
                                     class="cost"></span></p>
                             <hr>
                             <p><strong><i class="fas fa-percent icon-style1"></i> GST Option: </strong> <span

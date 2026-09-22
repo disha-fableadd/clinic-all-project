@@ -169,7 +169,7 @@
                             <!-- Cost -->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><i class="fas fa-rupee-sign icon-style"></i> Cost <span
+                                    <label>₹ Cost <span
                                             class="text-danger">*</span></label>
                                     <input type="number" step="0.01" name="cost" class="form-control"
                                         placeholder="e.g. 250" required>
@@ -237,3 +237,4 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset(env('IMAGE_PATH') . 'admin/assets/js/therapy-edit.js') }}"></script>
 @endsection
+

@@ -199,7 +199,7 @@
                             <!-- Payment -->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><i class="fas fa-rupee-sign icon-style"></i> Payment <span
+                                    <label>₹ Payment <span
                                             class="text-danger">*</span></label>
                                     <input type="number" step="0.01" name="payment" id="payment" class="form-control"
                                         placeholder="Enter total payment" required>
@@ -656,3 +656,4 @@
         });
     </script>
 @endsection
+

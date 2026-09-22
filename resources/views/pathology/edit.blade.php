@@ -167,7 +167,7 @@
                             <!-- Cost -->
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label><i class="fas fa-rupee-sign icon-style"></i> Cost <span
+                                    <label>₹ Cost <span
                                             class="text-danger">*</span></label>
                                     <input type="number" step="0.01" name="cost" class="form-control" placeholder="e.g. 250"
                                         required>

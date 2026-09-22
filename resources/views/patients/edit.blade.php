@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 
 @php
@@ -246,13 +246,13 @@
                                         <input class="form-control" type="email" name="email" placeholder="Enter Email">
                                     </div>
                                 </div>
-                                <div id="birthdate_container" class="{{ $currentProjectTypeId === 3 ? 'col-6' : 'col-4' }}">
+                                <div id="birthdate_container" class="{{ $currentProjectTypeId === 3 ? 'col-6 col-md-6' : 'col-6 col-md-4' }}">
                                     <div class="form-group">
                                         <label><i class="fas fa-cake-candles icon-style"></i> Birthdate</label>
                                         <input type="date" class="form-control" name="birthdate" id="birth_date">
                                     </div>
                                 </div>
-                                  <div id="age_container" class="{{ $currentProjectTypeId === 3 ? 'col-6' : 'col-4' }}">
+                                  <div id="age_container" class="{{ $currentProjectTypeId === 3 ? 'col-6 col-md-6' : 'col-6 col-md-4' }}">
                                     <div class="form-group">
                                         <label><i class="fas fa-birthday-cake icon-style"></i> Age <span
                                                         class="text-danger">*</span></label>
@@ -308,7 +308,7 @@
                                         <span>Symptoms Input (Day-1)</span>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-12 col-md-6">
                                             <div class="d-flex gap-3">
                                                 <div>
                                                     <input type="radio" name="symptom_option" value="image"
@@ -324,7 +324,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-12 col-md-6">
                                             <div id="symptomImageBox"
                                                 style="{{ old('symptom_option', !empty($symptom_images) ? 'image' : '') == 'image' ? '' : 'display:none;' }}">
                                                 <input type="file" id="symptomImagesInput" class="form-control" name="symptom_images[]"
@@ -357,7 +357,7 @@
                                 <div class="col-12 col-md-12">
                                     <div class="form-group">
                                         <label><i class="fas fa-share-alt icon-style"></i> Referral Source</label>
-                                        <div class="d-flex">
+                                        <div class="d-flex align-items-center">
                                             <select class="form-control select2 me-2" id="select-blood"
                                                 name="referral_source" style="flex: 1;">
                                                 <option value=""></option>
@@ -369,12 +369,12 @@
                                                 <option value="Others">Others</option>
                                             </select>
                                             <a href="#"
-                                                class="btn btn-primary btn-rounded btn-hdr d-flex align-items-center"
+                                                class="btn btn-primary btn-rounded btn-hdr d-flex align-items-center justify-content-center"
                                                 id="openReferralModal" data-bs-toggle="modal"
                                                 data-bs-target="#addReferralModal"
-                                                style="padding:4px 8px !important; white-space: nowrap; margin-left: 10px;">
-                                                <i class="fa fa-plus m-r-2 icon3"></i>
-                                                <span style="margin-left: 2px;">Edit Referral Details</span>
+                                                style="padding:8px 12px !important; white-space: nowrap; margin-left: 15px;">
+                                                <i class="fa fa-plus m-0"></i>
+                                                <span style="margin-left: 6px;" class="d-none d-md-inline">Edit Referral Details</span>
                                             </a>
                                         </div>
                                     </div>

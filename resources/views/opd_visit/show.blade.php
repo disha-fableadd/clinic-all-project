@@ -101,7 +101,7 @@
                                     </p>
                                     <hr class="margin-text">
                                     <p class="text-dark margin-text">
-                                        <strong><i class="fas fa-rupee-sign icon-style1"></i> Consultation Fees:
+                                        <strong>₹ Consultation Fees:
                                         </strong>
                                         <span id="consultation_fees"></span>
                                     </p>

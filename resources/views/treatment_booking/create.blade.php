@@ -227,7 +227,7 @@
 
 
                         <div class="form-group">
-                            <label><i class="fas fa-rupee-sign icon-style"></i> Payment <span
+                            <label>₹ Payment <span
                                     class="text-danger">*</span></label>
                             <input type="number" step="0.01" name="amount" id="amount" class="form-control"
                                 placeholder="Enter total payment" required>
@@ -267,7 +267,7 @@
                     </div>
                     {{-- Cash Amount --}}
                     <div class="form-group d-none col-4" id="cash_amount_div">
-                        <label><i class="fas fa-rupee-sign icon-style"></i> Cash Amount <span
+                        <label>₹ Cash Amount <span
                                 class="text-danger">*</span></label>
                         <input type="number" step="0.01" name="cash" id="cash_amount" class="form-control"
                             placeholder="Enter cash amount">
