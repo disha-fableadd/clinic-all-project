@@ -563,9 +563,9 @@
 
         // Click ANYWHERE on the group row to open/close its details
         $(document).on('click', 'tr.group-row', function (e) {
-            // Don’t toggle if the click is on interactive controls
+            // Don’t toggle if the click is on interactive controls or inside the child table
             if ($(e.target).closest(
-                'button, a, .exportButton, #addBtn, .make-payment-btn, .edit-daily_data, .delete-daily_data, .payment-history'
+                '.child-table-container, button, a, .exportButton, #addBtn, .make-payment-btn, .edit-daily_data, .delete-daily_data, .payment-history'
             ).length) {
                 return;
             }
@@ -573,11 +573,11 @@
             // Get the target class from the caret icon in this row
             const targetClass = $(this).find('.toggle-group').data('target'); // e.g., "group-20250822"
 
-            // IMPORTANT: details row uses a CLASS, so select with a dot:
-            const $targetRow = $(`tr.${targetClass}`);
+            // IMPORTANT: details container uses a CLASS, so select with a dot:
+            const $targetContainer = $(this).find(`.${targetClass}`);
 
-            // Toggle only THIS row
-            $targetRow.toggleClass('d-none');
+            // Toggle only THIS container
+            $targetContainer.toggleClass('d-none');
 
             // Flip the caret only for this row
             $(this).find('.toggle-group').toggleClass('fa-caret-right fa-caret-down');
@@ -994,11 +994,8 @@
                                                                                 ${actionBtnsContainer}
                                                                             </div>
                                                                         </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr class="${groupId} d-none">
-                                                                    <td colspan="10">
-                                                                        <table class="table table-bordered group-table w-100 mb-0">
+                                                                        <div class="child-table-container ${groupId} d-none" style="padding: 10px; background: #fff; width: 100%;">
+                                                                            <table class="table table-bordered group-table w-100 mb-0">
                                                                             <thead style="background-color:#f0f0f0; font-weight:bold;">
                                                                                 <tr>
                                                                                     <th>Patient Name</th>
@@ -1069,7 +1066,7 @@
                                                                 `;
                             });
 
-                            groupRow += `</tbody></table></td></tr>`;
+                            groupRow += `</tbody></table></div></td></tr>`;
                             tableBody.append(groupRow);
                         });
 

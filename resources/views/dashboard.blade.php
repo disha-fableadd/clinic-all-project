@@ -425,16 +425,16 @@
             .dash-widget1,
             .dash-widget2 {
                 display: flex !important;
-                flex-direction: column !important;
+                flex-direction: row !important;
                 align-items: center !important;
-                justify-content: center !important;
-                text-align: center !important;
+                justify-content: space-between !important;
+                text-align: right !important;
                 width: 100% !important;
                 height: 100% !important;
-                min-height: 140px !important;
-                padding: 12px 6px !important;
-                margin-bottom: 10px !important;
-                border-radius: 18px !important;
+                min-height: 80px !important;
+                padding: 12px 10px !important;
+                margin-bottom: 8px !important;
+                border-radius: 12px !important;
                 box-sizing: border-box !important;
             }
 
@@ -442,28 +442,27 @@
             .dash-widget-bg2,
             .dash-widget-bg3,
             .dash-widget-bg4 {
-                width: 42px !important;
-                height: 42px !important;
-                line-height: 42px !important;
-                font-size: 20px !important;
+                width: 38px !important;
+                height: 38px !important;
+                line-height: 38px !important;
+                font-size: 18px !important;
                 border-radius: 50% !important;
                 background: #ffffff !important;
                 color: #1a1a1a !important;
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                margin: 0 auto 6px auto !important;
+                margin: 0 !important;
                 float: none !important;
                 flex-shrink: 0 !important;
             }
 
             .dash-widget-info {
-                width: 100% !important;
                 display: flex !important;
                 flex-direction: column !important;
-                align-items: center !important;
+                align-items: flex-end !important;
                 justify-content: center !important;
-                text-align: center !important;
+                text-align: right !important;
                 padding: 0 !important;
                 margin: 0 !important;
                 flex: 1 1 auto !important;
@@ -473,29 +472,25 @@
             .dash-widget-info > span.widget-title2,
             .dash-widget-info > span.widget-title3,
             .dash-widget-info > span.widget-title4 {
-                font-size: 12.5px !important;
-                font-weight: 500 !important;
-                line-height: 1.25 !important;
+                font-size: 11px !important;
+                font-weight: 600 !important;
+                line-height: 1.2 !important;
                 color: #555555 !important;
-                padding: 0 4px !important;
+                padding: 0 !important;
                 margin: 0 0 4px 0 !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                text-align: center !important;
-                min-height: 32px !important;
-                height: 32px !important;
+                display: block !important;
+                text-align: right !important;
                 word-break: break-word !important;
             }
 
             .dash-widget-info > h3 {
-                font-size: 20px !important;
+                font-size: 18px !important;
                 font-weight: 700 !important;
                 color: #1a1a1a !important;
-                line-height: 1.2 !important;
+                line-height: 1 !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                text-align: center !important;
+                text-align: right !important;
             }
 
             .about-padding {

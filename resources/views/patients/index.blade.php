@@ -427,7 +427,7 @@
     //                         </div>
     //                     </td>
     //                 </tr>`);
-        //                 currentRow.after(detailsRow);
+        //                 currentRow.after(detailsRow.hide());
         //             }
 
         //             var icon = $(this).find('i');
@@ -813,7 +813,7 @@
                             </div>
                         </td>
                      </tr>`);
-                            currentRow.after(detailsRow);
+                            currentRow.after(detailsRow.hide());
                         }
 
                         var icon = $(this).find('i');
@@ -923,3 +923,4 @@
         });
     </script>
 @endsection
+
