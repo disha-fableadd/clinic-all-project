@@ -516,7 +516,9 @@
             }
 
 
-
+.mobile-margin-box{
+    margin-top:20px !important;
+}
 
         }
 
@@ -596,7 +598,7 @@
 
         @if (Auth::check() && optional(Auth::user()->role)->name == 'Admin')
             <div class="content">
-                <div class="row about-padding">
+                <div class="row about-padding mobile-margin-box">
 
                     <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 p-1 boxes col-6">
                         <a href="{{ route('followup.index') }}">

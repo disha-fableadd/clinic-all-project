@@ -1071,7 +1071,7 @@
             .row.about-padding {
                 display: flex !important;
                 flex-wrap: wrap !important;
-                margin-top: 2px !important;
+                /* margin-top: 2px !important; */
                 margin-left: -5px !important;
                 margin-right: -5px !important;
                 padding-left: 0 !important;
@@ -1493,6 +1493,29 @@
         }
 
         /* =========================================================
+           Page Title & Header Button Perfect Vertical Centering
+           ========================================================= */
+        .row:has(> [class*="col-"] > .page-title) {
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        .row:has(> [class*="col-"] > .page-title) .page-title {
+            margin: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+
+        .row:has(> [class*="col-"] > .page-title) .eye-btn,
+        .row:has(> [class*="col-"] > .page-title) .patient-button,
+        .row:has(> [class*="col-"] > .page-title) [class*="col-"]:last-child {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            margin: 0 !important;
+        }
+
+        /* =========================================================
            Card Header Perfect Vertical Centering (All Pages)
            ========================================================= */
         .card .card-header,
@@ -1743,9 +1766,13 @@
         /* Compress margins and paddings for Add/Edit forms only on mobile */
         @media (max-width: 767px) {
             .content > .row {
-                margin-top: 0 !important;
+                margin-top: 0 ;
                 padding-top: 0 !important;
             }
+            
+.mobile-margin-box{
+    margin-top:20px !important;
+}
             .content .card-body:has(form), 
             .content .form-container {
                 padding-top: 10px !important;
