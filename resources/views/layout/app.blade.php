@@ -989,6 +989,15 @@
                 padding-right: 15px !important;
                 text-align: right !important;
             }
+                    .row:has(> [class*="col-"] > .page-title) .eye-btn,
+        .row:has(> [class*="col-"] > .page-title) .patient-button,
+        .row:has(> [class*="col-"] > .page-title) [class*="col-"]:last-child {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            margin: 0 !important;
+        }
+
         }
 
         /* =========================================================
@@ -1056,8 +1065,8 @@
             }
             
             .row > [class*="col-"] {
-                padding-left: 8px !important;
-                padding-right: 8px !important;
+                padding-left: 3px !important;
+                padding-right: 3px !important;
             }
 
             .row.calender-apointment {
@@ -1500,20 +1509,22 @@
             align-items: center !important;
         }
 
+       
         .row:has(> [class*="col-"] > .page-title) .page-title {
             margin: 0 !important;
+            
             padding-top: 0 !important;
             padding-bottom: 0 !important;
         }
 
-        .row:has(> [class*="col-"] > .page-title) .eye-btn,
+        /* .row:has(> [class*="col-"] > .page-title) .eye-btn,
         .row:has(> [class*="col-"] > .page-title) .patient-button,
         .row:has(> [class*="col-"] > .page-title) [class*="col-"]:last-child {
             display: flex !important;
             align-items: center !important;
-            justify-content: flex-end !important;
+            justify-content: center !important;
             margin: 0 !important;
-        }
+        } */
 
         /* =========================================================
            Card Header Perfect Vertical Centering (All Pages)

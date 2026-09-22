@@ -2344,224 +2344,7 @@
 
     </div>
 
-    <!-- @if (isset($appointmentsToday, $followupsToday) &&
-            (!$appointmentsToday->isEmpty() || !$followupsToday->isEmpty()) &&
-            session('show_today_appointment_modal') === true)
-        <div class="modal fade" id="todaysAppointmentsModal" tabindex="-1" aria-labelledby="todaysAppointmentsLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-                    <div class="modal-header" style="background-color:#f5b6a5;color:black">
-                        <h5 class="modal-title" id="todaysAppointmentsLabel">Today's Schedule -
-                            {{ \Carbon\Carbon::today()->format('d M Y') }}
-                        </h5>
-                      
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body" style="max-height: 300px; overflow-y: auto;">
-                        <h5 class="mb-3 font-weight-bold">Today's Appointments</h5>
-                        @if ($appointmentsToday->isEmpty())
-                            <p class="text-muted">No appointments scheduled for today.</p>
-                        @else
-                            <div class="row">
-
-                                @foreach ($appointmentsToday as $appointment)
-                                    <div class="col-md-12 mb-3">
-
-                                        <a href="{{ route('appointment.show', $appointment->id) }}"
-                                            class="text-decoration-none text-dark view-appointment"
-                                            data-id="{{ $appointment->id }}" style="cursor: pointer;">
-                                            <div class="card shadow-sm border rounded-3 m-0 today-schedule-card">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between align-items-start">
-                                                        <div class="schedule-info">
-                                                            <h5 class="card-title">
-                                                                Dr. <strong class="fw-bold">
-                                                                    {{ $appointment->doctor['fullname'] ?? '-' }}
-                                                                </strong> has appointment with <strong>
-                                                                    {{ $appointment->patient['fullname'] ?? '-' }}</strong>
-                                                                on <strong>
-                                                                    {{ \Carbon\Carbon::parse($appointment->date . ' ' . $appointment->duration)->format('d M Y, h:i A') }}</strong>
-                                                            </h5>
-                                                            <p class="card-text mb-0">
-                                                                Type: <strong> {{ ucfirst($appointment->appoint_type) }}
-                                                                </strong> |
-                                                                Treatment: <strong>
-                                                                    {{ $appointment->treatment['name'] ?? '-' }}
-                                                                </strong>
-                                                            </p>
-                                                        </div>
-
-                                                        <div class="schedule-badge-wrap">
-                                                            <span
-                                                                class="custom-badge {{ $appointment->status ?? '' }}">
-                                                                {{ ucfirst($appointment->status) }}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                @endforeach
-
-
-                            </div>
-                        @endif
-
-                        <hr />
-                        <h5 class="mt-4 mb-3 font-weight-bold">Today's Follow-ups</h5>
-                        @if ($followupsToday->isEmpty())
-                            <p class="text-muted">No follow-ups scheduled for today.</p>
-                        @else
-                            <div class="row">
-                                @foreach ($followupsToday as $followup)
-                                    <div class="col-md-12 mb-3">
-                                        <a href="{{ route('followup.show', $followup->id) }}"
-                                            class="text-decoration-none text-dark view-followup"
-                                            data-id="{{ $followup->id ?? '' }}" style="cursor: pointer;">
-                                            <div class="card shadow-sm border rounded-3 m-0 today-schedule-card">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between align-items-start">
-                                                        <div class="schedule-info">
-                                                            <h5 class="card-title">
-                                                                Dr. <strong class="fw-bold">
-                                                                    {{ $followup->doctor['fullname'] ?? '-' }}
-                                                                </strong> has a follow-up with <strong>
-                                                                    {{ $followup->patient['fullname'] ?? '-' }}</strong> on
-                                                                <strong>
-                                                                    {{ \Carbon\Carbon::parse($followup->date)->format('d M Y') }}</strong>
-                                                            </h5>
-                                                            <p class="card-text mb-0">
-                                                                Type:
-                                                                <strong>{{ ucfirst($followup->followup_type) }}</strong> |
-                                                                Treatment:
-                                                                <strong>{{ $followup->treatment['name'] ?? '-' }}</strong>
-                                                            </p>
-                                                        </div>
-                                                        <div class="schedule-badge-wrap">
-                                                            <span class="custom-badge follow-up">
-                                                                Follow-up
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-
-                        <hr />
-                        <h5 class="mt-4 mb-3 font-weight-bold">Expired Treatment Plans</h5>
-                        @if ($expiredPlans->isEmpty())
-                            <p class="text-muted">No treatment plans expiring today.</p>
-                        @else
-                            <div class="row">
-                                @foreach ($expiredPlans as $plan)
-                                    <div class="col-md-12 mb-3">
-                                        <a href="{{ route('treatment.show', $plan->id) }}"
-                                            class="text-decoration-none text-dark view-plan"
-                                            data-id="{{ $plan->id }}" style="cursor: pointer;">
-                                            <div class="card shadow-sm border rounded-3 m-0 today-schedule-card">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between align-items-start">
-                                                        <div class="schedule-info">
-                                                            <h5 class="card-title">
-                                                                Patient:
-                                                                <strong>{{ $plan->patient->fullname ?? '-' }}</strong> <br>
-                                                                Treatment:
-                                                                <strong>{{ $plan->treatment->name ?? '-' }}</strong>
-                                                            </h5>
-                                                        </div>
-                                                        <div class="schedule-badge-wrap">
-                                                            <span class="badge expiring-badge">
-                                                                Expiring Today
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <p class="card-text mb-0 mt-2">
-                                                        Plan: <strong>{{ ucfirst($plan->plan ?? '-') }}</strong> |
-                                                        Remaining Amount: <strong>{{ $plan->remain_amount }}</strong> <br>
-                                                        <span class="text-danger">
-                                                            ?? This treatment plan will expire today
-                                                            ({{ \Carbon\Carbon::parse($plan->payment_date)->format('d M Y') }})
-                                                        </span>
-                                                    </p>
-
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger btn-rounded btn-hdr d-flex align-items-center"
-                            id="dontShowAgainBtn">
-                            Don't show again
-                            <span class="spinner-border spinner-border-sm ml-2 d-none" role="status" aria-hidden="true"
-                                id="loadingSpinner"></span>
-                        </button>
-                        <button type="button" class="btn btn-dark btn-rounded" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script>
-            $(document).on('click', '.view-appointment', function(e) {
-                e.preventDefault(); // Prevent default anchor action
-                var appointmentId = $(this).data('id');
-                window.location.href = '/appointment/show/' + appointmentId;
-            });
-            $(document).on('click', '.view-followup', function(e) {
-                e.preventDefault();
-                var followupId = $(this).data('id');
-                window.location.href = '/followup/show/' + followupId;
-            });
-
-            $(document).on('click', '.view-plan', function(e) {
-                e.preventDefault();
-                var planId = $(this).data('id');
-                window.location.href = '/treatment_booking/show/' + planId;
-            });
-
-
-            $(document).ready(function() {
-                $('#todaysAppointmentsModal').modal('show');
-                $('#dontShowAgainBtn').on('click', function() {
-                    var $btn = $(this);
-                    var $spinner = $('#loadingSpinner');
-
-                    $btn.prop('disabled', true); // disable the button
-                    $spinner.removeClass('d-none'); // show the spinner
-
-                    $.ajax({
-                        url: '{{ route('hide.today.appointments') }}',
-                        type: 'POST',
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            $('#todaysAppointmentsModal').modal('hide');
-                        },
-                        complete: function() {
-                            $spinner.addClass('d-none'); // hide spinner
-                            $btn.prop('disabled', false); // re-enable the button if needed
-                        }
-                    });
-                });
-            });
-        </script>
-    @endif -->
+  
 
  @if (isset($appointmentsToday, $followupsToday) &&
             (!$appointmentsToday->isEmpty() || !$followupsToday->isEmpty()) &&
@@ -2598,7 +2381,7 @@
                                                 <div class="card-body py-3">
                                                     <div class="d-flex justify-content-between">
                                                         <div>
-                                                            <h5 class="card-title">
+                                                            <h5 class="card-title w-100 mb-1" style="display: block !important; white-space: normal !important; line-height: 1.4 !important;">
                                                                 Dr. <strong class="fw-bold">
                                                                     {{ $appointment->doctor['fullname'] ?? '-' }}
                                                                 </strong> has appointment with <strong>
@@ -2606,7 +2389,7 @@
                                                                 on <strong>
                                                                     {{ \Carbon\Carbon::parse($appointment->date . ' ' . $appointment->duration)->format('d M Y, h:i A') }}</strong>
                                                             </h5>
-                                                            <p class="card-text mb-0">
+                                                            <p class="card-text mb-0 w-100" style="display: block !important; white-space: normal !important;">
                                                                 Type: <strong> {{ ucfirst($appointment->appoint_type) }}
                                                                 </strong> |
                                                                 Treatment: <strong>
@@ -2643,28 +2426,52 @@
                                         <a href="{{ route('followup.show', $followup->id) }}"
                                             class="text-decoration-none text-dark view-followup"
                                             data-id="{{ $followup->id ?? '' }}" style="cursor: pointer;">
-                                            <div class="card shadow-sm border rounded-3 m-0">
-                                                <div class="card-body py-3">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <h5 class="card-title">
-                                                                Dr. <strong class="fw-bold">
-                                                                    {{ $followup->doctor['fullname'] ?? '-' }}
-                                                                </strong> has a follow-up with <strong>
-                                                                    {{ $followup->patient['fullname'] ?? '-' }}</strong> on
-                                                                <strong>
-                                                                    {{ \Carbon\Carbon::parse($followup->date)->format('d M Y') }}</strong>
-                                                            </h5>
-                                                            <p class="card-text mb-0">
-                                                                Type:
-                                                                <strong>{{ ucfirst($followup->followup_type) }}</strong> |
-                                                                Treatment:
-                                                                <strong>{{ $followup->treatment['name'] ?? '-' }}</strong>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <div class="card shadow-sm border rounded-3 m-0 w-100">
+    <div class="card-body py-3">
+        <div class=" w-100">
+            <div style="min-width: 0; width: 100%;">
+
+                <h5 class="card-title mb-1"
+                    style="
+                        display: block !important;
+                        white-space: normal !important;
+                        overflow-wrap: break-word !important;
+                        word-wrap: break-word !important;
+                        width: 100% !important;
+                        line-height: 1.4 !important;
+                    ">
+
+                    @if(Auth::check() && optional(Auth::user()->role)->name == 'Admin')
+                        Dr.
+                        <strong class="fw-bold">
+                            {{ $followup->doctor['fullname'] ?? '-' }}
+                        </strong>
+                        has a follow-up with
+                    @endif
+
+                    <strong>
+                        {{ $followup->patient['fullname'] ?? '-' }}
+                    </strong>
+
+                    on
+
+                    <strong>
+                        {{ \Carbon\Carbon::parse($followup->date)->format('d M Y') }}
+                    </strong>
+                </h5>
+
+               <p class="card-text mb-0 w-100" style="display: block !important; white-space: normal !important;">
+                    Type:
+                    <strong>{{ ucfirst($followup->followup_type) }}</strong>
+                    |
+                    Treatment:
+                    <strong>{{ $followup->treatment['name'] ?? '-' }}</strong>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
                                         </a>
                                     </div>
                                 @endforeach

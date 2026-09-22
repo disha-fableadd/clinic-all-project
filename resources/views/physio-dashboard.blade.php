@@ -1616,7 +1616,7 @@
                                                 <div class="card-body py-3">
                                                     <div class="d-flex justify-content-between">
                                                         <div>
-                                                            <h5 class="card-title">
+                                                            <h5 class="card-title w-100 mb-1" style="display: block !important; white-space: normal !important; line-height: 1.4 !important;">
                                                                 Dr. <strong class="fw-bold">
                                                                     {{ $appointment->doctor['fullname'] ?? '-' }}
                                                                 </strong> has appointment with <strong>
@@ -1624,7 +1624,7 @@
                                                                 on <strong>
                                                                     {{ \Carbon\Carbon::parse($appointment->date . ' ' . $appointment->duration)->format('d M Y, h:i A') }}</strong>
                                                             </h5>
-                                                            <p class="card-text mb-0">
+                                                            <p class="card-text mb-0 w-100" style="display: block !important; white-space: normal !important;">
                                                                 Type: <strong> {{ ucfirst($appointment->appoint_type) }}
                                                                 </strong> |
                                                                 Treatment: <strong>
@@ -1659,30 +1659,54 @@
                                 @foreach ($followupsToday as $followup)
                                     <div class="col-md-12 mb-3">
                                         <a href="{{ route('followup.show', $followup->id) }}"
-                                            class="text-decoration-none text-dark view-followup" data-id="{{ $followup->id ?? '' }}"
-                                            style="cursor: pointer;">
-                                            <div class="card shadow-sm border rounded-3 m-0">
-                                                <div class="card-body py-3">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <h5 class="card-title">
-                                                                Dr. <strong class="fw-bold">
-                                                                    {{ $followup->doctor['fullname'] ?? '-' }}
-                                                                </strong> has a follow-up with <strong>
-                                                                    {{ $followup->patient['fullname'] ?? '-' }}</strong> on
-                                                                <strong>
-                                                                    {{ \Carbon\Carbon::parse($followup->date)->format('d M Y') }}</strong>
-                                                            </h5>
-                                                            <p class="card-text mb-0">
-                                                                Type:
-                                                                <strong>{{ ucfirst($followup->followup_type) }}</strong> |
-                                                                Treatment:
-                                                                <strong>{{ $followup->treatment['name'] ?? '-' }}</strong>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            class="text-decoration-none text-dark view-followup"
+                                            data-id="{{ $followup->id ?? '' }}" style="cursor: pointer;">
+                                            <div class="card shadow-sm border rounded-3 m-0 w-100">
+    <div class="card-body py-3">
+        <div class=" w-100">
+            <div style="min-width: 0; width: 100%;">
+
+                <h5 class="card-title mb-1"
+                    style="
+                        display: block !important;
+                        white-space: normal !important;
+                        overflow-wrap: break-word !important;
+                        word-wrap: break-word !important;
+                        width: 100% !important;
+                        line-height: 1.4 !important;
+                    ">
+
+                    @if(Auth::check() && optional(Auth::user()->role)->name == 'Admin')
+                        Dr.
+                        <strong class="fw-bold">
+                            {{ $followup->doctor['fullname'] ?? '-' }}
+                        </strong>
+                        has a follow-up with
+                    @endif
+
+                    <strong>
+                        {{ $followup->patient['fullname'] ?? '-' }}
+                    </strong>
+
+                    on
+
+                    <strong>
+                        {{ \Carbon\Carbon::parse($followup->date)->format('d M Y') }}
+                    </strong>
+                </h5>
+
+               <p class="card-text mb-0 w-100" style="display: block !important; white-space: normal !important;">
+                    Type:
+                    <strong>{{ ucfirst($followup->followup_type) }}</strong>
+                    |
+                    Treatment:
+                    <strong>{{ $followup->treatment['name'] ?? '-' }}</strong>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>
                                         </a>
                                     </div>
                                 @endforeach
