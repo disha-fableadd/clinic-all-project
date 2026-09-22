@@ -822,7 +822,7 @@
         }
 
         .header .regular-logo {
-            max-width: 105px !important;
+            max-width: 110px !important;
             max-height: 40px !important;
             width: auto !important;
             height: auto !important;
@@ -888,10 +888,10 @@
             max-width: 100px !important;
         }
 
-        .header .regular-logo {
+        /* .header .regular-logo {
             max-width: 85px !important;
             max-height: 34px !important;
-        }
+        } */
 
         .header .nav.user-menu {
             gap: 4px !important;
@@ -959,10 +959,10 @@
             max-width: 80px !important;
         }
 
-        .header .regular-logo {
+        /* .header .regular-logo {
             max-width: 75px !important;
             max-height: 30px !important;
-        }
+        } */
 
         .header .nav.user-menu {
             gap: 4px !important;

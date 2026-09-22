@@ -226,7 +226,9 @@ console.log('notificationId', notificationId, updateUrl, redirectUrl)
 </footer> -->
 
 <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
+    if (document.getElementById("year")) {
+        document.getElementById("year").textContent = new Date().getFullYear();
+    }
 </script>
 
 </body>

@@ -133,7 +133,7 @@
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="email" class="form-control" id="email" required>
+                    <input type="email" name="email" class="form-control" id="email" >
                     @error('email')
                     <div class="text-danger">{{ $message }}</div>
                     @enderror
@@ -141,7 +141,7 @@
                <div class="form-group position-relative">
     <label>Password</label>
 
-    <input type="password" name="password" class="form-control" id="password" required>
+    <input type="password" name="password" class="form-control" id="password" >
 
     <i class="fa fa-eye" id="togglePassword"
         style="position:absolute; right:20px; top:42px; cursor:pointer; color:#777;"></i>
@@ -175,92 +175,90 @@
     <script src="{{asset(env('IMAGE_PATH') . 'admin/assets/js/jquery-3.2.1.min.js')}}"></script>
     <script src="{{asset(env('IMAGE_PATH') . 'admin/assets/js/popper.min.js')}}"></script>
     <script src="{{asset(env('IMAGE_PATH') . 'admin/assets/js/bootstrap.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
     <script src="{{asset(env('IMAGE_PATH') . 'admin/assets/js/app.js')}}"></script>
+    <style>
+        label.error {
+            color: #e63c3c;
+            font-size: 13px;
+            margin-top: 5px;
+            display: block;
+        }
+        .form-control.error {
+            border-color: #e63c3c;
+        }
+
+        @media (max-width: 767px) {
+            .regular-logo {
+                max-width: 110px !important;
+                max-height: 40px !important;
+                width: auto !important;
+            }
+        }
+    </style>
 </body>
-
-<script>
-$('#login-form').on('submit', function() {
-    // Disable the button
-    $('#loginButton').attr('disabled', true);
-
-    // Show the spinner
-    $('#loginLoader').removeClass('d-none');
-
-    // Hide the text
-    // $('#loginText').text('Please wait...');
-});
-</script>
 
 <script>
 $(document).ready(function() {
 
-    $('#login-form').on('submit', function(e) {
-
-        e.preventDefault();
-
-        $('#loginButton').attr('disabled', true);
-        $('#loginLoader').removeClass('d-none');
-
-        var email = $('#email').val().trim();
-        var password = $('#password').val().trim();
-
-        $.ajax({
-
-            url: "{{ url('api/loginweb') }}",
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify({
-                email: email,
-                password: password
-            }),
-
-            success: function(response) {
-
-                $('#loginerrorMessage').hide();
-
-                $('#loginsuccessMessage')
-                    .text(response.message || 'Login successfully')
-                    .show();
-
-                setTimeout(function() {
-
-                    window.location.href = "/dashboard";
-
-                }, 1000);
+    $('#login-form').validate({
+        rules: {
+            email: {
+                required: true,
+                email: true
             },
-
-            error: function(xhr) {
-
-                var response = xhr.responseJSON;
-
-                $('#loginsuccessMessage').hide();
-
-                if (response.lock_time) {
-
-                    $('#loginerrorMessage').text(response.message).show();
-
-                    $('#loginButton').attr('disabled', true);
-
-                    startTimer(response.lock_time);
-
-                } else {
-
-                    $('#loginerrorMessage').text(response.message).show();
-
-                    $('#loginButton').attr('disabled', false);
-                }
-            },
-
-            complete: function() {
-
-                $('#loginLoader').addClass('d-none');
-
+            password: {
+                required: true
             }
+        },
+        messages: {
+            email: {
+                required: "Please enter your email address.",
+                email: "Please enter a valid email address."
+            },
+            password: {
+                required: "Please enter your password."
+            }
+        },
+        submitHandler: function(form) {
+            $('#loginButton').attr('disabled', true);
+            $('#loginLoader').removeClass('d-none');
 
-        });
+            var email = $('#email').val().trim();
+            var password = $('#password').val().trim();
 
+            $.ajax({
+                url: "{{ url('api/loginweb') }}",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    email: email,
+                    password: password
+                }),
+                success: function(response) {
+                    $('#loginerrorMessage').hide();
+                    $('#loginsuccessMessage').text(response.message || 'Login successfully').show();
+                    setTimeout(function() {
+                        window.location.href = "/dashboard";
+                    }, 1000);
+                },
+                error: function(xhr) {
+                    var response = xhr.responseJSON;
+                    $('#loginsuccessMessage').hide();
+
+                    if (response && response.lock_time) {
+                        $('#loginerrorMessage').text(response.message).show();
+                        $('#loginButton').attr('disabled', true);
+                        startTimer(response.lock_time);
+                    } else {
+                        $('#loginerrorMessage').text(response ? response.message : 'An error occurred').show();
+                        $('#loginButton').attr('disabled', false);
+                    }
+                    $('#loginLoader').addClass('d-none');
+                }
+            });
+        }
     });
-
 });
 
 

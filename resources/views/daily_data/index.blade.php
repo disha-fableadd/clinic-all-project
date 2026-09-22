@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     /* popup box styling */
@@ -204,6 +204,11 @@
         line-height: 20px !important;
     }
 
+    .details-content strong {
+        font-weight: 700 !important;
+        color: #000 !important;
+    }
+
     .action-row {
         display: flex;
         align-items: center;
@@ -351,7 +356,7 @@
 
         .table.custom-table th,
         .table.custom-table td {
-            font-size: 11px;
+            /* font-size: 11px; */
             padding: 6px 10px;
         }
 
@@ -386,7 +391,7 @@
         }
 
         /* Buttons container */
-        .group-row .action-buttons {
+        .group-row .daily-action-btns {
             display: flex;
             gap: 10px;
             margin-top: 10px;
@@ -395,7 +400,7 @@
         }
 
         /* Make Export & Add buttons the same width */
-        .group-row .action-buttons .btn {
+        .group-row .daily-action-btns .btn {
             width: 45%;
             min-width: 0;
             text-align: center;
@@ -412,7 +417,7 @@
 
         /* Details table for mobile */
         .group-table {
-            font-size: 12px;
+            font-size: 14.5px;
         }
 
         /* Hide unnecessary columns in details table for mobile */
@@ -640,13 +645,13 @@
                             });
                             historyHtml +=
                                 `
-                                                                                                                                                <div style="border:1px solid #f89884; padding:8px; border-radius:5px; margin-bottom:5px;">
-                                                                                                                                                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                                                                                                                                                        <div style="font-weight:500; font-size:14px; color:#666;">${formattedDate}</div>
-                                                                                                                                                        <div style="font-weight:700; font-size:14px; text-align:right;">₹${payment.paid_amount} via ${payment.payment_mode}</div>
-                                                                                                                                                    </div>
-                                                                                                                                                </div>
-                                                                                                                                            `;
+                                    <div style="border:1px solid #f89884; padding:8px; border-radius:5px; margin-bottom:5px;">
+                                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                                            <div style="font-weight:500; font-size:14px; color:#666;">${formattedDate}</div>
+                                            <div style="font-weight:700; font-size:14px; text-align:right;">₹${payment.paid_amount} via ${payment.payment_mode}</div>
+                                        </div>
+                                    </div>
+                                `;
                         });
                     } else {
                         historyHtml = `<div style="color:#999;">No previous payments.</div>`;
@@ -975,6 +980,7 @@
                             @endif
 
                             // 🔹 Wrap export + add buttons inside a flex container for mobile
+                            let actionBtnsContainer = addBtnHtml ? `<div class="daily-action-btns d-flex flex-wrap justify-content-center align-items-center gap-2 mt-2 mt-md-0">${addBtnHtml}</div>` : '';
                             let groupRow = `
                                                                 <tr class="group-row" style="background:#f8f9fa; font-weight:bold;">
                                                                     <td colspan="10">
@@ -985,9 +991,7 @@
                                                                             </div>
                                                                             <div class="summary d-flex flex-wrap justify-content-end align-items-center gap-2 text-nowrap">
                                                                                 ${amtColumn}
-                                                                                <div class="action-buttons d-flex flex-wrap justify-content-center align-items-center gap-2 mt-2 mt-md-0">
-                                                                                    ${addBtnHtml}
-                                                                                </div>
+                                                                                ${actionBtnsContainer}
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -1023,8 +1027,8 @@
                                                                         </td>
                                                                         <td class="d-none d-md-table-cell">${entry.treatment_name || 'N/A'}</td>
                                                                         <td class="d-none d-md-table-cell">${entry.date || 'N/A'}</td>
-                                                                        <td class="d-none d-md-table-cell">₹ ${entry.amount ?? 'N/A'}</td>
-                                                                        <td class="d-none d-md-table-cell">₹ ${entry.pending ? parseFloat(entry.pending).toFixed(2) : 'N/A'}</td>
+                                                                        <td class="d-none d-md-table-cell"> ${entry.amount ?? 'N/A'}</td>
+                                                                        <td class="d-none d-md-table-cell"> ${entry.pending ? parseFloat(entry.pending).toFixed(2) : 'N/A'}</td>
                                                                         <td class="d-none d-md-table-cell">
                                                                             ${entry.status === 'pending'
                                         ? `<button class="btn btn-sm btn-outline-primary make-payment-btn" data-id="${entry.id}" style="font-size:11px;font-weight:600;">
@@ -1357,14 +1361,7 @@
 
 
 
-            $(document).on('click', '.toggle-group', function () {
-                const targetClass = $(this).data('target');
-                const $targetRow = $(`.${targetClass}`);
-                const $icon = $(this);
 
-                $targetRow.toggleClass('d-none'); // hide/show the target row
-                $icon.toggleClass('fa-caret-down fa-caret-right'); // toggle the icon direction
-            });
             $(document).on('click', '.payment-history', function () {
                 let dailyId = $(this).data('id');
 
@@ -1447,3 +1444,5 @@
         });
     </script>
 @endsection
+
+
