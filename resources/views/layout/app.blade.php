@@ -1744,6 +1744,35 @@
                 border-radius: 50px !important;
             }
         }
+
+        /* Compress margins and paddings for Add/Edit forms only on mobile */
+        @media (max-width: 767px) {
+            .content > .row {
+                margin-top: 5px !important;
+                padding-top: 5px !important;
+            }
+            .content .card-body:has(form), 
+            .content .form-container {
+                padding-top: 10px !important;
+                padding-bottom: 10px !important;
+                margin-top: 0 !important;
+            }
+            .content form .form-group {
+                margin-top: 2px !important;
+                margin-bottom: 8px !important;
+            }
+            .content form .row {
+                margin-top: 0 !important;
+                margin-bottom: 0 !important;
+            }
+            .content .page-title {
+                margin-top: 0px !important;
+                margin-bottom: 0px !important;
+            }
+            .page-wrapper > .content {
+                padding-top: 10px !important;
+            }
+        }
     </style>
 
 </head>

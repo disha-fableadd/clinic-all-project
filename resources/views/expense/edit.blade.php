@@ -70,7 +70,7 @@
                 </div>
             </div>
 
-            <div class="row mt-4">
+            <div class="row">
                 <div class="col-12">
                     <form id="editExpenseForm" class="form-container all-form expense-form">
                         @csrf
