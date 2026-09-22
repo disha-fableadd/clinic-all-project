@@ -216,20 +216,32 @@ console.log('notificationId', notificationId, updateUrl, redirectUrl)
 
     @include('layout.chatbot')
     <!-- Copyright -->
-<footer class="text-center my-3">
+<!-- <footer class="text-center my-3">
     <p>
         Copyright &copy; <span id="year"></span> -
         <a href="https://fableadtechnolabs.com/" target="_blank" style="text-decoration: none; color: black;">
             <b>Fablead Developers Technolab</b>
         </a>
     </p>
-</footer>
+</footer> -->
 
 <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
 </body>
+
+<script>
+    $(document).ready(function() {
+        if ($('.content').length) {
+            $('.content').append(`
+                <div class="footer-copyright text-center" style="padding: 15px 10px; margin-top: 20px; font-size: 13.5px; color: #6c757d; clear: both;">
+                    Copyright &copy; 2026 - <strong style="color: #4a5568;">Fablead Developers Technolab</strong>
+                </div>
+            `);
+        }
+    });
+</script>
 
 
 
