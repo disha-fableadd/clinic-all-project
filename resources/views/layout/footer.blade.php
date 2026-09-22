@@ -59,6 +59,10 @@
             color: #26846b;
         }
         .mobile-bottom-nav a:focus-visible { outline: 2px solid #26846b; outline-offset: -2px; }
+
+        html.menu-opened .mobile-bottom-nav {
+            display: none !important;
+        }
     }
 </style>
 

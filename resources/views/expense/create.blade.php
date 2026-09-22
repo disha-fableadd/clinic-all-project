@@ -70,9 +70,9 @@
             text-align: right !important;
         }
 
-        .expense-form {
+        /* .expense-form {
             height: 720px !important;
-        }
+        } */
     }
 </style>
 
