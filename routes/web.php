@@ -282,6 +282,7 @@ Route::middleware(['session.auth', 'check.permission'])->group(function () {
 
     Route::get('/invoice', [SettingController::class, 'index'])->name('invoice.index');
     Route::get('/invoice/create', [SettingController::class, 'invoice'])->name('invoice.create');
+    Route::get('/invoice/edit/{id}', [SettingController::class, 'edit'])->name('invoice.edit');
     Route::get('/invoice/pdf/{id}', [SettingController::class, 'pdf'])->name('invoice.pdf');
 
 
@@ -676,8 +677,10 @@ Route::get('/dietchart/export', [DietChartController::class, 'exportDietChart'])
 
 
 
-    // Route::get('/sms/create', [SmsController::class, 'create'])->name('sms.create');
     Route::get('all-notifications', [NotificationController::class, 'notificationView'])->name('notificationView');
+    Route::post('notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notification.markAllAsRead');
+    Route::delete('notifications/delete-all', [NotificationController::class, 'deleteAll'])->name('notification.deleteAll');
+    Route::delete('notifications/{id}', [NotificationController::class, 'destroy'])->name('notification.destroy');
     Route::post('notifications/{id}', [NotificationController::class, 'update'])->name('notification.update');
     Route::post('/hide-today-appointments', function () {
         session()->forget('show_today_appointment_modal');
@@ -791,3 +794,5 @@ Route::middleware(['session.auth', 'check.permission'])->group(function () {
     // Route::get('/export/home-advice', [HomeAdviceController::class, 'exportCsv'])->name('homeadvice.export');
     Route::get('/soap/export', [SoapController::class, 'exportCsv'])->name('soap.export');
 });
+
+

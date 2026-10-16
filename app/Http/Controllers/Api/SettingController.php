@@ -36,7 +36,31 @@ class SettingController extends Controller
 {
 
 
+ public function saveDeclarationSetting(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'declaration' => ['nullable', 'string', 'max:5000'],
+            'status' => ['nullable', 'string', 'in:on,off'],
+        ]);
 
+        Setting::updateOrCreate(
+            ['key' => 'invoice_declaration'],
+            ['value' => $validated['declaration'] ?? '']
+        );
+
+        $statusValue = ($request->input('status') === 'on' || $request->input('status') === '1' || $request->boolean('status')) ? 'on' : 'off';
+        Setting::updateOrCreate(
+            ['key' => 'invoice_declaration_status'],
+            ['value' => $statusValue]
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Declaration saved successfully.',
+            'status' => $statusValue,
+        ]);
+    }
+    
     public function notificationView(Request $request)
     {
         $user = Auth::user();
@@ -423,12 +447,16 @@ class SettingController extends Controller
     {
         $razorpayKey = Setting::where('key', 'razorpay_key')->value('value');
         $razorpaySecret = Setting::where('key', 'razorpay_secret')->value('value');
+        $declaration = Setting::where('key', 'invoice_declaration')->value('value') ?? '';
+        $declarationStatus = Setting::where('key', 'invoice_declaration_status')->value('value') ?? 'off';
 
         return response()->json([
             'success' => true,
             'data' => [
                 'razorpay_key' => $razorpayKey,
-                'razorpay_secret' => $razorpaySecret, // 👈 REAL VALUE
+                'razorpay_secret' => $razorpaySecret,
+                'declaration' => $declaration,
+                'declaration_status' => $declarationStatus,
             ],
         ]);
     }
@@ -1010,8 +1038,278 @@ class SettingController extends Controller
             'taxtype'
         ));
     }
+    public function edit(Request $request, $id)
+    {
+        $userId = $request->user()->id;
+        $invoice = Invoice::with('patient')->findOrFail($id);
 
+        // Get branch_id from invoice, session or user
+        $branchId = $invoice->branch_id ?? (session('branch_id') ?? $request->user()->branch_id);
 
+        // Patients (branch-wise)
+        $patients = Patients::where('branch_id', $branchId)->get();
+
+        // Treatments (branch-wise)
+        $treatments = Treatment::where('branch_id', $branchId)->get();
+
+        // Medicines (branch-wise)
+        $medicines = Medicine::where('branch_id', $branchId)->get();
+
+        // Pathology Services (branch-wise)
+        $pathologyServices = PathologyTest::where('branch_id', $branchId)->get()
+            ->map(function ($item) {
+                return [
+                    'id' => 'pathology_' . $item->id,
+                    'name' => $item->test_name,
+                    'cost' => $item->cost,
+                    'service_type' => 'pathology',
+                    'gst_option' => $item->gst_option ?? 'Without GST',
+                    'product_gst' => $item->product_gst,
+                ];
+            });
+
+        // Radiology Services (branch-wise)
+        $radiologyServices = RadiologyTest::where('branch_id', $branchId)->get()
+            ->map(function ($item) {
+                return [
+                    'id' => 'radiology_' . $item->id,
+                    'name' => $item->test_name,
+                    'cost' => $item->cost,
+                    'service_type' => 'radiology',
+                    'gst_option' => $item->gst_option ?? 'Without GST',
+                    'product_gst' => $item->product_gst,
+                ];
+            });
+
+        $services = $pathologyServices->concat($radiologyServices)->values();
+
+        // Therapies (branch-wise)
+        $therapies = Therapy::where('branch_id', $branchId)->get();
+
+        // Appointments (branch + completed)
+        $appointments = Appointments::with('treatment')
+            ->where('branch_id', $branchId)
+            ->where('status', 'completed')
+            ->get()
+            ->map(function ($appointment) {
+                return [
+                    'id' => $appointment->id,
+                    'name' => 'Appointment #' . $appointment->id . ' - ' . ($appointment->treatment->name ?? 'No Treatment'),
+                    'unit' => $appointment->treatment->unit ?? 0,
+                    'treatment_id' => $appointment->treatment_id,
+                ];
+            });
+
+        // Tax Settings
+        $taxLabel = DB::table('settings')->where('key', 'tax_name')->value('value') ?? 'Tax';
+        $taxValue = DB::table('settings')->where('key', 'value')->value('value') ?? '0';
+        $taxtype = DB::table('settings')->where('key', 'tax_type')->value('value') ?? 'percentage';
+
+        return view('invoice.edit', compact(
+            'invoice',
+            'patients',
+            'treatments',
+            'services',
+            'medicines',
+            'appointments',
+            'therapies',
+            'taxLabel',
+            'taxValue',
+            'taxtype'
+        ));
+    }
+
+    public function updateInvoice(Request $request, $id)
+    {
+        try {
+            $invoice = Invoice::findOrFail($id);
+
+            // Step 1: Validate Input
+            $validatorRules = [
+                'invoice_type' => 'required|in:treatment,service,medicine,followup,appointment,therapy,discharge',
+                'patient_id' => 'required|exists:patients,id',
+                'branch_id' => 'required|exists:branches,id',
+                'items' => 'required|array|min:1',
+                'items.*.type_service' => 'required',
+                'items.*.quantity' => 'required|integer|min:1',
+                'items.*.price' => 'required|numeric|min:0',
+                'items.*.total' => 'required|numeric|min:0',
+                'items.*.gst_option' => 'nullable|string|in:With GST,Without GST',
+                'items.*.product_gst' => 'nullable',
+                'grandTotal' => 'required|numeric|min:0',
+                'tax' => 'nullable|numeric|min:0',
+                'discount_type' => 'nullable|in:fixed_amount,percentage',
+                'discount' => 'nullable|numeric|min:0',
+                'payment_type' => 'required|in:Cash,Online',
+                'payment_status' => 'required|in:Paid,Pending',
+            ];
+
+            if ($request->invoice_type === 'service') {
+                $validatorRules['items.*.type_service'] = ['required', 'string', 'regex:/^(pathology|radiology)_\\d+$/'];
+            } else if (!in_array($request->invoice_type, ['appointment', 'discharge'])) {
+                $validatorRules['items.*.type_service'] = ['required', 'integer'];
+            }
+
+            if (in_array($request->invoice_type, ['appointment', 'discharge'])) {
+                $validatorRules['items.*.type_service'] = 'nullable';
+                $validatorRules['items.*.quantity'] = 'nullable|integer';
+            }
+
+            $validator = Validator::make($request->all(), $validatorRules);
+
+            if ($validator->fails()) {
+                return response()->json(['status' => false, 'message' => $validator->errors()], 422);
+            }
+
+            // Step 2: Manual service & therapy validation
+            if ($request->invoice_type === 'service') {
+                foreach ($request->items as $item) {
+                    $sid = $item['type_service'] ?? null;
+                    if (!$sid) continue;
+                    if (!is_string($sid) || !preg_match('/^(pathology|radiology)_(\\d+)$/', $sid, $m)) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => "Invalid service ID: {$sid}"
+                        ], 422);
+                    }
+                    $model = $m[1] === 'pathology' ? PathologyTest::class : RadiologyTest::class;
+                    $valid = $model::find((int) $m[2]);
+                    if (!$valid) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => "Invalid service ID: {$sid}"
+                        ], 422);
+                    }
+                }
+            }
+            if ($request->invoice_type === 'therapy') {
+                foreach ($request->items as $item) {
+                    $tid = $item['type_service'] ?? null;
+                    if (!$tid) continue;
+                    if (!Therapy::find($tid)) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => "Invalid therapy ID: {$tid}"
+                        ], 422);
+                    }
+                }
+            }
+
+            // Step 3: Fetch Patient & Settings
+            $invoice_type = $request->invoice_type;
+            $patient_id = $request->patient_id;
+            $patient = Patients::find($patient_id);
+            $settings = Setting::whereIn('key', [
+                'clinic_logo',
+                'clinic_name',
+                'clinic_address',
+                'clinic_phone',
+                'clinic_email',
+                'clinic_city',
+                'clinic_state',
+                'tax_name',
+                'tax_type'
+            ])->pluck('value', 'key');
+
+            // Step 4: Map Items (with GST fields)
+            $services = collect($request->items)->map(function ($item) use ($invoice_type) {
+                $row = [
+                    'id' => $item['type_service'] ?? null,
+                    'name' => $this->getServiceName($invoice_type, $item['type_service'] ?? null),
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price'],
+                    'total' => $item['total'],
+                ];
+                $row['gst_option'] = $item['gst_option'] ?? 'Without GST';
+                $row['product_gst'] = isset($item['product_gst']) ? (is_array($item['product_gst']) ? $item['product_gst'] : json_decode($item['product_gst'], true)) : null;
+                return $row;
+            });
+
+            // Parse Date
+            $invoiceDate = $request->filled('date1')
+                ? \Carbon\Carbon::parse($request->input('date1'))->format('Y-m-d')
+                : ($invoice->date ?? now()->format('Y-m-d'));
+
+            $formattedDateForPdf = \Carbon\Carbon::parse($invoiceDate)->format('d-m-Y');
+
+            // Step 5: Regenerate PDF
+            $invoiceData = [
+                'invoice_no' => $invoice->type_id,
+                'date' => $formattedDateForPdf,
+                'branch_id' => $request->branch_id,
+                'patient' => $patient,
+                'clinic_logo' => $settings['clinic_logo'] ?? 'default-logo.png',
+                'clinic_name' => $settings['clinic_name'] ?? 'My Clinic',
+                'services' => $services,
+                'tax_type' => $settings['tax_type'] ?? '',
+                'grand_total' => $request->grandTotal,
+                'invoice_type' => $invoice_type,
+                'tax' => $request->input('tax', $invoice->tax ?? 0),
+                'discount_type' => $request->discount_type,
+                'discount' => $request->discount,
+                'clinic_address' => $settings['clinic_address'] ?? '',
+                'clinic_phone' => $settings['clinic_phone'] ?? '',
+                'clinic_state' => $settings['clinic_state'] ?? '',
+                'clinic_city' => $settings['clinic_city'] ?? '',
+                'clinic_email' => $settings['clinic_email'] ?? '',
+                'tax_name' => $settings['tax_name'] ?? '',
+                'payment_type' => $request->payment_type,
+                'payment_status' => $request->payment_status,
+                'gst_enabled' => $request->has('gst_enabled') ? (bool)$request->input('gst_enabled') : null,
+            ];
+
+            try {
+                $pdf = Pdf::loadView('invoice.pdf', $invoiceData);
+                $invoiceDirectory = public_path('uploads/invoices');
+                if (!file_exists($invoiceDirectory)) {
+                    mkdir($invoiceDirectory, 0755, true);
+                }
+                $pdfFileName = 'invoice_' . $invoice->type_id . '.pdf';
+                $pdfPath = $invoiceDirectory . '/' . $pdfFileName;
+                $pdf->save($pdfPath);
+
+                $host = request()->getHost();
+                if ($host === '127.0.0.1' || $host === 'localhost') {
+                    $pdfUrl = asset('uploads/invoices/' . $pdfFileName);
+                } else {
+                    $pdfUrl = asset('public/uploads/invoices/' . $pdfFileName);
+                }
+            } catch (\Exception $pdfEx) {
+                \Log::warning('Invoice PDF update failed: ' . $pdfEx->getMessage());
+                $pdfUrl = null;
+            }
+
+            // Step 6: Update Invoice Record
+            $invoiceUpdateData = [
+                'patient_id' => $patient_id,
+                'branch_id' => $request->branch_id,
+                'type' => $invoice_type,
+                'date' => $invoiceDate,
+                'instruction' => $request->input('instruction', ''),
+                'types_details' => $services,
+                'grand_total' => $request->grandTotal,
+                'tax' => $request->input('tax', $invoice->tax ?? 0),
+                'discount_type' => $request->discount_type,
+                'discount' => $request->discount,
+                'payment_type' => $request->payment_type,
+                'payment_status' => $request->payment_status,
+            ];
+
+            if (\Schema::hasColumn('invoices', 'gst_enabled')) {
+                $invoiceUpdateData['gst_enabled'] = $request->input('gst_enabled', 0);
+            }
+
+            $invoice->update($invoiceUpdateData);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Invoice updated successfully',
+                'url' => $pdfUrl,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json(['status' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
 
     public function generateInvoice(Request $request)
     {

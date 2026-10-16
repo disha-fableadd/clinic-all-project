@@ -120,6 +120,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //razorpay
     Route::post('/save-razorpay-settings', [SettingController::class, 'saveRazorpaySettings']);
     Route::get('/get-razorpay-settings', [SettingController::class, 'getRazorpaySettings']);
+    Route::post('/save-declaration-setting', [SettingController::class, 'saveDeclarationSetting']);
     Route::post('/save-project-type', [SettingController::class, 'saveProjectType']);
     Route::post('/razorpay/generate-payment-link', [SettingController::class, 'generateLink']);
     Route::post('/treatment_booking/generate-payment-link-treatment', [SettingController::class, 'generateLinkTreatmentBooking']);
@@ -455,6 +456,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/appointments/app', [AppointmentController::class, 'indexForApp']);
 
     Route::post('/invoice', [SettingController::class, 'generateInvoice'])->name('invoice.create'); //done
+    Route::post('/invoice/{id}', [SettingController::class, 'updateInvoice'])->name('invoice.update');
 
     Route::get('/invoice', [SettingController::class, 'index'])->name('invoice.index'); //done
     Route::delete('/invoice/{id}', [SettingController::class, 'destroy'])->name('invoice.destroy'); //done
@@ -534,6 +536,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/search', [SearchController::class, 'search']); //done
 
     Route::get('/chart-data', [chartController::class, 'getChartData']); //done
+    Route::get('/report-overview', [chartController::class, 'getReportOverview']); // report page stats & overview
 
     Route::post('/send-sms', [SmsController::class, 'sendSms'])->name('send.sms'); //done
 
