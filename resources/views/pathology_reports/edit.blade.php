@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .followup-title {
@@ -100,7 +100,7 @@
                         </div>
 
                         <div id="editpathologyreportsuccessMessage" class="alert alert-success" style="display:none;"></div>
-                        {{-- <div id="editpathologyreporterrorMessage" class="alert alert-danger" style="display:none;"></div> --}}
+                        <div id="editpathologyreporterrorMessage" class="alert alert-danger" style="display:none;"></div>
 
                         <button type="submit" class="btn btn-primary d-block m-auto"
                             style="padding:8px 50px; border-radius:50px;">
@@ -207,17 +207,26 @@
                 });
             });
 
+            let token = localStorage.getItem('token') || localStorage.getItem("authToken") || sessionStorage.getItem('token') || '';
+
             // Fetch existing report data
-            $.get(`/api/pathology-reports/${reportId}`, function(report) {
-                $('#patientDropdown').val(report.patient_id).trigger('change');
-                $('#testDropdown').val(report.test_id).trigger('change');
-                $('#sampleDate').val(report.sample_collected_date);
-                $('#reportDate').val(report.report_date);
-                $('#resultField').val(report.result);
-                if (report.report_file) {
-                    $('#existingFileLink').attr('href', '/' + report.report_file);
-                } else {
-                    $('#existingFileLink').hide();
+            $.ajax({
+                url: `/api/pathology-reports/${reportId}`,
+                type: 'GET',
+                xhrFields: { withCredentials: true },
+                headers: token ? { "Authorization": "Bearer " + token } : {},
+                success: function(report) {
+                    $('#patientDropdown').val(report.patient_id).trigger('change');
+                    $('#testDropdown').val(report.test_id).trigger('change');
+                    $('#sampleDate').val(report.sample_collected_date);
+                    $('#reportDate').val(report.report_date);
+                    $('#resultField').val(report.result);
+                    if (report.report_file) {
+                        let clean = report.report_file.replace(/^\/+/, '');
+                        $('#existingFileLink').attr('href', '/' + clean).show();
+                    } else {
+                        $('#existingFileLink').hide();
+                    }
                 }
             });
 
@@ -237,6 +246,12 @@
                     data: formData,
                     contentType: false,
                     processData: false,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    headers: token ? {
+                        "Authorization": "Bearer " + token
+                    } : {},
                     success: function(res) {
                         $('#editpathologyreportsuccessMessage').text(res.message ||
                             "Report updated successfully").fadeIn();

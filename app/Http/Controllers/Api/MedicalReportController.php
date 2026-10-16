@@ -14,11 +14,25 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Validator;
 
 
 class MedicalReportController extends Controller
 {
+    protected function ensureBranchColumnExists()
+    {
+        try {
+            if (Schema::hasTable('medical_reports') && !Schema::hasColumn('medical_reports', 'branch_id')) {
+                Schema::table('medical_reports', function (Blueprint $table) {
+                    $table->unsignedBigInteger('branch_id')->nullable()->after('user_id');
+                });
+            }
+        } catch (\Throwable $e) {
+            Log::warning('Could not ensure branch_id column on medical_reports: ' . $e->getMessage());
+        }
+    }
 
 
     public function medicalReportPdf($id)
@@ -78,17 +92,19 @@ class MedicalReportController extends Controller
 
 
 
-   public function exportCsv(Request $request)
-{
-    $branchId = $request->input('branch_id'); // ✅ Branch filter
+    public function exportCsv(Request $request)
+    {
+        $this->ensureBranchColumnExists();
+        $branchId = $request->input('branch_id'); // ✅ Branch filter
+        $hasBranchColumn = Schema::hasColumn('medical_reports', 'branch_id');
 
-    $reports = MedicalReport::with(['patient', 'doctor'])
-        ->orderBy('created_at', 'desc');
+        $reports = MedicalReport::with(['patient', 'doctor'])
+            ->orderBy('created_at', 'desc');
 
-    // ✅ Apply branch filter if provided
-    if ($branchId) {
-        $reports->where('branch_id', $branchId);
-    }
+        // ✅ Apply branch filter if provided and column exists
+        if ($branchId && $hasBranchColumn) {
+            $reports->where('branch_id', $branchId);
+        }
 
     $reports = $reports->get();
 
@@ -177,18 +193,25 @@ class MedicalReportController extends Controller
     public function index(Request $request)
     {
         try {
+            $this->ensureBranchColumnExists();
+            $hasBranchColumn = Schema::hasColumn('medical_reports', 'branch_id');
+
             $user = Auth::user(); // authenticated user
 
             // Base query
-            $query = MedicalReport::with(['patient', 'branch']);
+            $withRelations = ['patient'];
+            if ($hasBranchColumn) {
+                $withRelations[] = 'branch';
+            }
+            $query = MedicalReport::with($withRelations);
 
             // Filter by doctor if role is Doctor
-            if ($user->role->name === 'Doctor') {
+            if ($user && $user->role && $user->role->name === 'Doctor') {
                 $query->where('doctor_id', $user->id);
             }
 
             // Filter by branch_id from request (sent from localStorage)
-            if ($request->filled('branch_id')) {
+            if ($hasBranchColumn && $request->filled('branch_id')) {
                 $query->where('branch_id', $request->branch_id);
             }
 
@@ -456,20 +479,28 @@ class MedicalReportController extends Controller
 
     public function store(Request $request)
     {
+        $this->ensureBranchColumnExists();
+        $hasBranchColumn = Schema::hasColumn('medical_reports', 'branch_id');
+
         $loggedInUserId = auth()->id();
 
         // ✅ Get branch_id from request (frontend sends localStorage value)
         $branchId = $request->branch_id;
 
         // ✅ Validate request
-        $validator = Validator::make(array_merge($request->all(), ['branch_id' => $branchId]), [
+        $rules = [
             'patient_id'  => 'required|exists:patients,id',
-            'branch_id'   => 'required|exists:branches,id', // branch comes from localStorage
             'description' => 'nullable|string',
             'file_path'   => 'required|file|mimes:pdf,jpg,jpeg,png,doc,docx,webp,jfif|max:2048',
             'date'        => 'required|date',
             'report_type' => 'required|string|max:255',
-        ]);
+        ];
+
+        if ($hasBranchColumn && !empty($branchId)) {
+            $rules['branch_id'] = 'nullable|exists:branches,id';
+        }
+
+        $validator = Validator::make(array_merge($request->all(), ['branch_id' => $branchId]), $rules);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -493,15 +524,20 @@ class MedicalReportController extends Controller
             }
 
             // ✅ Create Medical Report
-            $report = MedicalReport::create([
+            $createData = [
                 'patient_id'  => $request->patient_id,
-                'branch_id'   => $branchId, // branch_id from localStorage
                 'description' => $request->description,
                 'file_path'   => $imagePath,
                 'user_id'     => $loggedInUserId,
                 'date'        => $request->date,
                 'report_type' => $request->report_type,
-            ]);
+            ];
+
+            if ($hasBranchColumn && !empty($branchId)) {
+                $createData['branch_id'] = $branchId;
+            }
+
+            $report = MedicalReport::create($createData);
 
             return response()->json([
                 'message' => 'Medical report created successfully',
@@ -509,7 +545,7 @@ class MedicalReportController extends Controller
             ], 201);
         } catch (\Exception $e) {
             \Log::error('Error creating medical report: ' . $e->getMessage());
-            return response()->json(['error' => 'Something went wrong!'], 500);
+            return response()->json(['error' => $e->getMessage() ?: 'Something went wrong!'], 500);
         }
     }
 
@@ -582,15 +618,20 @@ class MedicalReportController extends Controller
             }
 
             // Update the medical report
-            $medicalReport->update([
+            $updateData = [
                 'patient_id' => $validatedData['patient_id'],
                 'date' => $validatedData['date'],
                 'description' => $validatedData['description'],
                 'file_path' => $validatedData['file_path'] ?? $medicalReport->file_path,
                 'report_type' => $validatedData['report_type'],
-
                 'user_id' => $loggedInUserId,
-            ]);
+            ];
+
+            if (Schema::hasColumn('medical_reports', 'branch_id') && $request->filled('branch_id')) {
+                $updateData['branch_id'] = $request->branch_id;
+            }
+
+            $medicalReport->update($updateData);
 
             return response()->json([
                 'message' => 'Medical report updated successfully',

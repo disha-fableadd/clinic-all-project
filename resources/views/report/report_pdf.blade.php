@@ -174,16 +174,20 @@
             background-color: #fbfdfc;
         }
 
-        .report-box {
+        .report-table {
             width: 100%;
+            border-collapse: collapse;
             border: 1px solid #d0e4dc;
             background-color: #fff;
-            padding: 12px 14px;
+            margin-top: 8px;
+        }
+
+        .report-table td {
+            padding: 10px 12px;
             font-size: 11.5px;
             line-height: 1.6;
             color: #333;
-            box-sizing: border-box;
-            margin-top: 8px;
+            vertical-align: top;
         }
 
         .declaration-signatory {
@@ -412,17 +416,21 @@
             CLINICAL FINDINGS & OBSERVATIONS
         </div>
 
-        <div class="report-box">
-            {!! nl2br(e($displayVal($report->description ?? ''))) !!}
+        <table class="report-table">
+            <tr>
+                <td>
+                    {!! nl2br(e($displayVal($report->description ?? ''))) !!}
 
-            @if(!empty($report->file_path))
-                <div style="margin-top: 15px; text-align: center;">
-                    <div style="font-weight: bold; margin-bottom: 8px; color: #0c4b33; text-align: left;">Attached Document / Scan:</div>
-                    <img src="{{ public_path('uploads/report/' . basename($report->file_path)) }}" alt="Report File"
-                        style="max-width: 100%; max-height: 380px; border: 1px solid #ddd; border-radius: 4px;">
-                </div>
-            @endif
-        </div>
+                    @if(!empty($report->file_path))
+                        <div style="margin-top: 15px; text-align: center;">
+                            <div style="font-weight: bold; margin-bottom: 8px; color: #0c4b33; text-align: left;">Attached Document / Scan:</div>
+                            <img src="{{ public_path('uploads/report/' . basename($report->file_path)) }}" alt="Report File"
+                                style="max-width: 100%; max-height: 380px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                    @endif
+                </td>
+            </tr>
+        </table>
 
         <!-- Declaration & Authorized Signatory -->
         <table class="declaration-signatory">

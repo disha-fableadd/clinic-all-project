@@ -10,9 +10,57 @@ use App\Models\RadiologyTest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Setting;
 
 class RadiologyReportController extends Controller
 {
+    public function radiologyReportPdf($id)
+    {
+        try {
+            $report = RadiologyReport::with(['patient', 'test', 'branch'])->findOrFail($id);
+
+            // Fetch clinic details
+            $settings = Setting::whereIn('key', [
+                'clinic_logo',
+                'clinic_name',
+                'clinic_address',
+                'clinic_phone',
+                'clinic_email',
+                'clinic_city',
+                'clinic_state',
+            ])->pluck('value', 'key');
+
+            $clinic_logo = $settings['clinic_logo'] ?? 'admin/assets/img/cliniclogo.png';
+            $clinic_logo_path = public_path($clinic_logo);
+
+            $data = [
+                'date' => now()->format('d-m-Y'),
+                'patient' => $report->patient,
+                'test' => $report->test,
+                'report' => $report,
+                'clinic_logo' => $clinic_logo_path,
+                'clinic_name' => $settings['clinic_name'] ?? 'Sunshine Clinic',
+                'clinic_address' => $settings['clinic_address'] ?? '123 Health Street',
+                'clinic_phone' => $settings['clinic_phone'] ?? '1234567890',
+                'clinic_email' => $settings['clinic_email'] ?? 'clinic@example.com',
+                'clinic_city' => $settings['clinic_city'] ?? '',
+                'clinic_state' => $settings['clinic_state'] ?? '',
+            ];
+
+            $pdf = Pdf::loadView('radiology-reports.radiology_report_pdf', $data)
+                ->setPaper('A4', 'portrait');
+
+            return $pdf->download("RadiologyReport_{$report->id}.pdf");
+        } catch (\Exception $e) {
+            Log::error('Radiology Report PDF generation failed: ' . $e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => 'Radiology Report PDF generation failed',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 
 
       public function exportCsv()
@@ -146,7 +194,7 @@ class RadiologyReportController extends Controller
             'patient_id' => 'required|exists:patients,id',
             'test_id' => 'required|exists:radiology_tests,id',
             'report_date' => 'required|date|before_or_equal:today',
-            'report_file' => 'required|file',
+            'report_file' => 'nullable|file',
         ], [
             'patient_id.required' => 'Please select a patient.',
             'patient_id.exists' => 'The selected patient does not exist.',
@@ -155,7 +203,6 @@ class RadiologyReportController extends Controller
             'report_date.required' => 'Please provide the report date.',
             'report_date.date' => 'Report date must be a valid date.',
             'report_date.before_or_equal' => 'Report date cannot be in the future.',
-            'report_file.required' => 'Please upload a report file.',
             'report_file.file' => 'The uploaded file must be valid.',
         ]);
 
@@ -166,11 +213,11 @@ class RadiologyReportController extends Controller
         // Step 2: Get test format
         $test = \App\Models\RadiologyTest::find($request->test_id);
 
-        if (!$test || empty($test->report_format)) {
-            return response()->json(['error' => 'Invalid or missing report format for this test.'], 422);
+        if (!$test) {
+            return response()->json(['error' => 'Invalid or missing test.'], 422);
         }
 
-        $format = strtolower(trim($test->report_format));
+        $format = !empty($test->report_format) ? strtolower(trim($test->report_format)) : 'pdf';
 
         // Supported MIME types map
         $mimeTypesMap = [
@@ -198,22 +245,23 @@ class RadiologyReportController extends Controller
             $allowedExtensions = [$format];
         }
 
-        // Step 3: Validate the file type strictly
-        $request->validate([
-            'report_file' => [
-                'required',
-                'file',
-                'max:5120', // 5 MB
-                function ($attribute, $value, $fail) use ($allowedMimes, $allowedExtensions) {
-                    $ext = strtolower($value->getClientOriginalExtension());
-                    $mime = $value->getMimeType();
+        // Step 3: Validate the file type strictly if uploaded
+        if ($request->hasFile('report_file')) {
+            $request->validate([
+                'report_file' => [
+                    'file',
+                    'max:5120', // 5 MB
+                    function ($attribute, $value, $fail) use ($allowedMimes, $allowedExtensions) {
+                        $ext = strtolower($value->getClientOriginalExtension());
+                        $mime = $value->getMimeType();
 
-                    if (!in_array($ext, $allowedExtensions) || !in_array($mime, $allowedMimes)) {
-                        $fail("The uploaded file must be of type: " . implode(', ', $allowedExtensions));
+                        if (!in_array($ext, $allowedExtensions) || !in_array($mime, $allowedMimes)) {
+                            $fail("The uploaded file must be of type: " . implode(', ', $allowedExtensions));
+                        }
                     }
-                }
-            ]
-        ]);
+                ]
+            ]);
+        }
 
         // Step 4: Handle file upload
         $filePath = null;
@@ -265,8 +313,9 @@ class RadiologyReportController extends Controller
             'patient_id' => $request['patient_id'],
             'test_id' => $request['test_id'],
             'report_date' => $request['report_date'],
-            'report_file' => $filePath,
-            'converted_image' => $jpgPath,
+            'report_file' => $filePath ?? '',
+            'converted_image' => $jpgPath ?? '',
+            'branch_id' => $request['branch_id'] ?? null,
         ]);
 
         return response()->json([

@@ -1,5 +1,14 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
+    .download {
+        padding: 10px !important;
+        margin-left: 5px !important;
+    }
+
+    .filess {
+        padding: 10px 12px !important;
+    }
+
     .swal-confirm-btn {
         color: rgb(58, 58, 58) !important;
     }
@@ -63,7 +72,7 @@
 </style>
 @section('content')
     <div class="page-wrapper">
-        <div class="content" style="height:100vh">
+        <div class="content" style="min-height: 100vh; height: auto;">
             <div class="row" style="padding-top:15px">
 
             </div>
@@ -131,37 +140,40 @@
         let branchId = localStorage.getItem('selectedBranchId');
 
         $(document).ready(function() {
-            let token = localStorage.getItem("authToken");
+            let token = localStorage.getItem('token') || localStorage.getItem("authToken") || sessionStorage.getItem('token') || '';
             initReportsTable();
 
-            function renderReportFile(report) {
-                const basePath = IMAGE_PATH;
-                const reportFile = report.report_file;
-                const fullPath = reportFile ? `${basePath}/${reportFile}` : '';
-                if (!fullPath) {
-                    return 'No file';
+            function getReportFileUrl(reportFile) {
+                if (!reportFile) return '';
+                if (reportFile.startsWith('http://') || reportFile.startsWith('https://')) {
+                    return reportFile;
                 }
-                return `
-                    <a href="${fullPath}" target="_blank" class="btn btn-primary btn-sm">
-                        <i class="fas fa-file-alt"></i>
-                    </a>
-                    <a href="${fullPath}" download class="btn btn-primary btn-sm download">
-                        <i class="fas fa-download"></i>
-                    </a>
-                `;
+                let clean = reportFile.replace(/^\/+/, '');
+                return '/' + clean;
+            }
+
+            function renderReportFile(report) {
+                let html = '<div style="display:flex; align-items:center; justify-content:center; gap:5px;">';
+                const uploadedUrl = getReportFileUrl(report.report_file);
+                if (uploadedUrl) {
+                    html += `<a href="${uploadedUrl}" target="_blank" class="btn btn-primary btn-sm filess" title="View Uploaded File"><i class="fas fa-file-alt"></i></a>`;
+                }
+                html += `<button type="button" class="btn btn-primary btn-sm download download-report" data-id="${report.id}" title="Download Report PDF"><i class="fa fa-download"></i></button>`;
+                html += '</div>';
+                return html;
             }
 
             function renderActions(report) {
                 return `
                     <div class="icon">
                         @if (app('hasPermission')(20, 'view'))
-                            <i class="fa fa-eye m-r-5 icon3 view-report" style="cursor:pointer" data-id="${report.id}"></i>
+                            <i class="fa fa-eye m-r-5 icon3 view-report" style="cursor:pointer" data-id="${report.id}" title="View"></i>
                         @endif
                         @if (app('hasPermission')(20, 'update'))
-                            <i class="fa fa-pencil m-r-5 icon1 edit-report" style="cursor:pointer" data-id="${report.id}"></i>
+                            <i class="fa fa-pencil m-r-5 icon1 edit-report" style="cursor:pointer" data-id="${report.id}" title="Edit"></i>
                         @endif
                         @if (app('hasPermission')(20, 'delete'))
-                            <i class="fa fa-trash m-r-5 icon2 delete-report" style="cursor:pointer" data-id="${report.id}"></i>
+                            <i class="fa fa-trash m-r-5 icon2 delete-report" style="cursor:pointer" data-id="${report.id}" title="Delete"></i>
                         @endif
                     </div>
                 `;
@@ -208,8 +220,10 @@
                                     per_page: perPage,
                                     search: data.search?.value || ''
                                 },
-                                dataType: "json",
-                                headers: { "Authorization": "Bearer " + token },
+                                xhrFields: {
+                                    withCredentials: true
+                                },
+                                headers: token ? { "Authorization": "Bearer " + token } : {},
                                 success: function(response) {
                                     const rows = response.pathology_report || response.data || response || [];
                                     callback({
@@ -246,7 +260,9 @@
                             {
                                 data: null,
                                 render: function (data, type, row) {
-                                    return row.test?.test_name ?? 'N/A';
+                                    const testName = row.test?.test_name ?? 'N/A';
+                                    const testCode = row.test?.test_code ? `<br><small class="text-muted"><i class="fa fa-barcode"></i> ${row.test.test_code}</small>` : '';
+                                    return `<div>${testName}${testCode}</div>`;
                                 }
                             },
                             {
@@ -317,6 +333,9 @@
                 const sampleCollected = data.sample_collected_date || 'N/A';
                 const reportDate = data.report_date || 'N/A';
                 const result = data.result || 'N/A';
+                const testCode = data.test?.test_code ? `<div><strong>Test Code:</strong> ${data.test.test_code}</div>` : '';
+                const sampleType = data.test?.sample_type ? `<div><strong>Sample Type:</strong> ${data.test.sample_type}</div>` : '';
+                const normalRange = data.test?.normal_range ? `<div><strong>Normal Range:</strong> ${data.test.normal_range}</div>` : '';
                 const reportFile = renderReportFile(data);
                 const actionHtml = renderActions(data);
 
@@ -324,6 +343,9 @@
                     <tr class="details-row">
                         <td colspan="3">
                             <div class="details-content">
+                                ${testCode}
+                                ${sampleType}
+                                ${normalRange}
                                 <div><strong>Sample Collected:</strong> ${sampleCollected}</div>
                                 <div><strong>Report Date:</strong> ${reportDate}</div>
                                 <div><strong>Result:</strong> ${result}</div>
@@ -379,6 +401,55 @@
                             error: function() {
                                 Swal.fire('Error', 'Could not delete the report.', 'error');
                             }
+                        });
+                    }
+                });
+            });
+
+            $(document).on('click', '.download-report', function (e) {
+                e.preventDefault();
+                const reportId = $(this).data('id');
+                if (!reportId) return;
+
+                Swal.fire({
+                    title: 'Generating PDF...',
+                    text: 'Please wait while your Pathology Report is prepared.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                $.ajax({
+                    url: `/api/pathology-reports/${reportId}/download`,
+                    method: 'GET',
+                    xhrFields: {
+                        responseType: 'blob',
+                        withCredentials: true
+                    },
+                    headers: token ? {
+                        "Authorization": "Bearer " + token
+                    } : {},
+                    success: function (response, status, xhr) {
+                        Swal.close();
+                        let filename = `PathologyReport_${reportId}.pdf`;
+                        const disposition = xhr.getResponseHeader('Content-Disposition');
+                        if (disposition && disposition.indexOf('filename=') !== -1) {
+                            filename = disposition.split('filename=')[1].replace(/"/g, '');
+                        }
+                        const blob = new Blob([response], {
+                            type: 'application/pdf'
+                        });
+                        const link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = filename;
+                        link.click();
+                    },
+                    error: function (xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Failed to generate & download Pathology Report PDF.'
                         });
                     }
                 });

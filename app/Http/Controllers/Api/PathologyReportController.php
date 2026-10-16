@@ -4,12 +4,58 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\PathologyReport;
+use App\Models\Setting;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 class PathologyReportController extends Controller
 {
+    public function pathologyReportPdf($id)
+    {
+        try {
+            $report = PathologyReport::with(['patient', 'test', 'branch'])->findOrFail($id);
+
+            // Fetch clinic details
+            $settings = Setting::whereIn('key', [
+                'clinic_logo',
+                'clinic_name',
+                'clinic_address',
+                'clinic_phone',
+                'clinic_email',
+                'clinic_city',
+                'clinic_state',
+            ])->pluck('value', 'key');
+
+            $clinic_logo = $settings['clinic_logo'] ?? 'admin/assets/img/cliniclogo.png';
+            $clinic_logo_path = public_path($clinic_logo);
+
+            $data = [
+                'date' => now()->format('d-m-Y'),
+                'patient' => $report->patient,
+                'test' => $report->test,
+                'report' => $report,
+                'clinic_logo' => $clinic_logo_path,
+                'clinic_name' => $settings['clinic_name'] ?? 'Sunshine Clinic',
+                'clinic_address' => $settings['clinic_address'] ?? '123 Health Street',
+                'clinic_phone' => $settings['clinic_phone'] ?? '1234567890',
+                'clinic_email' => $settings['clinic_email'] ?? 'clinic@example.com',
+            ];
+
+            $pdf = Pdf::loadView('pathology_reports.pathology_report_pdf', $data)
+                ->setPaper('A4', 'portrait');
+
+            return $pdf->download("PathologyReport_{$report->id}.pdf");
+        } catch (\Exception $e) {
+            \Log::error('Pathology Report PDF generation failed: ' . $e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => 'Pathology Report PDF generation failed',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 
    public function exportCsv(Request $request)
 {
@@ -166,7 +212,7 @@ class PathologyReportController extends Controller
             'sample_collected_date' => 'required|date',
             'report_date'           => 'required|date',
             'result'                => 'required|string',
-            'report_file'           => 'required|file|mimes:pdf|max:2048',
+            'report_file'           => 'nullable|file|mimes:pdf|max:2048',
             'branch_id'             => 'required|exists:branches,id', // validate branch
         ]);
 
@@ -192,7 +238,7 @@ class PathologyReportController extends Controller
             'sample_collected_date' => $request->sample_collected_date,
             'report_date'           => $request->report_date,
             'result'                => $request->result,
-            'report_file'           => $reportPath,
+            'report_file'           => $reportPath ?? '',
             'branch_id'             => $request->branch_id,
         ]);
 
@@ -231,11 +277,18 @@ class PathologyReportController extends Controller
 
         if ($request->hasFile('report_file')) {
             // Delete old file
-            if ($report->report_file && Storage::disk('public')->exists($report->report_file)) {
-                Storage::disk('public')->delete($report->report_file);
+            if ($report->report_file && file_exists(public_path($report->report_file))) {
+                @unlink(public_path($report->report_file));
             }
 
-            $data['report_file'] = $request->file('report_file')->store('pathology_reports', 'public');
+            $file = $request->file('report_file');
+            $destinationPath = public_path('uploads/pathology_reports');
+            if (!File::exists($destinationPath)) {
+                File::makeDirectory($destinationPath, 0755, true);
+            }
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move($destinationPath, $filename);
+            $data['report_file'] = 'uploads/pathology_reports/' . $filename;
         }
 
         $report->update($data);

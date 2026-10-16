@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .radiology-btn {
@@ -123,8 +123,7 @@
 
 
                         <div class="form-group">
-                            <label><i class="fas fa-file-alt icon-style"></i> Report File <span
-                                                        class="text-danger">*</span></label>
+                            <label><i class="fas fa-file-alt icon-style"></i> Report File (Optional)</label>
                             <div class="input-wrapper">
                                 <input class="form-control @error('report_file') is-invalid @enderror" type="file"
                                     name="report_file">
@@ -262,12 +261,17 @@
 
             let form = new FormData(this);
 
+            let token = localStorage.getItem("authToken");
             $.ajax({
                 url: '/api/radiology-reports',
                 type: 'POST',
                 data: form,
                 processData: false,
                 contentType: false,
+                headers: token ? { "Authorization": "Bearer " + token } : {},
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function(response) {
                     $('#radioreportsuccessMessage').text(response.message).show();
                     $('#radiology-repor-form')[0].reset(); // optional: reset form

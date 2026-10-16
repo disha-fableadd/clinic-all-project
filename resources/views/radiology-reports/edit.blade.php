@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .radiology-btn {
@@ -124,8 +124,7 @@
                         </script>
 
                         <div class="form-group">
-                            <label><i class="fas fa-file-alt icon-style"></i> Report File <span
-                                                        class="text-danger">*</span></label>
+                            <label><i class="fas fa-file-alt icon-style"></i> Report File (Optional)</label>
                             <div class="input-wrapper">
                                 <input class="form-control @error('report_file') is-invalid @enderror" type="file"
                                     name="report_file">
@@ -254,8 +253,10 @@
                     $('#testSelect').val(reportData.test_id).trigger('change');
                     $('[name="report_date"]').val(reportData.report_date);
 
-                    if (reportData.converted_image) {
-                        $('#existingFileLink').attr('href', '/public/' + reportData.converted_image);
+                    const existingFile = reportData.converted_image || reportData.report_file;
+                    if (existingFile) {
+                        const fileUrl = existingFile.startsWith('http') ? existingFile : ('/' + existingFile.replace(/^\/+/, ''));
+                        $('#existingFileLink').attr('href', fileUrl).show();
                     } else {
                         $('#existingFileLink').hide();
                     }
@@ -273,6 +274,7 @@
                 $('#editradioreportsuccessMessage').hide().text('');
 
                 let form = new FormData(this);
+                let token = localStorage.getItem("authToken");
 
                 $.ajax({
                     url: '/api/radiology-reports-update/',
@@ -280,6 +282,10 @@
                     data: form,
                     processData: false,
                     contentType: false,
+                    headers: token ? { "Authorization": "Bearer " + token } : {},
+                    xhrFields: {
+                        withCredentials: true
+                    },
                     success: function(response) {
                         $('#editradioreportsuccessMessage').text(response.message ||
                             'Radiology report updated successfully!').fadeIn();
