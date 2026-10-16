@@ -24,7 +24,7 @@ class RadiologyReportController extends Controller
     }
     public function show($id)
     {
-        return view('radiology-reports.show');
+        return view('radiology-reports.show', ['radiology_report_id' => $id]);
     }
 
   

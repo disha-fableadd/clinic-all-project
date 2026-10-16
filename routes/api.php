@@ -167,6 +167,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('appointments/{id}/download', [AppointmentController::class, 'appointmentPdf']);
 
     Route::get('medical-reports/{id}/download', [MedicalReportController::class, 'medicalReportPdf']);
+    Route::get('pathology-reports/{id}/download', [PathologyReportController::class, 'pathologyReportPdf']);
 
     Route::get('/soaps/{id}/download', [SoapController::class, 'soapPdf'])
         ->name('api.soaps.download');
@@ -578,6 +579,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/radiology-reports', [RadiologyReportController::class, 'index']);
     Route::post('/radiology-reports', [RadiologyReportController::class, 'store']);
     Route::post('/radiology-reports-update', [RadiologyReportController::class, 'update']);
+    Route::get('/radiology-reports/{id}/download', [RadiologyReportController::class, 'radiologyReportPdf']);
     Route::get('/radiology-reports/{id}', [RadiologyReportController::class, 'show']);
     Route::delete('/radiology-reports/{id}', [RadiologyReportController::class, 'destroy']);
 

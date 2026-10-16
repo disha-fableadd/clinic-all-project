@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .download {
@@ -66,7 +66,7 @@ colgroup {
 </style>
 @section('content')
     <div class="page-wrapper">
-        <div class="content" style="height:100vh">
+        <div class="content" style="min-height: 100vh; height: auto;">
             <div class="row" style="padding-top:15px">
 
             </div>
@@ -129,6 +129,12 @@ colgroup {
                 return str.charAt(0).toUpperCase() + str.slice(1);
             }
 
+            function getFileUrl(path) {
+                if (!path) return '';
+                if (path.startsWith('http://') || path.startsWith('https://')) return path;
+                return '/' + path.replace(/^\/+/, '');
+            }
+
             function renderPatientCell(report) {
                 let defaultImage = "{{ asset('admin/assets/img/img1.png') }}";
                 let patientImage = report.patient?.profile ? report.patient.profile : defaultImage;
@@ -142,23 +148,23 @@ colgroup {
             }
 
             function renderReportFile(report) {
-                const reportFile = report.converted_image;
+                let html = '<div style="display:flex; align-items:center; justify-content:center; gap:5px;">';
+                const reportFile = report.converted_image || report.report_file;
                 if (reportFile) {
-                    const fileUrl = '/public/' + reportFile.replace(/^\/+/, '');
-                    return `
-                        <a href="${fileUrl}" target="_blank" class="btn btn-primary btn-sm filess"><i class="fas fa-file-alt"></i></a>
-                        <a href="${fileUrl}" download class="btn btn-primary btn-sm download"><i class="fas fa-download"></i></a>
-                    `;
+                    const fileUrl = getFileUrl(reportFile);
+                    html += `<a href="${fileUrl}" target="_blank" class="btn btn-primary btn-sm filess" title="View Uploaded File"><i class="fas fa-file-alt"></i></a>`;
                 }
-                return 'No file';
+                html += `<button type="button" class="btn btn-primary btn-sm download download-report" data-id="${report.id}" title="Download Report PDF"><i class="fa fa-download"></i></button>`;
+                html += '</div>';
+                return html;
             }
 
             function renderActions(report) {
                 return `
                     <div class="icon" style="cursor:pointer">
-                        <i class="fa fa-eye m-r-5 icon3 view-reports" data-id="${report.id}" style="cursor:pointer"></i>
-                        <i class="fa fa-pencil m-r-5 icon1 edit-reports" data-id="${report.id}" style="cursor:pointer"></i>
-                        <i class="fa fa-trash-o m-r-5 icon2 delete-reports" data-id="${report.id}" style="cursor:pointer"></i>
+                        <i class="fa fa-eye m-r-5 icon3 view-reports" data-id="${report.id}" style="cursor:pointer" title="View Details"></i>
+                        <i class="fa fa-pencil m-r-5 icon1 edit-reports" data-id="${report.id}" style="cursor:pointer" title="Edit"></i>
+                        <i class="fa fa-trash-o m-r-5 icon2 delete-reports" data-id="${report.id}" style="cursor:pointer" title="Delete"></i>
                     </div>
                 `;
             }
@@ -236,7 +242,10 @@ colgroup {
                             {
                                 data: null,
                                 render: function (data, type, row) {
-                                    return row.test?.test_name || 'N/A';
+                                    let testName = row.test?.test_name || 'N/A';
+                                    let testCode = row.test?.test_code ? `<br><small class="text-muted"><i class="fa fa-barcode"></i> ${row.test.test_code}</small>` : '';
+                                    let bodyPart = row.test?.body_part ? ` <span class="badge badge-light text-muted" style="font-size:10px;">${row.test.body_part}</span>` : '';
+                                    return `<div><strong>${testName}</strong>${bodyPart}${testCode}</div>`;
                                 }
                             },
                             {
@@ -260,7 +269,7 @@ colgroup {
                                 render: function () {
                                     return `
                                         <button class="expand-btn">
-                                            <i class="fa fa-chevron-down"></i>
+                                             <i class="fa fa-chevron-down"></i>
                                         </button>
                                     `;
                                 },
@@ -297,14 +306,18 @@ colgroup {
                 }
 
                 let reportDate = data.report_date || 'N/A';
+                let testCode = data.test?.test_code ? `<div class="mt-1"><strong>Test Code:</strong> ${data.test.test_code}</div>` : '';
+                let bodyPart = data.test?.body_part ? `<div class="mt-1"><strong>Body Part:</strong> ${data.test.body_part}</div>` : '';
                 let reportFile = renderReportFile(data);
                 let actions = renderActions(data);
 
                 let detailsRow = $(`
                     <tr class="details-row">
-                        <td colspan="5">
+                        <td colspan="3">
                             <div class="details-content">
                                 <div><strong>Report Date:</strong> ${reportDate}</div>
+                                ${testCode}
+                                ${bodyPart}
                                 <div class="mt-2"><strong>Report File:</strong> ${reportFile}</div>
                                 <div class="mt-2"><strong>Actions:</strong> ${actions}</div>
                             </div>
@@ -314,6 +327,50 @@ colgroup {
 
                 tr.after(detailsRow);
                 icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
+            });
+
+            // Download Report PDF handler
+            $(document).on('click', '.download-report', function(e) {
+                e.stopPropagation();
+                var reportId = $(this).data('id');
+                if (!reportId) return;
+
+                Swal.fire({
+                    title: 'Generating PDF...',
+                    text: 'Please wait while your radiology report PDF is being generated.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                fetch('/api/radiology-reports/' + reportId + '/download', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to download report PDF');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    Swal.close();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'RadiologyReport_' + reportId + '.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('Download error:', error);
+                    Swal.fire('Error', 'Failed to generate PDF. Please try again.', 'error');
+                });
             });
 
             // Delete radiology test

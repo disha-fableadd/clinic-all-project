@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .followup-title {
@@ -95,12 +95,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Report File (PDF) <span class="text-danger">*</span></label>
-                            <input type="file" class="form-control" name="report_file" accept="application/pdf" required>
+                            <label>Report File (PDF) <span class="text-muted">(Optional - System auto-generates official PDF)</span></label>
+                            <input type="file" class="form-control" name="report_file" accept="application/pdf">
                         </div>
 
                         <div id="pathologyreportsuccessMessage" class="alert alert-success" style="display:none;"></div>
-                        {{-- <div id="pathologyreporterrorMessage" class="alert alert-danger" style="display:none;"></div> --}}
+                        <div id="pathologyreporterrorMessage" class="alert alert-danger" style="display:none;"></div>
 
                         <button type="submit" class="btn btn-primary d-block m-auto"
                             style="padding:8px 50px; border-radius:50px; ">
@@ -131,6 +131,7 @@
         }, $.validator.format("Please enter a file with a valid extension ({0})."));
 
         $(document).ready(function() {
+            let token = localStorage.getItem('token') || localStorage.getItem("authToken") || sessionStorage.getItem('token') || '';
             let form = $("#pathologyReportForm");
 
             form.validate({
@@ -147,7 +148,7 @@
                     },
                     result: "required",
                     report_file: {
-                        required: true,
+                        required: false,
                         extension: "pdf"
                     }
                 },
@@ -263,6 +264,12 @@
                     data: formData,
                     contentType: false,
                     processData: false,
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    headers: token ? {
+                        "Authorization": "Bearer " + token
+                    } : {},
                     success: function(response) {
                         $('#pathologyreportsuccessMessage').text(response.message ||
                             "Pathology Report created successfully").show();

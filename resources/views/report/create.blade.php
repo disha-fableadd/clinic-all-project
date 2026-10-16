@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 
 
@@ -291,11 +291,15 @@
             form.on('submit', function(e) {
                 e.preventDefault();
 
-
                 if (form.valid()) {
                     let formData = new FormData(this);
 
+                    let branchId = localStorage.getItem('selectedBranchId');
+                    if (branchId && !formData.get('branch_id')) {
+                        formData.set('branch_id', branchId);
+                    }
 
+                    let token = localStorage.getItem('token') || localStorage.getItem('authToken') || '';
 
                     $.ajax({
                         url: "{{ url('/api/medical-reports') }}",
@@ -303,10 +307,14 @@
                         data: formData,
                         contentType: false,
                         processData: false,
-                        headers: {
+                        headers: token ? {
                             "Authorization": "Bearer " + token
+                        } : {},
+                        xhrFields: {
+                            withCredentials: true
                         },
                         success: function(response) {
+                            $('#medicalerrorMessage').hide();
                             $('#medicalsuccessMessage').text(response.message ||
                                 'Report created successfully').show();
                             $('#medicalReportForm')[0].reset();
@@ -318,11 +326,18 @@
                         error: function(xhr) {
                             var errorMessage = '';
                             if (xhr.status === 422) { // Validation error
-                                var errors = xhr.responseJSON.errors;
-                                $.each(errors, function(key, messages) {
-                                    errorMessage += messages[0] + '<br>';
-                                });
+                                var errors = xhr.responseJSON?.errors;
+                                if (errors) {
+                                    $.each(errors, function(key, messages) {
+                                        errorMessage += messages[0] + '<br>';
+                                    });
+                                } else {
+                                    errorMessage = xhr.responseJSON?.message || 'Validation error.';
+                                }
+                            } else {
+                                errorMessage = xhr.responseJSON?.message || xhr.responseJSON?.error || 'Failed to create medical report. Please try again.';
                             }
+                            $('#medicalsuccessMessage').hide();
                             $('#medicalerrorMessage').html(errorMessage).show();
                         }
                     });

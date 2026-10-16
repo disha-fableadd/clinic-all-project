@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .card-footer {
@@ -144,15 +144,19 @@
 
     <script>
         $(document).ready(function () {
+            var token = localStorage.getItem('token') || sessionStorage.getItem('token') || '';
             var reportId = "{{ $report_id }}";
 
             $.ajax({
                 url: "/api/medical-reports/" + reportId,
                 method: "GET",
                 dataType: "json",
-                headers: {
-                    "Authorization": "Bearer " + token
+                xhrFields: {
+                    withCredentials: true
                 },
+                headers: token ? {
+                    "Authorization": "Bearer " + token
+                } : {},
                 success: function (response) {
                     if (response.success) {
                         var report = response.data;

@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .swal-confirm-btn {
@@ -158,6 +158,7 @@
 
     <script>
         let branchId = localStorage.getItem('selectedBranchId');
+        let token = localStorage.getItem('token') || sessionStorage.getItem('token') || '';
 
         $(document).on('click', '#exportButton', function () {
             window.location.href = "{{ route('report.export') }}";
@@ -211,15 +212,18 @@
                                 type: "GET",
                                 dataType: "json",
                                 data: {
-                                    branch_id: branchId,
+                                    branch_id: localStorage.getItem('selectedBranchId') || branchId,
                                     user_id: (typeof userId !== 'undefined' && userId) ? userId : null,
                                     page: page,
                                     per_page: perPage,
                                     search: data.search?.value || ''
                                 },
-                                headers: {
-                                    "Authorization": "Bearer " + token
+                                xhrFields: {
+                                    withCredentials: true
                                 },
+                                headers: token ? {
+                                    "Authorization": "Bearer " + token
+                                } : {},
                                 success: function (response) {
                                     callback({
                                         draw: data.draw,
@@ -549,8 +553,12 @@
                     url: `/api/medical-reports/${reportId}/download`,
                     method: 'GET',
                     xhrFields: {
-                        responseType: 'blob'
+                        responseType: 'blob',
+                        withCredentials: true
                     },
+                    headers: token ? {
+                        "Authorization": "Bearer " + token
+                    } : {},
                     success: function (response, status, xhr) {
                         Swal.close();
                         let filename = `MedicalReport_${reportId}.pdf`;
@@ -601,6 +609,12 @@
                         $.ajax({
                             url: "{{ url('/api/medical-reports') }}/" + reportId,
                             type: "DELETE",
+                            xhrFields: {
+                                withCredentials: true
+                            },
+                            headers: token ? {
+                                "Authorization": "Bearer " + token
+                            } : {},
                             success: function () {
                                 Swal.fire({
                                     title: 'Deleted!',
