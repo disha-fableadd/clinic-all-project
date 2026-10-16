@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 
 
@@ -177,9 +177,19 @@
                         </div>
 
                         <div class="form-group">
-                            <label><i class="fas fa-user-md icon-style"></i> Doctor Name</label>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <label class="mr-2"><i class="fas fa-user-md icon-style"></i> Doctor Name <span
+                                        class="text-danger">*</span></label>
+                                @if (app('hasPermission')(3, 'create'))
+                                    <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                        data-bs-toggle="modal" data-bs-target="#quickAddDoctorModal"
+                                        data-toggle="modal" data-target="#quickAddDoctorModal">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                @endif
+                            </div>
                             <select class="form-control select2 doctorSelect" id="doctorSelect" name="doctor_id"
-                                id="doctorSelect" required>
+                                required>
                                 <option value="">Select Doctor</option>
                             </select>
                         </div>
@@ -195,6 +205,10 @@
                             <input class="form-control" type="number" id="price" name="price" required>
                         </div>
 
+                        @php
+                            $gstEnabled = \App\Models\Setting::getValue('gst_status', 'on') === 'on';
+                        @endphp
+                        @if($gstEnabled)
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -218,6 +232,9 @@
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <input type="hidden" name="gst_option" id="gst_option" value="Without GST">
+                        @endif
                         <div id="editsuccesstreat" class="alert alert-success" style="display:none;"></div>
                         <div id="editerrortreat" class="alert alert-danger" style="display:none;"></div>
 
@@ -532,4 +549,5 @@
             });
         });
     </script>
+    @include('components.quick-add-modals')
 @endsection

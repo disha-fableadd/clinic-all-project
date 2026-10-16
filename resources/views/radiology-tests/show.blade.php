@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     .container {
         width: 60%;
@@ -99,6 +99,7 @@
                                     </p>
                                     <hr class="margin-text">
 
+                                    @if(\App\Models\Setting::getValue('gst_status', 'on') === 'on')
                                     <div id="gst_details" style="display: none;">
                                         <p class="text-dark margin-text">
                                             <strong><i class="fas fa-percent icon-style1"></i> GST Option: </strong>
@@ -112,6 +113,7 @@
                                         </p>
                                         <hr class="margin-text" id="product_gst_hr" style="display: none;">
                                     </div>
+                                    @endif
 
                                     <p class="text-dark margin-text">
                                         <strong><i class="fas fa-check-circle icon-style1"></i> Report Format:</strong>

@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .inventory-btn {
@@ -78,10 +78,11 @@
                                             <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Supplier <span
                                                     class="text-danger">*</span></label>
                                             @if (app('hasPermission')(12, 'create'))
-                                                <a href="{{ route('supplier.create') }}" target="_blank"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> Add Supplier
-                                                </a>
+                                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#quickAddSupplierModal"
+                                                    data-toggle="modal" data-target="#quickAddSupplierModal">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
                                             @endif
 
                                         </div>
@@ -321,4 +322,5 @@
             });
         });
     </script>
+    @include('components.quick-add-modals')
 @endsection

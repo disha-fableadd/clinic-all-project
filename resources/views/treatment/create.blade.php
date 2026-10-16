@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
@@ -143,10 +143,11 @@
                                         <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Doctor <span
                                                 class="text-danger">*</span></label>
                                         @if (app('hasPermission')(3, 'create'))
-                                            <a href="{{ route('user.create') }}" target="_blank"
-                                                class="btn btn-primary btn-sm">
-                                                <i class="fas fa-plus"></i> Add Doctor
-                                            </a>
+                                            <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                data-bs-toggle="modal" data-bs-target="#quickAddDoctorModal"
+                                                data-toggle="modal" data-target="#quickAddDoctorModal">
+                                                <i class="fas fa-plus"></i> Add
+                                            </button>
                                         @endif
                                     </div>
                                     <select class="form-control select2 doctorSelect" name="doctor_id" id="doctorSelect"
@@ -167,6 +168,10 @@
                                     <input class="form-control" type="number" name="price" id="price" required>
                                 </div>
                             </div>
+                            @php
+                                $gstEnabled = \App\Models\Setting::getValue('gst_status', 'on') === 'on';
+                            @endphp
+                            @if($gstEnabled)
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-percent icon-style"></i> GST Option <span
@@ -188,6 +193,9 @@
                                     </select>
                                 </div>
                             </div>
+                            @else
+                            <input type="hidden" name="gst_option" id="gst_option" value="Without GST">
+                            @endif
                         </div>
 
                         <div class="row">
@@ -224,6 +232,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
-    {{-- <script src="{{ asset('admin/js/treatment-create.js') }}"></script> --}}
     <script src="{{ asset(env('IMAGE_PATH') . 'admin/assets/js/treatment-create.js') }}"></script>
+    @include('components.quick-add-modals')
 @endsection

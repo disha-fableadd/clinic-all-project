@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 
 <style>
@@ -107,8 +107,17 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label><i class="fas fa-user-injured icon-style"></i> Patient Name <span
-                                                class="text-danger">*</span></label>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <label><i class="fas fa-user-injured icon-style"></i> Patient Name <span
+                                                    class="text-danger">*</span></label>
+                                            @if (app('hasPermission')(5, 'create'))
+                                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#quickAddPatientModal"
+                                                    data-toggle="modal" data-target="#quickAddPatientModal">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
+                                            @endif
+                                        </div>
                                         <select class="form-control select2 patientDropdown" id="patientDropdown"
                                             name="patient_id" required>
                                             <option value="">Select Patient</option>
@@ -172,6 +181,10 @@
                                     </div>
                                 </div>
                             </div>
+                            @php
+                                $gstEnabled = \App\Models\Setting::getValue('gst_status', 'on') === 'on';
+                            @endphp
+                            @if($gstEnabled)
                             <div class="row">
                                 <!-- GST Option -->
                                 <div class="col-md-6">
@@ -197,6 +210,9 @@
                                 </div>
 
                             </div>
+                            @else
+                            <input type="hidden" name="gst_option" id="gst_option" value="Without GST">
+                            @endif
                             <div id="editdischargesuccessMessage" class="alert alert-success" style="display:none;"></div>
                             {{-- <div id="editdischargeerrorMessage" class="alert alert-danger" style="display:none;"></div> --}}
 
@@ -468,4 +484,5 @@
             });
         });
     </script>
+    @include('components.quick-add-modals')
 @endsection

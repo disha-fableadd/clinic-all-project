@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .select2-container--default .select2-selection--multiple {
@@ -172,6 +172,10 @@
                                 </div>
                             </div>
 
+                            @php
+                                $gstEnabled = \App\Models\Setting::getValue('gst_status', 'on') === 'on';
+                            @endphp
+                            @if($gstEnabled)
                             <!-- GST Option -->
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -194,6 +198,9 @@
                                     </select>
                                 </div>
                             </div>
+                            @else
+                            <input type="hidden" name="gst_option" id="gst_option" value="Without GST">
+                            @endif
                             <!-- Sample Type -->
                             <div class="col-md-6">
                                 <div class="form-group">

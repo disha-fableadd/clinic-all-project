@@ -45,16 +45,24 @@ class CheckUserLimit
         }
 
         // Step 3: Enforce staff limit (using user_limit from plans table)
-        $creatorId = $user->created_by ?: $user->id;
-        $staffLimit = $plan->user_limit ?? 0;
+        // null or <= 0 can signify unlimited
+        $staffLimit = $plan->user_limit;
         
-        $currentStaffCount = User::where('created_by', $creatorId)->count();
+        if (!is_null($staffLimit) && $staffLimit > 0) {
+            $creatorId = $user->created_by ?: $user->id;
 
-        if ($currentStaffCount >= $staffLimit) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Staff limit reached for your plan.'
-            ], 403);
+            // Only count actual staff members (roles other than 1: SuperAdmin, 5: Patient)
+            // Or if you only count staff roles [2, 3, 4]
+            $currentStaffCount = User::where('created_by', $creatorId)
+                ->whereNotIn('role_id', [1, 5])
+                ->count();
+
+            if ($currentStaffCount >= $staffLimit) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Staff limit reached for your plan.'
+                ], 403);
+            }
         }
 
         return $next($request);

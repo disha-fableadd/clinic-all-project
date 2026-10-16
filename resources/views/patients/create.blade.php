@@ -309,10 +309,11 @@
                                                     class="text-danger">*</span>
                                             </label>
                                             @if (app('hasPermission')(7, 'create'))
-                                                <a href="{{ route('diagnosis.create') }}" target="_blank"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
-                                                </a>
+                                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#quickAddDiagnosisModal"
+                                                    data-toggle="modal" data-target="#quickAddDiagnosisModal">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
                                             @endif
                                         </div>
                                         <select class="form-control select2" name="diagnosis_id[]" id="diagnosisDropdown"
@@ -326,12 +327,11 @@
                                     <div class="form-group">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <label><i class="fas fa-notes-medical icon-style"></i> Symptoms</label>
-                                            <div class="m-b-2 eye-btn">
-                                                <a href="#" class="btn btn-primary btn-rounded btn-hdr" data-bs-toggle="modal"
-                                                    data-bs-target="#addSymptomModal" style="padding:4px 8px !important;">
-                                                    <i class="fa fa-plus m-r-2 icon3"></i> <span class="hdr-btn-text">Add</span>
-                                                </a>
-                                            </div>
+                                            <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                data-bs-toggle="modal" data-bs-target="#quickAddSymptomModal"
+                                                data-toggle="modal" data-target="#quickAddSymptomModal">
+                                                <i class="fas fa-plus"></i> Add
+                                            </button>
                                         </div>
                                         <select name="symptoms[]" class="form-control select2" id="symptomDropdown"
                                             multiple style="min-height: 100px; max-height: 200px; overflow-y: auto;">
@@ -1763,4 +1763,5 @@
 
         });
     </script>
+    @include('components.quick-add-modals')
 @endsection

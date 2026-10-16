@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .discharge-title {
@@ -60,10 +60,11 @@
                                                     class="text-danger">*</span></label>
 
                                             @if (app('hasPermission')(5, 'create'))
-                                                <a href="{{ route('patients.create') }}" target="_blank"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> Add Patient
-                                                </a>
+                                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#quickAddPatientModal"
+                                                    data-toggle="modal" data-target="#quickAddPatientModal">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
                                             @endif
 
                                         </div>
@@ -83,10 +84,11 @@
                                             <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Treatment <span
                                                     class="text-danger">*</span></label>
                                             @if (app('hasPermission')(7, 'create'))
-                                                <a href="{{ route('treatment.create') }}" target="_blank"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> Add Treatment
-                                                </a>
+                                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#quickAddTreatmentModal"
+                                                    data-toggle="modal" data-target="#quickAddTreatmentModal">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
                                             @endif
 
                                         </div>
@@ -102,10 +104,11 @@
                                             <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Doctor <span
                                                     class="text-danger">*</span></label>
                                             @if (app('hasPermission')(3, 'create'))
-                                                <a href="{{ route('user.create') }}" target="_blank"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> Add Doctor
-                                                </a>
+                                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#quickAddDoctorModal"
+                                                    data-toggle="modal" data-target="#quickAddDoctorModal">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
                                             @endif
 
                                         </div>
@@ -457,6 +460,124 @@
                 }
             });
 
+        });
+    </script>
+
+    @include('components.quick-add-modals')
+
+    <script>
+        $(document).ready(function() {
+            let token = @json(session('access_token')) || localStorage.getItem('authToken');
+            let branchId = localStorage.getItem('selectedBranchId');
+
+            function loadPatients(selectedId = null) {
+                return $.ajax({
+                    url: "/api/patientss",
+                    type: "GET",
+                    data: { branch_id: branchId },
+                    dataType: "json",
+                    xhrFields: { withCredentials: true },
+                    success: function(response) {
+                        let patientDropdown = $('#patientDropdown');
+                        let currentVal = selectedId || patientDropdown.val();
+                        patientDropdown.empty().append('<option value="">Select Patient</option>');
+
+                        $.each(response.patients || [], function(index, patient) {
+                            const capitalizedName = patient.fullname.charAt(0).toUpperCase() + patient.fullname.slice(1);
+                            patientDropdown.append(
+                                `<option value="${patient.id}" data-treatment-id="${patient.treatment_id}">${capitalizedName}</option>`
+                            );
+                        });
+
+                        patientDropdown.select2({
+                            placeholder: "Select Patient",
+                            allowClear: true,
+                            width: '100%'
+                        });
+
+                        if (currentVal) {
+                            patientDropdown.val(String(currentVal)).trigger('change');
+                        }
+                    }
+                });
+            }
+
+            function loadTreatments(selectedId = null) {
+                return $.ajax({
+                    url: "/api/treatments",
+                    type: "GET",
+                    data: { branch_id: branchId },
+                    xhrFields: { withCredentials: true },
+                    success: function(data) {
+                        let treatmentDropdown = $('select[name="treatment_id"]');
+                        let currentVal = selectedId || treatmentDropdown.val();
+                        treatmentDropdown.empty().append('<option value="">Select Treatment</option>');
+
+                        $.each(data.treatments || [], function(key, treatment) {
+                            const name = treatment.name.charAt(0).toUpperCase() + treatment.name.slice(1);
+                            treatmentDropdown.append(
+                                `<option value="${treatment.id}" data-doctor-id="${treatment.doctor_id}">${name}</option>`
+                            );
+                        });
+
+                        treatmentDropdown.select2({
+                            placeholder: "Select Treatment",
+                            allowClear: true,
+                            width: '100%'
+                        });
+
+                        if (currentVal) {
+                            treatmentDropdown.val(String(currentVal)).trigger('change');
+                        }
+                    }
+                });
+            }
+
+            function loadDoctors(selectedId = null) {
+                return $.ajax({
+                    url: "/api/doctors",
+                    type: "GET",
+                    data: { branch_id: branchId },
+                    dataType: "json",
+                    headers: token ? { "Authorization": "Bearer " + token } : {},
+                    success: function(response) {
+                        let doctorDropdown = $('.doctorSelect');
+                        let currentVal = selectedId || doctorDropdown.val();
+                        doctorDropdown.empty().append('<option value="">Select Doctor</option>');
+
+                        $.each(response.doctors || [], function(index, doctor) {
+                            const capitalizedName = doctor.fullname.charAt(0).toUpperCase() + doctor.fullname.slice(1);
+                            doctorDropdown.append(`<option value="${doctor.id}">${capitalizedName}</option>`);
+                        });
+
+                        doctorDropdown.select2({
+                            placeholder: "Select Doctor",
+                            allowClear: true,
+                            width: '100%'
+                        });
+
+                        if (currentVal) {
+                            doctorDropdown.val(String(currentVal)).trigger('change');
+                        }
+                    }
+                });
+            }
+
+            if (typeof window.initQuickAddModals === 'function') {
+                window.initQuickAddModals({
+                    getToken: function() { return token; },
+                    getBranchId: function() { return branchId; },
+                    onPatientAdded: function(newId) {
+                        loadPatients(newId);
+                    },
+                    onTreatmentAdded: function(newId) {
+                        loadTreatments(newId);
+                    },
+                    onDoctorAdded: function(newId) {
+                        loadDoctors(newId);
+                    }
+                });
+            }
         });
     </script>
 @endsection

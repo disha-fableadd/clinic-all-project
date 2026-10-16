@@ -302,13 +302,14 @@ class SettingController extends Controller
             'smtp_status' => Setting::where('key', 'smtp_status')->value('value') ?? 'off',
             'firebase_status' => Setting::where('key', 'firebase_status')->value('value') ?? 'off',
             'razorpay_status' => Setting::where('key', 'razorpay_status')->value('value') ?? 'off',
+            'gst_status' => Setting::where('key', 'gst_status')->value('value') ?? 'on',
         ]);
     }
 
     public function updateStatus(Request $request)
     {
         $request->validate([
-            'type' => 'required|in:sms,whatsapp,smtp,firebase,razorpay',
+            'type' => 'required|in:sms,whatsapp,smtp,firebase,razorpay,gst',
             'status' => 'required|in:on,off',
         ]);
 

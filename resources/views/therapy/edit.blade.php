@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .select2-container--default .select2-selection--multiple {
@@ -175,28 +175,35 @@
                                         placeholder="e.g. 250" required>
                                 </div>
                             </div>
+                            @php
+                                $gstEnabled = \App\Models\Setting::getValue('gst_status', 'on') === 'on';
+                            @endphp
+                            @if($gstEnabled)
                             <!-- GST Option -->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                <label><i class="fas fa-percent icon-style"></i> GST Option <span
-                                        class="text-danger">*</span></label>
-                                <select name="gst_option" id="gst_option" class="form-control select2" required>
-                                    <option value="">Select GST Option</option>
-                                    <option value="Without GST">Without GST</option>
-                                    <option value="With GST">With GST</option>
-                                </select>
+                                    <label><i class="fas fa-percent icon-style"></i> GST Option <span
+                                            class="text-danger">*</span></label>
+                                    <select name="gst_option" id="gst_option" class="form-control select2" required>
+                                        <option value="">Select GST Option</option>
+                                        <option value="Without GST">Without GST</option>
+                                        <option value="With GST">With GST</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
                             <!-- Product GST -->
                             <div class="col-md-6" id="product_gst_div" style="display: none;">
                                 <div class="form-group">
-                                <label><i class="fas fa-file-invoice-dollar icon-style"></i> Product GST <span
-                                        class="text-danger">*</span></label>
-                                <select name="product_gst[]" id="product_gst" class="form-control select2" multiple>
-                                    <option value="">Select GST</option>
-                                </select>
+                                    <label><i class="fas fa-file-invoice-dollar icon-style"></i> Product GST <span
+                                            class="text-danger">*</span></label>
+                                    <select name="product_gst[]" id="product_gst" class="form-control select2" multiple>
+                                        <option value="">Select GST</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+                            @else
+                            <input type="hidden" name="gst_option" id="gst_option" value="Without GST">
+                            @endif
                             <!-- Sample Type -->
                             <div class="col-md-6">
                                 <div class="form-group">

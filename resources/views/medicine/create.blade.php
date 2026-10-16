@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 
 <style>
@@ -234,6 +234,10 @@
                                     </div>
                                 </div>
 
+                                @php
+                                    $gstEnabled = \App\Models\Setting::getValue('gst_status', 'on') === 'on';
+                                @endphp
+                                @if($gstEnabled)
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label><i class="fas fa-percent icon-style"></i> GST Option <span
@@ -254,6 +258,9 @@
                                         </select>
                                     </div>
                                 </div>
+                                @else
+                                <input type="hidden" name="gst_option" id="gst_option" value="Without GST">
+                                @endif
                                
                                 <script>
                                     window.onload = function() {

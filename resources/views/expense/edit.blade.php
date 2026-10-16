@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     /* Common Select2 Styling */
@@ -77,14 +77,19 @@
 
                         <!-- Staff -->
                         <div class="form-group">
-                            <label><i class="fas fa-user icon-style"></i> Staff <span class="text-danger">*</span></label>
-                            <!-- <select class="form-control select2 doctorSelect" id="userSelect" name="user_id" required>
-                                                                <option value="">Select Staff</option>
-                                                            </select> -->
+                            <div class="d-flex align-items-center justify-content-between">
+                                <label class="mr-2"><i class="fas fa-user icon-style"></i> Staff <span class="text-danger">*</span></label>
+                                @if (app('hasPermission')(3, 'create'))
+                                    <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                        data-bs-toggle="modal" data-bs-target="#quickAddDoctorModal"
+                                        data-toggle="modal" data-target="#quickAddDoctorModal">
+                                        <i class="fas fa-plus"></i> Add
+                                    </button>
+                                @endif
+                            </div>
                             <select class="form-control select2 doctorSelect" name="user_id" id="userSelect" required>
                                 <option value="">Select Staff</option>
                             </select>
-
                         </div>
                         <!-- Date & Time -->
                         <div class="form-group">
@@ -314,4 +319,5 @@
 
         });
     </script>
+    @include('components.quick-add-modals')
 @endsection

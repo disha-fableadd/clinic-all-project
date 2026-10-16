@@ -12,7 +12,10 @@ $(document).ready(function() {
             $('.therapy_status').text(response.status);
             $('.gst_option').text(response.gst_option || 'Without GST');
 
-            if (response.gst_option === 'With GST' && Array.isArray(response.product_gst)) {
+            if (typeof gstEnabled !== 'undefined' && !gstEnabled) {
+                $('.gst_option').closest('p').hide().next('hr').hide();
+                $('#product_gst_p, #product_gst_hr, #product_gst_hr_after').hide();
+            } else if (response.gst_option === 'With GST' && Array.isArray(response.product_gst)) {
                 let gstText = response.product_gst.map(function(item) {
                     let rate = parseFloat(item.tax_rate || 0).toFixed(2);
                     let amount = parseFloat(item.tax_amount || 0).toFixed(2);
