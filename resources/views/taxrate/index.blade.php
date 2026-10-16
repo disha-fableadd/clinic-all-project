@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     .custom-close {
         background-color: #f5b6a5 !important;
@@ -34,30 +34,34 @@
         border-radius: 9px !important;
     }
 
-    button.btn.action-btn.edit-taxrate.icon1,
-    button.btn.action-btn.delete-taxrate.icon2 {
+    /* Clean action icon styling consistent with other tables */
+    .icon {
+        font-size: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .icon .icon1,
+    .icon .icon2 {
         padding: 8px;
         background-color: #f89884;
         color: white;
         border-radius: 10px;
-    }
-
-    .action-btn {
-        background-color: #f89884 !important;
-        color: white !important;
-        border-radius: 50%;
-        width: 35px;
-        height: 35px;
+        margin: 0 4px;
+        cursor: pointer;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        width: 32px;
+        height: 32px;
         border: none;
-        margin: 0 2px;
     }
 
-    .action-btn:hover {
-        background-color: #e58773 !important;
-        color: white !important;
+    .icon .icon1:hover,
+    .icon .icon2:hover {
+        background-color: #e58773;
+        color: white;
     }
 
     .details-row {
@@ -83,7 +87,8 @@
 
     #taxratetbl thead th {
         vertical-align: middle !important;
-        padding: 8px !important;
+        padding: 10px 8px !important;
+        color: white !important;
     }
 
     .card-header {
@@ -129,6 +134,87 @@
         min-width: 80px;
         text-align: center;
     }
+
+    /* GST Toggle Switch styling in Card Header */
+    .gst-header-toggle-wrap {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        padding: 4px 12px;
+        border-radius: 25px;
+        margin-right: 12px;
+        vertical-align: middle;
+        backdrop-filter: blur(4px);
+    }
+
+    .gst-header-toggle-label {
+        font-weight: 600;
+        font-size: 13.5px;
+        color: #ffffff;
+        margin-right: 10px;
+        margin-bottom: 0;
+        user-select: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .gst-switch-ui {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 22px;
+        margin-bottom: 0;
+    }
+
+    .gst-switch-ui input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .gst-slider-ui {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #cbd5e1;
+        transition: 0.3s;
+        border-radius: 22px;
+    }
+
+    .gst-slider-ui:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.3s;
+        border-radius: 50%;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .gst-switch-ui input:checked + .gst-slider-ui {
+        background-color: #28a745;
+    }
+
+    .gst-switch-ui input:checked + .gst-slider-ui:before {
+        transform: translateX(22px);
+    }
+
+    .gst-status-badge {
+        font-size: 11.5px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-left: 8px;
+        letter-spacing: 0.5px;
+        min-width: 28px;
+    }
 </style>
 @section('content')
     <div class="page-wrapper">
@@ -141,17 +227,33 @@
                             <h3 class="card-title d-inline-block text-white">
                                 <i class="fa fa-percent px-2" style="font-size:20px"></i> All Tax Rates
                             </h3>
-                            @if (app('hasPermission')(36, 'create'))
-                                <a href="" class="btn btn-rounded btn-hdr" data-bs-toggle="modal"
-                                    data-bs-target="#addTaxRateModal">
-                                    <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
-                                </a>
-                            @endif
+                            <div class="d-inline-flex align-items-center">
+                                @php
+                                    $currentGstStatus = \App\Models\Setting::getValue('gst_status', 'on');
+                                @endphp
+                                <div class="gst-header-toggle-wrap" title="Enable or Disable GST across the entire application">
+                                    <label class="gst-header-toggle-label" for="globalGstStatusToggle">
+                                        <i class="fas fa-file-invoice-dollar"></i> GST
+                                    </label>
+                                    <label class="gst-switch-ui">
+                                        <input type="checkbox" id="globalGstStatusToggle" {{ $currentGstStatus === 'on' ? 'checked' : '' }}>
+                                        <span class="gst-slider-ui"></span>
+                                    </label>
+                                    <span class="gst-status-badge" id="globalGstStatusText">{{ strtoupper($currentGstStatus) }}</span>
+                                </div>
+                                @if (app('hasPermission')(36, 'create'))
+                                    <a href="" class="btn btn-rounded btn-hdr" data-bs-toggle="modal"
+                                        data-bs-target="#addTaxRateModal">
+                                        <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="taxratetbl" class="table">
-                                    <thead>
+                                <div id="demo_info" class="box"></div>
+                                <table id="taxratetbl" class="table custom-table">
+                                    <thead style="background-color:#f89884;" class="text-center">
                                         <tr>
                                             <th>Taxname</th>
                                             <th class="d-none d-md-table-cell">Tax%</th>
@@ -395,21 +497,18 @@
                             {
                                 data: null,
                                 render: function(data, type, row) {
-                                    let buttons = '<div class="action-buttons">';
+                                    let buttons = '<div class="icon" style="cursor:pointer;">';
                                     @if (app('hasPermission')(36, 'update'))
-                                        buttons += `<button class="btn action-btn edit-taxrate icon1" data-id="${row.id}" title="Edit">
-                                        <i class="fa fa-pencil"></i>
-                                    </button>`;
+                                        buttons += `<i class="fa fa-pencil m-r-5 icon1 edit-taxrate" data-id="${row.id}" title="Edit"></i>`;
                                     @endif
                                     @if (app('hasPermission')(36, 'delete'))
-                                        buttons += `<button class="btn action-btn delete-taxrate icon2" data-id="${row.id}" title="Delete">
-                                        <i class="fa fa-trash-o"></i>
-                                    </button>`;
+                                        buttons += `<i class="fa fa-trash-o m-r-5 icon2 delete-taxrate" data-id="${row.id}" title="Delete"></i>`;
                                     @endif
                                     buttons += '</div>';
                                     return buttons;
                                 },
-                                className: "d-none d-md-table-cell text-center"
+                                className: "d-none d-md-table-cell text-center",
+                                orderable: false
                             },
                             {
                                 data: null,
@@ -469,16 +568,12 @@
                 const actionButtons = `
                 <div class="mt-2">
                     <strong>Actions:</strong>
-                    <div class="mt-2">
+                    <div class="icon mt-2" style="cursor:pointer; justify-content: flex-start;">
                         @if (app('hasPermission')(36, 'update'))
-                            <button class="btn action-btn edit-taxrate icon1" data-id="${data.id}" title="Edit" style="margin-right: 5px;">
-                                <i class="fa fa-pencil"></i>
-                            </button>
+                            <i class="fa fa-pencil m-r-5 icon1 edit-taxrate" data-id="${data.id}" title="Edit"></i>
                         @endif
                         @if (app('hasPermission')(36, 'delete'))
-                            <button class="btn action-btn delete-taxrate icon2" data-id="${data.id}" title="Delete">
-                                <i class="fa fa-trash-o"></i>
-                            </button>
+                            <i class="fa fa-trash-o m-r-5 icon2 delete-taxrate" data-id="${data.id}" title="Delete"></i>
                         @endif
                     </div>
                 </div>
@@ -660,6 +755,47 @@
 
             $('#editTaxRateModal').on('hidden.bs.modal', function() {
                 $('#editTaxRateSuccess,#editTaxRateError').hide();
+            });
+
+            // Toggle Global GST Status
+            $('#globalGstStatusToggle').on('change', function () {
+                let isChecked = $(this).is(':checked');
+                let newStatus = isChecked ? 'on' : 'off';
+                let $toggle = $(this);
+                let $statusText = $('#globalGstStatusText');
+
+                $statusText.text(newStatus.toUpperCase());
+
+                $.ajax({
+                    url: '/api/save-service-status',
+                    type: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    data: {
+                        type: 'gst',
+                        status: newStatus
+                    },
+                    success: function (res) {
+                        Swal.fire({
+                            icon: newStatus === 'on' ? 'success' : 'info',
+                            title: 'GST ' + (newStatus === 'on' ? 'Enabled' : 'Disabled'),
+                            text: 'GST has been ' + (newStatus === 'on' ? 'enabled' : 'disabled') + ' across all modules.',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    },
+                    error: function (xhr) {
+                        // Revert switch on failure
+                        $toggle.prop('checked', !isChecked);
+                        $statusText.text((!isChecked) ? 'ON' : 'OFF');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: xhr.responseJSON?.message || 'Failed to update GST status.'
+                        });
+                    }
+                });
             });
         });
     </script>

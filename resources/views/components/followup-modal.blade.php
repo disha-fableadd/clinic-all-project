@@ -12,21 +12,28 @@ $treatments = DB::table('treatments')
 
 //$user = auth()->user(); // Get logged-in user
 
-$doctors = User::whereHas('role', function ($query) {
-$query->where('name', 'Doctor');
-})
-->where('created_by', $user->id) // Filter by created_by
-->select('id', 'fullname', 'profile', 'created_by')
-->get();
+$doctorsQuery = User::where(function ($q) {
+    $q->where('role_id', 3)
+      ->orWhereHas('role', function ($r) {
+          $r->where('name', 'Doctor');
+      });
+})->get();
 
-if ($user->role->name === 'Receptionist') {
-$doctors = User::whereHas('role', function ($query) {
-$query->where('name', 'Doctor');
-})->select('id', 'fullname', 'profile', 'created_by')->get();
-}
+$adminsQuery = User::where(function ($q) {
+    $q->where('role_id', 2)
+      ->orWhereHas('role', function ($r) {
+          $r->where('name', 'Admin');
+      });
+})->get()->map(function ($admin) use ($user) {
+    if ($user && $admin->id === $user->id) {
+        $admin->fullname = $admin->fullname . ' (Self)';
+    } else {
+        $admin->fullname = $admin->fullname . ' (Admin)';
+    }
+    return $admin;
+});
 
-//dd($patients);
-//print_r($doctor_id, $appointment_id);
+$doctors = $doctorsQuery->merge($adminsQuery);
 @endphp
 
 <!-- Follow-up Modal -->
@@ -218,22 +225,18 @@ $query->where('name', 'Doctor');
         modal.on('shown.bs.modal', function () {
             if (appointmentDoctorId) {
                 doctorSelect.val(appointmentDoctorId).trigger('change');
-            }
-
-            // If doctor is not yet set, sync from the selected treatment
-            if (!doctorSelect.val()) {
-                treatmentSelect.trigger('change');
+            } else {
+                let treatDoc = treatmentSelect.find("option:selected").data("doctor-id");
+                if (treatDoc) {
+                    doctorSelect.val(treatDoc).trigger('change');
+                }
             }
         });
-
 
         $(document).on("click", ".followup-appointment", async function() {
             let appointmentId = $(this).data("id");
             var form = $("#followupForm_" + appointmentId);
 
-            if (form.length) {
-                form[0].reset();
-            }
             const today = new Date().toISOString().split("T")[0];
             form.find("input[name='date']").attr("min", today);
             

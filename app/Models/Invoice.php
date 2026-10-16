@@ -23,13 +23,33 @@ class Invoice extends Model
         'discount',
         'payment_type',
         'payment_status',
-        'pdf_url',
-          'branch_id',
+        'branch_id',
+        'gst_enabled',
+    ];
+
+    protected $attributes = [
+        'discount_type' => 'fixed_amount',
+        'discount' => 0,
     ];
 
     protected $casts = [
         'types_details' => 'array',
+        'gst_enabled' => 'boolean',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($invoice) {
+            if (empty($invoice->discount_type)) {
+                $invoice->discount_type = 'fixed_amount';
+            }
+            if ($invoice->discount === null || $invoice->discount === '') {
+                $invoice->discount = 0;
+            }
+        });
+    }
 
 
     public function patient()

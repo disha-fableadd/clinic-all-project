@@ -1298,7 +1298,7 @@
 
                 {{-- @if (app('hasPermission')(15, 'view'))
 
-                    <li class="submenu {{ request()->is('sms*') ? 'active' : '' }}">
+                    <li class="menu-link submenu {{ request()->is('sms*') ? 'active' : '' }}">
 
                         <a href="#"><i class="fas fa-cogs icons"></i> <span>Setting</span><span
                                 class="menu-arrow"></span></a>
@@ -1340,7 +1340,13 @@
                             class="{{ request()->routeIs('plans.details') ? 'active' : '' }}">Plan Details</a></li> --}}
                 {{-- @endif --}}
                 {{-- @if (in_array(auth()->user()->role, ['admin', 'sub-admin'])) --}}
-                    <li><a href="{{ route('plans.myplan') }}"><i class="fa-solid fa-file-invoice-dollar"></i>My Plan Details</a></li>
+                    
+                                 <li  class="menu-link ">
+                                    <a href="{{ route('plans.myplan') }}">
+                                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                                        <span>My Plan Details</span>
+                                    </a>
+                                </li>
                 {{-- @endif --}}
 
 
