@@ -152,8 +152,7 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label><i class="fas fa-dollar-sign icon-style"></i> Cost <span
-                                                        class="text-danger">*</span></label>
+                                 <label><i class="fas fa-rupee-sign icon-style"></i> Cost <span class="text-danger">*</span></label>
                                 <input class="form-control" type="number" name="cost" id="cost" step="0.01">
                                 <span class="invalid-feedback" id="error_cost"></span>
                             </div>
@@ -235,15 +234,17 @@
             width: '100%'
         });
 
-        $('#gst_option').select2({
-            placeholder: 'Select GST Option',
-            width: '100%'
-        });
+        if ($('select#gst_option').length) {
+            $('#gst_option').select2({
+                placeholder: 'Select GST Option',
+                width: '100%'
+            });
 
-        $('#product_gst').select2({
-            placeholder: 'Select GST',
-            width: '100%'
-        });
+            $('#product_gst').select2({
+                placeholder: 'Select GST',
+                width: '100%'
+            });
+        }
 
         // Flag to prevent redundant fetchTaxes during initial data load
         let isLoadingInitialData = true;

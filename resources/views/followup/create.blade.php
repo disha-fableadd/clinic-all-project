@@ -83,14 +83,11 @@
                         @endif
 
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <div class="d-flex align-items-center justify-content-between">
-
-
                                         <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Patient <span
                                                 class="text-danger">*</span></label>
-
                                         @if (app('hasPermission')(5, 'create'))
                                             <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
                                                 data-bs-toggle="modal" data-bs-target="#quickAddPatientModal"
@@ -98,18 +95,15 @@
                                                 <i class="fas fa-plus"></i> Add
                                             </button>
                                         @endif
-
                                     </div>
                                     <select class="form-control select2" name="patient_id" id="patientDropdown" required>
                                         <option value="">Select Patient</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>
 
-                        @if($currentProjectTypeId !== 3)
-                        <div class="row">
-                            <div class="col-lg-12">
+                            @if($currentProjectTypeId !== 3)
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Treatment <span
@@ -121,20 +115,16 @@
                                                 <i class="fas fa-plus"></i> Add
                                             </button>
                                         @endif
-
                                     </div>
                                     <select class="form-control select2" name="treatment_id" id="treatmentDropdown"
                                         required>
                                         <option value="">Select Treatment</option>
                                     </select>
-
                                 </div>
                             </div>
-                        </div>
-                        @endif
+                            @endif
 
-                        <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Doctor <span
@@ -146,7 +136,6 @@
                                                 <i class="fas fa-plus"></i> Add
                                             </button>
                                         @endif
-
                                     </div>
                                     <select class="form-control select2 doctorSelect" name="doctor_id" id="doctorSelect"
                                         required>
@@ -154,16 +143,14 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
+
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-clock icon-style"></i> Date <span
                                             class="text-danger">*</span></label>
                                     <input type="date" class="form-control timepicker" name="date" required>
                                 </div>
                             </div>
-
                         </div>
 
                         @if($currentProjectTypeId !== 3)

@@ -76,7 +76,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Treatment <span
@@ -96,7 +96,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <div class="form-group">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Doctor <span

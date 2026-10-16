@@ -93,6 +93,7 @@
         
 
     }
+    
 </style>
 
 
@@ -191,8 +192,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>₹ Price <span
-                                                class="text-danger">*</span></label>
+                                                                            <label><i class="fas fa-rupee-sign icon-style"></i> Price <span class="text-danger">*</span></label>
+
                                         <input class="form-control" type="text" name="unit" required>
                                     </div>
                                 </div>
@@ -383,17 +384,19 @@
 
             // ... rest of your existing code ...
             $(document).ready(function() {
-                $('#gst_option').select2({
-                    placeholder: "Select GST Option",
-                    width: '100%'
-                });
+                if ($('select#gst_option').length) {
+                    $('#gst_option').select2({
+                        placeholder: "Select GST Option",
+                        width: '100%'
+                    });
 
-                $('#product_gst').select2({
-                    placeholder: "Select GST",
-                    allowClear: true,
-                    closeOnSelect: false,
-                    width: '100%'
-                });
+                    $('#product_gst').select2({
+                        placeholder: "Select GST",
+                        allowClear: true,
+                        closeOnSelect: false,
+                        width: '100%'
+                    });
+                }
 
                 const today = new Date().toISOString().split("T")[0];
                 $("input[name='expiry_date']").attr("min", today);

@@ -126,9 +126,9 @@
                         @csrf
                         <input type="hidden" name="branch_id" id="branch_id">
 
-                        {{-- Patient --}}
+                        {{-- Patient & Treatment Row --}}
                         <div class="row">
-                            <div class="col-md-6 col-12 ">
+                            <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <label><i class="fas fa-user icon-style"></i> Patient <span
@@ -147,10 +147,7 @@
                                 </div>
                             </div>
 
-                            {{-- Treatment --}}
-
-
-                            <div class="col-md-6 col-12 ">
+                            <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <label><i class="fas fa-medkit icon-style"></i> Treatment <span
@@ -167,163 +164,136 @@
                                         required>
                                         <option value="">Select Treatment</option>
                                     </select>
-
                                 </div>
                             </div>
                         </div>
+
+                        {{-- Machine Row --}}
                         <div class="row">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <label><i class="fa fa-cogs icon-style"></i> Machine </label>
-                                    @if (app('hasPermission')(7, 'create'))
-                                        <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
-                                            data-bs-toggle="modal" data-bs-target="#quickAddMachineModal"
-                                            data-toggle="modal" data-target="#quickAddMachineModal">
-                                            <i class="fas fa-plus"></i> Add
-                                        </button>
-                                    @endif
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <label><i class="fa fa-cogs icon-style"></i> Machine </label>
+                                        @if (app('hasPermission')(7, 'create'))
+                                            <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                data-bs-toggle="modal" data-bs-target="#quickAddMachineModal"
+                                                data-toggle="modal" data-target="#quickAddMachineModal">
+                                                <i class="fas fa-plus"></i> Add
+                                            </button>
+                                        @endif
+                                    </div>
+                                    <select id="machineDropdown" name="machine_id[]" class="form-control select2" multiple
+                                        style="min-height: 100px; max-height: 200px; overflow-y: auto;">
+                                        <option value="">Select Machines</option>
+                                    </select>
                                 </div>
-                                <select id="machineDropdown" name="machine_id[]" class="form-control select2" multiple
-                                    style="min-height: 100px; max-height: 200px; overflow-y: auto;">
-                                    <option value="">Select Machines</option>
-                                </select>
-
-
                             </div>
                         </div>
+
+                        {{-- Date & Plan Row --}}
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label><i class="fas fa-calendar-day icon-style"></i> Date <span
+                                            class="text-danger">*</span></label>
+                                    <input type="date" name="payment_date" class="form-control" id="todayOnlyDate" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label><i class="fas fa-calendar-day icon-style"></i> Plan <span
+                                            class="text-danger">*</span></label>
+                                    <select name="plan" class="form-control select2" id="plan" required>
+                                        <option value="">Select Plan</option>
+                                        <option value="daily">Daily</option>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
-            
+                        {{-- Payment Amount & Payment Mode Row --}}
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label><i class="fas fa-rupee-sign icon-style"></i> Payment <span class="text-danger">*</span></label>
+                                    <input type="number" step="0.01" name="amount" id="amount" class="form-control"
+                                        placeholder="Enter total payment" required>
+                                </div>
+                            </div>
 
-                {{-- Date --}}
-                <div class="row">
-
-
-                    <div class="col-6">
-
-                        <div class="form-group">
-                            <label><i class="fas fa-calendar-day icon-style"></i> Date </label>
-                            <input type="date" name="payment_date" class="form-control" id="todayOnlyDate" required>
-
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label><i class="fas fa-money-bill icon-style"></i> Payment Mode <span
+                                            class="text-danger">*</span></label>
+                                    <select name="payment_mode" class="form-control select2" id="payment_mode" required>
+                                        <option value="">Select Payment Mode</option>
+                                        <option value="cash">Cash</option>
+                                        <option value="online">Online</option>
+                                        <option value="cash+online">Cash+Online</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
-                    </div>
+                        {{-- Dynamic Payment Breakdown Details --}}
+                        <div class="row">
+                            {{-- Paid Type --}}
+                            <div class="col-md-4 col-sm-6 col-12 form-group d-none" id="paid_amount_type">
+                                <label><i class="fas fa-hand-holding-usd icon-style"></i> Paid Type <span
+                                        class="text-danger">*</span></label>
+                                <select name="paid_type" class="form-control select2" id="paid_type">
+                                    <option value="">Select Paid Type</option>
+                                    <option value="fully">Fully</option>
+                                    <option value="partial">Partial</option>
+                                </select>
+                            </div>
 
-                    {{-- Plan --}}
-                    <div class="col-6">
+                            {{-- Cash Amount --}}
+                            <div class="col-md-4 col-sm-6 col-12 form-group d-none" id="cash_amount_div">
+                                <label><i class="fas fa-coins icon-style"></i> Cash Amount <span class="text-danger">*</span></label>
+                                <input type="number" step="0.01" name="cash" id="cash_amount" class="form-control"
+                                    placeholder="Enter cash amount">
+                                <small id="cashError" class="text-danger d-none"></small>
+                            </div>
 
-                        <div class="form-group">
-                            <label><i class="fas fa-calendar-day icon-style"></i> Plan <span
-                                    class="text-danger">*</span></label>
-                            <select name="plan" class="form-control select2" id="plan" required>
-                                <option value="">Select Plan</option>
-                                <option value="daily">Daily</option>
-                                <option value="weekly">Weekly</option>
-                                <option value="monthly">Monthly</option>
-                            </select>
+                            {{-- Online Amount --}}
+                            <div class="col-md-4 col-sm-6 col-12 form-group d-none" id="online_amount_div">
+                                <label><i class="fas fa-credit-card icon-style"></i> Online Amount <span
+                                        class="text-danger">*</span></label>
+                                <input type="number" step="0.01" name="online" id="online_amount" class="form-control"
+                                    placeholder="Enter online amount">
+                                <small id="onlineError" class="text-danger d-none"></small>
+                            </div>
 
+                            {{-- Amount Paid --}}
+                            <div class="col-md-4 col-sm-6 col-12 form-group d-none" id="paid_amount_div">
+                                <label><i class="fas fa-coins icon-style"></i> Amount Paid <span
+                                        class="text-danger">*</span></label>
+                                <input type="number" step="0.01" name="paid_amount" id="paid_amount" class="form-control"
+                                    placeholder="Enter paid amount">
+                            </div>
+
+                            {{-- Pending Amount --}}
+                            <div class="col-md-4 col-sm-6 col-12 form-group d-none" id="remain_amount_div">
+                                <label><i class="fas fa-hourglass-half icon-style"></i> Pending Amount</label>
+                                <input type="number" step="0.01" name="remain_amount" id="remain_amount" class="form-control"
+                                    readonly>
+                            </div>
                         </div>
 
-                    </div>
+                        <div id="bookingSuccess" class="alert alert-success" style="display:none;"></div>
 
+                        <button type="submit" class="btn btn-primary submit-btn d-block m-auto"
+                            style="padding:8px 50px; border-radius:50px;">
+                            Submit
+                        </button>
+                    </form>
                 </div>
-                {{-- Remain amount --}}
-                <div class="row">
-
-
-                    <div class="col-6">
-
-
-                        <div class="form-group">
-                            <label>₹ Payment <span
-                                    class="text-danger">*</span></label>
-                            <input type="number" step="0.01" name="amount" id="amount" class="form-control"
-                                placeholder="Enter total payment" required>
-                        </div>
-                    </div>
-                    {{-- Payment Mode --}}
-                    <div class="col-6">
-
-
-                        <div class="form-group">
-                            <label><i class="fas fa-money-bill icon-style"></i> Payment Mode <span
-                                    class="text-danger">*</span></label>
-                            <select name="payment_mode" class="form-control select2" id="payment_mode" required>
-                                <option value="">Select Payment Mode</option>
-                                <option value="cash">Cash</option>
-                                <option value="online">Online</option>
-                                <option value="cash+online">Cash+Online</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                {{-- Paid Type --}}
-                <div class="row">
-
-                    <div class="col-4">
-
-
-                        <div class="form-group d-none" id="paid_amount_type">
-                            <label><i class="fas fa-hand-holding-usd icon-style"></i> Paid Type <span
-                                    class="text-danger">*</span></label>
-                            <select name="paid_type" class="form-control select2" id="paid_type">
-                                <option value="">Select Paid Type</option>
-                                <option value="fully">Fully</option>
-                                <option value="partial">Partial</option>
-                            </select>
-                        </div>
-                    </div>
-                    {{-- Cash Amount --}}
-                    <div class="form-group d-none col-4" id="cash_amount_div">
-                        <label>₹ Cash Amount <span
-                                class="text-danger">*</span></label>
-                        <input type="number" step="0.01" name="cash" id="cash_amount" class="form-control"
-                            placeholder="Enter cash amount">
-                        <small id="cashError" class="text-danger d-none"></small>
-                    </div>
-
-                    {{-- Online Amount --}}
-                    <div class="form-group d-none col-4" id="online_amount_div">
-                        <label><i class="fas fa-credit-card icon-style"></i> Online Amount <span
-                                class="text-danger">*</span></label>
-                        <input type="number" step="0.01" name="online" id="online_amount" style="margin-left: 13px;"
-                            class="form-control" placeholder="Enter online amount">
-                        <small id="onlineError" class="text-danger d-none"></small>
-                    </div>
-
-                    {{-- Amount Paid --}}
-                    <div class="col-4">
-
-
-                        <div class="form-group d-none" id="paid_amount_div">
-                            <label><i class="fas fa-coins icon-style"></i> Amount Paid <span
-                                    class="text-danger">*</span></label>
-                            <input type="number" step="0.01" name="paid_amount" id="paid_amount" class="form-control"
-                                placeholder="Enter paid amount">
-                        </div>
-                    </div>
-                    {{-- Pending Amount --}}
-                    <div class="col-4">
-
-
-                        <div class="form-group d-none" id="remain_amount_div">
-                            <label><i class="fas fa-hourglass-half icon-style"></i> Pending Amount</label>
-                            <input type="number" step="0.01" name="remain_amount" id="remain_amount" class="form-control"
-                                readonly>
-                        </div>
-                    </div>
-                </div>
-                <div id="bookingSuccess" class="alert alert-success" style="display:none;"></div>
-
-                <button type="submit" class="btn btn-primary submit-btn d-block m-auto"
-                    style="padding:8px 50px; border-radius:50px;">
-                    Submit
-                </button>
-                </form>
             </div>
         </div>
-    </div>
     </div>
 
 

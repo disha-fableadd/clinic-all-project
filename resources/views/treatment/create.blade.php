@@ -161,16 +161,16 @@
 
 
                         <div class="row">
-                            <div class="col-sm-6">
+                            @php
+                                $gstEnabled = \App\Models\Setting::getValue('gst_status', 'on') === 'on';
+                            @endphp
+                            <div class="{{ $gstEnabled ? 'col-sm-6' : 'col-sm-12' }}">
                                 <div class="form-group">
                                     <label><i class="fas fa-money-bill-wave icon-style"></i> Price <span
                                             class="text-danger">*</span></label>
                                     <input class="form-control" type="number" name="price" id="price" required>
                                 </div>
                             </div>
-                            @php
-                                $gstEnabled = \App\Models\Setting::getValue('gst_status', 'on') === 'on';
-                            @endphp
                             @if($gstEnabled)
                             <div class="col-sm-6">
                                 <div class="form-group">

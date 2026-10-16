@@ -1,175 +1,480 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Daily Data Report</title>
+    <meta charset="UTF-8">
+    <title>Daily Register Data</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        @page {
+            size: A4 portrait;
+            margin: 0;
         }
 
-        .page-border {
-            border: 1px solid #a0a0a0;
-            padding: 15px;
+        * {
             box-sizing: border-box;
-            height: 993px;
         }
 
-        .header {
-            background-color: #cfece0;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            color: #222;
+            background-color: #fff;
+            margin: 0;
+            padding: 0;
+            line-height: 1.4;
         }
 
-        .section {
-            margin-top: 15px;
+        .invoice-wrapper {
+            width: 190mm;
+            min-height: 277mm;
+            margin: 10mm auto 0;
+            padding: 12px 14px;
+            background-color: #fff;
+            border: 1.5px solid #222;
+            box-sizing: border-box;
+            position: relative;
         }
 
-        .section h3 {
-            background: #f4f4f4;
-            padding: 6px;
-            border-left: 4px solid #0c4b33;
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .clinic-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a4d36;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+        }
+
+        .clinic-sub {
+            font-size: 11px;
+            color: #444;
+            line-height: 1.35;
+        }
+
+        .header-divider {
+            border: none;
+            border-top: 1.5px solid #222;
+            margin: 12px 0 14px 0;
+        }
+
+        .details-container {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #d0e4dc;
+            background-color: #f7faf8;
+        }
+
+        .details-box {
+            padding: 9px 12px;
+            vertical-align: top;
+        }
+
+        .details-box-left {
+            width: 50%;
+            border-right: 1px solid #d0e4dc;
+        }
+
+        .details-box-right {
+            width: 50%;
+        }
+
+        .section-heading {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 11.5px;
+            font-weight: bold;
+            color: #0c4b33;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 6px;
+            padding-bottom: 3px;
+            border-bottom: 1px dashed #c4ddd1;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 11.5px;
+        }
+
+        .info-table td,
+        .info-table th {
+            padding: 2.5px 0;
+            vertical-align: top;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 11.5px;
+        }
+
+        .info-label {
+            width: 110px;
+            color: #4b5563;
+            font-weight: normal;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .info-sep {
+            width: 12px;
+            color: #4b5563;
+            text-align: center;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .info-val {
+            color: #1f2937;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .section-banner {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #1f2937;
+            font-size: 12.5px;
+            font-weight: bold;
+            text-align: center;
+            padding: 6px 0;
+            letter-spacing: 1px;
+            margin-top: 14px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
         }
 
         .invoice-box {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
-        }
-
-        .invoice-box th,
-        .invoice-box td {
-            padding: 8px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-
-        .invoice-box thead tr {
-            background-color: #f2f2f2;
-        }
-
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 90%;
-            background-color: #cfece0;
-            padding: 10px 20px;
+            margin-top: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 5px;
-            margin-bottom: 20px
         }
 
-        .footer-right {
-            text-align: center;
+        .invoice-box th {
+            background-color: #cfece0;
+            color: #0c4b33;
+            font-weight: bold;
+            text-align: center !important;
+            padding: 7px 8px;
+            border: 1px solid #b8dfd0;
+            font-size: 11.5px;
+            letter-spacing: 0.3px;
+            vertical-align: middle !important;
         }
-        .total-amount {
-            margin:10px 0;
+
+        .invoice-box td {
+            padding: 7px 8px;
+            border: 1px solid #d5e5dd;
+            color: #333;
+            font-size: 11.5px;
+            vertical-align: middle !important;
+            text-align: center !important;
+        }
+
+        .invoice-box tbody tr:nth-child(even) {
+            background-color: #fbfdfc;
+        }
+
+        .total-badge-box {
+            display: inline-block;
+            background-color: #cfece0;
+            color: #0c4b33;
+            border: 1px solid #b8dfd0;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 3px;
+        }
+
+        .declaration-signatory {
+            width: 100%;
+            margin-top: 18px;
+            page-break-inside: avoid;
+            border: 1px solid #d0e4dc;
+            border-collapse: collapse;
+            background-color: #f7faf8;
+            table-layout: fixed;
+        }
+
+        .declaration-signatory td {
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        .declaration-cell {
+            width: 50%;
+            border-right: 1px solid #d0e4dc;
+        }
+
+        .signatory-cell {
+            width: 50%;
+            position: relative;
+            height: 95px;
+            vertical-align: top !important;
+        }
+
+        .signatory-company {
+            text-align: right;
+            font-size: 10.5px;
+            color: #0c4b33;
+            font-weight: bold;
+        }
+
+        .signatory-bottom {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            text-align: right;
+            font-size: 10px;
+            color: #0c4b33;
+        }
+
+        .footer-note {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed #c0d8cd;
             text-align: center;
-           
+            font-size: 11px;
+            color: #666;
+            line-height: 1.5;
         }
     </style>
 </head>
 
 <body>
-    <div class="page-border">
+    @php
+        $displayVal = function($val) {
+            $trimmed = trim((string)($val ?? ''));
+            return ($trimmed === '' || $trimmed === '-' || $trimmed === '--') ? 'N/A' : $val;
+        };
 
-        <div class="header">
-            <table style="width: 100%;">
+        $displayClinicName = $clinic_name ?? \App\Models\Setting::where('key', 'clinic_name')->value('value') ?? 'Sunshine Clinic';
+
+        // Comprehensive logo resolution
+        $resolvedLogoPath = null;
+        $candidateLogos = array_filter([
+            $clinic_logo ?? null,
+            \App\Models\Setting::where('key', 'clinic_logo')->value('value'),
+            'admin/assets/img/cliniclogo.png',
+            'admin/assets/img/cliniclogohalf.png',
+            'admin/assets/img/logo.png',
+        ]);
+
+        foreach ($candidateLogos as $candidate) {
+            if (empty($candidate) || $candidate === 'default-logo.png') {
+                continue;
+            }
+            if (file_exists($candidate) && is_file($candidate)) {
+                $resolvedLogoPath = $candidate;
+                break;
+            }
+            $cleanCandidate = ltrim(str_replace('\\', '/', $candidate), '/');
+            if (file_exists(public_path($cleanCandidate)) && is_file(public_path($cleanCandidate))) {
+                $resolvedLogoPath = public_path($cleanCandidate);
+                break;
+            }
+            $baseCandidate = basename($candidate);
+            if (file_exists(public_path('uploads/clinic_logos/' . $baseCandidate)) && is_file(public_path('uploads/clinic_logos/' . $baseCandidate))) {
+                $resolvedLogoPath = public_path('uploads/clinic_logos/' . $baseCandidate);
+                break;
+            }
+            if (file_exists(public_path('admin/assets/img/' . $baseCandidate)) && is_file(public_path('admin/assets/img/' . $baseCandidate))) {
+                $resolvedLogoPath = public_path('admin/assets/img/' . $baseCandidate);
+                break;
+            }
+        }
+
+        // Convert to Base64 Data URI for 100% reliable DomPDF rendering
+        $logoBase64 = null;
+        if ($resolvedLogoPath && file_exists($resolvedLogoPath)) {
+            $fileData = @file_get_contents($resolvedLogoPath);
+            if ($fileData !== false) {
+                $ext = pathinfo($resolvedLogoPath, PATHINFO_EXTENSION);
+                $mime = ($ext === 'svg') ? 'image/svg+xml' : (($ext === 'webp') ? 'image/webp' : (($ext === 'jpg' || $ext === 'jpeg') ? 'image/jpeg' : 'image/png'));
+                $logoBase64 = 'data:' . $mime . ';base64,' . base64_encode($fileData);
+            }
+        }
+
+        $displayClinicPhone = $clinic_phone ?? \App\Models\Setting::where('key', 'clinic_phone')->value('value');
+        $displayClinicEmail = $clinic_email ?? \App\Models\Setting::where('key', 'clinic_email')->value('value');
+        $displayClinicAddress = $clinic_address ?? \App\Models\Setting::where('key', 'clinic_address')->value('value');
+        $displayClinicCity = $clinic_city ?? \App\Models\Setting::where('key', 'clinic_city')->value('value');
+        $displayClinicState = $clinic_state ?? \App\Models\Setting::where('key', 'clinic_state')->value('value');
+        $addressParts = array_filter([$displayClinicAddress ?? '', $displayClinicCity ?? '', $displayClinicState ?? '']);
+    @endphp
+
+    <div class="invoice-wrapper">
+
+        <!-- Header -->
+        <table class="header-table">
+            <tr>
+                <td style="width: 40%; vertical-align: middle;">
+                    @if(!empty($logoBase64))
+                        <img src="{{ $logoBase64 }}" alt="Clinic Logo" style="max-height: 65px; max-width: 190px;">
+                    @elseif(!empty($resolvedLogoPath) && file_exists($resolvedLogoPath))
+                        <img src="{{ $resolvedLogoPath }}" alt="Clinic Logo" style="max-height: 65px; max-width: 190px;">
+                    @else
+                        <div class="clinic-title">{{ $displayClinicName }}</div>
+                    @endif
+                </td>
+                <td style="width: 60%; text-align: right; vertical-align: middle;">
+                    <div class="clinic-title">{{ $displayClinicName }}</div>
+                    @if(!empty($addressParts))
+                        <div class="clinic-sub">
+                            {{ implode(', ', $addressParts) }}
+                        </div>
+                    @endif
+                    <div class="clinic-sub">
+                        @if(!empty($displayClinicPhone))PHONE: {{ $displayClinicPhone }}@endif
+                        @if(!empty($displayClinicPhone) && !empty($displayClinicEmail)) | @endif
+                        @if(!empty($displayClinicEmail))EMAIL: {{ $displayClinicEmail }}@endif
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Divider Line -->
+        <hr class="header-divider">
+
+        <!-- Patient and Register Overview Box -->
+        <table class="details-container">
+            <tr>
+                <!-- Patient Details -->
+                <td class="details-box details-box-left">
+                    <div class="section-heading">PATIENT DETAILS:</div>
+                    <table class="info-table">
+                        <tr>
+                            <td class="info-label">Name</td>
+                            <td class="info-sep">:</td>
+                            <td class="info-val"><strong>{{ $displayVal($daily->patient->fullname ? ucfirst($daily->patient->fullname) : '') }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Phone</td>
+                            <td class="info-sep">:</td>
+                            <td class="info-val">{{ $displayVal($daily->patient->phone ?? '') }}</td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Address</td>
+                            <td class="info-sep">:</td>
+                            <td class="info-val">{{ $displayVal($daily->patient->address ? ucfirst($daily->patient->address) : '') }}</td>
+                        </tr>
+                    </table>
+                </td>
+
+                <!-- Register Overview -->
+                <td class="details-box details-box-right">
+                    <div class="section-heading">REGISTER OVERVIEW:</div>
+                    <table class="info-table">
+                        <tr>
+                            <td class="info-label">Record #</td>
+                            <td class="info-sep">:</td>
+                            <td class="info-val"><strong>#{{ $daily->id ?? '---' }}</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Register Date</td>
+                            <td class="info-sep">:</td>
+                            <td class="info-val">{{ $displayVal($date) }}</td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">Status</td>
+                            <td class="info-sep">:</td>
+                            <td class="info-val">{{ $displayVal(!empty($daily->status) ? ucfirst($daily->status) : '') }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        @php
+            $lastPaymentAmount = optional($daily->paymentHistories->last())->amount;
+        @endphp
+
+        <!-- Daily Register Details Table -->
+        <div class="section-banner">
+            REGISTER & TREATMENT DETAILS
+        </div>
+
+        <table class="invoice-box">
+            <thead>
                 <tr>
-                    <td style="width: 70%; vertical-align: middle;">
-                        <div style="display: flex; align-items: center;">
-                            <img src="{{ $clinic_logo ?? 'clinic logo' }}" alt="Clinic Logo"
-                                style="width:180px; height:100px; margin-right:12px;">
-                            <div style="line-height: 1.4; font-size: 13px;">
-                                <strong style="font-size: 18px;">{{ $clinic_name ?? 'Clinic Name' }}</strong><br>
-                                {{ $clinic_phone ?? '--' }} || {{ $clinic_email ?? 'clinic@example.com' }}
-                            </div>
-                        </div>
-                    </td>
-                    <td style="width: 30%; text-align: right; vertical-align: middle;">
-                        <div style="line-height: 1.6; font-size: 13px;">
-                            <strong style="font-size: 20px; text-transform: uppercase;">Daily Register</strong><br>
-                            <strong>Date:</strong> {{ $date }}
-                        </div>
-                    </td>
+                    <th style="width: 32%;">Treatment</th>
+                    <th style="width: 25%;">Collected By</th>
+                    <th style="width: 18%;">Status</th>
+                    <th style="width: 25%;">Total / Last Amount</th>
                 </tr>
-            </table>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>{{ $displayVal($daily->treatment->name ?? '') }}</strong></td>
+                    <td>{{ $displayVal($daily->collectedBy->fullname ?? '') }}</td>
+                    <td>{{ $displayVal(!empty($daily->status) ? ucfirst($daily->status) : '') }}</td>
+                    <td><strong>Rs. {{ number_format(floatval($lastPaymentAmount ?? 0), 2) }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Payment History Table -->
+        <div class="section-banner" style="margin-top: 14px;">
+            PAYMENT HISTORY
         </div>
 
-        <!-- Patient Details -->
-        <div class="section">
-            <h3>Patient Details</h3>
-            <p><strong>Name:</strong> {{ $daily->patient->fullname ?? '--' }}</p>
-            <p><strong>Phone:</strong> {{ $daily->patient->phone ?? '--' }}</p>
-        </div>
-
-        <!-- Treatment Details -->
-        <div class="section">
-            <h3>Treatment Details</h3>
-            <p><strong>Treatment:</strong> {{ $daily->treatment->name ?? '--' }}</p>
-            <p><strong>Status:</strong> {{ ucfirst($daily->status) }}</p>
-            <p><strong>Collected By:</strong> {{ $daily->collectedBy->fullname ?? '--' }}</p>
-        </div>
-
-        <!-- Payment Summary -->
-
-
-        <!-- Payment History -->
-        <div class="section">
-            <h3>Payment History</h3>
-
-            <div class="total-amount">
-              
-                    <strong>Total Amount:</strong>
-                   {{ optional($daily->paymentHistories->last())->amount ?? '0.00' }}
-                
-
-            </div>
-            <table class="invoice-box">
-                <thead>
+        <table class="invoice-box">
+            <thead>
+                <tr>
+                    <th style="width: 20%;">Date</th>
+                    <th style="width: 14%;">Mode</th>
+                    <th style="width: 13%;">Paid Type</th>
+                    <th style="width: 13%;">Cash</th>
+                    <th style="width: 13%;">Online</th>
+                    <th style="width: 13%;">Paid</th>
+                    <th style="width: 14%;">Remain</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($daily->paymentHistories as $p)
                     <tr>
-                        <th>Date</th>
-                        <th>Payment Mode</th>
-                        <th>Paid Type</th>
-                        <th>Cash</th>
-                        <th>Online</th>
-                        <th>Paid Amount</th>
-                        <th>Remain</th>
+                        <td>{{ $displayVal($p->created_at ? $p->created_at->format('d-m-Y h:i A') : '') }}</td>
+                        <td>{{ $displayVal($p->payment_mode ? ucfirst($p->payment_mode) : '') }}</td>
+                        <td>{{ $displayVal($p->paid_type ? ucfirst($p->paid_type) : '') }}</td>
+                        <td>{{ $displayVal($p->cash ?? '0.00') }}</td>
+                        <td>{{ $displayVal($p->online ?? '0.00') }}</td>
+                        <td>{{ $displayVal($p->paid_amount ?? '0.00') }}</td>
+                        <td>{{ $displayVal($p->remain_amount ?? '0.00') }}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @forelse($daily->paymentHistories as $p)
-                        <tr>
-                            <td>{{ $p->created_at->format('d-m-Y h:i A') }}</td>
-                            <td>{{ $p->payment_mode ?? '--' }}</td>
-                            <td>{{ $p->paid_type ?? '--' }}</td>
-                            <td>{{ $p->cash_amount ?? '--' }}</td>
-                            <td>{{ $p->online_amount ?? '--' }}</td>
-                            <td>{{ $p->paid_amount  ?? '--' }}</td>
-                            <td>{{ $p->remain_amount ?? '--' }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7">No payment history found</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                @empty
+                    <tr>
+                        <td colspan="7">No payment histories found.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+
+        <!-- Declaration & Authorized Signatory -->
+        <table class="declaration-signatory">
+            <tr>
+                <td class="declaration-cell">
+                    <div style="font-size: 10.5px; font-weight: bold; color: #0c4b33; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;">
+                        Patient Instructions:
+                    </div>
+                    <div style="font-size: 10px; color: #444; line-height: 1.4;">
+                        Please retain this register slip for your treatment records. For any billing or session clarification, contact clinic reception.
+                    </div>
+                </td>
+                <td class="signatory-cell">
+                    <div class="signatory-company">For, {{ $displayClinicName }}</div>
+                    <div class="signatory-bottom">Authorized Signatory</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Footer Note -->
+        <div class="footer-note">
+            For more information or queries, contact us at 
+            <strong>{{ $displayClinicPhone ?? '9876543210' }}</strong> 
+            or email <strong>{{ $displayClinicEmail ?? 'clinic@example.com' }}</strong>.
         </div>
-        <!-- Footer -->
-        <div class="footer">
-            <div class="footer-right">
-                For more information or any concerns,<br>
-                email us at <strong>{{ $clinic_email ?? 'clinic@example.com' }}</strong> or contact
-                <strong>{{ $clinic_phone ?? '9876543210' }}</strong>
-            </div>
-        </div>
+
     </div>
+
 </body>
 
 </html>

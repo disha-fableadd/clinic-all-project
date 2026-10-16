@@ -200,8 +200,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label><i class="fas fa-dollar-sign icon-style"></i> Cost <span
-                                                        class="text-danger">*</span></label>
+                                     <label><i class="fas fa-rupee-sign icon-style"></i> Cost <span class="text-danger">*</span></label>
                                     <div class="input-wrapper">
                                         <input class="form-control @error('cost') is-invalid @enderror" type="number"
                                             name="cost" value="{{ old('cost') }}" step="0.01">
@@ -275,26 +274,28 @@
                 width: '100%'
             });
 
-            $('#gst_option').select2({
-                placeholder: 'Select GST Option',
-                width: '100%'
-            });
+            if ($('select#gst_option').length) {
+                $('#gst_option').select2({
+                    placeholder: 'Select GST Option',
+                    width: '100%'
+                });
 
-            $('#product_gst').select2({
-                placeholder: 'Select GST',
-                width: '100%'
-            });
+                $('#product_gst').select2({
+                    placeholder: 'Select GST',
+                    width: '100%'
+                });
 
-            // Toggle Product GST field visibility
-            $('#gst_option').on('change', function() {
-                if ($(this).val() === 'With GST') {
-                    $('#product_gst_wrapper').show();
-                    fetchTaxes();
-                } else {
-                    $('#product_gst_wrapper').hide();
-                    $('#product_gst').val(null).trigger('change');
-                }
-            });
+                // Toggle Product GST field visibility
+                $('#gst_option').on('change', function() {
+                    if ($(this).val() === 'With GST') {
+                        $('#product_gst_wrapper').show();
+                        fetchTaxes();
+                    } else {
+                        $('#product_gst_wrapper').hide();
+                        $('#product_gst').val(null).trigger('change');
+                    }
+                });
+            }
 
             function fetchTaxes() {
                 let branchId = localStorage.getItem('selectedBranchId');

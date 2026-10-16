@@ -121,19 +121,24 @@
                         </script>
 
 
-                        <!-- Amount -->
-                        <div class="form-group">
-                            <label><i class="fas fa-dollar-sign icon-style"></i> Amount <span
-                                    class="text-danger">*</span></label>
-                            <input type="number" step="0.01" class="form-control" id="amount" name="amount"
-                                required>
-                        </div>
+                        <div class="row">
+                            <!-- Amount -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                     <label><i class="fas fa-rupee-sign icon-style"></i> Amount <span class="text-danger">*</span></label>
+                                    <input type="number" step="0.01" class="form-control" id="amount" name="amount"
+                                        required>
+                                </div>
+                            </div>
 
-                        <!-- Service -->
-                        <div class="form-group">
-                            <label><i class="fas fa-briefcase icon-style"></i> Service <span
-                                    class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="service" name="service" required>
+                            <!-- Service -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><i class="fas fa-briefcase icon-style"></i> Service <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="service" name="service" required>
+                                </div>
+                            </div>
                         </div>
 
                         @php
