@@ -74,6 +74,8 @@ class AppointmentController extends Controller
                 'clinic_logo' => $clinic_logo_path,
                 'clinic_name' => $settings['clinic_name'] ?? 'Sunshine Clinic',
                 'clinic_address' => $settings['clinic_address'] ?? '123 Health Street',
+                'clinic_city' => $settings['clinic_city'] ?? null,
+                'clinic_state' => $settings['clinic_state'] ?? null,
                 'clinic_phone' => $settings['clinic_phone'] ?? '1234567890',
                 'clinic_email' => $settings['clinic_email'] ?? 'clinic@example.com',
             ];

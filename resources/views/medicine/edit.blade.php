@@ -200,8 +200,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label><i class="fas fa-weight icon-style"></i> Price <span
-                                                class="text-danger">*</span></label>
+                                        <label><i class="fas fa-rupee-sign icon-style"></i> Price <span class="text-danger">*</span></label>
                                         <input class="form-control" type="text" name="unit" id="unit" required>
                                     </div>
                                 </div>
@@ -347,17 +346,19 @@
 
         $(document).ready(function() {
             const token = localStorage.getItem('authToken');
-            $('#gst_option').select2({
-                placeholder: "Select GST Option",
-                width: '100%'
-            });
+            if ($('select#gst_option').length) {
+                $('#gst_option').select2({
+                    placeholder: "Select GST Option",
+                    width: '100%'
+                });
 
-            $('#product_gst').select2({
-                placeholder: "Select GST",
-                allowClear: true,
-                closeOnSelect: false,
-                width: '100%'
-            });
+                $('#product_gst').select2({
+                    placeholder: "Select GST",
+                    allowClear: true,
+                    closeOnSelect: false,
+                    width: '100%'
+                });
+            }
 
             // Initialize form validation
             $('#medicineForm').validate({

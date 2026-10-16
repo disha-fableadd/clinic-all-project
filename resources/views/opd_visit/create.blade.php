@@ -90,8 +90,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label>₹ Consultation Fees <span
-                                            class="text-danger">*</span></label>
+                                     <label><i class="fas fa-rupee-sign icon-style"></i> Consultation Fees <span class="text-danger">*</span></label>
                                     <input type="number" name="consultation_fees" id="consultation_fees"
                                         class="form-control" step="0.01" min="0">
                                     <div class="invalid-feedback d-block" id="error_consultation_fees"></div>

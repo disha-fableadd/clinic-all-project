@@ -80,8 +80,7 @@
                         </div>
                         @endif
                         <div class="row">
-
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <label><i class="fas fa-user-injured icon-style"></i> Patient Name <span
@@ -98,14 +97,11 @@
                                         required>
                                         <option value="">Select Patient</option>
                                     </select>
-
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row">
                             @if($currentProjectTypeId !== 3)
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <label><i class="fas fa-stethoscope icon-style"></i> Treatment <span
@@ -122,11 +118,11 @@
                                         name="treatment_id" required>
                                         <option value="">Select Treatment</option>
                                     </select>
-
                                 </div>
                             </div>
                             @endif
-                            <div class="col-lg-12">
+
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <label><i class="fas fa-user-md icon-style"></i> Doctor <span
@@ -143,12 +139,10 @@
                                         required>
                                         <option value="">Select Doctor</option>
                                     </select>
-
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
+
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-clock icon-style"></i> Date <span
                                             class="text-danger">*</span></label>
@@ -156,7 +150,6 @@
                                         required>
                                 </div>
                             </div>
-
                         </div>
 
                         @if($currentProjectTypeId !== 3)

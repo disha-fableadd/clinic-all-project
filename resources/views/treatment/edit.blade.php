@@ -171,45 +171,45 @@
                     <form id="editTreatmentForm" class="form-container">
                         @csrf
 
-                        <div class="form-group">
-                            <label><i class="fas fa-cogs icon-style"></i> Treatment Name</label>
-                            <input class="form-control" type="text" id="name" name="name" required>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <label class="mr-2"><i class="fas fa-user-md icon-style"></i> Doctor Name <span
-                                        class="text-danger">*</span></label>
-                                @if (app('hasPermission')(3, 'create'))
-                                    <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
-                                        data-bs-toggle="modal" data-bs-target="#quickAddDoctorModal"
-                                        data-toggle="modal" data-target="#quickAddDoctorModal">
-                                        <i class="fas fa-plus"></i> Add
-                                    </button>
-                                @endif
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label><i class="fas fa-cogs icon-style"></i> Treatment Name <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="text" id="name" name="name" required>
+                                </div>
                             </div>
-                            <select class="form-control select2 doctorSelect" id="doctorSelect" name="doctor_id"
-                                required>
-                                <option value="">Select Doctor</option>
-                            </select>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label><i class="fas fa-clipboard-list icon-style"></i> Description</label>
-                            <textarea cols="7" rows="4" class="form-control" id="description" name="description"
-                                style="border-radius:10px"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-cogs icon-style"></i> Price</label>
-                            <input class="form-control" type="number" id="price" name="price" required>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <label class="mr-2"><i class="fas fa-user-md icon-style"></i> Doctor Name <span
+                                                class="text-danger">*</span></label>
+                                        @if (app('hasPermission')(3, 'create'))
+                                            <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                data-bs-toggle="modal" data-bs-target="#quickAddDoctorModal"
+                                                data-toggle="modal" data-target="#quickAddDoctorModal">
+                                                <i class="fas fa-plus"></i> Add
+                                            </button>
+                                        @endif
+                                    </div>
+                                    <select class="form-control select2 doctorSelect" id="doctorSelect" name="doctor_id"
+                                        required>
+                                        <option value="">Select Doctor</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
                         @php
                             $gstEnabled = \App\Models\Setting::getValue('gst_status', 'on') === 'on';
                         @endphp
-                        @if($gstEnabled)
                         <div class="row">
+                            <div class="{{ $gstEnabled ? 'col-sm-6' : 'col-sm-12' }}">
+                                <div class="form-group">
+                                    <label><i class="fas fa-money-bill-wave icon-style"></i> Price <span class="text-danger">*</span></label>
+                                    <input class="form-control" type="number" id="price" name="price" required>
+                                </div>
+                            </div>
+                            @if($gstEnabled)
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label><i class="fas fa-percent icon-style"></i> GST Option <span
@@ -231,10 +231,20 @@
                                     </select>
                                 </div>
                             </div>
+                            @else
+                            <input type="hidden" name="gst_option" id="gst_option" value="Without GST">
+                            @endif
                         </div>
-                        @else
-                        <input type="hidden" name="gst_option" id="gst_option" value="Without GST">
-                        @endif
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label><i class="fas fa-clipboard-list icon-style"></i> Description <span class="text-danger">*</span></label>
+                                    <textarea cols="7" rows="4" class="form-control" id="description" name="description"
+                                        style="border-radius:10px"></textarea>
+                                </div>
+                            </div>
+                        </div>
                         <div id="editsuccesstreat" class="alert alert-success" style="display:none;"></div>
                         <div id="editerrortreat" class="alert alert-danger" style="display:none;"></div>
 
@@ -311,10 +321,22 @@
                 }
             });
 
-            $('#gst_option').select2({
-                placeholder: "Select GST Option",
-                width: '100%'
-            });
+            if ($('select#gst_option').length) {
+                $('select#gst_option').select2({
+                    placeholder: "Select GST Option",
+                    width: '100%'
+                });
+
+                $('select#gst_option').on('change', function() {
+                    if ($(this).val() === 'With GST') {
+                        $('#product_gst_div').show();
+                        ensureProductGstSelect2(); // fix width when showing from hidden
+                    } else {
+                        $('#product_gst_div').hide();
+                        $('#product_gst').val(null).trigger('change');
+                    }
+                });
+            }
 
             function ensureProductGstSelect2() {
                 const $el = $('#product_gst');
@@ -329,16 +351,6 @@
                     width: '100%'
                 });
             }
-
-            $('#gst_option').on('change', function() {
-                if ($(this).val() === 'With GST') {
-                    $('#product_gst_div').show();
-                    ensureProductGstSelect2(); // fix width when showing from hidden
-                } else {
-                    $('#product_gst_div').hide();
-                    $('#product_gst').val(null).trigger('change');
-                }
-            });
 
             function fetchTaxRates(callback) {
                 let branchId = localStorage.getItem('selectedBranchId');

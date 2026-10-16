@@ -118,9 +118,9 @@
                     <form id="edittreatmentBookingForm" method="POST" class="form-container all-form">
                         @csrf
 
-                        {{-- Patient --}}
+                        {{-- Patient & Treatment Row --}}
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <label><i class="fas fa-user icon-style"></i> Patient <span
@@ -140,8 +140,7 @@
                             </div>
 
                             {{-- Treatment --}}
-
-                            <div class="col-6">
+                            <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <label><i class="fas fa-medkit icon-style"></i> Treatment <span
@@ -161,10 +160,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
 
+                        {{-- Machine Row --}}
+                        <div class="row">
                             <div class="col-12">
-                                {{-- Machine --}}
                                 <div class="form-group">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <label><i class="fa fa-cogs icon-style"></i> Machine <span
@@ -185,23 +184,28 @@
                             </div>
                         </div>
 
-                        {{-- Date --}}
-                        <div class="form-group">
-                            <label><i class="fas fa-calendar-day icon-style"></i> Date <span
-                                    class="text-danger">*</span></label>
-                            <input type="date" name="payment_date" class="form-control" id="todayOnlyDate" required>
-                        </div>
+                        {{-- Date & Plan Row --}}
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label><i class="fas fa-calendar-day icon-style"></i> Date <span
+                                            class="text-danger">*</span></label>
+                                    <input type="date" name="payment_date" class="form-control" id="todayOnlyDate" required>
+                                </div>
+                            </div>
 
-                        {{-- Plan --}}
-                        <div class="form-group">
-                            <label><i class="fas fa-calendar-day icon-style"></i> Plan <span
-                                    class="text-danger">*</span></label>
-                            <select name="plan" class="form-control select2" id="plan" required>
-                                <option value="">Select Plan</option>
-                                <option value="daily">Daily</option>
-                                <option value="weekly">Weekly</option>
-                                <option value="monthly">Monthly</option>
-                            </select>
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label><i class="fas fa-calendar-day icon-style"></i> Plan <span
+                                            class="text-danger">*</span></label>
+                                    <select name="plan" class="form-control select2" id="plan" required>
+                                        <option value="">Select Plan</option>
+                                        <option value="daily">Daily</option>
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
                         <div id="bookingSuccess" class="alert alert-success" style="display:none;"></div>

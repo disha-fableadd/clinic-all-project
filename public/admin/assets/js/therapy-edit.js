@@ -2,32 +2,34 @@ $(document).ready(function() {
     $('.select2').select2({
         width: '100%'
     });
-    $('#gst_option').select2({
-        placeholder: 'Select GST Option',
-        allowClear: true,
-        width: '100%'
-    });
-    $('#product_gst').select2({
-        placeholder: 'Select GST',
-        allowClear: true,
-        width: '100%'
-    });
+    if ($('select#gst_option').length) {
+        $('#gst_option').select2({
+            placeholder: 'Select GST Option',
+            allowClear: true,
+            width: '100%'
+        });
+        $('#product_gst').select2({
+            placeholder: 'Select GST',
+            allowClear: true,
+            width: '100%'
+        });
+
+        $('#gst_option').on('change', function() {
+            if ($(this).val() === 'With GST') {
+                $('#product_gst_div').show();
+                $('#product_gst').attr('required', true);
+            } else {
+                $('#product_gst_div').hide();
+                $('#product_gst').attr('required', false).val(null).trigger('change');
+            }
+        });
+    }
 
     const therapyId = $('#therapyId').val();
     const form = $('#edittherapyForm');
 
     fetchTaxRates().always(function() {
         loadTherapy();
-    });
-
-    $('#gst_option').on('change', function() {
-        if ($(this).val() === 'With GST') {
-            $('#product_gst_div').show();
-            $('#product_gst').attr('required', true);
-        } else {
-            $('#product_gst_div').hide();
-            $('#product_gst').attr('required', false).val(null).trigger('change');
-        }
     });
 
     function fetchTaxRates() {
