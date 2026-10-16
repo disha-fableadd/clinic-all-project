@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 
 <link rel="stylesheet" href="{{ asset(env('IMAGE_PATH').'admin/assets/css/assign-therapy-create.css') }}">
@@ -35,10 +35,11 @@
                                                     class="text-danger">*</span></label>
 
                                             @if (app('hasPermission')(5, 'create'))
-                                                <a href="{{ route('patients.create') }}" target="_blank"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
-                                                </a>
+                                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#quickAddPatientModal"
+                                                    data-toggle="modal" data-target="#quickAddPatientModal">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
                                             @endif
 
                                         </div>
@@ -56,10 +57,11 @@
                                             <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Therapy <span
                                                     class="text-danger">*</span></label>
                                             @if (app('hasPermission')(26, 'create'))
-                                                <a href="{{ route('therapy.create') }}" target="_blank"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
-                                                </a>
+                                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#quickAddTherapyModal"
+                                                    data-toggle="modal" data-target="#quickAddTherapyModal">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
                                             @endif
 
                                         </div>
@@ -75,10 +77,11 @@
                                             <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Doctor <span
                                                     class="text-danger">*</span></label>
                                             @if (app('hasPermission')(3, 'create'))
-                                                <a href="{{ route('user.create') }}" target="_blank"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
-                                                </a>
+                                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#quickAddDoctorModal"
+                                                    data-toggle="modal" data-target="#quickAddDoctorModal">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
                                             @endif
 
                                         </div>
@@ -431,4 +434,5 @@
 
         });
     </script>
+    @include('components.quick-add-modals')
 @endsection

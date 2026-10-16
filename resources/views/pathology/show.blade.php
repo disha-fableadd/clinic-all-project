@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     @media screen and (max-width:767px) {
@@ -63,12 +63,14 @@
                             <p><strong>₹ Cost: </strong> <span
                                     class="cost"></span></p>
                             <hr>
+                            @if(\App\Models\Setting::getValue('gst_status', 'on') === 'on')
                             <p><strong><i class="fas fa-percent icon-style1"></i> GST Option: </strong> <span
                                     class="gst_option"></span></p>
                             <hr id="product_gst_hr" style="display: none;">
                             <p id="product_gst_p" style="display: none;"><strong><i class="fas fa-file-invoice-dollar icon-style1"></i> Product GST: </strong> <span
                                     class="product_gst"></span></p>
                             <hr id="product_gst_hr_after" style="display: none;">
+                            @endif
                             <p><strong><i class="fa fa-flask icon-style1"></i> Sample Type: </strong> <span
                                     class="sample_type"></span></p>
                             <hr>

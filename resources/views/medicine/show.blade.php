@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     .card-footer {
         background-color: #87ceb0 !important;
@@ -114,12 +114,17 @@
                                                 <span id="medicine_unit"></span>
                                             </p>
                                             <hr class="margin-text">
+                                            @php
+                                                $gstEnabled = \App\Models\Setting::getValue('gst_status', 'on') === 'on';
+                                            @endphp
+                                            @if($gstEnabled)
                                             <p class="text-dark margin-text">
                                                 <strong><i class="fa fa-percent icon-style1"></i> GST Option:
                                                 </strong>
                                                 <span id="medicine_gst_option"></span>
                                             </p>
                                             <hr class="margin-text" id="gst_option_hr">
+                                            @endif
 
                                         </div>
                                     </div>
@@ -154,6 +159,7 @@
 
 
 
+                                    @if($gstEnabled)
                                     <div id="product_gst_div" style="display: none;">
                                         <p class="text-dark margin-text">
                                             <strong><i class="fa fa-file-invoice-dollar icon-style1"></i> Product GST:
@@ -162,6 +168,7 @@
                                         </p>
                                         <hr class="margin-text">
                                     </div>
+                                    @endif
 
                                     <p class="text-dark margin-text">
                                         <strong><i class="fa fa-calendar-check icon-style1"></i> Expiry Date:

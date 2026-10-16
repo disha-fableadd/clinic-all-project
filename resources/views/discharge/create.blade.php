@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .select2-container--default .select2-selection--multiple {
@@ -112,10 +112,11 @@
                                                     class="text-danger">*</span></label>
 
                                             @if (app('hasPermission')(5, 'create'))
-                                                <a href="{{ route('patients.create') }}" target="_blank"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> Add Patient
-                                                </a>
+                                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#quickAddPatientModal"
+                                                    data-toggle="modal" data-target="#quickAddPatientModal">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
                                             @endif
 
                                         </div>
@@ -177,6 +178,10 @@
                                     </div>
                                 </div>
                             </div>
+                            @php
+                                $gstEnabled = \App\Models\Setting::getValue('gst_status', 'on') === 'on';
+                            @endphp
+                            @if($gstEnabled)
                             <div class="row">
                                 <!-- GST Option -->
                                 <div class="col-md-6">
@@ -202,6 +207,9 @@
                                     </div>
                                 </div>
                             </div>
+                            @else
+                            <input type="hidden" name="gst_option" id="gst_option" value="Without GST">
+                            @endif
                             <div id="dischargesuccessMessage" class="alert alert-success" style="display:none;"></div>
                             {{-- <div id="dischargeerrorMessage" class="alert alert-danger" style="display:none;"></div> --}}
 
@@ -536,6 +544,54 @@
                     });
                 }
             });
+        });
+    </script>
+
+    @include('components.quick-add-modals')
+
+    <script>
+        $(document).ready(function() {
+            let token = @json(session('access_token')) || localStorage.getItem('authToken');
+            let branchId = localStorage.getItem('selectedBranchId');
+
+            function loadIPDPatients(selectedId = null) {
+                return $.ajax({
+                    url: "/api/IPDpatientss",
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response) {
+                        let patientDropdown = $('#patientDropdown');
+                        let currentVal = selectedId || patientDropdown.val();
+                        patientDropdown.empty().append('<option value="">Select Patient</option>');
+
+                        $.each(response.patients || [], function(index, patient) {
+                            patientDropdown.append(
+                                `<option value="${patient.id}">${patient.fullname}</option>`
+                            );
+                        });
+
+                        patientDropdown.select2({
+                            placeholder: "Select Patient",
+                            allowClear: true,
+                            width: '100%'
+                        });
+
+                        if (currentVal) {
+                            patientDropdown.val(String(currentVal)).trigger('change');
+                        }
+                    }
+                });
+            }
+
+            if (typeof window.initQuickAddModals === 'function') {
+                window.initQuickAddModals({
+                    getToken: function() { return token; },
+                    getBranchId: function() { return branchId; },
+                    onPatientAdded: function(newId) {
+                        loadIPDPatients(newId);
+                    }
+                });
+            }
         });
     </script>
 @endsection

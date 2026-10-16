@@ -481,10 +481,11 @@
                                                 <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Treatment <span
                                                         class="text-danger">*</span></label>
                                                 @if(app('hasPermission')(7, 'create'))
-                                                    <a href="{{ route('treatment.create') }}" target="_blank"
-                                                        class="btn btn-primary btn-sm">
-                                                        <i class="fas fa-plus"></i> Add Treatment
-                                                    </a>
+                                                    <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                        data-bs-toggle="modal" data-bs-target="#quickAddTreatmentModal"
+                                                        data-toggle="modal" data-target="#quickAddTreatmentModal">
+                                                        <i class="fas fa-plus"></i> Add
+                                                    </button>
                                                 @endif
                                             </div>
                                             <input type="hidden" id="selectedTreatmentId"
@@ -990,4 +991,5 @@
 
         });
     </script>
+    @include('components.quick-add-modals')
 @endsection

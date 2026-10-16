@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     .treatment-button {
         padding-right: 0 !important;
@@ -66,6 +66,13 @@
                             <hr>
                            
                             <p class="text-dark">
+                                <strong><i class="fas fa-clipboard-list icon-style1"></i> Price: </strong>
+                                <span id="price"></span>
+                            </p>
+                            <hr>
+
+                            @if(\App\Models\Setting::getValue('gst_status', 'on') === 'on')
+                            <p class="text-dark">
                                 <strong><i class="fa fa-percent icon-style1"></i> GST Option: </strong>
                                 <span id="gst_option"></span>
                             </p>
@@ -77,13 +84,8 @@
                                     <span id="product_gst"></span>
                                 </p>
                                 <hr>
-                                 <p class="text-dark">
-                                <strong><i class="fas fa-clipboard-list icon-style1"></i> Price: </strong>
-                                <span id="price"></span>
-                            </p>
-                            <hr>
-
                             </div>
+                            @endif
 
                             <p class="text-dark">
                                 <strong><i class="fas fa-clipboard-list icon-style1"></i> Description: </strong>

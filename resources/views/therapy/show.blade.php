@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     @media screen and (max-width:767px) {
@@ -99,6 +99,9 @@
         </div>
     </div>
 
+    <script>
+        window.gstEnabled = {{ \App\Models\Setting::getValue('gst_status', 'on') === 'on' ? 'true' : 'false' }};
+    </script>
     <script src="{{ asset(env('IMAGE_PATH') . 'admin/assets/js/therapy-show.js') }}"></script>
 @endsection
 

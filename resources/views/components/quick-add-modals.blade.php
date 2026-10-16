@@ -320,11 +320,293 @@
                     </button>
                 </div>
             </form>
+<!-- Quick Add Therapy Modal -->
+<div class="modal fade" id="quickAddTherapyModal" tabindex="-1" role="dialog" aria-labelledby="quickAddTherapyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 15px; overflow: hidden;">
+            <div class="modal-header" style="background-color: #CFECE0; color: #000;">
+                <h5 class="modal-title font-weight-bold" id="quickAddTherapyModalLabel">
+                    <i class="fas fa-spa mr-2"></i> Add Therapy
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="background: transparent; border: none; font-size: 1.5rem; line-height: 1;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="quickAddTherapyForm" novalidate>
+                <div class="modal-body p-4">
+                    <div id="quickTherapyAlert" class="alert alert-danger" style="display: none;"></div>
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold"><i class="fas fa-spa icon-style"></i> Therapy Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="name" placeholder="Enter Therapy Name" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold"><i class="fas fa-clock icon-style"></i> Duration (Mins) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="duration_minutes" placeholder="e.g. 30" min="1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold"><i class="fas fa-money-bill-wave icon-style"></i> Cost <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" name="cost" placeholder="Cost" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label class="font-weight-bold"><i class="fas fa-clipboard-list icon-style"></i> Description</label>
+                        <textarea class="form-control" name="description" rows="3" placeholder="Brief description (Optional)" style="border-radius: 10px;"></textarea>
+                    </div>
+                    <input type="hidden" name="gst_option" value="Without GST">
+                    <input type="hidden" name="status" value="active">
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn quick-modal-cancel-btn" data-dismiss="modal" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn quick-modal-save-btn" id="btnSaveQuickTherapy">
+                        <span class="spinner-border spinner-border-sm me-1 text-dark" style="display:none;"></span> Save Therapy
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Add Supplier Modal -->
+<div class="modal fade" id="quickAddSupplierModal" tabindex="-1" role="dialog" aria-labelledby="quickAddSupplierModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="border-radius: 15px; overflow: hidden;">
+            <div class="modal-header" style="background-color: #CFECE0; color: #000;">
+                <h5 class="modal-title font-weight-bold" id="quickAddSupplierModalLabel">
+                    <i class="fas fa-truck mr-2"></i> Add Supplier
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="background: transparent; border: none; font-size: 1.5rem; line-height: 1;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="quickAddSupplierForm" novalidate>
+                <div class="modal-body p-4">
+                    <div id="quickSupplierAlert" class="alert alert-danger" style="display: none;"></div>
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold"><i class="fa fa-hospital-o icon-style"></i> Company Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="name" placeholder="Enter Company Name" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold"><i class="fas fa-user icon-style"></i> Contact Person <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="contact_person" placeholder="Enter Contact Person" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold"><i class="fas fa-phone icon-style"></i> Phone <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="phone" placeholder="Enter 10 Digit Phone" maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold"><i class="fas fa-envelope icon-style"></i> Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" name="email" placeholder="Enter Email" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label class="font-weight-bold"><i class="fas fa-map-marker-alt icon-style"></i> Address <span class="text-danger">*</span></label>
+                        <textarea class="form-control" name="address" rows="2" placeholder="Enter Address" style="border-radius: 10px;" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn quick-modal-cancel-btn" data-dismiss="modal" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn quick-modal-save-btn" id="btnSaveQuickSupplier">
+                        <span class="spinner-border spinner-border-sm me-1 text-dark" style="display:none;"></span> Save Supplier
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 <script>
+    // Global default callbacks to immediately append and select newly created records in the DOM
+    window._quickAddCallbacks = {
+        patient: function(id, res) {
+            let name = res?.patient?.fullname || res?.patient?.name || res?.data?.fullname || res?.data?.name || 'New Patient';
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+            let treatmentId = res?.patient?.treatment_id || res?.data?.treatment_id || '';
+            let selectors = 'select[name="patient_id"], #patientDropdown, #patient_id, .patientDropdown, #patientDropdownModal, select[name="patientId"]';
+            $(selectors).each(function() {
+                let $sel = $(this);
+                if ($sel.find(`option[value="${id}"]`).length === 0) {
+                    let opt = new Option(name, id, true, true);
+                    opt.selected = true;
+                    if (treatmentId) $(opt).attr('data-treatment-id', treatmentId);
+                    $sel.append(opt);
+                }
+                $sel.val(String(id)).trigger('change');
+                try {
+                    $sel.trigger({
+                        type: 'select2:select',
+                        params: { data: { id: id, text: name } }
+                    });
+                } catch(e) {}
+            });
+        },
+        treatment: function(id, res) {
+            let name = res?.treatment?.name || res?.data?.name || res?.name || 'New Treatment';
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+            let doctorId = res?.treatment?.doctor_id || res?.data?.doctor_id || '';
+            let price = res?.treatment?.price !== undefined ? res.treatment.price : (res?.data?.price !== undefined ? res.data.price : (res?.price || ''));
+            let selectors = 'select[name="treatment_id"], #treatmentDropdown, #treatmentDropdownforbooking, .type-service-select, select[name="treatmentId"]';
+            $(selectors).each(function() {
+                let $sel = $(this);
+                if ($sel.find(`option[value="${id}"]`).length === 0) {
+                    let opt = new Option(name, id, true, true);
+                    opt.selected = true;
+                    if (doctorId) $(opt).attr('data-doctor-id', doctorId);
+                    if (price !== '') $(opt).attr('data-price', price);
+                    $sel.append(opt);
+                }
+                $sel.val(String(id)).trigger('change');
+                try {
+                    $sel.trigger({
+                        type: 'select2:select',
+                        params: { data: { id: id, text: name, price: price, doctor_id: doctorId } }
+                    });
+                } catch(e) {}
+            });
+        },
+        doctor: function(id, res) {
+            let name = res?.user?.fullname || res?.user?.name || res?.data?.fullname || res?.data?.name || 'Doctor';
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+            let selectors = 'select[name="doctor_id"], select[name="user_id"], select[name="staff_id"], #doctorSelect, #userdropdown, #doctorDropdown, .doctorSelect, #userSelect';
+            $(selectors).each(function() {
+                let $sel = $(this);
+                if ($sel.find(`option[value="${id}"]`).length === 0) {
+                    let opt = new Option(name, id, true, true);
+                    opt.selected = true;
+                    $sel.append(opt);
+                }
+                $sel.val(String(id)).trigger('change');
+                try {
+                    $sel.trigger({
+                        type: 'select2:select',
+                        params: { data: { id: id, text: name } }
+                    });
+                } catch(e) {}
+            });
+        },
+        machine: function(id, res) {
+            let name = res?.machine?.name || res?.data?.name || res?.name || 'Machine';
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+            let price = res?.machine?.price || res?.data?.price || res?.price || 0;
+            let selectors = 'select[name="machine_id[]"], select[name="machine_id"], #machineDropdown';
+            $(selectors).each(function() {
+                let $sel = $(this);
+                if ($sel.find(`option[value="${id}"]`).length === 0) {
+                    let opt = new Option(name, id, true, true);
+                    $(opt).attr('data-price', price);
+                    $sel.append(opt);
+                }
+                let currentVals = $sel.val() || [];
+                if (Array.isArray(currentVals)) {
+                    if (!currentVals.includes(String(id))) currentVals.push(String(id));
+                    $sel.val(currentVals);
+                } else {
+                    $sel.val(String(id));
+                }
+                $sel.trigger('change');
+            });
+        },
+        diagnosis: function(id, res) {
+            let name = res?.diagnosis?.name || res?.data?.name || res?.name || 'Diagnosis';
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+            let selectors = 'select[name="diagnosis_id[]"], select[name="diagnosis_id"], #diagnosisDropdown';
+            $(selectors).each(function() {
+                let $sel = $(this);
+                if ($sel.find(`option[value="${id}"]`).length === 0) {
+                    let opt = new Option(name, id, true, true);
+                    $sel.append(opt);
+                }
+                let currentVals = $sel.val() || [];
+                if (Array.isArray(currentVals)) {
+                    if (!currentVals.includes(String(id))) currentVals.push(String(id));
+                    $sel.val(currentVals);
+                } else {
+                    $sel.val(String(id));
+                }
+                $sel.trigger('change');
+            });
+        },
+        symptom: function(id, res) {
+            let name = res?.symptom?.name || res?.data?.name || res?.name || 'Symptom';
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+            let selectors = 'select[name="symptoms[]"], select[name="symptoms"], #symptomDropdown';
+            $(selectors).each(function() {
+                let $sel = $(this);
+                if ($sel.find(`option[value="${id}"]`).length === 0) {
+                    let opt = new Option(name, id, true, true);
+                    $sel.append(opt);
+                }
+                let currentVals = $sel.val() || [];
+                if (Array.isArray(currentVals)) {
+                    if (!currentVals.includes(String(id))) currentVals.push(String(id));
+                    $sel.val(currentVals);
+                } else {
+                    $sel.val(String(id));
+                }
+                $sel.trigger('change');
+            });
+        },
+        therapy: function(id, res) {
+            let name = res?.data?.name || res?.therapy?.name || 'Therapy';
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+            let selectors = 'select[name="therapy_id"], #therapyDropdown';
+            $(selectors).each(function() {
+                let $sel = $(this);
+                if ($sel.find(`option[value="${id}"]`).length === 0) {
+                    let opt = new Option(name, id, true, true);
+                    opt.selected = true;
+                    $sel.append(opt);
+                }
+                $sel.val(String(id)).trigger('change');
+                try {
+                    $sel.trigger({
+                        type: 'select2:select',
+                        params: { data: { id: id, text: name } }
+                    });
+                } catch(e) {}
+            });
+        },
+        supplier: function(id, res) {
+            let name = res?.supplier?.name || res?.data?.name || 'Supplier';
+            name = name.charAt(0).toUpperCase() + name.slice(1);
+            let selectors = 'select[name="supplier_id"], #supplierDropdown, #supplier_id';
+            $(selectors).each(function() {
+                let $sel = $(this);
+                if ($sel.find(`option[value="${id}"]`).length === 0) {
+                    let opt = new Option(name, id, true, true);
+                    opt.selected = true;
+                    $sel.append(opt);
+                }
+                $sel.val(String(id)).trigger('change');
+                try {
+                    $sel.trigger({
+                        type: 'select2:select',
+                        params: { data: { id: id, text: name } }
+                    });
+                } catch(e) {}
+            });
+        }
+    };
+
+    // Chain the generic DOM update helper with the caller-provided callback
+    window._chainCallback = function(type, id, res, userCb) {
+        if (window._quickAddCallbacks && typeof window._quickAddCallbacks[type] === 'function') {
+            window._quickAddCallbacks[type](id, res);
+        }
+        if (typeof userCb === 'function') {
+            userCb(id, res);
+        }
+    };
+
     // Shared JavaScript helper to initialize and bind Quick Add Modals
     window.initQuickAddModals = function(options) {
         options = options || {};
@@ -342,6 +624,40 @@
         const onMachineAdded = options.onMachineAdded || function(id) {};
         const onDiagnosisAdded = options.onDiagnosisAdded || function(id) {};
         const onSymptomAdded = options.onSymptomAdded || function(id) {};
+        const onTherapyAdded = options.onTherapyAdded || function(id) {};
+        const onSupplierAdded = options.onSupplierAdded || function(id) {};
+
+        // Helper to extract clear error message from xhr or response
+        function parseAjaxError(xhr, defaultMsg) {
+            let errorMsg = defaultMsg || 'An error occurred.';
+            let res = xhr ? (xhr.responseJSON || xhr) : null;
+            if (typeof res === 'string') {
+                try { res = JSON.parse(res); } catch(e) {}
+            }
+            if (res) {
+                if (res.errors && typeof res.errors === 'object') {
+                    let errs = [];
+                    $.each(res.errors, function(k, v) {
+                        if (Array.isArray(v)) {
+                            errs.push(v.join('<br>'));
+                        } else if (typeof v === 'string') {
+                            errs.push(v);
+                        }
+                    });
+                    if (errs.length) return errs.join('<br>');
+                }
+                if (res.message) return res.message;
+                if (res.error) return res.error;
+            }
+            if (xhr && xhr.responseText) {
+                try {
+                    let parsed = JSON.parse(xhr.responseText);
+                    if (parsed.message) return parsed.message;
+                    if (parsed.error) return parsed.error;
+                } catch(e) {}
+            }
+            return errorMsg;
+        }
 
         // Helper to hide modal supporting both bootstrap 4 and 5
         function closeModal(selector) {
@@ -544,27 +860,20 @@
                     headers: { "Authorization": "Bearer " + token },
                     success: function(response) {
                         $btn.prop('disabled', false).find('.spinner-border').hide();
+                        if (response.status === false) {
+                            $alert.html(response.message || 'Error creating patient.').show();
+                            return;
+                        }
                         form.reset();
                         $(form).find('.is-invalid').removeClass('is-invalid');
                         closeModal('#quickAddPatientModal');
 
                         let newPatientId = response.patient?.id || response.data?.id;
-                        onPatientAdded(newPatientId, response);
+                        window._chainCallback('patient', newPatientId, response, onPatientAdded);
                     },
                     error: function(xhr) {
                         $btn.prop('disabled', false).find('.spinner-border').hide();
-                        let errorMsg = 'Failed to create patient.';
-                        if (xhr.status === 422 || xhr.status === 401) {
-                            let errors = xhr.responseJSON?.errors;
-                            if (errors) {
-                                errorMsg = '';
-                                $.each(errors, function(k, v) {
-                                    errorMsg += v[0] + '<br>';
-                                });
-                            } else if (xhr.responseJSON?.message) {
-                                errorMsg = xhr.responseJSON.message;
-                            }
-                        }
+                        let errorMsg = parseAjaxError(xhr, 'Failed to create patient.');
                         $alert.html(errorMsg).show();
                     }
                 });
@@ -626,27 +935,20 @@
                     headers: { "Authorization": "Bearer " + token },
                     success: function(response) {
                         $btn.prop('disabled', false).find('.spinner-border').hide();
+                        if (response.status === false) {
+                            $alert.html(response.message || 'Error creating treatment.').show();
+                            return;
+                        }
                         form.reset();
                         $(form).find('.is-invalid').removeClass('is-invalid');
                         closeModal('#quickAddTreatmentModal');
 
                         let newTreatmentId = response.treatment?.id || response.data?.id || response.id;
-                        onTreatmentAdded(newTreatmentId, response);
+                        window._chainCallback('treatment', newTreatmentId, response, onTreatmentAdded);
                     },
                     error: function(xhr) {
                         $btn.prop('disabled', false).find('.spinner-border').hide();
-                        let errorMsg = 'Failed to create treatment.';
-                        if (xhr.status === 422 || xhr.status === 401) {
-                            let errors = xhr.responseJSON?.errors;
-                            if (errors) {
-                                errorMsg = '';
-                                $.each(errors, function(k, v) {
-                                    errorMsg += v[0] + '<br>';
-                                });
-                            } else if (xhr.responseJSON?.message) {
-                                errorMsg = xhr.responseJSON.message;
-                            }
-                        }
+                        let errorMsg = parseAjaxError(xhr, 'Failed to create treatment.');
                         $alert.html(errorMsg).show();
                     }
                 });
@@ -753,7 +1055,7 @@
                             $quickDocSelect.val(newDoctorId);
                         }
 
-                        onDoctorAdded(newDoctorId, response);
+                        window._chainCallback('doctor', newDoctorId, response, onDoctorAdded);
 
                         // If Doctor modal was launched from inside Treatment Modal, reopen Treatment Modal and auto-select new doctor
                         if (doctorOpenedFromTreatment) {
@@ -771,20 +1073,7 @@
                     },
                     error: function(xhr) {
                         $btn.prop('disabled', false).find('.spinner-border').hide();
-                        let errorMsg = 'Failed to create doctor.';
-                        if (xhr.status === 422 || xhr.status === 401) {
-                            let errors = xhr.responseJSON?.errors;
-                            if (errors) {
-                                errorMsg = '';
-                                $.each(errors, function(k, v) {
-                                    errorMsg += v[0] + '<br>';
-                                });
-                            } else if (xhr.responseJSON?.message) {
-                                errorMsg = xhr.responseJSON.message;
-                            }
-                        } else if (xhr.responseJSON?.error) {
-                            errorMsg = xhr.responseJSON.error;
-                        }
+                        let errorMsg = parseAjaxError(xhr, 'Failed to create doctor.');
                         $alert.html(errorMsg).show();
                     }
                 });
@@ -838,29 +1127,20 @@
                     headers: { "Authorization": "Bearer " + token },
                     success: function(response) {
                         $btn.prop('disabled', false).find('.spinner-border').hide();
+                        if (response.status === false) {
+                            $alert.html(response.message || 'Error creating machine.').show();
+                            return;
+                        }
                         form.reset();
                         $(form).find('.is-invalid').removeClass('is-invalid');
                         closeModal('#quickAddMachineModal');
 
                         let newMachineId = response.machine?.id || response.data?.id || response.id;
-                        onMachineAdded(newMachineId, response);
+                        window._chainCallback('machine', newMachineId, response, onMachineAdded);
                     },
                     error: function(xhr) {
                         $btn.prop('disabled', false).find('.spinner-border').hide();
-                        let errorMsg = 'Failed to create machine.';
-                        if (xhr.status === 422 || xhr.status === 401) {
-                            let errors = xhr.responseJSON?.errors;
-                            if (errors) {
-                                errorMsg = '';
-                                $.each(errors, function(k, v) {
-                                    errorMsg += v[0] + '<br>';
-                                });
-                            } else if (xhr.responseJSON?.message) {
-                                errorMsg = xhr.responseJSON.message;
-                            }
-                        } else if (xhr.responseJSON?.error) {
-                            errorMsg = xhr.responseJSON.error;
-                        }
+                        let errorMsg = parseAjaxError(xhr, 'Failed to create machine.');
                         $alert.html(errorMsg).show();
                     }
                 });
@@ -905,29 +1185,20 @@
                     headers: { "Authorization": "Bearer " + token },
                     success: function(response) {
                         $btn.prop('disabled', false).find('.spinner-border').hide();
+                        if (response.status === false) {
+                            $alert.html(response.message || 'Error creating diagnosis.').show();
+                            return;
+                        }
                         form.reset();
                         $(form).find('.is-invalid').removeClass('is-invalid');
                         closeModal('#quickAddDiagnosisModal');
 
                         let newDiagnosisId = response.diagnosis?.id || response.data?.id || response.id;
-                        onDiagnosisAdded(newDiagnosisId, response);
+                        window._chainCallback('diagnosis', newDiagnosisId, response, onDiagnosisAdded);
                     },
                     error: function(xhr) {
                         $btn.prop('disabled', false).find('.spinner-border').hide();
-                        let errorMsg = 'Failed to create diagnosis.';
-                        if (xhr.status === 422 || xhr.status === 401) {
-                            let errors = xhr.responseJSON?.errors;
-                            if (errors) {
-                                errorMsg = '';
-                                $.each(errors, function(k, v) {
-                                    errorMsg += v[0] + '<br>';
-                                });
-                            } else if (xhr.responseJSON?.message) {
-                                errorMsg = xhr.responseJSON.message;
-                            }
-                        } else if (xhr.responseJSON?.error) {
-                            errorMsg = xhr.responseJSON.error;
-                        }
+                        let errorMsg = parseAjaxError(xhr, 'Failed to create diagnosis.');
                         $alert.html(errorMsg).show();
                     }
                 });
@@ -972,33 +1243,199 @@
                     headers: { "Authorization": "Bearer " + token },
                     success: function(response) {
                         $btn.prop('disabled', false).find('.spinner-border').hide();
+                        if (response.status === false) {
+                            $alert.html(response.message || 'Error creating symptom.').show();
+                            return;
+                        }
                         form.reset();
                         $(form).find('.is-invalid').removeClass('is-invalid');
                         closeModal('#quickAddSymptomModal');
 
                         let newSymptomId = response.symptom?.id || response.data?.id || response.id;
-                        onSymptomAdded(newSymptomId, response);
+                        window._chainCallback('symptom', newSymptomId, response, onSymptomAdded);
                     },
                     error: function(xhr) {
                         $btn.prop('disabled', false).find('.spinner-border').hide();
-                        let errorMsg = 'Failed to create symptom.';
-                        if (xhr.status === 422 || xhr.status === 401) {
-                            let errors = xhr.responseJSON?.errors;
-                            if (errors) {
-                                errorMsg = '';
-                                $.each(errors, function(k, v) {
-                                    errorMsg += v[0] + '<br>';
-                                });
-                            } else if (xhr.responseJSON?.message) {
-                                errorMsg = xhr.responseJSON.message;
-                            }
-                        } else if (xhr.responseJSON?.error) {
-                            errorMsg = xhr.responseJSON.error;
-                        }
+                        let errorMsg = parseAjaxError(xhr, 'Failed to create symptom.');
                         $alert.html(errorMsg).show();
                     }
                 });
             }
         );
+
+        // 7. Quick Add Therapy Submit & Validation
+        setupValidation(
+            '#quickAddTherapyForm',
+            {
+                name: {
+                    required: true,
+                    minlength: 2
+                },
+                duration_minutes: {
+                    required: true,
+                    number: true,
+                    min: 1
+                },
+                cost: {
+                    required: true,
+                    number: true,
+                    min: 0
+                }
+            },
+            {
+                name: {
+                    required: "Please enter therapy name",
+                    minlength: "Therapy name must be at least 2 characters"
+                },
+                duration_minutes: {
+                    required: "Please enter duration in minutes",
+                    number: "Please enter a valid number"
+                },
+                cost: {
+                    required: "Please enter cost",
+                    number: "Please enter a valid number",
+                    min: "Cost cannot be negative"
+                }
+            },
+            function() {
+                let form = this;
+                let $btn = $('#btnSaveQuickTherapy');
+                let $alert = $('#quickTherapyAlert');
+                $alert.hide().empty();
+
+                let token = getToken();
+                let branchId = getBranchId();
+
+                let formData = new FormData(form);
+                formData.append('branch_id', branchId);
+
+                $btn.prop('disabled', true).find('.spinner-border').show();
+
+                $.ajax({
+                    url: "{{ url('api/therapies') }}",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: { "Authorization": "Bearer " + token },
+                    success: function(response) {
+                        $btn.prop('disabled', false).find('.spinner-border').hide();
+                        if (response.status === false) {
+                            $alert.html(response.message || 'Error creating therapy.').show();
+                            return;
+                        }
+                        form.reset();
+                        $(form).find('.is-invalid').removeClass('is-invalid');
+                        closeModal('#quickAddTherapyModal');
+
+                        let newTherapyId = response.data?.id || response.therapy?.id || response.id;
+                        window._chainCallback('therapy', newTherapyId, response, onTherapyAdded);
+                    },
+                    error: function(xhr) {
+                        $btn.prop('disabled', false).find('.spinner-border').hide();
+                        let errorMsg = parseAjaxError(xhr, 'Failed to create therapy.');
+                        $alert.html(errorMsg).show();
+                    }
+                });
+            }
+        );
+
+        // 8. Quick Add Supplier Submit & Validation
+        setupValidation(
+            '#quickAddSupplierForm',
+            {
+                name: {
+                    required: true,
+                    minlength: 2
+                },
+                contact_person: {
+                    required: true
+                },
+                phone: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                address: {
+                    required: true
+                }
+            },
+            {
+                name: {
+                    required: "Please enter company name"
+                },
+                contact_person: {
+                    required: "Please enter contact person"
+                },
+                phone: {
+                    required: "Please enter phone number",
+                    digits: "Please enter only digits",
+                    minlength: "Phone number must be exactly 10 digits",
+                    maxlength: "Phone number must be exactly 10 digits"
+                },
+                email: {
+                    required: "Please enter email address",
+                    email: "Please enter a valid email address"
+                },
+                address: {
+                    required: "Please enter address"
+                }
+            },
+            function() {
+                let form = this;
+                let $btn = $('#btnSaveQuickSupplier');
+                let $alert = $('#quickSupplierAlert');
+                $alert.hide().empty();
+
+                let token = getToken();
+                let branchId = getBranchId();
+
+                let formData = new FormData(form);
+                formData.append('branch_id', branchId);
+
+                $btn.prop('disabled', true).find('.spinner-border').show();
+
+                $.ajax({
+                    url: "{{ url('api/suppliers') }}",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: { "Authorization": "Bearer " + token },
+                    success: function(response) {
+                        $btn.prop('disabled', false).find('.spinner-border').hide();
+                        if (response.status === false) {
+                            $alert.html(response.message || 'Error creating supplier.').show();
+                            return;
+                        }
+                        form.reset();
+                        $(form).find('.is-invalid').removeClass('is-invalid');
+                        closeModal('#quickAddSupplierModal');
+
+                        let newSupplierId = response.supplier?.id || response.data?.id || response.id;
+                        window._chainCallback('supplier', newSupplierId, response, onSupplierAdded);
+                    },
+                    error: function(xhr) {
+                        $btn.prop('disabled', false).find('.spinner-border').hide();
+                        let errorMsg = parseAjaxError(xhr, 'Failed to create supplier.');
+                        $alert.html(errorMsg).show();
+                    }
+                });
+            }
+        );
+
     };
+
+    // Auto-init with defaults when document is ready
+    $(document).ready(function() {
+        if (!window._quickAddModalsInitialized) {
+            window._quickAddModalsInitialized = true;
+            window.initQuickAddModals();
+        }
+    });
 </script>

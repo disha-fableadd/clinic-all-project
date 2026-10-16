@@ -279,10 +279,11 @@
                                         <div class="d-flex align-items-center justify-content-between">
                                             <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Diagnosis </label>
                                             @if (app('hasPermission')(35, 'create'))
-                                                <a href="{{ route('diagnosis.create') }}" target="_blank"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
-                                                </a>
+                                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#quickAddDiagnosisModal"
+                                                    data-toggle="modal" data-target="#quickAddDiagnosisModal">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
                                             @endif
                                         </div>
                                         <select class="form-control select2" name="diagnosis_id[]" id="diagnosisDropdown"
@@ -296,6 +297,11 @@
                                     <div class="form-group">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <label><i class="fas fa-notes-medical icon-style"></i> Symptoms</label>
+                                            <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                data-bs-toggle="modal" data-bs-target="#quickAddSymptomModal"
+                                                data-toggle="modal" data-target="#quickAddSymptomModal">
+                                                <i class="fas fa-plus"></i> Add
+                                            </button>
                                         </div>
                                         <select name="symptoms[]" class="form-control" id="symptomDropdown" multiple
                                             style="min-height: 100px; max-height: 200px; overflow-y: auto;"></select>
@@ -1405,6 +1411,5 @@
 
         });
     </script>
-
-
+    @include('components.quick-add-modals')
 @endsection

@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .select2-container--default .select2-selection--multiple {
@@ -109,18 +109,15 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <div class="d-flex align-items-center justify-content-between">
-
-
                                         <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Patient <span
                                                 class="text-danger">*</span></label>
-
                                         @if (app('hasPermission')(5, 'create'))
-                                            <a href="{{ route('patients.create') }}" target="_blank"
-                                                class="btn btn-primary btn-sm">
-                                                <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span> 
-                                            </a>
+                                            <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                data-bs-toggle="modal" data-bs-target="#quickAddPatientModal"
+                                                data-toggle="modal" data-target="#quickAddPatientModal">
+                                                <i class="fas fa-plus"></i> Add
+                                            </button>
                                         @endif
-
                                     </div>
                                     <select class="form-control select2" name="patient_id" id="patientDropdown" required>
                                         <option value="">Select Patient</option>
@@ -129,20 +126,16 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="form-group">
-
                                     <div class="d-flex align-items-center justify-content-between">
-
-
                                         <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Treatment <span
                                                 class="text-danger">*</span></label>
-
                                         @if (app('hasPermission')(7, 'create'))
-                                            <a href="{{ route('treatment.create') }}" target="_blank"
-                                                class="btn btn-primary btn-sm">
-                                                <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span> 
-                                            </a>
+                                            <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                data-bs-toggle="modal" data-bs-target="#quickAddTreatmentModal"
+                                                data-toggle="modal" data-target="#quickAddTreatmentModal">
+                                                <i class="fas fa-plus"></i> Add
+                                            </button>
                                         @endif
-
                                     </div>
                                     <select class="form-control select2" name="treatment_id" id="treatmentDropdown"
                                         required>
@@ -655,5 +648,6 @@
 
         });
     </script>
+    @include('components.quick-add-modals')
 @endsection
 

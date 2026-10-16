@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 @section('content')
     <style>
@@ -46,8 +46,17 @@
 
                     {{-- Patient --}}
                     <div class="form-group">
-                        <label for="patient_id">Select Patient <span
-                                                        class="text-danger">*</span></label>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <label for="patient_id" class="mr-2"><i class="fas fa-user icon-style"></i> Select Patient <span
+                                                            class="text-danger">*</span></label>
+                            @if (app('hasPermission')(30, 'create'))
+                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                    data-bs-toggle="modal" data-bs-target="#quickAddPatientModal"
+                                    data-toggle="modal" data-target="#quickAddPatientModal">
+                                    <i class="fas fa-plus"></i> Add
+                                </button>
+                            @endif
+                        </div>
                         <select class="form-control select patient-id" id="patient_id" name="patient_id"
                             style="width: 100%;">
                             <option value="">-- Select Patient --</option>
@@ -155,4 +164,5 @@
 
     <script>var soapId = "{{ $soap_id }}";</script>
     <script src="{{ asset(env('IMAGE_PATH').'admin/assets/js/soap-edit.js') }}"></script>
+    @include('components.quick-add-modals')
 @endsection

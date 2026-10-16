@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 @section('content')
     <style>
@@ -43,11 +43,19 @@
                     <input type="hidden" name="branch_id" id="branch_id">
                     {{-- Patient Dropdown --}}
                     <div class="form-group">
-                        <label><i class="fas fa-user icon-style"></i> Select Patient <span
-                                                        class="text-danger">*</span></label>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <label class="mr-2"><i class="fas fa-user icon-style"></i> Select Patient <span
+                                                            class="text-danger">*</span></label>
+                            @if (app('hasPermission')(30, 'create'))
+                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                    data-bs-toggle="modal" data-bs-target="#quickAddPatientModal"
+                                    data-toggle="modal" data-target="#quickAddPatientModal">
+                                    <i class="fas fa-plus"></i> Add
+                                </button>
+                            @endif
+                        </div>
                         <select class="form-control select2" name="patient_id" id="patientDropdown" required>
                             <option value="">Select Patient</option>
-
                         </select>
                     </div>
 
@@ -133,4 +141,5 @@
 
 
     <script src="{{ asset(env('IMAGE_PATH').'admin/assets/js/soap-create.js') }}"></script>
+    @include('components.quick-add-modals')
 @endsection

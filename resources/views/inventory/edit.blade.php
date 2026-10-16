@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     .error {
         color: red;
@@ -82,11 +82,19 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <label><i class="fas fa-truck icon-style"></i> Supplier Name</label>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <label class="mr-2"><i class="fas fa-truck icon-style"></i> Supplier Name</label>
+                                            @if (app('hasPermission')(12, 'create'))
+                                                <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#quickAddSupplierModal"
+                                                    data-toggle="modal" data-target="#quickAddSupplierModal">
+                                                    <i class="fas fa-plus"></i> Add
+                                                </button>
+                                            @endif
+                                        </div>
                                         <select class="form-control select2" name="supplier_id" id="supplier_id">
                                             <option value="">Select Supplier</option>
                                         </select>
-
                                     </div>
                                 </div>
                             </div>
@@ -331,4 +339,5 @@
             }
         });
     </script>
+    @include('components.quick-add-modals')
 @endsection

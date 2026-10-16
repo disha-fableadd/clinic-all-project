@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 
 <style>
@@ -228,8 +228,17 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label><i class="fas fa-user-injured icon-style"></i> Patient <span
-                                            class="text-danger">*</span></label>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <label><i class="fas fa-user-injured icon-style"></i> Patient <span
+                                                class="text-danger">*</span></label>
+                                        @if (app('hasPermission')(5, 'create'))
+                                            <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                data-bs-toggle="modal" data-bs-target="#quickAddPatientModal"
+                                                data-toggle="modal" data-target="#quickAddPatientModal">
+                                                <i class="fas fa-plus"></i> Add
+                                            </button>
+                                        @endif
+                                    </div>
                                     <select class="form-control select2 patientDropdown" id="patient_id" name="patient_id"
                                         required>
                                         <option value="">Select Patient</option>
@@ -240,8 +249,17 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Treatment <span
-                                            class="text-danger">*</span></label>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Treatment <span
+                                                class="text-danger">*</span></label>
+                                        @if (app('hasPermission')(7, 'create'))
+                                            <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                data-bs-toggle="modal" data-bs-target="#quickAddTreatmentModal"
+                                                data-toggle="modal" data-target="#quickAddTreatmentModal">
+                                                <i class="fas fa-plus"></i> Add
+                                            </button>
+                                        @endif
+                                    </div>
 
                                     <select class="form-control select2 treatmentDropdown" id="treatment_id"
                                         name="treatment_id" required>
@@ -558,4 +576,5 @@
             });
         });
     </script>
+    @include('components.quick-add-modals')
 @endsection

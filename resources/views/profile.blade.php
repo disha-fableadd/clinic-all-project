@@ -168,10 +168,10 @@
                                         <a class="nav-link text-dark" id="password-tab" data-toggle="tab"
                                             href="#changePassword" role="tab">Change Password</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <!-- <li class="nav-item">
                                         <a class="nav-link text-dark" id="tax-tab" data-toggle="tab" href="#taxDetails"
                                             role="tab">Tax Details</a>
-                                    </li>
+                                    </li> -->
                                 </ul>
 
 

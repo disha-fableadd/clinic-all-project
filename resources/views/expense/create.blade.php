@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 <style>
     .select2-container--default .select2-selection--multiple {
@@ -101,14 +101,15 @@
                             <!-- User ID -->
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center justify-content-between">
                                         <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Staff <span
                                                 class="text-danger">*</span></label>
                                         @if (app('hasPermission')(3, 'create'))
-                                            <a href="{{ route('user.create') }}" target="_blank"
-                                                class="btn btn-primary btn-sm">
-                                                <i class="fas fa-plus"></i> <span class="hdr-btn-text">Add</span>
-                                            </a>
+                                            <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                data-bs-toggle="modal" data-bs-target="#quickAddDoctorModal"
+                                                data-toggle="modal" data-target="#quickAddDoctorModal">
+                                                <i class="fas fa-plus"></i> Add
+                                            </button>
                                         @endif
 
                                     </div>
@@ -362,5 +363,6 @@
             });
         });
     </script>
+    @include('components.quick-add-modals')
 @endsection
 

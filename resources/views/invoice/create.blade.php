@@ -202,7 +202,7 @@
                                                 <button type="button" class="btn btn-sm quick-modal-add-sm-btn quick-add-treatment-btn"
                                                     data-bs-toggle="modal" data-bs-target="#quickAddTreatmentModal"
                                                     data-toggle="modal" data-target="#quickAddTreatmentModal">
-                                                    <i class="fas fa-plus"></i> 
+                                                    <i class="fas fa-plus"></i> Add
                                                 </button>
                                             @endif
                                         </div>
@@ -1172,10 +1172,11 @@
                     // Auto-fill and calculate row amount (price * quantity)
                     const rowAmt = calculateRowAmount(row);
 
-                    // GST: if product has With GST, auto-fill and show GST cols
+                    // GST: if product has With GST, auto-fill and show GST cols (only if GST is globally enabled)
+                    const isGstEnabled = @json($gstEnabled);
                     const gstOption = selectedItem.gst_option || '';
                     const productGst = selectedItem.product_gst || (selectedItem.product_gst !== undefined && typeof selectedItem.product_gst === 'string' ? (() => { try { return JSON.parse(selectedItem.product_gst); } catch(e) { return null; } })() : null);
-                    if ((gstOption === 'With GST' || gstOption === 'with_gst') && productGst && (Array.isArray(productGst) ? productGst.length : productGst)) {
+                    if (isGstEnabled && (gstOption === 'With GST' || gstOption === 'with_gst') && productGst && (Array.isArray(productGst) ? productGst.length : productGst)) {
                         setRowGstOption(row, 'With GST');
                         updateRowGstDisplay(row, Array.isArray(productGst) ? productGst : [productGst], rowAmt);
                     } else {

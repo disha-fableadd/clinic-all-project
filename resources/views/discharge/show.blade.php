@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 
 
 <style>
@@ -146,6 +146,7 @@
                                         <span id="paid"></span>
                                     </p>
                                     <hr class="margin-text">
+                                    @if(\App\Models\Setting::getValue('gst_status', 'on') === 'on')
                                     <p class="text-dark margin-text">
                                         <strong><i class="fas fa-percent icon-style"></i> GST Option:
                                         </strong>
@@ -160,6 +161,7 @@
                                         </p>
                                         <hr class="margin-text">
                                     </div>
+                                    @endif
                                     
                                 </div>
                             </div>
