@@ -630,6 +630,7 @@ Route::get('/dietchart/export', [DietChartController::class, 'exportDietChart'])
     Route::get('/calender', [CalenderController::class, 'index'])->name('calender.index');
     //chart
     Route::get('/chart', [ChartController::class, 'index'])->name('chart');
+    Route::get('/api/report-overview', [\App\Http\Controllers\Api\chartController::class, 'getReportOverview'])->name('report.overview');
 
 
     Route::get('/sms', [SmsController::class, 'index'])->name('sms.index');
