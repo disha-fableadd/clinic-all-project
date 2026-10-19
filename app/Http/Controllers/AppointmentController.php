@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointments;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
@@ -40,7 +41,9 @@ class AppointmentController extends Controller
             return redirect()->route('appointment.index')->with('error', 'Patients are not allowed to create appointments.');
         }
 
-        return view('appointment.create');
+        $clinicLocation = $this->getClinicLocation();
+
+        return view('appointment.create', compact('clinicLocation'));
     }
     public function show($id)
     {
@@ -58,7 +61,27 @@ class AppointmentController extends Controller
             return redirect()->route('appointment.index')->with('error', 'Patients are not allowed to edit appointments.');
         }
 
-        return view('appointment.edit', ['appointment_id' => $id]);
+        $clinicLocation = $this->getClinicLocation();
+
+        return view('appointment.edit', [
+            'appointment_id' => $id,
+            'clinicLocation' => $clinicLocation,
+        ]);
+    }
+
+    private function getClinicLocation()
+    {
+        $address = Setting::where('key', 'clinic_address')->value('value');
+        $city = Setting::where('key', 'clinic_city')->value('value');
+
+        if (!empty($address)) {
+            if (!empty($city) && stripos($address, $city) === false) {
+                return trim($address . ', ' . $city);
+            }
+            return trim($address);
+        }
+
+        return !empty($city) ? trim($city) : '';
     }
 
 

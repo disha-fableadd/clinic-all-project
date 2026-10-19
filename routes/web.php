@@ -610,9 +610,7 @@ Route::get('/dietchart/export', [DietChartController::class, 'exportDietChart'])
         return view('report.show', ['report_id' => $id]);
     })->name('report.show');
 
-    Route::get('/report/edit/{id}', function ($id) {
-        return view('report.edit', ['report_id' => $id]);
-    })->name('report.edit');
+    Route::get('/report/edit/{id}', [MedicalReportController::class, 'edit'])->name('report.edit');
 
   //plans
     Route::get('/plan', [PlanController::class,'index'])->name('plans.planlist');
@@ -679,9 +677,10 @@ Route::get('/dietchart/export', [DietChartController::class, 'exportDietChart'])
 
     Route::get('all-notifications', [NotificationController::class, 'notificationView'])->name('notificationView');
     Route::post('notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notification.markAllAsRead');
-    Route::delete('notifications/delete-all', [NotificationController::class, 'deleteAll'])->name('notification.deleteAll');
-    Route::delete('notifications/{id}', [NotificationController::class, 'destroy'])->name('notification.destroy');
-    Route::post('notifications/{id}', [NotificationController::class, 'update'])->name('notification.update');
+    Route::match(['delete', 'post'], 'notifications/delete-all', [NotificationController::class, 'deleteAll'])->name('notification.deleteAll');
+    Route::match(['delete', 'post'], 'notifications/{id}/delete', [NotificationController::class, 'destroy'])->name('notification.destroy.action');
+    Route::match(['delete', 'post'], 'notifications/{id}', [NotificationController::class, 'destroy'])->name('notification.destroy');
+    Route::post('notifications/{id}/read', [NotificationController::class, 'update'])->name('notification.update');
     Route::post('/hide-today-appointments', function () {
         session()->forget('show_today_appointment_modal');
         return response()->json(['status' => 'success']);

@@ -10,11 +10,19 @@ class MedicalReportController extends Controller
 {
     public function index()
     {
+        (new \App\Http\Controllers\Api\MedicalReportController())->ensureColumnsExist();
         return view('report.index');
     }
     public function create()
     {
+        (new \App\Http\Controllers\Api\MedicalReportController())->ensureColumnsExist();
         return view('report.create');
+    }
+
+    public function edit($id)
+    {
+        (new \App\Http\Controllers\Api\MedicalReportController())->ensureColumnsExist();
+        return view('report.edit', ['report_id' => $id]);
     }
 
    

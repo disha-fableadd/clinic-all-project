@@ -60,8 +60,17 @@
                             <div class="col-lg-12">
                                 <!-- Patient Name -->
                                 <div class="form-group">
-                                    <label><i class="fas fa-user icon-style"></i> Patient Name <span
-                                            class="text-danger">*</span></label>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <label><i class="fas fa-user icon-style"></i> Patient Name <span
+                                                class="text-danger">*</span></label>
+                                        @if (app('hasPermission')(5, 'create'))
+                                            <button type="button" class="btn btn-sm quick-modal-add-sm-btn"
+                                                data-bs-toggle="modal" data-bs-target="#quickAddPatientModal"
+                                                data-toggle="modal" data-target="#quickAddPatientModal">
+                                                <i class="fas fa-plus"></i> Add
+                                            </button>
+                                        @endif
+                                    </div>
                                     <select class="form-control select2 patientDropdown" id="patient_id" name="patient_id"
                                         required>
                                         <option value="">Select Patient</option>
@@ -338,6 +347,15 @@
             // Call fetchReportDetails directly
             fetchReportDetails();
 
+            // Initialize shared Quick Add Modals
+            if (typeof window.initQuickAddModals === 'function') {
+                window.initQuickAddModals({
+                    getToken: function() { return token; },
+                    getBranchId: function() { return branchId; }
+                });
+            }
+
         });
     </script>
+    @include('components.quick-add-modals')
 @endsection

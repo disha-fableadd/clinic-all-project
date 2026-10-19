@@ -1397,8 +1397,6 @@
 
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
     $(document).on('click', '#logout-button', function(e) {
         e.preventDefault(); // Prevent default link behavior

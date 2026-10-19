@@ -65,11 +65,23 @@ class CheckPermission
             'clinic.settings.update',
             'notificationView',
             'notification.update',
+            'notification.markAllAsRead',
+            'notification.deleteAll',
+            'notification.destroy',
+            'notification.destroy.action',
             'hide.today.appointments',
         ];
 
-        return in_array($routeName, $skipRouteNames, true)
-            || strtolower((string) $request->segment(1)) === 'dashboard';
+        if ($routeName && Str::startsWith($routeName, 'notification')) {
+            return true;
+        }
+
+        $firstSegment = strtolower((string) $request->segment(1));
+        if (in_array($firstSegment, ['notifications', 'all-notifications', 'dashboard'], true)) {
+            return true;
+        }
+
+        return in_array($routeName, $skipRouteNames, true);
     }
 
     protected function resolveModule(Request $request, ?string $routeName): ?Modules

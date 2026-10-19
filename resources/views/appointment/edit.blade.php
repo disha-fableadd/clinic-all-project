@@ -151,12 +151,26 @@
                                 </div>
                             </div>
 
+                            @php
+                                $locVal = $clinicLocation ?? (function() {
+                                    $address = \App\Models\Setting::where('key', 'clinic_address')->value('value');
+                                    $city = \App\Models\Setting::where('key', 'clinic_city')->value('value');
+                                    if (!empty($address)) {
+                                        if (!empty($city) && stripos($address, $city) === false) {
+                                            return trim($address . ', ' . $city);
+                                        }
+                                        return trim($address);
+                                    }
+                                    return !empty($city) ? trim($city) : '';
+                                })();
+                            @endphp
+
                             @if($currentProjectTypeId !== 3)
                             <div class="form-group">
                                 <label><i class="fas fa-map-marker-alt icon-style"></i> Clinic Location <span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="clinic_location"
-                                    name="clinic_location">
+                                    name="clinic_location" value="{{ $locVal }}">
                             </div>
 
                             <div class="form-group">
@@ -712,7 +726,8 @@
 
                             $('#duration').val(formattedDuration);
 
-                            $('#clinic_location').val(appointment.clinic_location);
+                            let defaultClinicLocation = @json($locVal ?? '');
+                            $('#clinic_location').val(appointment.clinic_location ? appointment.clinic_location : defaultClinicLocation);
                             $('#followup_update').val(appointment.followup_update);
 
                            
@@ -880,6 +895,14 @@
                     $('#extraFields').empty(); // Remove fields if status is not "Completed"
                 }
             });
+
+            // Initialize shared Quick Add Modals
+            if (typeof window.initQuickAddModals === 'function') {
+                window.initQuickAddModals({
+                    getToken: function() { return token || localStorage.getItem('token') || localStorage.getItem('authToken'); },
+                    getBranchId: function() { return branchId; }
+                });
+            }
 
         });
     </script>

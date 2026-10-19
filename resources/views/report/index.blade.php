@@ -22,6 +22,15 @@
         background-color: #fed9cf !important;
     }
 
+    .download {
+        padding: 10px !important;
+        margin-left: 5px !important;
+    }
+
+    .filess {
+        padding: 10px 12px !important;
+    }
+
     .custom-cancel-btn {
         border-radius: 23px !important;
     }
@@ -152,23 +161,40 @@
         </div>
     </div>
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
-
     <script>
+    (function($) {
         let branchId = localStorage.getItem('selectedBranchId');
-        let token = localStorage.getItem('token') || sessionStorage.getItem('token') || '';
+        let token = (typeof window.token !== 'undefined' && window.token) ? window.token : (localStorage.getItem('token') || sessionStorage.getItem('token') || '');
 
         $(document).on('click', '#exportButton', function () {
             window.location.href = "{{ route('report.export') }}";
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
+        $(document).ready(function () {
 
             function ucfirst(str) {
                 if (!str || typeof str !== 'string') return 'N/A';
                 return str.charAt(0).toUpperCase() + str.slice(1);
+            }
+
+            function getReportFileUrl(reportFile) {
+                if (!reportFile) return '';
+                if (reportFile.startsWith('http://') || reportFile.startsWith('https://')) {
+                    return reportFile;
+                }
+                let clean = reportFile.replace(/^\/+/, '');
+                return '/' + clean;
+            }
+
+            function renderReportFile(report) {
+                let html = '<div style="display:flex; align-items:center; justify-content:center; gap:5px;">';
+                const uploadedUrl = getReportFileUrl(report.file_path);
+                if (uploadedUrl) {
+                    html += `<a href="${uploadedUrl}" target="_blank" class="btn btn-primary btn-sm filess" title="View Uploaded File"><i class="fas fa-file-alt"></i></a>`;
+                }
+                html += `<button type="button" class="btn btn-primary btn-sm download download-report" data-id="${report.id}" title="Download Report PDF"><i class="fa fa-download"></i></button>`;
+                html += '</div>';
+                return html;
             }
 
             let reportTable;
@@ -266,13 +292,9 @@
                                 className: "d-none d-md-table-cell"
                             },
                             {
-                                data: "file_path",
-                                render: function (data) {
-                                    if (!data) return '<span class="text-muted">N/A</span>';
-                                    return `
-                                        <a href="${data}" target="_blank" class="btn btn-primary btn-sm"><i class="fas fa-file-alt"></i></a>
-                                        <a href="${data}" download class="btn btn-primary btn-sm download"><i class="fas fa-download"></i></a>
-                                    `;
+                                data: null,
+                                render: function (data, type, row) {
+                                    return renderReportFile(row);
                                 },
                                 className: "d-none d-md-table-cell text-center report-icon",
                                 orderable: false
@@ -307,9 +329,6 @@
                                             @endif
                                             @if (app('hasPermission')(13, 'delete')) 
                                                 <i class="fa fa-trash-o m-r-5 icon2 delete-report" data-id="${row.id}" title="Delete"></i> 
-                                            @endif
-                                            @if (app('hasPermission')(13, 'view')) 
-                                                <i class="fa fa-download m-r-5 icon4 download-report" title="Download PDF" data-id="${row.id}"></i>
                                             @endif
                                         </div>
                                     `;
@@ -357,14 +376,7 @@
 
                 let reportType = data.report_type ? ucfirst(data.report_type) : 'N/A';
                 let date = data.date ? ucfirst(data.date) : 'N/A';
-                let file = data.file_path ? `
-                            <a href="${data.file_path}" target="_blank" class="btn btn-primary btn-sm">
-                                <i class="fas fa-file-alt"></i>
-                            </a>
-                            <a href="${data.file_path}" download class="btn btn-primary btn-sm">
-                                <i class="fas fa-download"></i>
-                            </a>
-                        ` : '<span class="text-muted">N/A</span>';
+                let file = renderReportFile(data);
 
                 let generateBtn = '';
                 @if($razorpayEnabled)
@@ -388,9 +400,6 @@
                         @endif
                         @if (app('hasPermission')(13, 'delete')) 
                             <i class="fa fa-trash-o m-r-5 icon2 delete-report" data-id="${data.id}" title="Delete"></i> 
-                        @endif
-                        @if (app('hasPermission')(13, 'view')) 
-                            <i class="fa fa-download m-r-5 icon4 download-report" title="Download PDF" data-id="${data.id}"></i>
                         @endif
                     </div>
                 `;
@@ -547,8 +556,20 @@
 
 
             // 🧩 Your existing event handlers remain unchanged
-            $(document).on('click', '.download-report', function () {
+            $(document).on('click', '.download-report', function (e) {
+                e.preventDefault();
                 const reportId = $(this).data('id');
+                if (!reportId) return;
+
+                Swal.fire({
+                    title: 'Generating PDF...',
+                    text: 'Please wait while your Medical Report is prepared.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
                 $.ajax({
                     url: `/api/medical-reports/${reportId}/download`,
                     method: 'GET',
@@ -646,5 +667,6 @@
                 window.location.href = '/report/edit/' + reportId;
             });
         });
+    })(jQuery);
     </script>
 @endsection
