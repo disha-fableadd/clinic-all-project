@@ -166,12 +166,12 @@
                                 <label>Type <span class="text-danger">*</span></label>
                                 <select name="invoice_type" class="form-control select2" id="invoiceType" required>
                                     <option value="">Select Type</option>
-                                    {{-- <option value="service">Service</option> --}}
+                                    <option value="service">Service</option>
                                     <option value="treatment" selected>Treatment</option>
-                                    {{-- <option value="medicine">Medicine</option> --}}
+                                    <option value="medicine">Medicine</option>
                                     <option value="appointment">Appointment</option>
-                                    {{-- <option value="therapy">Therapy</option> --}}
-                                    {{-- <option value="discharge">Discharge</option> --}}
+                                    <option value="therapy">Therapy</option>
+                                    <option value="discharge">Discharge</option>
                                 </select>
                             </div>
                             
@@ -690,17 +690,20 @@
                             row.find('.gst-option-hidden').val('Without GST');
                             window.updateRowGstDisplay?.(row, null);
                         }
+                        window.updateRowGstVisibility?.(row);
                         updateGrandTotal();
                     },
                     error: function () {
-                        $('.invoice-item-row').first().find('.price').val('');
-                        $('.invoice-item-row').first().find('.amount').val('0.00');
+                        const row = $('.invoice-item-row').first();
+                        row.find('.price').val('');
+                        row.find('.amount').val('0.00');
+                        window.updateRowGstVisibility?.(row);
                         updateGrandTotal();
                     }
                 });
             }
 
-            $('#patientDropdown').on('change', function () {
+            $('#patientDropdown').on('change change.select2', function () {
                 if ($('#invoiceType').val() === 'discharge') {
                     loadDischargeForPatient();
                 }
@@ -708,6 +711,10 @@
 
             // On change
             $('#invoiceType').on('change', function () {
+                const curType = $(this).val();
+                if (curType === 'appointment' || curType === 'discharge') {
+                    $('.invoice-item-row:not(:first)').remove();
+                }
                 $('.invoice-item-row').each(function () {
                     $(this).find('.type-service-select').val('');
                     $(this).find('.price').val('');
@@ -720,7 +727,7 @@
                     $(this).find('.product-gst-json').val('');
                 });
                 toggleFieldsByInvoiceType();
-                if ($(this).val() === 'discharge') {
+                if (curType === 'discharge') {
                     loadDischargeForPatient();
                 }
                 updateGrandTotal();
