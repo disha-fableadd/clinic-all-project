@@ -453,12 +453,12 @@
 
                 @if ($hasMedicinePermission || $hasPatientMedicinePermission || $isAdmin)
                     <li
-                        class="submenu {{ request()->routeIs('medicine.*', 'patient_medicine.*', 'category.*') ? 'active' : '' }}">
+                        class="submenu {{ request()->routeIs('medicine.*', 'patient_medicine.*', 'category.*', 'medicine_unit.*', 'codemaster.*') ? 'active' : '' }}">
                         <a href="#"><i class="fa fa-pills"></i> <span>Medicines</span><span
                                 class="menu-arrow"></span></a>
 
                         <ul
-                            style="{{ request()->routeIs('medicine.*', 'patient_medicine.*', 'category.*') ? 'display: block;' : 'display: none;' }}">
+                            style="{{ request()->routeIs('medicine.*', 'patient_medicine.*', 'category.*', 'medicine_unit.*', 'codemaster.*') ? 'display: block;' : 'display: none;' }}">
                             @if (app('hasPermission')(4, 'view'))
                                 <li
                                     class="menu-link1 {{ request()->routeIs('medicine.index') ? 'active' : '' }} mt-1">
@@ -491,7 +491,7 @@
                             @endif
 
                             <li
-                                class="menu-link1 {{ request()->routeIs('medicine_unit.index') ? 'active' : '' }} mt-1">
+                                class="menu-link1 {{ request()->routeIs('medicine_unit.*') ? 'active' : '' }} mt-1">
                                 <a href="{{ route('medicine_unit.index') }}">
                                     <i class="fa fa-medkit"></i>
                                     <span style="padding-left: 5px;">Medicine Units</span>
@@ -507,7 +507,7 @@
                                             Medicine</span>
                                     </a>
                                 </li>
-                                <li class="menu-link {{ request()->routeIs('codemaster.index') ? 'active' : '' }}">
+                                <li class="menu-link1 {{ request()->routeIs('codemaster.*') ? 'active' : '' }} mt-1">
                                     <a href="{{ route('codemaster.index') }}"><i
                                             class="fa fa-prescription-bottle-medical"></i><span
                                             style="padding-left: 5px;">Code </span></a>
