@@ -21,6 +21,11 @@ class Notification extends Model
         'is_read' => 'boolean',
     ];
 
+    public function getReadAttribute()
+    {
+        return (bool) $this->is_read;
+    }
+
     // Store a single notification
      public static function store($message = "", $receiver_id = null, $module_id = null, $module = null, $sender_id = null, $patient_id = null)
     {

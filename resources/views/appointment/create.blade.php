@@ -161,10 +161,23 @@
                             </div>
 
                             @if($currentProjectTypeId !== 3)
+                            @php
+                                $locVal = $clinicLocation ?? (function() {
+                                    $address = \App\Models\Setting::where('key', 'clinic_address')->value('value');
+                                    $city = \App\Models\Setting::where('key', 'clinic_city')->value('value');
+                                    if (!empty($address)) {
+                                        if (!empty($city) && stripos($address, $city) === false) {
+                                            return trim($address . ', ' . $city);
+                                        }
+                                        return trim($address);
+                                    }
+                                    return !empty($city) ? trim($city) : '';
+                                })();
+                            @endphp
                             <div class="form-group">
                                 <label><i class="fas fa-map-marker-alt icon-style"></i> Clinic Location <span
                                         class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="clinic_location">
+                                <input type="text" class="form-control" name="clinic_location" value="{{ $locVal }}">
                             </div>
 
                             <div class="form-group">

@@ -420,14 +420,6 @@
             <tr>
                 <td>
                     {!! nl2br(e($displayVal($report->description ?? ''))) !!}
-
-                    @if(!empty($report->file_path))
-                        <div style="margin-top: 15px; text-align: center;">
-                            <div style="font-weight: bold; margin-bottom: 8px; color: #0c4b33; text-align: left;">Attached Document / Scan:</div>
-                            <img src="{{ public_path('uploads/report/' . basename($report->file_path)) }}" alt="Report File"
-                                style="max-width: 100%; max-height: 380px; border: 1px solid #ddd; border-radius: 4px;">
-                        </div>
-                    @endif
                 </td>
             </tr>
         </table>

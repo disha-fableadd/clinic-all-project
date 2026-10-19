@@ -21,17 +21,38 @@ use Illuminate\Support\Facades\Validator;
 
 class MedicalReportController extends Controller
 {
-    protected function ensureBranchColumnExists()
+    public function __construct()
+    {
+        $this->ensureColumnsExist();
+    }
+
+    public function ensureColumnsExist()
     {
         try {
-            if (Schema::hasTable('medical_reports') && !Schema::hasColumn('medical_reports', 'branch_id')) {
+            if (Schema::hasTable('medical_reports')) {
                 Schema::table('medical_reports', function (Blueprint $table) {
-                    $table->unsignedBigInteger('branch_id')->nullable()->after('user_id');
+                    if (!Schema::hasColumn('medical_reports', 'date')) {
+                        $table->date('date')->nullable()->after('patient_id');
+                    }
+                    if (!Schema::hasColumn('medical_reports', 'report_type')) {
+                        $table->string('report_type')->nullable()->after('date');
+                    }
+                    if (!Schema::hasColumn('medical_reports', 'user_id')) {
+                        $table->unsignedBigInteger('user_id')->nullable()->after('file_path');
+                    }
+                    if (!Schema::hasColumn('medical_reports', 'branch_id')) {
+                        $table->unsignedBigInteger('branch_id')->nullable()->after('user_id');
+                    }
                 });
             }
         } catch (\Throwable $e) {
-            Log::warning('Could not ensure branch_id column on medical_reports: ' . $e->getMessage());
+            Log::warning('Could not ensure columns on medical_reports: ' . $e->getMessage());
         }
+    }
+
+    protected function ensureBranchColumnExists()
+    {
+        $this->ensureColumnsExist();
     }
 
 

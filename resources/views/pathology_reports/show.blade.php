@@ -20,14 +20,23 @@
         padding: 12px 20px !important;
         border-radius: 10px 10px 0 0 !important;
     }
+    .hdr-btn-group {
+        display: flex !important;
+        gap: 8px !important;
+    }
 
     @media screen and (max-width: 767px) {
         .page-title {
-            font-size: 18px !important;
-            margin-bottom: 8px !important;
+            font-size: 17px !important;
+            margin-bottom: 0 !important;
+            line-height: 1.3 !important;
         }
         .hdr-btn-group {
-            margin-bottom: 8px !important;
+            margin-bottom: 0 !important;
+            gap: 8px !important;
+        }
+        .hdr-btn-group .btn-hdr {
+            flex-shrink: 0 !important;
         }
         .card-footer h3 {
             font-size: 15px !important;
@@ -58,12 +67,12 @@
 @section('content')
     <div class="page-wrapper">
         <div class="content" style="min-height: 100vh; height: auto; padding-bottom: 50px;">
-            <div class="row align-items-center" style="padding-top:15px">
-                <div class="col-sm-7 col-12 mb-2">
+            <div class="row align-items-center mb-2" style="padding-top:15px">
+                <div class="col pr-1">
                     <h4 class="page-title mb-0"><i class="fa fa-file-medical"></i> Pathology Report Details</h4>
                 </div>
-                <div class="col-sm-5 col-12 d-flex justify-content-sm-end justify-content-start align-items-center mb-2 hdr-btn-group">
-                    <a href="javascript:void(0)" class="btn btn-primary btn-rounded btn-hdr download-report mr-2"
+                <div class="col-auto pl-0 d-flex justify-content-end align-items-center hdr-btn-group" style="gap: 8px;">
+                    <a href="javascript:void(0)" class="btn btn-primary btn-rounded btn-hdr download-report"
                         data-id="{{ $pathology_report_id }}">
                         <i class="fa fa-download"></i> <span class="hdr-btn-text">PDF</span>
                     </a>
