@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     div:where(.swal2-container) input:where(.swal2-input):focus,
     div:where(.swal2-container) input:where(.swal2-file):focus,
@@ -614,9 +614,9 @@
                         html: `
                             <p><strong>Patient Name:</strong> ${res.patient_name ?? '-'}</p>
                             <p><strong>Contact No:</strong> ${res.patient_phone ?? '-'}</p>
-                            <p><strong>Amount:</strong> â‚¹${pendingAmount}</p>
+                            <p><strong>Amount:</strong> ₹${pendingAmount}</p>
                             <input type="text" class="swal2-input" value="${res.payment_link}" readonly>
-                            <small>Link copied to clipboard âœ”</small>
+                            <small>Link copied to clipboard ✔</small>
                         `,
                         showConfirmButton: false,
                         showCancelButton: true,
@@ -667,7 +667,7 @@
                                     <div style="display:flex; justify-content:space-between; align-items:center;">
                                         <div style="font-weight:500; font-size:14px; color:#666;">${formattedDate}</div>
                                         <div style="font-weight:700; font-size:14px; text-align:right;">
-                                            â‚¹${payment.amount} via ${payment.payment_type}
+                                            ₹${payment.amount} via ${payment.payment_type}
                                         </div>
                                     </div>
                                 </div>
@@ -680,7 +680,7 @@
                     Swal.fire({
                         title: `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                                     <span style="font-size:18px; font-weight:bold;">Make Payment</span>
-                                    <span style="font-size:14px; color:#666;">Payable: â‚¹${payableAmount}</span>
+                                    <span style="font-size:14px; color:#666;">Payable: ₹${payableAmount}</span>
                                 </div>`,
                         html: `
                             <hr>
@@ -745,7 +745,7 @@
                                     return false;
                                 }
                                 if (total > remaining) {
-                                    Swal.showValidationMessage(`Total payment cannot exceed â‚¹${remaining}.`);
+                                    Swal.showValidationMessage(`Total payment cannot exceed ₹${remaining}.`);
                                     return false;
                                 }
                                 return {
@@ -761,7 +761,7 @@
                                     return false;
                                 }
                                 if (amount > remaining) {
-                                    Swal.showValidationMessage(`Payment amount cannot exceed â‚¹${remaining}.`);
+                                    Swal.showValidationMessage(`Payment amount cannot exceed ₹${remaining}.`);
                                     return false;
                                 }
                                 return {
@@ -840,8 +840,8 @@
                     <div class="details-content">
                         <div><strong>Machine:</strong> ${window.treatmentCapitalize(booking.machine_name || 'N/A')}</div>
                         <div><strong>Plan:</strong> ${window.treatmentCapitalize(booking.plan || '')}</div>
-                        <div><strong>Amount:</strong> â‚¹${booking.amount || '0.00'}</div>
-                        <div><strong>Pending:</strong> â‚¹${booking.pending || '0.00'}</div>
+                        <div><strong>Amount:</strong> ₹${booking.amount || '0.00'}</div>
+                        <div><strong>Pending:</strong> ₹${booking.pending || '0.00'}</div>
 
                         <div class="payment-status-mobile" data-id="${booking.id}">
                             <strong>Status:</strong> ${statusHtml}
