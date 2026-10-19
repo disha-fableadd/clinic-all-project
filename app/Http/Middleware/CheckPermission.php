@@ -70,6 +70,8 @@ class CheckPermission
             'notification.destroy',
             'notification.destroy.action',
             'hide.today.appointments',
+            'chart',
+            'report.overview',
         ];
 
         if ($routeName && Str::startsWith($routeName, 'notification')) {
@@ -77,7 +79,7 @@ class CheckPermission
         }
 
         $firstSegment = strtolower((string) $request->segment(1));
-        if (in_array($firstSegment, ['notifications', 'all-notifications', 'dashboard'], true)) {
+        if (in_array($firstSegment, ['notifications', 'all-notifications', 'dashboard', 'api'], true)) {
             return true;
         }
 
