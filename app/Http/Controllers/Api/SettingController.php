@@ -975,7 +975,9 @@ class SettingController extends Controller
         $treatments = Treatment::where('branch_id', $branchId)->get();
 
         // Medicines (branch-wise)
-        $medicines = Medicine::where('branch_id', $branchId)->get();
+        $medicines = Medicine::where(function($q) use ($branchId) {
+            $q->where('branch_id', $branchId)->orWhereNull('branch_id');
+        })->with(['brand', 'stockUnit'])->get();
 
         // Pathology Services (branch-wise) – include gst_option and product_gst for invoice GST display
         $pathologyServices = PathologyTest::where('branch_id', $branchId)->get()
@@ -1054,7 +1056,9 @@ class SettingController extends Controller
         $treatments = Treatment::where('branch_id', $branchId)->get();
 
         // Medicines (branch-wise)
-        $medicines = Medicine::where('branch_id', $branchId)->get();
+        $medicines = Medicine::where(function($q) use ($branchId) {
+            $q->where('branch_id', $branchId)->orWhereNull('branch_id');
+        })->with(['brand', 'stockUnit'])->get();
 
         // Pathology Services (branch-wise)
         $pathologyServices = PathologyTest::where('branch_id', $branchId)->get()
@@ -1494,6 +1498,15 @@ class SettingController extends Controller
             // Step 9: Decrease stock
             if ($invoice_type === 'medicine') {
                 foreach ($request->items as $item) {
+                    $med = \App\Models\Medicine::find($item['type_service']);
+                    if ($med) {
+                        $med->decrement('quantity', $item['quantity']);
+                        $med->refresh();
+                        $med->availablility = $med->quantity > 0 ? 'in_stock' : 'out_stock';
+                        $med->stock_value = round($med->quantity * ($med->purchase_price ?: ($med->mrp ?: 0)), 2);
+                        $med->save();
+                        continue;
+                    }
                     DB::table('medicines')
                         ->where('id', $item['type_service'])
                         ->decrement('quantity', $item['quantity']);

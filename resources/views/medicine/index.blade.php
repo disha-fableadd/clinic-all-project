@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     .swal-confirm-btn {
         color: rgb(58, 58, 58) !important;
@@ -109,8 +109,10 @@
                                             <th>Medicine</th>
                                             <th >Category</th>
                                             <th class="d-none d-md-table-cell">Batch No</th>
-                                            <th class="d-none d-md-table-cell">Quantity</th>
-                                            <th class="d-none d-md-table-cell">Price</th>
+                                            <th class="d-none d-md-table-cell">Brand</th>
+                                            <th class="d-none d-md-table-cell">Stock</th>
+                                            <th class="d-none d-md-table-cell">MRP</th>
+                                            <th class="d-none d-md-table-cell">Expiry</th>
                                             <th class="d-none d-md-table-cell">Action</th>
                                             <th class="d-table-cell d-md-none">Details</th>
                                         </tr>
@@ -316,23 +318,39 @@
                                 }
                             },
                             {
+                                data: "brand_name",
+                                render: function (data, type, row) {
+                                    return `<span class="view-medicine d-none d-md-table-cell" data-id="${row.id}">${data || 'N/A'}</span>`;
+                                },
+                                className: "d-none d-md-table-cell"
+                            },
+                            {
                                 data: "batch_no",
                                 render: function (data, type, row) {
-                                    return `<span class="view-medicine d-none d-md-table-cell" data-id="${row.id}" style="cursor:pointer">${data ?? 'N/A'}</span>`;
+                                    return `<span class="view-medicine d-none d-md-table-cell" data-id="${row.id}">${data || 'N/A'}</span>`;
                                 },
                                 className: "d-none d-md-table-cell"
                             },
                             {
                                 data: "quantity",
                                 render: function (data, type, row) {
-                                    return `<span class="view-medicine d-none d-md-table-cell" data-id="${row.id}" style="cursor:pointer">${data ?? 'N/A'}</span>`;
+                                    let badge = (row.low_stock_qty && row.quantity <= row.low_stock_qty) ? '<span class="badge bg-danger text-white ms-1" style="font-size:10px">Low</span>' : '';
+                                    return `<span class="d-none d-md-table-cell"><strong>${data ?? 0}</strong> ${row.stock_unit_name || ''} ${badge}</span>`;
                                 },
                                 className: "d-none d-md-table-cell"
                             },
                             {
                                 data: "unit",
                                 render: function (data, type, row) {
-                                    return `<span class="view-medicine d-none d-md-table-cell" data-id="${row.id}" style="cursor:pointer">${data ?? 'N/A'}</span>`;
+                                    let val = row.mrp || data || 0;
+                                    return `<span class="d-none d-md-table-cell">₹${parseFloat(val).toFixed(2)}</span>`;
+                                },
+                                className: "d-none d-md-table-cell"
+                            },
+                            {
+                                data: "expiry_date",
+                                render: function (data, type, row) {
+                                    return `<span class="d-none d-md-table-cell">${data || 'N/A'}</span>`;
                                 },
                                 className: "d-none d-md-table-cell"
                             },

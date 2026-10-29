@@ -71,6 +71,9 @@ use App\Models\Patients;
 use App\Http\Controllers\Api\ReferalDoctorController;
 use App\Http\Controllers\Api\SeoOptimizerController;
 use App\Http\Controllers\Api\MedicineUnitController;
+use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\StockUnitController;
+use App\Http\Controllers\Api\AccountLedgerController as ApiAccountLedgerController;
 use App\Http\Controllers\Api\PatientAssignDietChartController;
 use App\Http\Controllers\api\PlanController;
 
@@ -136,6 +139,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //new module
     Route::apiResource('machines', MachineController::class);
+    Route::apiResource('brands', BrandController::class);
+    Route::apiResource('stock-units', StockUnitController::class);
+    Route::get('/account-ledger/details', [ApiAccountLedgerController::class, 'getLedgerDetails']);
     Route::apiResource('tax-rates', TaxRateController::class);
     // Route::apiResource('medicine-units', App\Http\Controllers\Api\MedicineUnitController::class);
     Route::apiResource('medicine-units', MedicineUnitController::class);
