@@ -124,15 +124,16 @@
         line-height: 18px;
         text-align: center;
     }
-
+/* 
     .patient-title {
         padding-left: 70px !important;
         text-align: center !important;
-    }
+    } */
 
     .patient-button {
-        padding-right: 60px !important;
-        text-align: center !important;
+       
+        /* padding-right: 60px !important; */
+        text-align: right !important;
     }
 
     .custom-close {
@@ -231,8 +232,8 @@
             <div class="row">
                 <div class="col-12">
 
-                    <form class="form-container  all-form" id="multiStepForm" method="POST" action=""
-                        style="width:60% ;padding-bottom: 75px;">
+                    <form class="form-container all-form" id="multiStepForm" method="POST" action=""
+                        style="width: 100%; max-width: 100%; padding-bottom: 75px;">
 
                         @csrf
                         <input type="hidden" name="branch_id" id="branch_id">
@@ -240,7 +241,7 @@
                         <div class="form-step patient-form " id="step-1">
                             <div class="row">
 
-                                <div class="col-6">
+                                <div class="col-4">
                                     <div class="form-group">
                                         <label><i class="fas fa-user icon-style"></i> Full Name <span
                                                 class="text-danger">*</span></label>
@@ -248,7 +249,7 @@
                                             placeholder="Enter Full Name" required>
                                     </div>
                                 </div>
-                                <div class="col-6 ">
+                                <div class="col-4">
                                     <div class="form-group">
                                         <label><i class="fas fa-phone icon-style"></i> Phone <span
                                                 class="text-danger">*</span></label>
@@ -287,7 +288,7 @@
 
 
 
-                                <div class="col-12 col-md-12">
+                                <div class="col-4 col-md-4">
                                     <div class="form-group">
                                         <label><i class="fas fa-user icon-style"></i> Patient Type <span
                                                 class="text-danger">*</span></label>
@@ -301,6 +302,8 @@
                                         </select>
                                     </div>
                                 </div>
+
+                                @include('patients.vital_fields')
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <div class="d-flex align-items-center justify-content-between">
@@ -343,7 +346,7 @@
 
 
 
-                                <div class="col-12">
+                                <div class="col-6">
                                     <!-- Title -->
                                     <div class="mb-3">
                                         <i class="fas fa-notes-medical icon-style"></i>
@@ -352,7 +355,7 @@
 
                                     <div class="row">
                                         <!-- Left column: Radio buttons -->
-                                        <div class="col-12 col-md-6">
+                                        <div class="col-6 col-md-6">
                                             <div class="d-flex gap-3 margin right:22px">
                                                 <div>
                                                     <input type="radio" name="symptom_option" value="image"
@@ -370,7 +373,7 @@
                                         </div>
 
                                         <!-- Right column: Input field -->
-                                        <div class="col-12 col-md-6">
+                                        <div class="col-6 col-md-6">
                                             <!-- Image upload -->
                                             <div id="symptomImageBox"
                                                 style="{{ old('symptom_option', !empty($symptom_images) ? 'image' : '') == 'image' ? '' : 'display:none;' }}">
@@ -412,7 +415,7 @@
 
 
                                 <!-- Select + Button -->
-                                <div class="col-12 col-md-12">
+                                <div class="col-6 col-md-6">
                                     <div class="form-group">
                                         <label><i class="fas fa-share-alt icon-style"></i> Referral Source</label>
                                         <div class="d-flex align-items-center">
@@ -432,7 +435,7 @@
                                                 data-bs-target="#addReferralModal"
                                                 style="padding:8px 12px !important; white-space: nowrap; margin-left: 15px;">
                                                 <i class="fa fa-plus m-0"></i>
-                                                <span style="margin-left: 6px;" class="d-none d-md-inline">Add Referral Details</span>
+                                                <span style="margin-left: 6px;" class="d-none d-md-inline">Add </span>
                                             </a>
 
                                         </div>

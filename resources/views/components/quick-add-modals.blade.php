@@ -371,13 +371,13 @@
     </div>
 </div>
 
-<!-- Quick Add Supplier Modal -->
+<!-- Quick Add Vendor Modal -->
 <div class="modal fade" id="quickAddSupplierModal" tabindex="-1" role="dialog" aria-labelledby="quickAddSupplierModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="border-radius: 15px; overflow: hidden;">
             <div class="modal-header" style="background-color: #CFECE0; color: #000;">
                 <h5 class="modal-title font-weight-bold" id="quickAddSupplierModalLabel">
-                    <i class="fas fa-truck mr-2"></i> Add Supplier
+                    <i class="fas fa-handshake mr-2"></i> Add Vendor
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="background: transparent; border: none; font-size: 1.5rem; line-height: 1;">
                     <span aria-hidden="true">&times;</span>
@@ -416,7 +416,7 @@
                 <div class="modal-footer bg-light">
                     <button type="button" class="btn quick-modal-cancel-btn" data-dismiss="modal" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn quick-modal-save-btn" id="btnSaveQuickSupplier">
-                        <span class="spinner-border spinner-border-sm me-1 text-dark" style="display:none;"></span> Save Supplier
+                        <span class="spinner-border spinner-border-sm me-1 text-dark" style="display:none;"></span> Save Vendor
                     </button>
                 </div>
             </form>
@@ -1410,7 +1410,7 @@
                     success: function(response) {
                         $btn.prop('disabled', false).find('.spinner-border').hide();
                         if (response.status === false) {
-                            $alert.html(response.message || 'Error creating supplier.').show();
+                            $alert.html(response.message || 'Error creating vendor.').show();
                             return;
                         }
                         form.reset();

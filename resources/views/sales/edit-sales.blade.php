@@ -31,7 +31,7 @@
         border-radius: 50px !important;
         padding: 6px 16px !important;
         font-size: 13px !important;
-        color: #1e293b !important;
+        color: #888 !important;
         background-color: #ffffff;
     }
     .form-control:focus, .form-select:focus {
@@ -53,7 +53,7 @@
     .btn-back-main {
         background-color: #cfece0 !important;
         border: 1px solid #b5e4d2 !important;
-        color: #1e293b !important;
+        color: #888 !important;
         border-radius: 50px !important;
         font-weight: 600;
         font-size: 13px;
@@ -80,7 +80,7 @@
     .pay-mode-btn.active {
         background-color: #cfece0 !important;
         border-color: #f89884 !important;
-        color: #1e293b !important;
+        color: #888 !important;
     }
 </style>
 

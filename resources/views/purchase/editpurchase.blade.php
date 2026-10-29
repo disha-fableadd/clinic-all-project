@@ -16,7 +16,7 @@
         </div>
 
         <div class="alert alert-info" style="border-radius: 20px; background-color: #cfece0; border-color: #b8e2d1; color: #1f513f;">
-            <i class="fa fa-info-circle me-2"></i> For inventory accuracy, if you need to adjust stock or supplier amounts, you can view the <a href="{{ route('purchase.invoice', $invoice->id) }}" class="fw-bold text-dark">Purchase Bill Invoice</a> or create an adjustment entry.
+            <i class="fa fa-info-circle me-2"></i> For inventory accuracy, if you need to adjust stock or vendor amounts, you can view the <a href="{{ route('purchase.invoice', $invoice->id) }}" class="fw-bold text-dark">Purchase Bill Invoice</a> or create an adjustment entry.
         </div>
     </div>
 </div>

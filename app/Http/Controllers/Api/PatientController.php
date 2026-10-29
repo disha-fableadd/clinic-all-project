@@ -903,6 +903,14 @@ class PatientController extends Controller
             'symptom_images' => !empty($symptomImagePaths) ? $symptomImagePaths : null,
             'branch_id' => $request->branch_id, // ✅ Store branch I
             'symptom_remarks' => $request->symptom_remarks ?? null,
+            'bp' => $request->bp ?? $request->blood_pressure,
+            'pulse' => $request->pulse,
+            'temperature' => $request->temperature,
+            'weight' => $request->weight,
+            'height' => $request->height,
+            'patient_history' => $request->patient_history,
+            'patient_complaint' => $request->patient_complaint,
+            'advice_for_lab_tests' => $request->advice_for_lab_tests,
         ]);
 
         // Default permissions
@@ -1217,6 +1225,14 @@ class PatientController extends Controller
                 'patient_type' => $request->patient_type,
                 'referral_source' => $request->referral_source ?? $patient->referral_source,
                 'source_details' => $request->source_details ?? $patient->source_details,
+                'bp' => $request->has('bp') ? $request->bp : ($request->has('blood_pressure') ? $request->blood_pressure : $patient->bp),
+                'pulse' => $request->has('pulse') ? $request->pulse : $patient->pulse,
+                'temperature' => $request->has('temperature') ? $request->temperature : $patient->temperature,
+                'weight' => $request->has('weight') ? $request->weight : $patient->weight,
+                'height' => $request->has('height') ? $request->height : $patient->height,
+                'patient_history' => $request->has('patient_history') ? $request->patient_history : $patient->patient_history,
+                'patient_complaint' => $request->has('patient_complaint') ? $request->patient_complaint : $patient->patient_complaint,
+                'advice_for_lab_tests' => $request->has('advice_for_lab_tests') ? $request->advice_for_lab_tests : $patient->advice_for_lab_tests,
             ];
 
             if ($request->filled('password')) {

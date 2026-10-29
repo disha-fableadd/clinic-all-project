@@ -122,12 +122,12 @@
                 </div>
             </div>
 
-            <!-- Supplier Details -->
+            <!-- Vendor Details -->
             <div class="row mb-4 p-3 rounded" style="background: #fbfcfe; border: 1px solid #edf2f7; border-radius: 14px !important;">
                 <div class="col-md-6 mb-2">
-                    <h6 style="color: #f89884; font-weight: 700; margin-bottom: 8px;">Vendor / Supplier Information</h6>
+                    <h6 style="color: #f89884; font-weight: 700; margin-bottom: 8px;">Vendor Information</h6>
                     <div style="font-size: 13px; line-height: 1.6;">
-                        <strong>Supplier:</strong> {{ $vendorName }}<br>
+                        <strong>Vendor:</strong> {{ $vendorName }}<br>
                         <strong>Contact:</strong> {{ $vendorPhone }}<br>
                         <strong>Address:</strong> {{ $vendorAddress }}<br>
                         <strong>GSTIN:</strong> {{ $vendorGst }}
@@ -243,7 +243,7 @@
                     <p class="text-muted mb-0" style="font-size: 12px;">Authorized Pharmacist / Receiver Signature</p>
                 </div>
                 <div class="col-6 text-end">
-                    <p class="text-muted mb-0" style="font-size: 12px;">Supplier / Distributor Signature</p>
+                    <p class="text-muted mb-0" style="font-size: 12px;">Vendor / Distributor Signature</p>
                 </div>
             </div>
         </div>

@@ -29,7 +29,7 @@
         border-radius: 50px !important;
         padding: 8px 18px !important;
         font-size: 14px !important;
-        color: #1e293b !important;
+        color: #888 !important;
         background-color: #ffffff;
         transition: border-color 0.2s, box-shadow 0.2s;
     }
@@ -48,7 +48,7 @@
     .select2-container--default .select2-selection--single .select2-selection__rendered {
         line-height: 40px !important;
         padding-left: 10px !important;
-        color: #1e293b !important;
+        color: #888 !important;
         font-size: 14px !important;
     }
     .select2-container--default .select2-selection--single .select2-selection__arrow {
@@ -76,7 +76,7 @@
     .btn-print-statement {
         background-color: #cfece0 !important;
         border: 1px solid #b5e4d2 !important;
-        color: #1e293b !important;
+        color: #888 !important;
         border-radius: 50px !important;
         font-weight: 600;
         padding: 7px 20px !important;
@@ -85,7 +85,7 @@
     }
     .btn-print-statement:hover {
         background-color: #bce7d6 !important;
-        color: #1e293b !important;
+        color: #888 !important;
     }
     .badge-paid {
         background-color: #cfece0;

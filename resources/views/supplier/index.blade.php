@@ -58,14 +58,14 @@
                     <div class="card">
                         <div class="card-header" >
                             <h3 class="card-title d-inline-block text-white">
-                                <i class="fa fa-truck px-2" style="font-size:20px"></i>All Supplier
+                                <i class="fa fa-handshake px-2" style="font-size:20px"></i>All Vendors
                             </h3>
                             <button class="btn btn-rounded btn-hdr" id="exportButton">
                                 <i class="fa fa-download"></i> <span class="hdr-btn-text">Export</span>
                             </button>
                             @if (app('hasPermission')(12, 'create'))
                                 <a href="{{ route('supplier.create') }}" class="btn btn-rounded btn-hdr">
-                                    <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add</span>
+                                    <i class="fa fa-plus"></i> <span class="hdr-btn-text">Add Vendor</span>
                                 </a>
                             @endif
                         </div>
@@ -328,7 +328,7 @@
         $(document).on('click', '.delete-supplier', function() {
             var supplierId = $(this).data('id');
             if (!supplierId) {
-                Swal.fire('Error', 'Supplier ID is missing!', 'error');
+                Swal.fire('Error', 'Vendor ID is missing!', 'error');
                 return;
             }
             Swal.fire({
@@ -353,7 +353,7 @@
                         success: function(response) {
                             Swal.fire({
                                 title: 'Deleted!',
-                                text: 'Supplier deleted successfully!',
+                                text: 'Vendor deleted successfully!',
                                 icon: 'success',
                                 timer: 1500,
                                 showConfirmButton: false
@@ -362,7 +362,7 @@
                             });
                         },
                         error: function(xhr) {
-                            Swal.fire('Error', 'Failed to delete supplier: ' + (xhr.responseJSON?.message || 'Please try again.'), 'error');
+                            Swal.fire('Error', 'Failed to delete vendor: ' + (xhr.responseJSON?.message || 'Please try again.'), 'error');
                         }
                     });
                 }

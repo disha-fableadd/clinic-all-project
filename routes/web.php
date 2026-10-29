@@ -529,7 +529,7 @@ Route::get('/dietchart/export', [DietChartController::class, 'exportDietChart'])
     })->name('medicine.show');
 
     Route::get('/medicine/edit/{id}', function ($id) {
-        return view('medicine.edit', ['medicine_id' => $id]);
+        return view('medicine.edit', ['id' => $id, 'medicine_id' => $id]);
     })->name('medicine.edit');
 
 
@@ -605,7 +605,16 @@ Route::get('/dietchart/export', [DietChartController::class, 'exportDietChart'])
     //suplier
 
 
+    // Supplier / Vendor routes
     Route::get('/supplier', [SupplierController::class, 'index'])->name('supplier.index');
+    Route::get('/vendor', [SupplierController::class, 'index'])->name('vendor.index');
+    Route::get('/vendor/create', [SupplierController::class, 'create'])->name('vendor.create');
+    Route::get('/vendor/show/{id}', function ($id) {
+        return view('supplier.show', ['supplier_id' => $id]);
+    })->name('vendor.show');
+    Route::get('/vendor/edit/{id}', function ($id) {
+        return view('supplier.edit', ['supplier_id' => $id]);
+    })->name('vendor.edit');
     Route::get('/supplier/create', [SupplierController::class, 'create'])->name('supplier.create');
 
     Route::get('/supplier/show/{id}', function ($id) {
