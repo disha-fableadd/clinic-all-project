@@ -169,7 +169,7 @@ class MedicineController extends Controller
             ];
         };
 
-        $hasDataTable = $request->has('length') || $request->has('start') || $request->has('draw');
+        $hasDataTable = $request->has('length') || $request->has('start') || $request->has('draw') || $request->has('per_page') || $request->has('page');
 
         if ($hasDataTable) {
             $searchValue = $request->input('search.value', $request->input('search'));
@@ -194,19 +194,20 @@ class MedicineController extends Controller
             $recordsTotal = (clone $query)->count();
             $recordsFiltered = (clone $filteredQuery)->count();
 
-            $length = (int) $request->input('length', 10);
+            $length = (int) $request->input('length', $request->input('per_page', 10));
             if ($length <= 0) $length = 10;
-            $start = (int) $request->input('start', 0);
+            $start = $request->has('start') ? (int) $request->input('start') : (int) (($request->input('page', 1) - 1) * $length);
             $page = (int) floor($start / $length) + 1;
 
             $medicines = $filteredQuery->orderBy('id', 'desc')->forPage($page, $length)->get()->map($mapMedicine);
 
             return response()->json([
                 'status' => true,
-                'draw' => (int) $request->input('draw'),
+                'draw' => (int) $request->input('draw', 1),
                 'recordsTotal' => $recordsTotal,
                 'recordsFiltered' => $recordsFiltered,
                 'data' => $medicines,
+                'medicines' => $medicines,
             ], 200);
         }
 
@@ -214,6 +215,10 @@ class MedicineController extends Controller
 
         return response()->json([
             'status' => true,
+            'draw' => 1,
+            'recordsTotal' => $medicines->count(),
+            'recordsFiltered' => $medicines->count(),
+            'data' => $medicines,
             'medicines' => $medicines,
         ], 200);
     }
