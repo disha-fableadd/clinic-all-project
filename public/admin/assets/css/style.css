@@ -6672,3 +6672,25 @@ blockquote p {
 
 /* Dashboard Stat Widgets Equal Height (Desktop) */
 }
+
+
+/* Form inputs, selects, and textareas clear black text across all Add/Edit pages */
+.form-control,
+.form-select,
+select.form-control,
+textarea.form-control,
+input.form-control,
+.form-control:focus,
+.form-select:focus,
+.form-control[readonly],
+.form-control:disabled,
+.select2-container--default .select2-selection--single .select2-selection__rendered,
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+	color: #000000 !important;
+}
+
+.form-control::placeholder,
+textarea.form-control::placeholder,
+.form-select::placeholder {
+	color: #94a3b8 !important;
+}

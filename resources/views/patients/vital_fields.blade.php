@@ -41,11 +41,13 @@
         border-radius: 8px !important;
         padding: 8px 14px !important;
         font-size: 13.5px !important;
+        color: #000000 !important;
     }
     .patient-vitals-card textarea.form-control {
         height: auto !important;
         border-radius: 8px !important;
         resize: vertical;
+        color: #000000 !important;
     }
     @media (max-width: 991px) {
         .patient-vitals-grid {
@@ -56,6 +58,9 @@
         .patient-vitals-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         }
+    }
+    .form-control::placeholder, .form-select::placeholder, textarea.form-control::placeholder {
+        color: #94a3b8 !important;
     }
 </style>
 

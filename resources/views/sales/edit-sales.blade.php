@@ -25,13 +25,15 @@
         display: block;
         white-space: nowrap;
     }
-    .form-control, .form-select {
+    .form-control, .form-select,
+    .form-control[readonly], .form-control:disabled,
+    .table input.form-control, .table select.form-select {
         height: 38px !important;
         border: 1.5px solid #cbd5e1 !important;
         border-radius: 50px !important;
         padding: 6px 16px !important;
         font-size: 13px !important;
-        color: #888 !important;
+        color: #000000 !important;
         background-color: #ffffff;
     }
     .form-control:focus, .form-select:focus {
@@ -53,7 +55,7 @@
     .btn-back-main {
         background-color: #cfece0 !important;
         border: 1px solid #b5e4d2 !important;
-        color: #888 !important;
+        color: #000000 !important;
         border-radius: 50px !important;
         font-weight: 600;
         font-size: 13px;
@@ -80,7 +82,10 @@
     .pay-mode-btn.active {
         background-color: #cfece0 !important;
         border-color: #f89884 !important;
-        color: #888 !important;
+        color: #000000 !important;
+    }
+    .form-control::placeholder, .form-select::placeholder, textarea.form-control::placeholder {
+        color: #94a3b8 !important;
     }
 </style>
 

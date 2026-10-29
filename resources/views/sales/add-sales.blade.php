@@ -28,13 +28,15 @@
         display: block;
         white-space: nowrap;
     }
-    .form-control, .form-select {
+    .form-control, .form-select,
+    .form-control[readonly], .form-control:disabled,
+    .table input.form-control, .table select.form-select {
         height: 38px !important;
         border: 1.5px solid #cbd5e1 !important;
         border-radius: 50px !important;
         padding: 6px 16px !important;
         font-size: 13px !important;
-        color: #888 !important;
+        color: #000000 !important;
         background-color: #ffffff;
         transition: border-color 0.2s, box-shadow 0.2s;
     }
@@ -56,7 +58,7 @@
     .select2-container--default .select2-selection--single .select2-selection__rendered {
         line-height: 36px !important;
         padding-left: 8px !important;
-        color: #888 !important;
+        color: #000000 !important;
         font-size: 13px !important;
     }
     .select2-container--default .select2-selection--single .select2-selection__arrow {
@@ -84,7 +86,7 @@
     .btn-back-main {
         background-color: #cfece0 !important;
         border: 1px solid #b5e4d2 !important;
-        color: #888 !important;
+        color: #000000 !important;
         border-radius: 50px !important;
         font-weight: 600;
         font-size: 13px;
@@ -96,7 +98,7 @@
     }
     .btn-back-main:hover {
         background-color: #bce7d6 !important;
-        color: #888 !important;
+        color: #000000 !important;
     }
     .btn-add-pill {
         background-color: #f89884 !important;
@@ -132,7 +134,7 @@
     .pay-mode-btn.active {
         background-color: #cfece0 !important;
         border-color: #f89884 !important;
-        color: #888 !important;
+        color: #000000 !important;
         box-shadow: 0 0 0 2px rgba(248, 152, 132, 0.3);
     }
     .pay-mode-btn:hover {
@@ -179,6 +181,9 @@
     }
     .search-input-wrap input {
         padding-left: 42px !important;
+    }
+    .form-control::placeholder, .form-select::placeholder, textarea.form-control::placeholder {
+        color: #94a3b8 !important;
     }
 </style>
 
