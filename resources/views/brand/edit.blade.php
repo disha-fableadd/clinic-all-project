@@ -28,7 +28,7 @@
         border-radius: 50px !important;
         padding: 8px 18px !important;
         font-size: 14px !important;
-        color: #888 !important;
+        color: #000000 !important;
         background-color: #ffffff;
         box-shadow: none !important;
         transition: border-color 0.2s, box-shadow 0.2s;
@@ -61,7 +61,7 @@
     .btn-cancel-main {
         background-color: #cfece0 !important;
         border-color: #b5e4d2 !important;
-        color: #888 !important;
+        color: #000000 !important;
         font-weight: 600;
         font-size: 14px;
         padding: 10px 26px !important;
@@ -70,12 +70,12 @@
     }
     .btn-cancel-main:hover {
         background-color: #bce7d6 !important;
-        color: #888 !important;
+        color: #000000 !important;
     }
     .btn-back-main {
         background-color: #cfece0 !important;
         border: 1px solid #b5e4d2 !important;
-        color: #888 !important;
+        color: #000000 !important;
         border-radius: 50px !important;
         font-weight: 600;
         font-size: 13.5px;
@@ -84,7 +84,10 @@
     }
     .btn-back-main:hover {
         background-color: #bce7d6 !important;
-        color: #888 !important;
+        color: #000000 !important;
+    }
+    .form-control::placeholder, .form-select::placeholder, textarea.form-control::placeholder {
+        color: #94a3b8 !important;
     }
 </style>
 
