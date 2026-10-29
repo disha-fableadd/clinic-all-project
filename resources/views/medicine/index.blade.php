@@ -225,6 +225,7 @@
         // Load medicines
         $(document).ready(function() {
             let branchId = localStorage.getItem('selectedBranchId');
+            let token = localStorage.getItem('token');
             let medicineTable;
 
             function ucfirst(str) {
@@ -272,17 +273,23 @@
                                     branch_id: branchId,
                                     page: page,
                                     per_page: perPage,
+                                    draw: data.draw,
+                                    start: data.start,
+                                    length: data.length,
                                     search: data.search?.value || ''
                                 },
                                 headers: {
-                                    "Authorization": "Bearer " + token
+                                    "Authorization": "Bearer " + (token || localStorage.getItem('token'))
                                 },
                                 success: function (response) {
+                                    const list = response.data || response.medicines || (Array.isArray(response) ? response : []);
+                                    const total = response.recordsTotal ?? response.pagination?.total ?? list.length;
+                                    const filtered = response.recordsFiltered ?? response.pagination?.total ?? list.length;
                                     callback({
-                                        draw: data.draw,
-                                        recordsTotal: response.pagination?.total || response.recordsTotal || 0,
-                                        recordsFiltered: response.pagination?.total || response.recordsFiltered || 0,
-                                        data: response.data || []
+                                        draw: data.draw || response.draw || 1,
+                                        recordsTotal: total,
+                                        recordsFiltered: filtered,
+                                        data: list
                                     });
                                 },
                                 error: function (xhr, status, error) {
@@ -300,13 +307,15 @@
                             {
                                 data: null,
                                 render: function (data, type, row) {
+                                    const defaultImg = '{{ asset(env('IMAGE_PATH') . 'admin/assets/img/default.webp') }}';
+                                    const imgSrc = (row.image && row.image.trim() !== '') ? row.image : defaultImg;
                                     return `
-                                        <div class="view-medicine" data-id="${row.id}" style="cursor:pointer">
-                                            <img src="${row.image}"
-                                                onerror="this.onerror=null; this.src='{{ asset(env('IMAGE_PATH') . 'admin/assets/img/default.webp') }}';"
-                                                class="rounded-circle userProfile"
+                                        <div class="view-medicine d-flex align-items-center" data-id="${row.id}" style="cursor:pointer">
+                                            <img src="${imgSrc}"
+                                                onerror="this.onerror=null; this.src='${defaultImg}';"
+                                                class="rounded-circle userProfile me-2"
                                                 alt="Medicine Image">
-                                            <span><h2>${ucfirst(row.name)}</h2></span>
+                                            <span><h2 style="font-size:14px; margin:0;">${ucfirst(row.name)}</h2></span>
                                         </div>
                                     `;
                                 }
@@ -318,14 +327,14 @@
                                 }
                             },
                             {
-                                data: "brand_name",
+                                data: "batch_no",
                                 render: function (data, type, row) {
                                     return `<span class="view-medicine d-none d-md-table-cell" data-id="${row.id}">${data || 'N/A'}</span>`;
                                 },
                                 className: "d-none d-md-table-cell"
                             },
                             {
-                                data: "batch_no",
+                                data: "brand_name",
                                 render: function (data, type, row) {
                                     return `<span class="view-medicine d-none d-md-table-cell" data-id="${row.id}">${data || 'N/A'}</span>`;
                                 },
