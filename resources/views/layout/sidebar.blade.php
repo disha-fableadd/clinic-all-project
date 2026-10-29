@@ -523,7 +523,40 @@
                     </li>
                 @endif
 
-                {{-- Expense --}}
+                                {{-- Sale Bill --}}
+                <li class="submenu {{ request()->routeIs('sales.*') ? 'active' : '' }}">
+                    <a href="#"><i class="fa fa-shopping-cart"></i> <span>Sale Bill</span><span class="menu-arrow"></span></a>
+                    <ul style="{{ request()->routeIs('sales.*') ? 'display: block;' : 'display: none;' }}">
+                        <li class="menu-link1 {{ request()->routeIs('sales.list') ? 'active' : '' }} mt-1">
+                            <a href="{{ route('sales.list') }}">
+                                <i class="fa fa-receipt icons"></i><span style="padding-left: 5px;">All Sale Bill</span>
+                            </a>
+                        </li>
+                        <li class="menu-link1 {{ request()->routeIs('sales.add') ? 'active' : '' }} mt-1">
+                            <a href="{{ route('sales.add') }}">
+                                <i class="fa fa-plus-circle icons"></i><span style="padding-left: 5px;">New Sale Bill</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {{-- Purchase Bill --}}
+                <li class="submenu {{ request()->routeIs('purchase.*') ? 'active' : '' }}">
+                    <a href="#"><i class="fa fa-file-invoice-dollar"></i> <span>Purchase Bill</span><span class="menu-arrow"></span></a>
+                    <ul style="{{ request()->routeIs('purchase.*') ? 'display: block;' : 'display: none;' }}">
+                        <li class="menu-link1 {{ request()->routeIs('purchase.lists') ? 'active' : '' }} mt-1">
+                            <a href="{{ route('purchase.lists') }}">
+                                <i class="fa fa-list icons"></i><span style="padding-left: 5px;">All Purchase Bill</span>
+                            </a>
+                        </li>
+                        <li class="menu-link1 {{ request()->routeIs('purchase.add') ? 'active' : '' }} mt-1">
+                            <a href="{{ route('purchase.add') }}">
+                                <i class="fa fa-plus-circle icons"></i><span style="padding-left: 5px;">New Purchase Bill</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+{{-- Expense --}}
 
                 @if (app('hasPermission')(33, 'view'))
 

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use App\Http\Controllers\api\AiOptimizeController;
 use App\Http\Controllers\Api\CategoryController;
@@ -650,3 +650,17 @@ Route::middleware('auth:sanctum')->get('/patients/filter', [PatientController::c
 
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword']); //done
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);//done
+
+
+// Sales API Routes
+Route::post('/order_sale', [\App\Http\Controllers\Api\SalesController::class, 'order_sale']);
+Route::get('/get_orders', [\App\Http\Controllers\Api\SalesController::class, 'get_orders']);
+Route::get('/getsalseById/{id}', [\App\Http\Controllers\Api\SalesController::class, 'getsalseById']);
+Route::match(['post', 'delete'], '/sales/delete/{id}', [\App\Http\Controllers\Api\SalesController::class, 'delete']);
+Route::post('/sales/make-payment', [\App\Http\Controllers\Api\SalesController::class, 'makePaymentSubmit'])->name('api.sales.make-payment');
+
+// Purchase API Routes
+Route::post('/purchase_order', [\App\Http\Controllers\Api\PurchaseController::class, 'purchase_order']);
+Route::get('/purchase_list', [\App\Http\Controllers\Api\PurchaseController::class, 'purchase_list']);
+Route::get('/purchase_get/{id}', [\App\Http\Controllers\Api\PurchaseController::class, 'showPurchase']);
+Route::match(['post', 'delete'], '/purchase_delete', [\App\Http\Controllers\Api\PurchaseController::class, 'purchase_delete']);

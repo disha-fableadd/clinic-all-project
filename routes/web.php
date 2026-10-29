@@ -64,6 +64,8 @@ use App\Http\Controllers\MedicineUnitController;
 use App\Http\Controllers\TaxRateController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\AccountLedgerController;
+use App\Http\Controllers\SalesController;
+use App\Http\Controllers\PurchaseController;
 
 
 
@@ -214,6 +216,19 @@ Route::middleware(['session.auth', 'check.permission'])->group(function () {
 
     // Account Ledger
     Route::get('/account-ledger', [AccountLedgerController::class, 'index'])->name('account_ledger.index');
+
+    // Sales Bill
+    Route::get('/sales', [SalesController::class, 'sales_list'])->name('sales.list');
+    Route::get('/add-sales', [SalesController::class, 'pos'])->name('sales.add');
+    Route::get('/edit-sales/{id}', [SalesController::class, 'edit_sales'])->name('sales.edit');
+    Route::get('/sales-invoice/{id}', [SalesController::class, 'salse_invoice'])->name('sales.invoice');
+    Route::get('/sales-details/{id}', [SalesController::class, 'sales_details'])->name('sales.details');
+
+    // Purchase Bill
+    Route::get('/purchase-list', [PurchaseController::class, 'purchase_list'])->name('purchase.lists');
+    Route::get('/add-purchase', [PurchaseController::class, 'add_purchase'])->name('purchase.add');
+    Route::get('/edit-purchase/{id}', [PurchaseController::class, 'edit_purchase'])->name('purchase.edit');
+    Route::get('/purchase-invoice/{id}', [PurchaseController::class, 'purchase_invoice'])->name('purchase.invoice');
 
     //medicine unit
     Route::get('medicine_unit', [MedicineUnitController::class, 'index'])->name('medicine_unit.index');
@@ -804,5 +819,6 @@ Route::middleware(['session.auth', 'check.permission'])->group(function () {
     // Route::get('/export/home-advice', [HomeAdviceController::class, 'exportCsv'])->name('homeadvice.export');
     Route::get('/soap/export', [SoapController::class, 'exportCsv'])->name('soap.export');
 });
+
 
 
