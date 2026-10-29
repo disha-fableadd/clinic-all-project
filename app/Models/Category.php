@@ -5,3 +5,4 @@ namespace App\Models;
 class Category extends Categories
 {
 }
+

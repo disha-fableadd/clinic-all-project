@@ -554,6 +554,11 @@
                                 <i class="fa fa-plus-circle icons"></i><span style="padding-left: 5px;">New Purchase Bill</span>
                             </a>
                         </li>
+                        <li class="menu-link1 {{ request()->routeIs('purchase.ai-bill') ? 'active' : '' }} mt-1">
+                            <a href="{{ route('purchase.ai-bill') }}">
+                                <i class="fa fa-file-text-o icons"></i><span style="padding-left: 5px;">AI Bill Upload</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 {{-- Expense --}}

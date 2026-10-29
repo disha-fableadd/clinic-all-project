@@ -82,5 +82,33 @@ class PurchaseController extends Controller
 
         return view('purchase.editpurchase', compact('invoice', 'vendors', 'categories', 'brands', 'taxes', 'medicines', 'banks'));
     }
+
+    public function storeBankAjax(Request $request)
+    {
+        $validated = $request->validate([
+            'bank_name' => 'required|string|max:255',
+            'account_number' => 'required|string|max:255',
+            'ifsc_code' => 'nullable|string|max:255',
+            'branch_name' => 'nullable|string|max:255',
+            'opening_balance' => 'nullable|numeric|min:0',
+        ]);
+
+        $bank = BankMaster::create([
+            'bank_name' => $validated['bank_name'],
+            'name' => $validated['bank_name'],
+            'account_number' => $validated['account_number'],
+            'ifsc_code' => $validated['ifsc_code'] ?? '',
+            'branch_name' => $validated['branch_name'] ?? '',
+            'opening_balance' => $validated['opening_balance'] ?? 0,
+            'status' => 1,
+            'isDeleted' => 0,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'bank' => $bank,
+            'message' => 'Bank account added successfully.'
+        ]);
+    }
 }
 

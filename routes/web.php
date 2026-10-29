@@ -66,6 +66,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\AccountLedgerController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\PurchaseAiBillController;
 
 
 
@@ -229,6 +230,10 @@ Route::middleware(['session.auth', 'check.permission'])->group(function () {
     Route::get('/add-purchase', [PurchaseController::class, 'add_purchase'])->name('purchase.add');
     Route::get('/edit-purchase/{id}', [PurchaseController::class, 'edit_purchase'])->name('purchase.edit');
     Route::get('/purchase-invoice/{id}', [PurchaseController::class, 'purchase_invoice'])->name('purchase.invoice');
+    Route::get('/ai-purchase-bill', [PurchaseAiBillController::class, 'index'])->name('purchase.ai-bill');
+    Route::post('/ai-purchase-bill/parse', [PurchaseAiBillController::class, 'parse'])->name('purchase.ai-bill.parse');
+    Route::post('/ai-purchase-bill/merge', [PurchaseAiBillController::class, 'mergePages'])->name('purchase.ai-bill.merge');
+    Route::post('/banks/ajax-store', [PurchaseController::class, 'storeBankAjax'])->name('banks.ajax_store');
 
     //medicine unit
     Route::get('medicine_unit', [MedicineUnitController::class, 'index'])->name('medicine_unit.index');
