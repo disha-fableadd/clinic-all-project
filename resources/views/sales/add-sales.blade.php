@@ -188,18 +188,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
             <div class="d-flex align-items-center gap-3 flex-wrap">
                 <h4 class="page-title mb-0" style="font-weight: 700; font-size: 21px; color: #1e293b;">Add Sale</h4>
-                <div class="form-check form-check-inline ms-2">
-                    <input class="form-check-input" type="checkbox" id="chkMedicalReport">
-                    <label class="form-check-label" for="chkMedicalReport" style="font-size: 13px; font-weight: 600;">Medical Report</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="chkChallan">
-                    <label class="form-check-label" for="chkChallan" style="font-size: 13px; font-weight: 600;">Challan</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="chkCustom">
-                    <label class="form-check-label" for="chkCustom" style="font-size: 13px; font-weight: 600;">Custom</label>
-                </div>
+                
                 <div class="d-inline-flex align-items-center gap-2 border-start ps-3">
                     <div class="form-check form-check-inline mb-0">
                         <input class="form-check-input" type="radio" name="gst_option" id="radioNoGst" value="without_gst">
@@ -573,7 +562,7 @@
 <script>
     const allMedicines = @json($medicines);
     let selectedItems = [];
-    const token = '{{ csrf_token() }}';
+    // CSRF handled directly in ajax
     const branchId = '{{ session("selectedBranchId") ?? (Auth::user()->branch_id ?? 1) }}';
 
     $(document).ready(function() {
@@ -889,7 +878,8 @@
             url: '{{ url("api/order_sale") }}',
             type: 'POST',
             headers: {
-                'Authorization': 'Bearer ' + token,
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Authorization': 'Bearer ' + (typeof token !== 'undefined' ? token : ''),
                 'Accept': 'application/json'
             },
             data: payload,

@@ -18,9 +18,9 @@
         margin-bottom: 22px !important;
     }
     .form-group label {
-        font-size: 13.5px;
-        font-weight: 600;
-        color: #212b36;
+        font-size: 14px;
+        /* font-weight: 600; */
+        color: #666666;
         margin-bottom: 8px;
         display: block;
     }
@@ -48,7 +48,7 @@
         border-radius: 50px !important;
         padding: 8px 18px !important;
         font-size: 14px !important;
-        color: #1e293b !important;
+        color: #666666 !important;
         background-color: #ffffff;
         box-shadow: none !important;
         transition: border-color 0.2s, box-shadow 0.2s;
@@ -146,6 +146,7 @@
         font-size: 13.5px;
         height: 42px;
         transition: all 0.2s;
+        margin-left: 5px;
     }
     #addBarcodeBtn:hover {
         background-color: #bce7d6 !important;
@@ -160,6 +161,7 @@
         font-size: 13.5px;
         height: 42px;
         transition: all 0.2s;
+        margin-left: 5px;
     }
     #generateBarcodeBtn:hover {
         background-color: #e58774 !important;
@@ -174,6 +176,8 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        margin-left: 5px;
+        
     }
     .btn-barcode-scan:hover {
         background: #fff3f0 !important;
@@ -188,6 +192,7 @@
         padding: 6px 14px;
         font-size: 13px;
         font-weight: 600;
+
     }
     .barcode-chip .remove-barcode {
         margin-left: 8px;
@@ -313,37 +318,28 @@
             <div class="card-body">
                 <form id="medicineForm" enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="service_type" id="service_type" value="Medicine">
                     <div class="row">
                         <!-- Row 1 -->
-                        <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="col-lg-4 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Product Type</label>
-                                <select class="form-control" name="service_type" id="service_type">
-                                    <option value="Medicine" selected>Medicine</option>
-                                    <option value="Services">Services</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>Category <span class="add-badge" id="quickAddCategoryBtn">Add Category</span></label>
+                                <label>Category <span class="add-badge" id="quickAddCategoryBtn">Add</span></label>
                                 <select class="form-control select2" name="category_id" id="category_id" required>
                                     <option value="">Select or Add Category</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="col-lg-4 col-sm-6 col-12">
                             <div class="form-group">
-                                <label id="product_name_label">Product name <span class="text-danger">*</span></label>
+                                <label id="product_name_label">Medicine Name <span class="text-danger">*</span></label>
                                 <input type="text" name="name" id="name" class="form-control" placeholder="Enter medicine name" required>
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-sm-6 col-12" id="brand_container">
+                        <div class="col-lg-4 col-sm-6 col-12" id="brand_container">
                             <div class="form-group">
-                                <label>Brand <span class="add-badge" id="quickAddBrandBtn">Add Brand</span></label>
+                                <label>Brand <span class="add-badge" id="quickAddBrandBtn">Add</span></label>
                                 <select class="form-control select2" name="brand_id" id="brand_id">
                                     <option value="">Select or Add Brand</option>
                                 </select>
@@ -367,7 +363,7 @@
 
                         <div class="col-lg-3 col-sm-6 col-12" id="stock_unit_container">
                             <div class="form-group">
-                                <label>Stock Unit <span class="add-badge" id="quickAddUnitBtn">Add Unit</span></label>
+                                <label>Stock Unit <span class="add-badge" id="quickAddUnitBtn">Add</span></label>
                                 <select class="form-control select2" name="stock_unit_id" id="stock_unit_id">
                                     <option value="">Select or Add Stock Unit</option>
                                 </select>
@@ -386,7 +382,7 @@
 
                         <div class="col-lg-3 col-sm-6 col-12" id="gst_dropdown_container" style="display: none;">
                             <div class="form-group">
-                                <label>Product GST <span class="add-badge" id="quickAddTaxBtn">Add Tax</span></label>
+                                <label>Medicine GST <span class="add-badge" id="quickAddTaxBtn">Add</span></label>
                                 <select class="form-control select2" name="product_gst[]" id="product_gst" multiple>
                                     <option value="">Choose GST Rate</option>
                                 </select>
@@ -532,7 +528,7 @@
 
                         <div class="col-lg-6 col-sm-12 col-12">
                             <div class="form-group">
-                                <label id="product_image_label">Product Image</label>
+                                <label id="product_image_label">Medicine Image</label>
                                 <div class="image-upload-wrap">
                                     <input type="file" name="image" id="image" accept="image/*">
                                     <div class="upload-content">
@@ -541,6 +537,41 @@
                                     </div>
                                 </div>
                                 <div id="image_name_preview" class="mt-2 text-success fw-bold" style="font-size: 13px;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Medicine Documentation (Optional) -->
+                        <div class="col-lg-12 mt-2" id="product_documentation_container">
+                            <div class="card mb-3" style="border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: none;">
+                                <div class="card-header bg-white py-3" style="border-bottom: 1px solid #edf2f7; border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                                    <h6 class="mb-0 fw-bold" style="color: #334155; font-size: 15px;">Medicine Documentation (Optional)</h6>
+                                </div>
+                                <div class="card-body" id="documentationContainer" style="padding: 20px;">
+                                    <div class="documentation-row border p-3" style="border-radius: 14px; background-color: #fbfdff;">
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3 mb-md-0">
+                                                <label class="form-label fw-bold" style="font-size: 13px; color: #475569;">Batch Number</label>
+                                                <input type="text" name="documentations[0][batch_number]"
+                                                    class="form-control" placeholder="Enter Batch Number"
+                                                    style="border-radius: 50px !important;">
+                                                <span class="error_documentations text-danger"></span>
+                                            </div>
+                                            <div class="col-md-4 mb-3 mb-md-0">
+                                                <label class="form-label fw-bold" style="font-size: 13px; color: #475569;">Manufacturing Date</label>
+                                                <input type="month" name="documentations[0][mfg_date]"
+                                                    class="form-control"
+                                                    style="border-radius: 50px !important;">
+                                            </div>
+                                            <div class="col-md-4 mb-0">
+                                                <label class="form-label fw-bold" style="font-size: 13px; color: #475569;">Upload COA (PDF)</label>
+                                                <input type="file" name="documentations[0][coa_pdfs][]"
+                                                    class="form-control" accept="application/pdf" multiple
+                                                    style="border-radius: 50px !important; padding: 6px 16px;">
+                                                <small class="text-muted d-block mt-1" style="font-size: 12px;">Max size 15MB</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -561,10 +592,12 @@
 <!-- Reusable Quick Add Modal for Category / Brand / Unit -->
 <div class="modal fade" id="quickAddModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 10px; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-            <div class="modal-header" style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 16px 20px;">
-                <h5 class="modal-title fw-bold" id="quickAddModalTitle" style="color: #1e293b; font-size: 16px;">Add New</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 16px 20px;">
+                <h5 class="modal-title fw-bold mb-0" id="quickAddModalTitle" style="color: #1e293b; font-size: 16px;">Add New</h5>
+                <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="background: transparent; border: none; font-size: 24px; font-weight: 400; line-height: 1; color: #64748b; cursor: pointer; padding: 0 4px; outline: none; opacity: 0.8; transition: opacity 0.2s;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body" style="padding: 20px;">
                 <input type="hidden" id="quickAddType">
@@ -603,56 +636,69 @@
         });
 
         // 1. Load Dropdowns
-        function loadCategories() {
-            $.ajax({
+        function loadCategories(selectedId = null) {
+            return $.ajax({
                 url: '{{ url("api/categories") }}',
                 type: 'GET',
                 headers: { 'Authorization': 'Bearer ' + token },
                 data: { branch_id: branchId },
                 success: function(res) {
-                    if (res.status && res.categories) {
-                        let html = '<option value="">Select or Add Category</option>';
-                        res.categories.forEach(c => {
-                            html += `<option value="${c.id}">${c.name}</option>`;
-                        });
-                        $('#category_id').html(html);
+                    const list = res.categories || (Array.isArray(res) ? res : []);
+                    let html = '<option value="">Select or Add Category</option>';
+                    list.forEach(c => {
+                        const isSel = selectedId && (String(c.id) === String(selectedId));
+                        html += `<option value="${c.id}" ${isSel ? 'selected' : ''}>${c.name}</option>`;
+                    });
+                    $('#category_id').html(html);
+                    if (selectedId) {
+                        $('#category_id').val(selectedId);
                     }
+                    $('#category_id').trigger('change');
                 }
             });
         }
 
-        function loadBrands() {
-            $.ajax({
+        function loadBrands(selectedId = null) {
+            return $.ajax({
                 url: '{{ url("api/brands") }}',
                 type: 'GET',
                 headers: { 'Authorization': 'Bearer ' + token },
                 data: { branch_id: branchId },
                 success: function(res) {
-                    if (res.status && res.brands) {
-                        let html = '<option value="">Select or Add Brand</option>';
-                        res.brands.forEach(b => {
-                            html += `<option value="${b.id}">${b.name}</option>`;
-                        });
-                        $('#brand_id').html(html);
+                    const list = res.brands || (Array.isArray(res) ? res : []);
+                    let html = '<option value="">Select or Add Brand</option>';
+                    list.forEach(b => {
+                        const isSel = selectedId && (String(b.id) === String(selectedId));
+                        html += `<option value="${b.id}" ${isSel ? 'selected' : ''}>${b.name}</option>`;
+                    });
+                    $('#brand_id').html(html);
+                    if (selectedId) {
+                        $('#brand_id').val(selectedId);
                     }
+                    $('#brand_id').trigger('change');
                 }
             });
         }
 
-        function loadStockUnits() {
-            $.ajax({
+        function loadStockUnits(selectedId = null) {
+            return $.ajax({
                 url: '{{ url("api/stock-units") }}',
                 type: 'GET',
                 headers: { 'Authorization': 'Bearer ' + token },
                 data: { branch_id: branchId },
                 success: function(res) {
-                    if (res.status && res.stock_units) {
-                        let html = '<option value="">Select or Add Stock Unit</option>';
-                        res.stock_units.forEach(u => {
-                            html += `<option value="${u.id}">${u.name} (${u.short_name || u.name})</option>`;
-                        });
-                        $('#stock_unit_id').html(html);
+                    const list = res.stock_units || (Array.isArray(res) ? res : []);
+                    let html = '<option value="">Select or Add Stock Unit</option>';
+                    list.forEach(u => {
+                        const isSel = selectedId && (String(u.id) === String(selectedId));
+                        const label = u.short_name ? `${u.name} (${u.short_name})` : u.name;
+                        html += `<option value="${u.id}" ${isSel ? 'selected' : ''}>${label}</option>`;
+                    });
+                    $('#stock_unit_id').html(html);
+                    if (selectedId) {
+                        $('#stock_unit_id').val(selectedId);
                     }
+                    $('#stock_unit_id').trigger('change');
                 }
             });
         }
@@ -797,6 +843,10 @@
             $('#quickAddModal').modal('show');
         });
 
+        $('#quickAddModal [data-dismiss="modal"], #quickAddModal [data-bs-dismiss="modal"]').on('click', function() {
+            $('#quickAddModal').modal('hide');
+        });
+
         $('#saveQuickAddBtn').on('click', function() {
             const type = $('#quickAddType').val();
             const name = $('#quickAddName').val().trim();
@@ -816,31 +866,46 @@
             } else if (type === 'brand') {
                 endpoint = '{{ url("api/brands") }}';
                 payload.description = desc;
-            } else if (type === 'unit') {
+            } else if (type === 'unit' || type === 'stock_unit') {
                 endpoint = '{{ url("api/stock-units") }}';
-                payload.short_name = desc;
+                payload.short_name = desc || name;
             }
+
+            const $btn = $(this);
+            $btn.prop('disabled', true).text('Saving...');
+            $('.error-quick-add').text('');
 
             $.ajax({
                 url: endpoint,
                 type: 'POST',
-                headers: { 'Authorization': 'Bearer ' + token },
+                headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' },
                 data: payload,
                 success: function(res) {
+                    $btn.prop('disabled', false).text('Save');
                     $('#quickAddModal').modal('hide');
+
                     if (type === 'category') {
-                        loadCategories();
-                        setTimeout(() => $('#category_id').val(res.category ? res.category.id : res.id).trigger('change'), 400);
+                        const newId = (res.category && res.category.id) ? res.category.id : res.id;
+                        loadCategories(newId);
                     } else if (type === 'brand') {
-                        loadBrands();
-                        setTimeout(() => $('#brand_id').val(res.brand ? res.brand.id : res.id).trigger('change'), 400);
-                    } else if (type === 'unit') {
-                        loadStockUnits();
-                        setTimeout(() => $('#stock_unit_id').val(res.stock_unit ? res.stock_unit.id : res.id).trigger('change'), 400);
+                        const newId = (res.brand && res.brand.id) ? res.brand.id : res.id;
+                        loadBrands(newId);
+                    } else if (type === 'unit' || type === 'stock_unit') {
+                        const newId = (res.stock_unit && res.stock_unit.id) ? res.stock_unit.id : res.id;
+                        loadStockUnits(newId);
                     }
                 },
                 error: function(err) {
-                    $('.error-quick-add').text(err.responseJSON ? err.responseJSON.message : 'Error adding item');
+                    $btn.prop('disabled', false).text('Save');
+                    let msg = 'Error adding item';
+                    if (err.responseJSON) {
+                        if (err.responseJSON.message) {
+                            msg = err.responseJSON.message;
+                        } else if (err.responseJSON.errors) {
+                            msg = Object.values(err.responseJSON.errors).flat().join(', ');
+                        }
+                    }
+                    $('.error-quick-add').text(msg);
                 }
             });
         });

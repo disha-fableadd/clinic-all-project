@@ -508,16 +508,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // }); 
 
 
-    Route::get('/categories', function (Request $request) {
-        $query = Categories::query();
-
-        // ✅ Only fetch categories for this branch
-        if ($request->filled('branch_id')) {
-            $query->where('branch_id', $request->branch_id);
-        }
-
-        return response()->json($query->orderBy('name')->get());
-    });
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::post('/categories', [CategoryController::class, 'store']);
 
     Route::get('total-followup', [UserController::class, 'getTodayfollowup']); //done
     Route::get('total-today-appointment', [UserController::class, 'getTodayAppointment']); //done

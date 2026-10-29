@@ -8,6 +8,7 @@ use App\Models\Medicine;
 use App\Models\Brand;
 use App\Models\StockUnit;
 use App\Models\ProductBarcode;
+use App\Models\ProductDocumentation;
 use App\Models\TaxRate;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
@@ -219,7 +220,7 @@ class MedicineController extends Controller
 
     public function show($id)
     {
-        $medicine = Medicine::with(['category', 'brand', 'stockUnit', 'barcodes'])->find($id);
+        $medicine = Medicine::with(['category', 'brand', 'stockUnit', 'barcodes', 'documentations'])->find($id);
 
         if (!$medicine) {
             return response()->json(['message' => 'Medicine not found'], 404);
@@ -376,6 +377,49 @@ class MedicineController extends Controller
                 'image' => $imagePath,
             ]);
 
+            
+            // Product Documentation (Optional)
+            if ($request->has('documentations') && is_array($request->documentations)) {
+                $docDir = public_path('uploads/coa_pdfs');
+                if (!File::exists($docDir)) {
+                    File::makeDirectory($docDir, 0777, true, true);
+                }
+
+                foreach ($request->documentations as $index => $docData) {
+                    if (empty($docData['batch_number']) && empty($docData['mfg_date']) && empty($docData['expiry_date']) && !$request->hasFile("documentations.$index.coa_pdfs")) {
+                        continue;
+                    }
+
+                    $coaPaths = [];
+                    if ($request->hasFile("documentations.$index.coa_pdfs")) {
+                        foreach ($request->file("documentations.$index.coa_pdfs") as $pdf) {
+                            $filename = time() . '_' . uniqid() . '.' . $pdf->getClientOriginalExtension();
+                            $pdf->move($docDir, $filename);
+                            $coaPaths[] = 'uploads/coa_pdfs/' . $filename;
+                        }
+                    }
+
+                    $mfgDate = $docData['mfg_date'] ?? null;
+                    if (!empty($mfgDate) && strlen($mfgDate) === 7) {
+                        $mfgDate .= '-01';
+                    }
+
+                    $expDate = $docData['expiry_date'] ?? null;
+                    if (!empty($expDate) && strlen($expDate) === 7) {
+                        $expDate .= '-01';
+                    }
+
+                    ProductDocumentation::create([
+                        'product_id' => $medicine->id,
+                        'batch_number' => $docData['batch_number'] ?? null,
+                        'mfg_date' => $mfgDate,
+                        'expiry_date' => $expDate,
+                        'coa_pdfs' => $coaPaths,
+                        'created_by' => $loggedInUserId,
+                    ]);
+                }
+            }
+
             // Save additional barcodes if provided
             if ($request->has('barcodes') && is_array($request->barcodes)) {
                 foreach ($request->barcodes as $extraBarcode) {
@@ -492,6 +536,58 @@ class MedicineController extends Controller
                 'expiry_date' => $expiryDate,
                 'image' => $imagePath,
             ]);
+
+            
+            // Product Documentation (Optional)
+            if ($request->has('documentations') && is_array($request->documentations)) {
+                $docDir = public_path('uploads/coa_pdfs');
+                if (!File::exists($docDir)) {
+                    File::makeDirectory($docDir, 0777, true, true);
+                }
+
+                foreach ($request->documentations as $index => $docData) {
+                    if (empty($docData['batch_number']) && empty($docData['mfg_date']) && empty($docData['expiry_date']) && !$request->hasFile("documentations.$index.coa_pdfs")) {
+                        continue;
+                    }
+
+                    $documentation = ProductDocumentation::where('product_id', $medicine->id)->first() ?: new ProductDocumentation();
+                    $documentation->product_id = $medicine->id;
+                    $documentation->batch_number = $docData['batch_number'] ?? $documentation->batch_number;
+
+                    $mfgDate = $docData['mfg_date'] ?? null;
+                    if (!empty($mfgDate) && strlen($mfgDate) === 7) {
+                        $mfgDate .= '-01';
+                    }
+                    if ($mfgDate) {
+                        $documentation->mfg_date = $mfgDate;
+                    }
+
+                    $expDate = $docData['expiry_date'] ?? null;
+                    if (!empty($expDate) && strlen($expDate) === 7) {
+                        $expDate .= '-01';
+                    }
+                    if ($expDate) {
+                        $documentation->expiry_date = $expDate;
+                    }
+
+                    $documentation->created_by = auth()->id() ?? $documentation->created_by;
+
+                    if ($request->hasFile("documentations.$index.coa_pdfs")) {
+                        $coaPaths = $documentation->coa_pdfs ?? [];
+                        if (!is_array($coaPaths)) {
+                            $coaPaths = json_decode($coaPaths, true) ?? [];
+                        }
+                        foreach ($request->file("documentations.$index.coa_pdfs") as $pdf) {
+                            $filename = time() . '_' . uniqid() . '.' . $pdf->getClientOriginalExtension();
+                            $pdf->move($docDir, $filename);
+                            $coaPaths[] = 'uploads/coa_pdfs/' . $filename;
+                        }
+                        $documentation->coa_pdfs = $coaPaths;
+                    }
+
+                    $documentation->save();
+                }
+            }
 
             return response()->json([
                 'status' => true,
