@@ -132,4 +132,9 @@ class Medicine extends Model
     {
         return $this->belongsTo(Branch::class, 'branch_id');
     }
+
+    public function documentations()
+    {
+        return $this->hasMany(ProductDocumentation::class, 'product_id');
+    }
 }

@@ -504,21 +504,7 @@
                                 </a>
                             </li>
 
-                            @if (app('hasPermission')(17, 'view'))
-                                <li
-                                    class="menu-link1 {{ request()->routeIs('patient_medicine.index') ? 'active' : '' }} mt-1">
-                                    <a href="{{ route('patient_medicine.index') }}">
-                                        <i class="fa fa-plus-circle icons"></i><span style="padding-left: 5px;">All
-                                            Patient
-                                            Medicine</span>
-                                    </a>
-                                </li>
-                                <li class="menu-link1 {{ request()->routeIs('codemaster.*') ? 'active' : '' }} mt-1">
-                                    <a href="{{ route('codemaster.index') }}"><i
-                                            class="fa fa-prescription-bottle-medical"></i><span
-                                            style="padding-left: 5px;">Code </span></a>
-                                </li>
-                            @endif
+                           
                         </ul>
                     </li>
                 @endif
@@ -1139,49 +1125,7 @@
                     </li>
                 @endif
 
-                @if (app('hasPermission')(11, 'view'))
-
-                    <li class="submenu {{ request()->routeIs('inventory.*') ? 'active' : '' }}">
-
-                        <a href="#"><i class="fa fa-cogs"></i> <span>Inventory</span><span
-                                class="menu-arrow"></span></a>
-
-                        <ul style="{{ request()->routeIs('inventory.*') ? 'display: block;' : 'display: none;' }}">
-
-                            @if (app('hasPermission')(11, 'view'))
-                                <li
-                                    class="menu-link1 {{ request()->routeIs('inventory.index') ? 'active' : '' }} mt-1">
-
-                                    <a href="{{ route('inventory.index') }}"><i class="fa fa-cogs icons"></i><span
-                                            style="
-
-                                                                                                                                                                                                                                                                            padding-left: 5px;">All
-
-                                            Inventory</span></a>
-
-                                </li>
-                            @endif
-
-                            {{-- @if (app('hasPermission')(11, 'create'))
-                                <li
-                                    class="menu-link1 {{ request()->routeIs('inventory.create') ? 'active' : '' }} mt-1">
-
-                                    <a href="{{ route('inventory.create') }}"><i
-                                            class="fa fa-plus-circle icons"></i><span
-                                            style="
-
-                                                                                                                                                                                                                                                                            padding-left: 5px;">Add
-
-                                            Inventory</span></a>
-
-                                </li>
-                            @endif --}}
-
-                        </ul>
-
-                    </li>
-
-                @endif
+               
 
                 @if (app('hasPermission')(12, 'view'))
 

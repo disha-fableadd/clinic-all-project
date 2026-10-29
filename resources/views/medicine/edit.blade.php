@@ -17,10 +17,10 @@
     .form-group {
         margin-bottom: 22px !important;
     }
-    .form-group label {
-        font-size: 13.5px;
-        font-weight: 600;
-        color: #212b36;
+   .form-group label {
+        font-size: 14px;
+        /* font-weight: 600; */
+        color: #666666;
         margin-bottom: 8px;
         display: block;
     }
@@ -146,6 +146,7 @@
         font-size: 13.5px;
         height: 42px;
         transition: all 0.2s;
+         margin-left: 5px;
     }
     #addBarcodeBtn:hover {
         background-color: #bce7d6 !important;
@@ -160,6 +161,7 @@
         font-size: 13.5px;
         height: 42px;
         transition: all 0.2s;
+         margin-left: 5px;
     }
     #generateBarcodeBtn:hover {
         background-color: #e58774 !important;
@@ -174,6 +176,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+         margin-left: 5px;
     }
     .btn-barcode-scan:hover {
         background: #fff3f0 !important;
@@ -314,37 +317,28 @@
                 <form id="medicineEditForm" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" id="medicine_id" value="{{ $id }}">
+                    <input type="hidden" name="service_type" id="service_type" value="Medicine">
                     <div class="row">
                         <!-- Row 1 -->
-                        <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="col-lg-4 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Product Type</label>
-                                <select class="form-control" name="service_type" id="service_type">
-                                    <option value="Medicine">Medicine</option>
-                                    <option value="Services">Services</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>Category <span class="add-badge" id="quickAddCategoryBtn">Add Category</span></label>
+                                <label>Category <span class="add-badge" id="quickAddCategoryBtn">Add</span></label>
                                 <select class="form-control select2" name="category_id" id="category_id" required>
                                     <option value="">Select or Add Category</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="col-lg-4 col-sm-6 col-12">
                             <div class="form-group">
-                                <label id="product_name_label">Product name <span class="text-danger">*</span></label>
+                                <label id="product_name_label">Medicine Name <span class="text-danger">*</span></label>
                                 <input type="text" name="name" id="name" class="form-control" placeholder="Enter medicine name" required>
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-sm-6 col-12" id="brand_container">
+                        <div class="col-lg-4 col-sm-6 col-12" id="brand_container">
                             <div class="form-group">
-                                <label>Brand <span class="add-badge" id="quickAddBrandBtn">Add Brand</span></label>
+                                <label>Brand <span class="add-badge" id="quickAddBrandBtn">Add</span></label>
                                 <select class="form-control select2" name="brand_id" id="brand_id">
                                     <option value="">Select or Add Brand</option>
                                 </select>
@@ -368,7 +362,7 @@
 
                         <div class="col-lg-3 col-sm-6 col-12" id="stock_unit_container">
                             <div class="form-group">
-                                <label>Stock Unit <span class="add-badge" id="quickAddUnitBtn">Add Unit</span></label>
+                                <label>Stock Unit <span class="add-badge" id="quickAddUnitBtn">Add</span></label>
                                 <select class="form-control select2" name="stock_unit_id" id="stock_unit_id">
                                     <option value="">Select or Add Stock Unit</option>
                                 </select>
@@ -387,7 +381,7 @@
 
                         <div class="col-lg-3 col-sm-6 col-12" id="gst_dropdown_container" style="display: none;">
                             <div class="form-group">
-                                <label>Product GST <span class="add-badge" id="quickAddTaxBtn">Add Tax</span></label>
+                                <label>Medicine GST <span class="add-badge" id="quickAddTaxBtn">Add</span></label>
                                 <select class="form-control select2" name="product_gst[]" id="product_gst" multiple>
                                     <option value="">Choose GST Rate</option>
                                 </select>
@@ -533,7 +527,7 @@
 
                         <div class="col-lg-6 col-sm-12 col-12">
                             <div class="form-group">
-                                <label id="product_image_label">Product Image</label>
+                                <label id="product_image_label">Medicine Image</label>
                                 <div class="image-upload-wrap">
                                     <input type="file" name="image" id="image" accept="image/*">
                                     <div class="upload-content">
@@ -545,6 +539,42 @@
                                 <div id="current_image_preview" class="mt-2"></div>
                             </div>
                         </div>
+                        <!-- Medicine Documentation (Optional) -->
+                        <div class="col-lg-12 mt-2" id="product_documentation_container">
+                            <div class="card mb-3" style="border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: none;">
+                                <div class="card-header bg-white py-3" style="border-bottom: 1px solid #edf2f7; border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                                    <h6 class="mb-0 fw-bold" style="color: #334155; font-size: 15px;">Medicine Documentation (Optional)</h6>
+                                </div>
+                                <div class="card-body" id="documentationContainer" style="padding: 20px;">
+                                    <div class="documentation-row border p-3" style="border-radius: 14px; background-color: #fbfdff;">
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3 mb-md-0">
+                                                <label class="form-label fw-bold" style="font-size: 13px; color: #475569;">Batch Number</label>
+                                                <input type="text" name="documentations[0][batch_number]"
+                                                    id="doc_batch_0" class="form-control" placeholder="Enter Batch Number"
+                                                    style="border-radius: 50px !important;">
+                                                <span class="error_documentations text-danger"></span>
+                                            </div>
+                                            <div class="col-md-4 mb-3 mb-md-0">
+                                                <label class="form-label fw-bold" style="font-size: 13px; color: #475569;">Manufacturing Date</label>
+                                                <input type="month" name="documentations[0][mfg_date]"
+                                                    id="doc_mfg_0" class="form-control"
+                                                    style="border-radius: 50px !important;">
+                                            </div>
+                                            <div class="col-md-4 mb-0">
+                                                <label class="form-label fw-bold" style="font-size: 13px; color: #475569;">Upload COA (PDF)</label>
+                                                <input type="file" name="documentations[0][coa_pdfs][]"
+                                                    class="form-control" accept="application/pdf" multiple
+                                                    style="border-radius: 50px !important; padding: 6px 16px;">
+                                                <small class="text-muted d-block mt-1" style="font-size: 12px;">Max size 15MB</small>
+                                                <div id="coa_preview_0" class="mt-2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Submit Actions -->
@@ -563,10 +593,12 @@
 <!-- Reusable Quick Add Modal for Category / Brand / Unit -->
 <div class="modal fade" id="quickAddModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-            <div class="modal-header" style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 16px 20px;">
-                <h5 class="modal-title fw-bold" id="quickAddModalTitle" style="color: #1e293b; font-size: 16px;">Add New</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 16px 20px;">
+                <h5 class="modal-title fw-bold mb-0" id="quickAddModalTitle" style="color: #1e293b; font-size: 16px;">Add New</h5>
+                <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="background: transparent; border: none; font-size: 24px; font-weight: 400; line-height: 1; color: #64748b; cursor: pointer; padding: 0 4px; outline: none; opacity: 0.8; transition: opacity 0.2s;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body" style="padding: 20px;">
                 <input type="hidden" id="quickAddType">
@@ -613,14 +645,17 @@
                 headers: { 'Authorization': 'Bearer ' + token },
                 data: { branch_id: branchId },
                 success: function(res) {
-                    if (res.status && res.categories) {
-                        let html = '<option value="">Select or Add Category</option>';
-                        res.categories.forEach(c => {
-                            html += `<option value="${c.id}">${c.name}</option>`;
-                        });
-                        $('#category_id').html(html);
-                        if (selectedId) $('#category_id').val(selectedId).trigger('change');
+                    const list = res.categories || (Array.isArray(res) ? res : []);
+                    let html = '<option value="">Select or Add Category</option>';
+                    list.forEach(c => {
+                        const isSel = selectedId && (String(c.id) === String(selectedId));
+                        html += `<option value="${c.id}" ${isSel ? 'selected' : ''}>${c.name}</option>`;
+                    });
+                    $('#category_id').html(html);
+                    if (selectedId) {
+                        $('#category_id').val(selectedId);
                     }
+                    $('#category_id').trigger('change');
                 }
             });
         }
@@ -632,14 +667,17 @@
                 headers: { 'Authorization': 'Bearer ' + token },
                 data: { branch_id: branchId },
                 success: function(res) {
-                    if (res.status && res.brands) {
-                        let html = '<option value="">Select or Add Brand</option>';
-                        res.brands.forEach(b => {
-                            html += `<option value="${b.id}">${b.name}</option>`;
-                        });
-                        $('#brand_id').html(html);
-                        if (selectedId) $('#brand_id').val(selectedId).trigger('change');
+                    const list = res.brands || (Array.isArray(res) ? res : []);
+                    let html = '<option value="">Select or Add Brand</option>';
+                    list.forEach(b => {
+                        const isSel = selectedId && (String(b.id) === String(selectedId));
+                        html += `<option value="${b.id}" ${isSel ? 'selected' : ''}>${b.name}</option>`;
+                    });
+                    $('#brand_id').html(html);
+                    if (selectedId) {
+                        $('#brand_id').val(selectedId);
                     }
+                    $('#brand_id').trigger('change');
                 }
             });
         }
@@ -650,14 +688,18 @@
                 type: 'GET',
                 headers: { 'Authorization': 'Bearer ' + token },
                 success: function(res) {
-                    if (res.status && res.stock_units) {
-                        let html = '<option value="">Select or Add Stock Unit</option>';
-                        res.stock_units.forEach(u => {
-                            html += `<option value="${u.id}">${u.name} (${u.short_name || u.name})</option>`;
-                        });
-                        $('#stock_unit_id').html(html);
-                        if (selectedId) $('#stock_unit_id').val(selectedId).trigger('change');
+                    const list = res.stock_units || (Array.isArray(res) ? res : []);
+                    let html = '<option value="">Select or Add Stock Unit</option>';
+                    list.forEach(u => {
+                        const isSel = selectedId && (String(u.id) === String(selectedId));
+                        const label = u.short_name ? `${u.name} (${u.short_name})` : u.name;
+                        html += `<option value="${u.id}" ${isSel ? 'selected' : ''}>${label}</option>`;
+                    });
+                    $('#stock_unit_id').html(html);
+                    if (selectedId) {
+                        $('#stock_unit_id').val(selectedId);
                     }
+                    $('#stock_unit_id').trigger('change');
                 }
             });
         }
@@ -712,6 +754,27 @@
                             `);
                         }
 
+                        
+                        // Prefill Product Documentation
+                        if (m.documentations && m.documentations.length > 0) {
+                            let doc = m.documentations[0];
+                            $("#doc_batch_0").val(doc.batch_number || m.batch_no || "");
+                            if (doc.mfg_date) {
+                                $("#doc_mfg_0").val(doc.mfg_date.substring(0, 7));
+                            }
+                            if (doc.coa_pdfs && doc.coa_pdfs.length > 0) {
+                                let coaHtml = '<div class="d-flex flex-wrap gap-2 mt-2">';
+                                doc.coa_pdfs.forEach(pdf => {
+                                    let pdfUrl = pdf.startsWith("http") ? pdf : `/${pdf}`.replace(/\/+/g, "/");
+                                    coaHtml += `<a href="${pdfUrl}" target="_blank" class="btn btn-sm" style="background:#cfece0; color:#1e293b; border-radius:50px; font-size:12px; font-weight:600;"><i class="fas fa-file-pdf text-danger me-1"></i>View COA</a>`;
+                                });
+                                coaHtml += '</div>';
+                                $("#coa_preview_0").html(coaHtml);
+                            }
+                        } else if (m.batch_no) {
+                            $("#doc_batch_0").val(m.batch_no);
+                        }
+
                         detectPackagingPattern($('#pack').val());
                     }
                 }
@@ -734,22 +797,8 @@
 
         $('#quantity, #purchase_price, #mrp').on('input change', updateStockCalculations);
 
-        // 4. Product Type Switching
-        $('#service_type').on('change', function() {
-            const isService = $(this).val() === 'Services';
-            if (isService) {
-                $('#product_name_label').html('Service name <span class="text-danger">*</span>');
-                $('#brand_container, #quantity_container, #low_stock_qty_container, #stock_unit_container, #purchase_price_container, #stock_value_container, #availability_container, #expiry_date_container, #pack_container, #pack_conversion_card').hide();
-                $('#rate_container label').text('Service Charge');
-                $('#hsn_code_label').text('SAC Code');
-            } else {
-                $('#product_name_label').html('Product name <span class="text-danger">*</span>');
-                $('#brand_container, #quantity_container, #low_stock_qty_container, #stock_unit_container, #purchase_price_container, #stock_value_container, #availability_container, #expiry_date_container, #pack_container').show();
-                $('#rate_container label').text('MRP');
-                $('#hsn_code_label').text('HSN Code');
-                detectPackagingPattern($('#pack').val());
-            }
-        });
+        // 4. Ensure Medicine Name label
+        $('#product_name_label').html('Medicine Name <span class="text-danger">*</span>');
 
         // 5. GST Toggle
         $('#gst_option').on('change', function() {
@@ -878,10 +927,29 @@
             $('#quickAddDesc').val('');
             $('#quickAddDescGroup label').text(descLabel);
             $('.error-quick-add').text('');
-            const modalEl = document.getElementById('quickAddModal');
-            const bsModal = new bootstrap.Modal(modalEl);
-            bsModal.show();
+            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                try {
+                    const modalEl = document.getElementById('quickAddModal');
+                    const bsModal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                    bsModal.show();
+                } catch(e) {
+                    $('#quickAddModal').modal('show');
+                }
+            } else {
+                $('#quickAddModal').modal('show');
+            }
         }
+
+        $('#quickAddModal [data-dismiss="modal"], #quickAddModal [data-bs-dismiss="modal"]').on('click', function() {
+            if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                try {
+                    const modalEl = document.getElementById('quickAddModal');
+                    const inst = bootstrap.Modal.getInstance(modalEl);
+                    if (inst) inst.hide();
+                } catch(e) {}
+            }
+            $('#quickAddModal').modal('hide');
+        });
 
         $('#saveQuickAddBtn').on('click', function() {
             const type = $('#quickAddType').val();
@@ -916,14 +984,19 @@
                 data: payload,
                 success: function(res) {
                     $('#saveQuickAddBtn').prop('disabled', false).text('Save');
-                    bootstrap.Modal.getInstance(document.getElementById('quickAddModal')).hide();
+                    const modalEl = document.getElementById('quickAddModal');
+                    const bsModal = bootstrap.Modal.getInstance(modalEl);
+                    if (bsModal) bsModal.hide(); else $('#quickAddModal').modal('hide');
 
                     if (type === 'category') {
-                        loadCategories(res.category ? res.category.id : null);
+                        const newId = (res.category && res.category.id) ? res.category.id : res.id;
+                        loadCategories(newId);
                     } else if (type === 'brand') {
-                        loadBrands(res.brand ? res.brand.id : null);
-                    } else if (type === 'stock_unit') {
-                        loadStockUnits(res.stock_unit ? res.stock_unit.id : null);
+                        const newId = (res.brand && res.brand.id) ? res.brand.id : res.id;
+                        loadBrands(newId);
+                    } else if (type === 'stock_unit' || type === 'unit') {
+                        const newId = (res.stock_unit && res.stock_unit.id) ? res.stock_unit.id : res.id;
+                        loadStockUnits(newId);
                     }
                 },
                 error: function(err) {

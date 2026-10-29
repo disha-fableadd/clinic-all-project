@@ -162,7 +162,7 @@
                                     @if($gstEnabled)
                                     <div id="product_gst_div" style="display: none;">
                                         <p class="text-dark margin-text">
-                                            <strong><i class="fa fa-file-invoice-dollar icon-style1"></i> Product GST:
+                                            <strong><i class="fa fa-file-invoice-dollar icon-style1"></i> Medicine GST:
                                             </strong>
                                             <span id="medicine_product_gst"></span>
                                         </p>
@@ -180,7 +180,35 @@
                             </div>
 
 
-                            <div class="button mb-4" style="display: flex; justify-content: end; margin: 0 5px;">
+                            
+                            <!-- Product Documentation Section -->
+                            <div id="documentation-section" class="mt-4 mb-4" style="display:none;">
+                                <div class="card" style="border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: none;">
+                                    <div class="card-header bg-white py-3" style="border-bottom: 1px solid #edf2f7; border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                                        <h5 class="mb-0 fw-bold" style="font-size: 16px; color: #334155;">
+                                            <i class="fas fa-file-medical text-success me-2" style="color: #f89884 !important;"></i>Medicine Documentation
+                                        </h5>
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered mb-0" style="border-radius: 12px; overflow: hidden;">
+                                                <thead style="background-color: #cfece0; color: #1e293b;">
+                                                    <tr>
+                                                        <th style="font-size: 13px; font-weight: 600;">Batch Number</th>
+                                                        <th style="font-size: 13px; font-weight: 600;">Manufacturing Date</th>
+                                                        <th style="font-size: 13px; font-weight: 600;">Expiry Date</th>
+                                                        <th style="font-size: 13px; font-weight: 600;">COA Documents</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="documentation-body">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+<div class="button mb-4" style="display: flex; justify-content: end; margin: 0 5px;">
                                 @if (app('hasPermission')(4, 'update'))
                                     <a href="#" class="btn btn-primary btn-rounded btn-hdr edit-medicine-btn"
                                         style="color:black; margin-right:10px">
@@ -272,7 +300,33 @@
                 success: function(data) {
                     console.log(data);
 
+                    
                     const med = data.medicine;
+
+                    // Render Product Documentation if exists
+                    if (med.documentations && med.documentations.length > 0) {
+                        $("#documentation-section").show();
+                        let docHtml = "";
+                        med.documentations.forEach(function(doc) {
+                            let coaLinks = "N/A";
+                            if (doc.coa_pdfs && doc.coa_pdfs.length > 0) {
+                                coaLinks = doc.coa_pdfs.map(function(pdf) {
+                                    let pdfUrl = pdf.startsWith("http") ? pdf : `/${pdf}`.replace(/\/+/g, "/");
+                                    return `<a href="${pdfUrl}" target="_blank" class="btn btn-sm me-1 mb-1" style="background:#cfece0; color:#1e293b; border-radius:50px; font-weight:600; font-size:12px;"><i class="fas fa-file-pdf text-danger me-1"></i>View COA</a>`;
+                                }).join("");
+                            }
+                            let mfg = doc.mfg_date ? doc.mfg_date.substring(0, 10) : "N/A";
+                            let exp = doc.expiry_date ? doc.expiry_date.substring(0, 10) : (med.expiry_date || "N/A");
+                            docHtml += `<tr>
+                                <td class="fw-bold">${doc.batch_number || med.batch_no || "N/A"}</td>
+                                <td>${mfg}</td>
+                                <td>${exp}</td>
+                                <td>${coaLinks}</td>
+                            </tr>`;
+                        });
+                        $("#documentation-body").html(docHtml);
+                    }
+
 
                     // Safe ucfirst function
                     function ucfirst(str) {

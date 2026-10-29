@@ -107,12 +107,12 @@ class CategoryController extends Controller
         $request->validate([
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
-            'branch_id'   => 'required|exists:branches,id', // ✅ get branch_id from frontend/local storage
+            'branch_id'   => 'nullable', // ✅ get branch_id from frontend/local storage
         ]);
 
         try {
             // ✅ Use branch_id from frontend
-            $branchId = $request->branch_id;
+            $branchId = $request->branch_id ?: (session('selectedBranchId') ?: (auth()->user()->branch_id ?? 1));
 
             // Create category with branch_id
             $category = Categories::create([
