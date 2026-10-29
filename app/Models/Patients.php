@@ -41,7 +41,13 @@ class Patients extends Model
         'symptoms',
         'improvement_history',
         'symptom_images',
-        'symptom_remarks'
+        'symptom_remarks',
+        'bp',
+        'temperature',
+        'pulse',
+        'patient_history',
+        'patient_complaint',
+        'advice_for_lab_tests'
 
     ];
 
@@ -64,6 +70,12 @@ class Patients extends Model
         'state',
         'city',
         'symptom_remarks',
+        'bp',
+        'temperature',
+        'pulse',
+        'patient_history',
+        'patient_complaint',
+        'advice_for_lab_tests',
     ];
     public function getProfileAttribute($value)
     {
@@ -228,3 +240,4 @@ class Patients extends Model
         return $this->belongsTo(Branch::class, 'branch_id'); // correct relation
     }
 }
+
