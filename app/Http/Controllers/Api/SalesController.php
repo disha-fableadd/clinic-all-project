@@ -50,6 +50,8 @@ class SalesController extends Controller
                     if ($request->filled('patient_bp')) $patient->bp = $request->patient_bp;
                     if ($request->filled('patient_temperature')) $patient->temperature = $request->patient_temperature;
                     if ($request->filled('patient_pulse')) $patient->pulse = $request->patient_pulse;
+                    if ($request->filled('patient_weight')) $patient->weight = $request->patient_weight;
+                    if ($request->filled('patient_height')) $patient->height = $request->patient_height;
                     if ($request->filled('patient_history')) $patient->patient_history = $request->patient_history;
                     if ($request->filled('patient_complaint')) $patient->patient_complaint = $request->patient_complaint;
                     if ($request->filled('advice_for_lab_tests')) $patient->advice_for_lab_tests = $request->advice_for_lab_tests;
@@ -67,6 +69,8 @@ class SalesController extends Controller
                     'bp' => $request->patient_bp ?? null,
                     'temperature' => $request->patient_temperature ?? null,
                     'pulse' => $request->patient_pulse ?? null,
+                    'weight' => $request->patient_weight ?? null,
+                    'height' => $request->patient_height ?? null,
                     'patient_history' => $request->patient_history ?? null,
                     'patient_complaint' => $request->patient_complaint ?? null,
                     'advice_for_lab_tests' => $request->advice_for_lab_tests ?? null,

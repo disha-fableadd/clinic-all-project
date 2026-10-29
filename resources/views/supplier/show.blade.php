@@ -26,7 +26,7 @@
             <div class="row" style="padding-top:15px">
                 <div class="col-sm-7 col-8">
                     <h4 class="page-title service-title " >
-                        <i class="fa fa-cogs"></i> Supplier Details
+                        <i class="fa fa-handshake"></i> Vendor Details
                     </h4>
                 </div>
                 @if(app('hasPermission')(12, 'view'))

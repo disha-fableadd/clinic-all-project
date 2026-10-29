@@ -109,14 +109,14 @@
         text-align: center;
     }
 
-    .patient-title {
+    /* .patient-title {
         padding-left: 70px !important;
         text-align: center !important;
-    }
+    } */
 
     .patient-button {
-        padding-right: 60px !important;
-        text-align: center !important;
+        /* padding-right: 60px !important; */
+        text-align: right !important;
     }
 
     .custom-close {
@@ -219,12 +219,12 @@
             <div class="row">
                 <div class="col-12">
                     <form class="form-container patient-form all-form" id="multiStepForm" method="POST"
-                        action="javascript:void(0);" style="width:60%; padding-bottom: 75px;" enctype="multipart/form-data">
+                        action="javascript:void(0);" style="width: 100%; max-width: 100%; padding-bottom: 75px;" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" id="patientId" value="{{ $patient_id ?? '' }}">
                         <div class="form-step edit-patient-form" id="step-1">
                             <div class="row">
-                                <div class="col-12 col-md-6">
+                                <div class="col-4 col-md-4">
                                     <div class="form-group">
                                         <label><i class="fas fa-user icon-style"></i> Full Name <span
                                                 class="text-danger">*</span></label>
@@ -232,7 +232,7 @@
                                             placeholder="Enter Full Name" required>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
+                                <div class="col-4 col-md-4">
                                     <div class="form-group">
                                         <label><i class="fas fa-phone icon-style"></i> Phone <span
                                                 class="text-danger">*</span></label>
@@ -240,7 +240,7 @@
                                             required>
                                     </div>
                                 </div>
-                                   <div class="col-12 col-md-4" id="email_container" style="{{ $currentProjectTypeId === 3 ? 'display: none;' : '' }}">
+                                   <div class="col-4 col-md-4" id="email_container" style="{{ $currentProjectTypeId === 3 ? 'display: none;' : '' }}">
                                     <div class="form-group">
                                         <label><i class="fas fa-envelope icon-style"></i> Email</label>
                                         <input class="form-control" type="email" name="email" placeholder="Enter Email">
@@ -261,7 +261,7 @@
                                     </div>
                                 </div>
                                 
-                                <div class="col-12 col-md-12">
+                                <div class="col-4 col-md-4">
                                     <div class="form-group">
                                         <label><i class="fas fa-user icon-style"></i> Patient Type <span
                                                 class="text-danger">*</span></label>
@@ -274,7 +274,9 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
+
+                                @include('patients.vital_fields')
+                                <div class="col-6 col-md-6">
                                     <div class="form-group">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <label class="mr-2"><i class="fas fa-medkit icon-style"></i> Diagnosis </label>
@@ -293,7 +295,7 @@
                                         <small class="text-muted">You can select multiple diagnoses</small>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
+                                <div class="col-6 col-md-6">
                                     <div class="form-group">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <label><i class="fas fa-notes-medical icon-style"></i> Symptoms</label>
@@ -308,13 +310,13 @@
                                         <small class="text-muted">You can select multiple symptoms</small>
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="mb-3">
                                         <i class="fas fa-notes-medical icon-style"></i>
                                         <span>Symptoms Input (Day-1)</span>
                                     </div>
                                     <div class="row">
-                                        <div class="col-12 col-md-6">
+                                        <div class="col-6 col-md-6">
                                             <div class="d-flex gap-3">
                                                 <div>
                                                     <input type="radio" name="symptom_option" value="image"
@@ -330,7 +332,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-md-6">
+                                        <div class="col-6 col-md-6">
                                             <div id="symptomImageBox"
                                                 style="{{ old('symptom_option', !empty($symptom_images) ? 'image' : '') == 'image' ? '' : 'display:none;' }}">
                                                 <input type="file" id="symptomImagesInput" class="form-control" name="symptom_images[]"
@@ -360,7 +362,7 @@
                                         document.getElementById('symptomTextBox').style.display = (option === 'text') ? 'block' : 'none';
                                     }
                                 </script>
-                                <div class="col-12 col-md-12">
+                                <div class="col-6 col-md-6">
                                     <div class="form-group">
                                         <label><i class="fas fa-share-alt icon-style"></i> Referral Source</label>
                                         <div class="d-flex align-items-center">
@@ -380,7 +382,7 @@
                                                 data-bs-target="#addReferralModal"
                                                 style="padding:8px 12px !important; white-space: nowrap; margin-left: 15px;">
                                                 <i class="fa fa-plus m-0"></i>
-                                                <span style="margin-left: 6px;" class="d-none d-md-inline">Edit Referral Details</span>
+                                                <span style="margin-left: 6px;" class="d-none d-md-inline">Edit </span>
                                             </a>
                                         </div>
                                     </div>
@@ -753,6 +755,14 @@
                     $("input[name='address']").val(patient.address);
                     $("select[name='city']").val(patient.city).trigger('change');
                     $("select[name='state']").val(patient.state).trigger('change');
+                    $("input[name='bp']").val(patient.bp || '');
+                    $("input[name='pulse']").val(patient.pulse || '');
+                    $("input[name='temperature']").val(patient.temperature || '');
+                    $("input[name='weight']").val(patient.weight || '');
+                    $("input[name='height']").val(patient.height || '');
+                    $("textarea[name='patient_history']").val(patient.patient_history || '');
+                    $("textarea[name='patient_complaint']").val(patient.patient_complaint || '');
+                    $("textarea[name='advice_for_lab_tests']").val(patient.advice_for_lab_tests || '');
                     $('#profilePreview').attr('src', patient.profile ||
                         '{{ asset('admin/assets/img/img1.png') }}');
                     if (patient.symptom_images && patient.symptom_images.length > 0) {

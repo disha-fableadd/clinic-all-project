@@ -28,7 +28,7 @@
         border-radius: 50px !important;
         padding: 8px 18px !important;
         font-size: 14px !important;
-        color: #1e293b !important;
+        color: #888 !important;
         background-color: #ffffff;
         box-shadow: none !important;
         transition: border-color 0.2s, box-shadow 0.2s;
@@ -73,7 +73,7 @@
     .btn-cancel-main {
         background-color: #cfece0 !important;
         border-color: #b5e4d2 !important;
-        color: #1e293b !important;
+        color: #888 !important;
         font-weight: 600;
         font-size: 14px;
         padding: 10px 26px !important;
@@ -82,12 +82,12 @@
     }
     .btn-cancel-main:hover {
         background-color: #bce7d6 !important;
-        color: #1e293b !important;
+        color: #888 !important;
     }
     .btn-back-main {
         background-color: #cfece0 !important;
         border: 1px solid #b5e4d2 !important;
-        color: #1e293b !important;
+        color: #888 !important;
         border-radius: 50px !important;
         font-weight: 600;
         font-size: 13.5px;
@@ -96,14 +96,14 @@
     }
     .btn-back-main:hover {
         background-color: #bce7d6 !important;
-        color: #1e293b !important;
+        color: #888 !important;
     }
 </style>
 
 <div class="page-wrapper">
     <div class="content">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="page-title mb-0" style="font-weight: 700; font-size: 21px; color: #1e293b;">Edit Vendor / Supplier</h4>
+            <h4 class="page-title mb-0" style="font-weight: 700; font-size: 21px; color: #1e293b;">Edit Vendor</h4>
             <a href="{{ route('supplier.index') }}" class="btn btn-back-main">
                 <i class="fas fa-arrow-left me-1"></i> Back
             </a>

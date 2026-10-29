@@ -34,7 +34,7 @@
         border-radius: 50px !important;
         padding: 6px 16px !important;
         font-size: 13px !important;
-        color: #1e293b !important;
+        color: #888 !important;
         background-color: #ffffff;
         transition: border-color 0.2s, box-shadow 0.2s;
     }
@@ -56,7 +56,7 @@
     .select2-container--default .select2-selection--single .select2-selection__rendered {
         line-height: 36px !important;
         padding-left: 8px !important;
-        color: #1e293b !important;
+        color: #888 !important;
         font-size: 13px !important;
     }
     .select2-container--default .select2-selection--single .select2-selection__arrow {
@@ -84,7 +84,7 @@
     .btn-back-main {
         background-color: #cfece0 !important;
         border: 1px solid #b5e4d2 !important;
-        color: #1e293b !important;
+        color: #888 !important;
         border-radius: 50px !important;
         font-weight: 600;
         font-size: 13px;
@@ -96,7 +96,7 @@
     }
     .btn-back-main:hover {
         background-color: #bce7d6 !important;
-        color: #1e293b !important;
+        color: #888 !important;
     }
     .btn-add-pill {
         background-color: #f89884 !important;
@@ -132,7 +132,7 @@
     .pay-mode-btn.active {
         background-color: #cfece0 !important;
         border-color: #f89884 !important;
-        color: #1e293b !important;
+        color: #888 !important;
         box-shadow: 0 0 0 2px rgba(248, 152, 132, 0.3);
     }
     .pay-mode-btn:hover {
@@ -232,6 +232,8 @@
                                             data-bp="{{ $p->bp }}"
                                             data-temp="{{ $p->temperature }}"
                                             data-pulse="{{ $p->pulse }}"
+                                            data-weight="{{ $p->weight }}"
+                                            data-height="{{ $p->height }}"
                                             data-history="{{ $p->patient_history }}"
                                             data-complaint="{{ $p->patient_complaint }}"
                                             data-lab="{{ $p->advice_for_lab_tests }}">
@@ -574,7 +576,8 @@
     // Populate patient fields on change
     $('#patient_id').on('change', function() {
         const sel = $(this).find('option:selected');
-        if (sel.val()) {
+        const pId = sel.val();
+        if (pId) {
             $('#patient_phone').val(sel.data('phone') || '');
             $('#patient_age').val(sel.data('age') || '');
             if (sel.data('sex')) $('#patient_sex').val(sel.data('sex'));
@@ -584,6 +587,30 @@
             $('#patient_history').val(sel.data('history') || '');
             $('#patient_complaint').val(sel.data('complaint') || '');
             $('#advice_for_lab_tests').val(sel.data('lab') || '');
+
+            // Also fetch from API in real-time to guarantee fresh decrypted patient vitals and details
+            if (!pId.startsWith('NEW_')) {
+                const token = localStorage.getItem('token');
+                $.ajax({
+                    url: '/api/patient/' + pId,
+                    type: 'GET',
+                    headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+                    success: function(res) {
+                        if (res && res.patient) {
+                            const p = res.patient;
+                            if (p.phone) $('#patient_phone').val(p.phone);
+                            if (p.age) $('#patient_age').val(p.age);
+                            if (p.gender) $('#patient_sex').val(p.gender);
+                            if (p.bp) $('#patient_bp').val(p.bp);
+                            if (p.temperature) $('#patient_temperature').val(p.temperature);
+                            if (p.pulse) $('#patient_pulse').val(p.pulse);
+                            if (p.patient_history) $('#patient_history').val(p.patient_history);
+                            if (p.patient_complaint) $('#patient_complaint').val(p.patient_complaint);
+                            if (p.advice_for_lab_tests) $('#advice_for_lab_tests').val(p.advice_for_lab_tests);
+                        }
+                    }
+                });
+            }
         }
     });
 

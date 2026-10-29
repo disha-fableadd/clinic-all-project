@@ -139,7 +139,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
             <div>
                 <h3 class="page-title mb-1" style="font-weight: 700; color: #1e293b;">Purchase Bill</h3>
-                <p class="text-muted mb-0" style="font-size: 14px;">Manage vendor purchases, inventory receipts, and supplier payables</p>
+                <p class="text-muted mb-0" style="font-size: 14px;">Manage vendor purchases, inventory receipts, and vendor payables</p>
             </div>
             <div class="d-flex gap-2">
                 <a href="{{ route('purchase.ai-bill') }}" class="btn btn-clinic-secondary pill-btn">
@@ -193,9 +193,9 @@
             <div class="card-body p-4">
                 <form method="GET" action="{{ route('purchase.lists') }}" class="row g-3 align-items-end">
                     <div class="col-md-3">
-                        <label class="form-label" style="font-size: 13px; font-weight: 600;">Supplier / Vendor</label>
+                        <label class="form-label" style="font-size: 13px; font-weight: 600;">Vendor</label>
                         <select name="vendor_id" class="form-select">
-                            <option value="">All Suppliers</option>
+                            <option value="">All Vendors</option>
                             @foreach($vendors as $vendor)
                                 <option value="{{ $vendor->id }}" {{ request('vendor_id') == $vendor->id ? 'selected' : '' }}>
                                     {{ $vendor->name }}
@@ -231,7 +231,7 @@
                         <tr>
                             <th style="font-size: 13px; font-weight: 700; padding: 14px 16px;">Bill No</th>
                             <th style="font-size: 13px; font-weight: 700;">Purchase Date</th>
-                            <th style="font-size: 13px; font-weight: 700;">Vendor / Supplier</th>
+                            <th style="font-size: 13px; font-weight: 700;">Vendor</th>
                             <th style="font-size: 13px; font-weight: 700;">Contact</th>
                             <th style="font-size: 13px; font-weight: 700;">Grand Total (₹)</th>
                             <th style="font-size: 13px; font-weight: 700;">Paid (₹)</th>

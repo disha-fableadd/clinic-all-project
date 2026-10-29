@@ -31,7 +31,7 @@
         border-radius: 50px !important;
         padding: 8px 18px !important;
         font-size: 13.5px !important;
-        color: #1e293b !important;
+        color: #888 !important;
         background-color: #ffffff;
         transition: border-color 0.2s, box-shadow 0.2s;
     }
@@ -53,7 +53,7 @@
     .select2-container--default .select2-selection--single .select2-selection__rendered {
         line-height: 40px !important;
         padding-left: 10px !important;
-        color: #1e293b !important;
+        color: #888 !important;
         font-size: 13.5px !important;
     }
     .select2-container--default .select2-selection--single .select2-selection__arrow {
@@ -81,7 +81,7 @@
     .btn-cancel-main {
         background-color: #cfece0 !important;
         border: 1px solid #b5e4d2 !important;
-        color: #1e293b !important;
+        color: #888 !important;
         font-weight: 600;
         font-size: 14px;
         padding: 10px 24px !important;
@@ -93,12 +93,12 @@
     }
     .btn-cancel-main:hover {
         background-color: #bce7d6 !important;
-        color: #1e293b !important;
+        color: #888 !important;
     }
     .btn-back-main {
         background-color: #cfece0 !important;
         border: 1px solid #b5e4d2 !important;
-        color: #1e293b !important;
+        color: #888 !important;
         border-radius: 50px !important;
         font-weight: 600;
         font-size: 13.5px;
@@ -110,7 +110,7 @@
     }
     .btn-back-main:hover {
         background-color: #bce7d6 !important;
-        color: #1e293b !important;
+        color: #888 !important;
     }
     .btn-add-pill {
         background-color: #f89884 !important;
@@ -146,7 +146,7 @@
     .pay-mode-btn.active {
         background-color: #cfece0 !important;
         border-color: #f89884 !important;
-        color: #1e293b !important;
+        color: #888 !important;
         box-shadow: 0 0 0 2px rgba(248, 152, 132, 0.3);
     }
     .pay-mode-btn:hover {
@@ -233,7 +233,7 @@
         <form id="purchaseForm">
             @csrf
 
-            <!-- Vendor / Supplier Information Card -->
+            <!-- Vendor Information Card -->
             <div class="card purchase-card">
                 <div class="card-body">
                     <div class="row">
@@ -241,11 +241,11 @@
                         <div class="col-lg-4 col-md-6 col-12">
                             <div class="form-group">
                                 <label>
-                                    <i class="fas fa-truck text-muted me-1"></i> Vendor / Supplier Name
+                                    <i class="fas fa-handshake text-muted me-1"></i> Vendor Name
                                     <button type="button" class="btn-add-pill" data-bs-toggle="modal" data-bs-target="#quickAddVendorModal">+ Add</button>
                                 </label>
                                 <select class="form-control select2" id="vendor_id" name="vendor_id" required onchange="handleVendorChange()">
-                                    <option value="">Select or Type Supplier</option>
+                                    <option value="">Select or Type Vendor</option>
                                     @foreach($vendors as $v)
                                         <option value="{{ $v->id }}" data-phone="{{ $v->phone }}">
                                             {{ $v->name }} {{ $v->phone ? '('.$v->phone.')' : '' }}
@@ -259,14 +259,14 @@
                         <div class="col-lg-3 col-md-6 col-12">
                             <div class="form-group">
                                 <label><i class="fas fa-phone text-muted me-1"></i> Vendor Phone</label>
-                                <input type="text" class="form-control" name="vendor_phone" id="vendor_phone" placeholder="Supplier phone">
+                                <input type="text" class="form-control" name="vendor_phone" id="vendor_phone" placeholder="Vendor phone">
                             </div>
                         </div>
 
-                        <!-- Supplier Bill No -->
+                        <!-- Vendor Bill No -->
                         <div class="col-lg-2 col-md-6 col-12">
                             <div class="form-group">
-                                <label><i class="fas fa-file-invoice text-muted me-1"></i> Supplier Bill No <span class="text-danger">*</span></label>
+                                <label><i class="fas fa-file-invoice text-muted me-1"></i> Vendor Bill No <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" name="bill_no" id="bill_no" placeholder="INV-001" required>
                             </div>
                         </div>
@@ -477,14 +477,14 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none;">
             <div class="modal-header" style="background: #f89884; color: #fff; padding: 18px 24px;">
-                <h5 class="modal-title font-weight-bold" style="color: #fff;"><i class="fa fa-truck me-2"></i> Quick Add Supplier</h5>
+                <h5 class="modal-title font-weight-bold" style="color: #fff;"><i class="fa fa-handshake me-2"></i> Quick Add Vendor</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form id="quickVendorForm">
                 @csrf
                 <div class="modal-body p-4">
                     <div class="form-group">
-                        <label>Supplier Name <span class="text-danger">*</span></label>
+                        <label>Vendor Name <span class="text-danger">*</span></label>
                         <input type="text" id="quick_vendor_name" name="name" class="form-control" required placeholder="Vendor or Distributor Name">
                     </div>
                     <div class="form-group">
@@ -502,7 +502,7 @@
                 </div>
                 <div class="modal-footer p-3 bg-light d-flex justify-content-between">
                     <button type="button" class="btn btn-cancel-main" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-submit-main">Save Supplier</button>
+                    <button type="submit" class="btn btn-submit-main">Save Vendor</button>
                 </div>
             </form>
         </div>
@@ -781,7 +781,7 @@
                 $('#vendor_phone').val(phone);
 
                 bootstrap.Modal.getInstance(document.getElementById('quickAddVendorModal')).hide();
-                Swal.fire({ icon: 'success', title: 'Supplier Added', toast: true, position: 'top-end', timer: 2000, showConfirmButton: false });
+                Swal.fire({ icon: 'success', title: 'Vendor Added', toast: true, position: 'top-end', timer: 2000, showConfirmButton: false });
             },
             error: function() {
                 const fallbackId = 'new_' + Date.now();
@@ -803,11 +803,11 @@
         const purchaseDate = $('#purchase_date').val();
 
         if (!vendorId) {
-            Swal.fire({ icon: 'warning', title: 'Vendor Required', text: 'Please select a vendor / supplier.', confirmButtonColor: '#f89884' });
+            Swal.fire({ icon: 'warning', title: 'Vendor Required', text: 'Please select a vendor.', confirmButtonColor: '#f89884' });
             return;
         }
         if (!billNo) {
-            Swal.fire({ icon: 'warning', title: 'Bill No Required', text: 'Please enter the supplier bill number.', confirmButtonColor: '#f89884' });
+            Swal.fire({ icon: 'warning', title: 'Bill No Required', text: 'Please enter the vendor bill number.', confirmButtonColor: '#f89884' });
             return;
         }
 

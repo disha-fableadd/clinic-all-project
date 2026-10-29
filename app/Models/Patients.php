@@ -45,6 +45,8 @@ class Patients extends Model
         'bp',
         'temperature',
         'pulse',
+        'weight',
+        'height',
         'patient_history',
         'patient_complaint',
         'advice_for_lab_tests'
@@ -73,6 +75,8 @@ class Patients extends Model
         'bp',
         'temperature',
         'pulse',
+        'weight',
+        'height',
         'patient_history',
         'patient_complaint',
         'advice_for_lab_tests',

@@ -104,7 +104,15 @@
 
 <script src="{{asset(env('IMAGE_PATH').'admin/assets/js/chart.js')}}"></script>
 
-<script src="{{asset(env('IMAGE_PATH').'admin/assets/js/app.js')}}"></script>
+<script src="{{asset(env('IMAGE_PATH').'admin/assets/js/app.js')}}?v={{ time() }}"></script>
+<script>
+    if (window.jQuery) {
+        $('#sidebar-menu a').off('click');
+        if (typeof window.initSidebarMenu === 'function') {
+            window.initSidebarMenu();
+        }
+    }
+</script>
 
 
 

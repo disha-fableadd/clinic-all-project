@@ -464,6 +464,71 @@
                                 </div>
                             </div>
 
+                            <!-- Patient Vitals & Clinical Details -->
+                            <div class="row mt-3 pt-2">
+                                <div class="col-12">
+                                    <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 20px;">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="fas fa-heartbeat text-danger me-2" style="font-size: 16px;"></i>
+                                            <h6 class="mb-0" style="font-weight: 700; font-size: 13px; color: #1e293b; text-transform: uppercase; letter-spacing: 0.5px;">Vitals & Clinical Notes</h6>
+                                        </div>
+                                        <div class="row g-2 mb-3">
+                                            <div class="col-md col-6">
+                                                <div class="p-2 text-center" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px;">
+                                                    <span class="text-muted d-block" style="font-size: 11.5px; font-weight: 600;"><i class="fas fa-stethoscope text-danger me-1"></i> B.P</span>
+                                                    <span class="fw-bold text-dark" id="view_patient_bp" style="font-size: 13.5px;">-</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md col-6">
+                                                <div class="p-2 text-center" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px;">
+                                                    <span class="text-muted d-block" style="font-size: 11.5px; font-weight: 600;"><i class="fas fa-heartbeat text-danger me-1"></i> Pulse</span>
+                                                    <span class="fw-bold text-dark" id="view_patient_pulse" style="font-size: 13.5px;">-</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md col-6">
+                                                <div class="p-2 text-center" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px;">
+                                                    <span class="text-muted d-block" style="font-size: 11.5px; font-weight: 600;"><i class="fas fa-thermometer-half text-warning me-1"></i> Temp</span>
+                                                    <span class="fw-bold text-dark" id="view_patient_temperature" style="font-size: 13.5px;">-</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md col-6">
+                                                <div class="p-2 text-center" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px;">
+                                                    <span class="text-muted d-block" style="font-size: 11.5px; font-weight: 600;"><i class="fas fa-weight text-primary me-1"></i> Weight</span>
+                                                    <span class="fw-bold text-dark" id="view_patient_weight" style="font-size: 13.5px;">-</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md col-6">
+                                                <div class="p-2 text-center" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px;">
+                                                    <span class="text-muted d-block" style="font-size: 11.5px; font-weight: 600;"><i class="fas fa-ruler-vertical text-info me-1"></i> Height</span>
+                                                    <span class="fw-bold text-dark" id="view_patient_height" style="font-size: 13.5px;">-</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-2">
+                                            <div class="col-md-6 col-12">
+                                                <div class="p-2" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; min-height: 58px;">
+                                                    <span class="text-muted d-block mb-1" style="font-size: 11.5px; font-weight: 600;"><i class="fas fa-history text-secondary me-1"></i> Patient History</span>
+                                                    <span class="text-dark" id="view_patient_history" style="font-size: 13px;">-</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="p-2" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; min-height: 58px;">
+                                                    <span class="text-muted d-block mb-1" style="font-size: 11.5px; font-weight: 600;"><i class="fas fa-notes-medical text-success me-1"></i> Patient Complaint</span>
+                                                    <span class="text-dark" id="view_patient_complaint" style="font-size: 13px;">-</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mt-2">
+                                                <div class="p-2" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; min-height: 58px;">
+                                                    <span class="text-muted d-block mb-1" style="font-size: 11.5px; font-weight: 600;"><i class="fas fa-vials text-indigo me-1" style="color: #6366f1;"></i> Advice for Lab tests</span>
+                                                    <span class="text-dark" id="view_advice_for_lab_tests" style="font-size: 13px;">-</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <div class="col-12 d-flex justify-content-end">
                                 <button type="button" id="viewReferralBtn" class="btn btn-primary btn-rounded btn-hdr me-2">
@@ -3922,6 +3987,14 @@
                             $('#medical_history').text(data.patient.medical_history ? data.patient
                                 .medical_history
                                 .charAt(0).toUpperCase() + data.patient.medical_history.slice(1) : "N/A");
+                            $('#view_patient_bp').text(data.patient.bp || "-");
+                            $('#view_patient_pulse').text(data.patient.pulse ? (data.patient.pulse + " bpm") : "-");
+                            $('#view_patient_temperature').text(data.patient.temperature ? (data.patient.temperature + " °F") : "-");
+                            $('#view_patient_weight').text(data.patient.weight ? (data.patient.weight + " kg") : "-");
+                            $('#view_patient_height').text(data.patient.height ? (data.patient.height + " cm") : "-");
+                            $('#view_patient_history').text(data.patient.patient_history || "-");
+                            $('#view_patient_complaint').text(data.patient.patient_complaint || "-");
+                            $('#view_advice_for_lab_tests').text(data.patient.advice_for_lab_tests || "-");
                             $(".edit-patient-btn").attr("href", "/patient/edit/" + patientId);
 
                             if (data.patient.profile) {
