@@ -124,7 +124,8 @@
     }
 </style>
 
-<div class="page-wrapper" style="padding: 25px 30px;">
+<div class="page-wrapper">
+    <div class="content">
     <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
@@ -345,6 +346,7 @@
             </form>
         </div>
     </div>
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

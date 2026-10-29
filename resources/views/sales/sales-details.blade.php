@@ -36,7 +36,8 @@
     }
 </style>
 
-<div class="page-wrapper" style="padding: 25px 30px;">
+<div class="page-wrapper">
+    <div class="content">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
@@ -191,6 +192,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection
 

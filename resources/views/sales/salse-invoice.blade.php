@@ -61,7 +61,8 @@
     }
 </style>
 
-<div class="page-wrapper" style="padding: 25px 30px;">
+<div class="page-wrapper">
+    <div class="content">
     <!-- Top Action Bar -->
     <div class="d-flex justify-content-between align-items-center mb-4 no-print flex-wrap gap-2">
         <div>
@@ -235,6 +236,7 @@
             <p class="mb-0">This is a computer-generated invoice and requires no physical signature.</p>
         </div>
     </div>
+</div>
 </div>
 @endsection
 

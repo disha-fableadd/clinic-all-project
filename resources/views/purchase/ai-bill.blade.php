@@ -325,7 +325,7 @@
             .ai-totals { width: 100%; }
         }
     </style>
-
+<div class="page-wrapper" >
     <div class="content ai-bill-page">
         <div class="ai-bill-hero">
             <div>
@@ -592,7 +592,7 @@
             </div>
         </div>
     </div>
-
+    </div>
     <!-- Add Bank Modal -->
     <div class="modal fade" id="addBankModal" tabindex="-1" aria-labelledby="addBankModalLabel" aria-hidden="true">
         <div class="modal-dialog">
