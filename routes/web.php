@@ -62,6 +62,8 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\DietChartController;
 use App\Http\Controllers\MedicineUnitController;
 use App\Http\Controllers\TaxRateController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\AccountLedgerController;
 
 
 
@@ -204,6 +206,14 @@ Route::middleware(['session.auth', 'check.permission'])->group(function () {
 
     //taxrate
     Route::get('/taxrate', [TaxRateController::class, 'index'])->name('taxrate.index');
+
+    // Brands
+    Route::get('/brand', [BrandController::class, 'index'])->name('brand.index');
+    Route::get('/brand/create', [BrandController::class, 'create'])->name('brand.create');
+    Route::get('/brand/edit/{id}', [BrandController::class, 'edit'])->name('brand.edit');
+
+    // Account Ledger
+    Route::get('/account-ledger', [AccountLedgerController::class, 'index'])->name('account_ledger.index');
 
     //medicine unit
     Route::get('medicine_unit', [MedicineUnitController::class, 'index'])->name('medicine_unit.index');

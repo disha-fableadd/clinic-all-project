@@ -17,9 +17,23 @@ class Supplier extends Model
         'phone',
         'email',
         'address',
+        'gst_number',
+        'drug_license_no',
+        'pan_no',
+        'bank_name',
+        'account_no',
+        'ifsc_code',
+        'bank_branch',
+        'opening_balance',
+        'closing_balance',
+        'balance_year',
         'user_id',
-         'branch_id',
+        'branch_id',
+    ];
 
+    protected $casts = [
+        'opening_balance' => 'decimal:2',
+        'closing_balance' => 'decimal:2',
     ];
 
     // Relationship with Inventory
@@ -27,8 +41,9 @@ class Supplier extends Model
     {
         return $this->hasMany(Inventory::class);
     }
-       public function branch()
+
+    public function branch()
     {
-        return $this->belongsTo(Branch::class, 'branch_id'); // correct relation
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 }

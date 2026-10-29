@@ -1,710 +1,985 @@
 @extends('layout.app')
 
+@section('content')
 <style>
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
-    cursor: default;
-    padding-left: 12px !important;
-    padding-right: 5px;
-}
-
-.select2-container--default .select2-selection--multiple .select2-search__field {
-   
-    min-height: 27px !important;
-   
-}
-    .medicine-title {
-        padding-left: 140px !important;
-        text-align: center !important;
+    /* Site Theme: #f89884 and #cfece0 with 50% pill radius on fields and buttons */
+    .medicine-create-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        background: #ffffff;
+    }
+    .medicine-create-card .card-body {
+        padding: 28px 32px;
     }
 
-    .medicine-button {
-        padding-right: 150px !important;
-        text-align: center !important;
+    /* Labels & Add Badges */
+    .form-group {
+        margin-bottom: 22px !important;
     }
-    .form-container {
-        width: 60% !important;
-        padding-bottom: 60px !important;
+    .form-group label {
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #212b36;
+        margin-bottom: 8px;
+        display: block;
+    }
+    .add-badge {
+        background-color: #f89884 !important;
+        color: #ffffff !important;
+        font-size: 11px;
+        padding: 3px 12px;
+        border-radius: 50px !important;
+        float: right;
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .add-badge:hover {
+        background-color: #e58774 !important;
+        color: #ffffff !important;
     }
 
-
-
-    /* GST select2 styling to match reference UI */
-    .gst-select2 + .select2-container .select2-selection--multiple,
-    .gst-select2 + .select2-container .select2-selection--single {
-        border: 1px solid #cfe6d9 !important;
-        border-radius: 22px !important;
-        padding: 2px 10px !important;
-        background: #fff !important;
+    /* Form Controls - 50% Pill Radius */
+    .form-control {
+        height: 42px !important;
+        border: 1.5px solid #cbd5e1 !important;
+        border-radius: 50px !important;
+        padding: 8px 18px !important;
+        font-size: 14px !important;
+        color: #1e293b !important;
+        background-color: #ffffff;
         box-shadow: none !important;
-        min-height: 38px !important;
-        display: flex;
-        align-items: center;
+        transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .gst-select2 + .select2-container .select2-selection__rendered {
-        line-height: normal !important;
+    .form-control:focus {
+        border-color: #f89884 !important;
+        box-shadow: 0 0 0 3px rgba(248, 152, 132, 0.25) !important;
+    }
+    textarea.form-control {
+        height: auto !important;
+        min-height: 90px;
+        border-radius: 20px !important;
+        padding: 12px 18px !important;
+    }
+
+    /* Select2 Alignment & 50% Radius */
+    .select2-container .select2-selection--single {
+        height: 42px !important;
+        border: 1.5px solid #cbd5e1 !important;
+        border-radius: 50px !important;
         display: flex !important;
         align-items: center !important;
-        flex-wrap: wrap;
-        padding: 0 !important;
+        padding-left: 8px;
     }
-    .gst-select2 + .select2-container .select2-selection__choice {
-        background: #d9efe6 !important;
-        border: 1px solid #c6e3d6 !important;
-        border-radius: 16px !important;
-        padding: 0px 8px !important;
-        color: #1f4b3e !important;
-        font-size: 12px !important;
-        margin-top: 2px !important;
-        margin-bottom: 2px !important;
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 40px !important;
+        padding-left: 10px !important;
+        color: #1e293b !important;
+        font-size: 14px !important;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 40px !important;
+        right: 14px !important;
+    }
+    .select2-container--default .select2-selection--multiple {
+        min-height: 42px !important;
+        border: 1.5px solid #cbd5e1 !important;
+        border-radius: 50px !important;
+        padding: 4px 12px !important;
+    }
+
+    /* Custom Toggle Switch for Is Featured */
+    .custom-toggle-wrap {
         display: flex;
         align-items: center;
+        height: 42px;
+        gap: 10px;
     }
-    .gst-select2 + .select2-container .select2-selection__choice__remove {
-        color: #1f4b3e !important;
-        margin-right: 6px !important;
+    .switch-pill {
+        position: relative;
+        display: inline-block;
+        width: 48px;
+        height: 24px;
+        margin-bottom: 0;
     }
-    .gst-select2 + .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 26px !important;
+    .switch-pill input {
+        opacity: 0;
+        width: 0;
+        height: 0;
     }
-    .gst-select2 + .select2-container--default .select2-results__option--highlighted[aria-selected] {
-        background-color: #d9efe6 !important;
-        color: #1f4b3e !important;
+    .slider-round {
+        position: absolute;
+        cursor: pointer;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-color: #cbd5e1;
+        transition: .3s;
+        border-radius: 50px !important;
+    }
+    .slider-round:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .3s;
+        border-radius: 50% !important;
+    }
+    input:checked + .slider-round {
+        background-color: #f89884 !important;
+    }
+    input:checked + .slider-round:before {
+        transform: translateX(24px);
     }
 
-    @media screen and (max-width:767px) {
-        .medicine-title {
-            padding-left: 15px !important;
-            text-align: left !important;
-        }
+    /* Barcode styling & 50% radius */
+    #addBarcodeBtn {
+        background-color: #cfece0 !important;
+        color: #1e293b !important;
+        border: 1px solid #b5e4d2 !important;
+        border-radius: 50px !important;
+        padding: 0 20px !important;
+        font-weight: 600;
+        font-size: 13.5px;
+        height: 42px;
+        transition: all 0.2s;
+    }
+    #addBarcodeBtn:hover {
+        background-color: #bce7d6 !important;
+    }
+    #generateBarcodeBtn {
+        background-color: #f89884 !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 50px !important;
+        padding: 0 20px !important;
+        font-weight: 600;
+        font-size: 13.5px;
+        height: 42px;
+        transition: all 0.2s;
+    }
+    #generateBarcodeBtn:hover {
+        background-color: #e58774 !important;
+    }
+    .btn-barcode-scan {
+        border: 1.5px solid #f89884 !important;
+        color: #f89884 !important;
+        background: #ffffff !important;
+        border-radius: 50px !important;
+        width: 42px;
+        height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .btn-barcode-scan:hover {
+        background: #fff3f0 !important;
+    }
+    .barcode-chip {
+        display: inline-flex;
+        align-items: center;
+        background-color: #cfece0;
+        color: #1e293b;
+        border: 1px solid #b5e4d2;
+        border-radius: 50px !important;
+        padding: 6px 14px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    .barcode-chip .remove-barcode {
+        margin-left: 8px;
+        font-size: 14px;
+        color: #ef4444;
+        cursor: pointer;
+    }
 
-        .medicine-button {
-            padding-right: 15px !important;
-            text-align: right !important;
-        }
+    /* Image upload box */
+    .image-upload-wrap {
+        border: 2px dashed #f89884;
+        border-radius: 20px !important;
+        padding: 24px;
+        text-align: center;
+        background: #fffcfb;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .image-upload-wrap:hover {
+        border-color: #e58774;
+        background: #fff5f3;
+    }
+    .image-upload-wrap input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .image-upload-wrap .upload-content {
+        pointer-events: none;
+    }
+    .image-upload-wrap .upload-content i {
+        font-size: 28px;
+        color: #f89884;
+        margin-bottom: 8px;
+    }
+    .image-upload-wrap .upload-content h4 {
+        font-size: 13.5px;
+        color: #64748b;
+        margin: 0;
+        font-weight: 500;
+    }
 
-        .page-title {
-            font-size: 20px;
-        }
+    /* Packaging card */
+    .ai-pack-card {
+        background: #fbfdfc;
+        border: 1.5px solid #cfece0;
+        border-radius: 20px;
+        padding: 16px 20px;
+        margin-bottom: 16px;
+    }
+    .ai-pack-badge {
+        padding: 4px 14px;
+        border-radius: 50px !important;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+    }
 
-        .form-container #step-1 {
-            height: 650px;
-        }
-
-        .form-container #step-2 {
-            height: 470px !important;
-        }
-
+    /* Buttons - 50% radius (pill) */
+    .btn-submit-main {
+        background-color: #f89884 !important;
+        border-color: #f89884 !important;
+        color: #ffffff !important;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 10px 32px !important;
+        border-radius: 50px !important;
+        box-shadow: 0 2px 6px rgba(248, 152, 132, 0.35);
+        transition: all 0.2s;
+    }
+    .btn-submit-main:hover {
+        background-color: #e58774 !important;
+        border-color: #e58774 !important;
+        color: #ffffff !important;
+    }
+    .btn-cancel-main {
+        background-color: #cfece0 !important;
+        border-color: #b5e4d2 !important;
+        color: #1e293b !important;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 10px 26px !important;
+        border-radius: 50px !important;
+        transition: all 0.2s;
+    }
+    .btn-cancel-main:hover {
+        background-color: #bce7d6 !important;
+        color: #1e293b !important;
+    }
+    .btn-back-main {
+        background-color: #cfece0 !important;
+        border: 1px solid #b5e4d2 !important;
+        color: #1e293b !important;
+        border-radius: 50px !important;
+        font-weight: 600;
+        font-size: 13.5px;
+        padding: 7px 20px !important;
+        transition: all 0.2s;
+    }
+    .btn-back-main:hover {
+        background-color: #bce7d6 !important;
+        color: #1e293b !important;
     }
 </style>
-@section('content')
-    <div class="page-wrapper">
-        <div class="content">
-            <div class="row" style="padding-top:15px">
-                <div class=" col-6">
-                    <h4 class="page-title medicine-title ">Edit Medicine</h4>
-                </div>
-                @if (app('hasPermission')(4, 'view'))
-                    <div class="col-6 medicine-button  medicine-title  m-b-2 ">
-                        <a href="{{ route('medicine.index') }}" class="btn btn-primary  btn-rounded">
-                            <i class="fa fa-arrow-left m-r-5 icon3  "></i> <span class="hdr-btn-text">Back</span></a>
-                    </div>
-                @endif
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <form class="form-container" id="medicineForm" method="POST" action="javascript:void(0);"
-                        enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" id="medicineId">
-                        <!-- Step 1 -->
-                        <div class="form-step" id="step-1">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-boxes icon-style"></i> Category <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-control" name="category_id" id="categoryDropdown"
-                                            data-selected="{{ old('category_id', $category->category_id ?? '') }}" required>
-                                            <option value="">Select Category</option>
-                                        </select>
 
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-pills icon-style"></i> Medicine Name <span
-                                                class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" name="name" id="name" required>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-align-left icon-style"></i> Description</label>
-                                        <textarea class="form-control" rows="3" name="description" id="description" style="border-radius:10px"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <div id="imagePreviewContainer">
-                                            <img id="imagePreview" src="" alt="Medicine Image"
-                                                style="max-width: 200px; display: none;">
-                                        </div>
-
-                                        <label><i class="fas fa-image icon-style"></i> Upload Image</label>
-                                        <div class="profile-upload">
-                                            <div class="upload-input">
-                                                <input type="file" id="imageInput" name="image" accept="image/*">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <script>
-                                    const imageInput = document.getElementById('imageInput');
-                                    const imagePreview = document.getElementById('imagePreview');
-
-                                    imageInput.addEventListener('change', function() {
-                                        const file = this.files[0];
-                                        if (file) {
-                                            const reader = new FileReader();
-
-                                            reader.onload = function(e) {
-                                                imagePreview.src = e.target.result;
-                                                imagePreview.style.display = 'block'; // Show the image
-                                            };
-
-                                            reader.readAsDataURL(file);
-                                        } else {
-                                            imagePreview.src = '';
-                                            imagePreview.style.display = 'none'; // Hide if no image selected
-                                        }
-                                    });
-                                </script>
-
-                            </div>
-                            <button type="button" class="btn btn-primary"
-                                style="margin-left:5px;padding:8px 50px;float:right;" onclick="nextStep()">
-                                Next
-                            </button>
-                        </div>
-
-                        <!-- Step 2 -->
-                        <div class="form-step" id="step-2" style="display: none;">
-                            <div class="row">
-                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-sort-numeric-up icon-style"></i> Quantity <span
-                                                class="text-danger">*</span></label>
-                                        <input class="form-control" type="number" name="quantity" id="quantity" required>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-rupee-sign icon-style"></i> Price <span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" name="unit" id="unit" required>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-tag icon-style"></i> Medicine Unit <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-control select2" name="medicine_unit" id="medicine_unit_dropdown" required>
-                                            <option value="">Select Unit</option>
-                                        </select>
-                                    </div>
-                                </div>
-                               
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-calendar-alt icon-style"></i> Manufacturing Date <span
-                                                class="text-danger">*</span></label>
-                                        <div class="">
-                                            <input type="date" class="form-control " name="manufacture_date"
-                                                id="manufacture_date" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-calendar-times icon-style"></i> Expiry Date <span
-                                                class="text-danger">*</span></label>
-                                        <div class="">
-                                            <input type="date" class="form-control " name="expiry_date"
-                                                id="expiry_date" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-barcode icon-style"></i> Batch Number <span
-                                                class="text-danger">*</span></label>
-                                        <input class="form-control" type="text" name="batch_no" id="batch_no" required>
-                                    </div>
-                                </div>
-
-                                @php
-                                    $gstEnabled = \App\Models\Setting::getValue('gst_status', 'on') === 'on';
-                                @endphp
-                                @if($gstEnabled)
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-percent icon-style"></i> GST Option <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-control select2 gst-select2" name="gst_option" id="gst_option" required>
-                                            <option value="Without GST">Without GST</option>
-                                            <option value="With GST">With GST</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6" id="product_gst_div" style="display: none;">
-                                    <div class="form-group">
-                                        <label><i class="fas fa-file-invoice-dollar icon-style"></i> Product GST <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-control select2 gst-select2" name="product_gst[]" id="product_gst" multiple>
-                                            <option value="">Select GST</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                @else
-                                <input type="hidden" name="gst_option" id="gst_option" value="Without GST">
-                                @endif
-                               
-                                <script>
-                                    document.addEventListener("DOMContentLoaded", function() {
-                                        const manufactureDateInput = document.getElementById('manufacture_date');
-                                        const expiryDateInput = document.getElementById('expiry_date');
-
-                                        // Get today's date in YYYY-MM-DD format
-                                        const today = new Date().toISOString().split('T')[0];
-
-                                        // Set max date for manufacture date to today (can't choose future)
-                                        manufactureDateInput.setAttribute('max', today);
-
-                                        // Set min date for expiry date to today (can't choose past)
-                                        expiryDateInput.setAttribute('min', today);
-                                    });
-                                </script>
-
-
-
-                            </div>
-                            <div id="editmedicinesuccessMessage" class="alert alert-success" style="display:none;"></div>
-                            {{-- <div id="editmedicineerrorMessage" class="alert alert-danger" style="display:none;"></div> --}}
-                            <button type="button" class="btn btn-danger"
-                                style="padding:8px 50px;border-radius:50px; float:left" onclick="prevStep()">
-                                Previous
-                            </button>
-
-                            <button type="submit" class="btn btn-primary"
-                                style="padding:8px 50px;border-radius:50px; float:right">
-                                Submit
-                            </button>
-                        </div>
-
-                    </form>
-
-                </div>
-            </div>
+<div class="page-wrapper">
+    <div class="content">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="page-title mb-0" style="font-weight: 700; font-size: 21px; color: #1e293b;">Edit Medicine</h4>
+            <a href="{{ route('medicine.index') }}" class="btn btn-back-main">
+                <i class="fas fa-arrow-left me-1"></i> Back
+            </a>
         </div>
 
+        <!-- Main Card Form -->
+        <div class="card medicine-create-card">
+            <div class="card-body">
+                <form id="medicineEditForm" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" id="medicine_id" value="{{ $id }}">
+                    <div class="row">
+                        <!-- Row 1 -->
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label>Product Type</label>
+                                <select class="form-control" name="service_type" id="service_type">
+                                    <option value="Medicine">Medicine</option>
+                                    <option value="Services">Services</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label>Category <span class="add-badge" id="quickAddCategoryBtn">Add Category</span></label>
+                                <select class="form-control select2" name="category_id" id="category_id" required>
+                                    <option value="">Select or Add Category</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label id="product_name_label">Product name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" id="name" class="form-control" placeholder="Enter medicine name" required>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12" id="brand_container">
+                            <div class="form-group">
+                                <label>Brand <span class="add-badge" id="quickAddBrandBtn">Add Brand</span></label>
+                                <select class="form-control select2" name="brand_id" id="brand_id">
+                                    <option value="">Select or Add Brand</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Row 2 -->
+                        <div class="col-lg-3 col-sm-6 col-12" id="quantity_container">
+                            <div class="form-group">
+                                <label>Stock</label>
+                                <input type="number" name="quantity" id="quantity" class="form-control" min="0" step="1" value="0">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12" id="low_stock_qty_container">
+                            <div class="form-group">
+                                <label>Low Stock Qty</label>
+                                <input type="number" name="low_stock_qty" id="low_stock_qty" class="form-control" min="0" step="1" placeholder="Optional">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12" id="stock_unit_container">
+                            <div class="form-group">
+                                <label>Stock Unit <span class="add-badge" id="quickAddUnitBtn">Add Unit</span></label>
+                                <select class="form-control select2" name="stock_unit_id" id="stock_unit_id">
+                                    <option value="">Select or Add Stock Unit</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12" id="gst_option_container">
+                            <div class="form-group">
+                                <label>GST Option</label>
+                                <select class="form-control" name="gst_option" id="gst_option">
+                                    <option value="Without GST">Without GST</option>
+                                    <option value="With GST">With GST</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12" id="gst_dropdown_container" style="display: none;">
+                            <div class="form-group">
+                                <label>Product GST <span class="add-badge" id="quickAddTaxBtn">Add Tax</span></label>
+                                <select class="form-control select2" name="product_gst[]" id="product_gst" multiple>
+                                    <option value="">Choose GST Rate</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Row 3 -->
+                        <div class="col-lg-3 col-sm-6 col-12" id="rate_container">
+                            <div class="form-group">
+                                <label>MRP</label>
+                                <input type="number" name="mrp" id="mrp" class="form-control" min="0" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12" id="purchase_price_container">
+                            <div class="form-group">
+                                <label>Purchase Price</label>
+                                <input type="number" name="purchase_price" id="purchase_price" class="form-control" min="0" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12" id="stock_value_container">
+                            <div class="form-group">
+                                <label>Stock Value</label>
+                                <input type="number" name="stock_value" id="stock_value" class="form-control" min="0" step="0.01" value="0.00" readonly style="background-color: #fbfdfc;">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select class="form-control" name="status" id="status">
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Row 4 -->
+                        <div class="col-lg-3 col-sm-6 col-12" id="availability_container">
+                            <div class="form-group">
+                                <label>Stock</label>
+                                <select class="form-control" name="availablility" id="availablility" disabled style="background-color: #fbfdfc;">
+                                    <option value="out_stock" selected>Out Of Stock</option>
+                                    <option value="in_stock">In Stock</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label>Is Featured</label>
+                                <div class="custom-toggle-wrap">
+                                    <label class="switch-pill">
+                                        <input type="checkbox" name="is_featured" id="is_featured" value="1">
+                                        <span class="slider-round"></span>
+                                    </label>
+                                    <span style="font-size: 13.5px; font-weight: 500; color: #1e293b;">Yes</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12" id="expiry_date_container">
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="date" name="expiry_date" id="expiry_date" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 d-none d-lg-block">
+                            <!-- Column alignment spacer matching reference UI -->
+                        </div>
+
+                        <!-- Row 5: Barcode (6 cols), Pack (3 cols), HSN (3 cols) -->
+                        <div class="col-lg-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label>Barcode</label>
+                                <div class="d-flex gap-2">
+                                    <input type="text" id="barcode_input" name="barcode" class="form-control" placeholder="Enter barcode" style="flex: 1;">
+                                    <button class="btn" type="button" id="addBarcodeBtn">Add</button>
+                                    <button class="btn" type="button" id="generateBarcodeBtn">Auto</button>
+                                    <button class="btn btn-barcode-scan" type="button" id="scanBarcodeBtn" title="Scan Barcode"><i class="fas fa-camera"></i></button>
+                                </div>
+                                <div id="barcode_chips_container" class="d-flex flex-wrap gap-2 mt-2"></div>
+                                <div id="hidden_barcodes_container"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12" id="pack_container">
+                            <div class="form-group">
+                                <label>Pack</label>
+                                <input type="text" name="pack" id="pack" class="form-control" placeholder="e.g. 10*10 or Strip">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12" id="hsn_code_container">
+                            <div class="form-group">
+                                <label id="hsn_code_label">HSN Code</label>
+                                <input type="text" class="form-control" name="hsn_code" id="hsn_code" placeholder="e.g. 3004">
+                            </div>
+                        </div>
+
+                        <!-- Pack conversion card (for multi pack e.g. 10*10) -->
+                        <div class="col-12" id="pack_conversion_card" style="display: none;">
+                            <div class="ai-pack-card">
+                                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                                    <span style="font-weight: 700; font-size: 13px; color: #1e293b; text-transform: uppercase;">
+                                        <i class="fas fa-boxes me-1" style="color: #f89884;"></i> Packaging & Retail Stock Conversion
+                                    </span>
+                                    <span class="ai-pack-badge" id="pack_formula_badge" style="background: #cfece0; color: #15803d; border: 1px solid #b5e4d2;"></span>
+                                </div>
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-md-3 col-6">
+                                        <label class="form-label mb-1" style="font-size: 12px; font-weight: 600;">Pricing Option</label>
+                                        <select class="form-control" id="ui_price_basis">
+                                            <option value="per_pack">Per Pack / Strip</option>
+                                            <option value="per_tab">Per Tab / Unit</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="form-label mb-1" style="font-size: 12px; font-weight: 600;">Bill Qty (Packs)</label>
+                                        <input type="number" step="1" min="0" class="form-control" id="ui_billed_qty" placeholder="e.g. 10">
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="form-label mb-1" style="font-size: 12px; font-weight: 600;">Units per pack</label>
+                                        <input type="number" step="1" min="1" class="form-control" id="ui_pack_factor" value="10">
+                                    </div>
+                                    <div class="col-md-3 col-6">
+                                        <label class="form-label mb-1" style="font-size: 12px; font-weight: 700; color: #047857;">Total Units (Stock)</label>
+                                        <input type="number" step="1" min="0" class="form-control" id="ui_stock_qty" style="font-weight: 700; background: #cfece0; color: #065f46;" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 6: Description & Upload -->
+                        <div class="col-lg-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea class="form-control" name="description" id="description" rows="3" placeholder="Medicine details or usage notes"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-sm-12 col-12">
+                            <div class="form-group">
+                                <label id="product_image_label">Product Image</label>
+                                <div class="image-upload-wrap">
+                                    <input type="file" name="image" id="image" accept="image/*">
+                                    <div class="upload-content">
+                                        <i class="fas fa-cloud-upload-alt d-block"></i>
+                                        <h4>Drag and drop a file to upload or click</h4>
+                                    </div>
+                                </div>
+                                <div id="image_name_preview" class="mt-2 text-success fw-bold" style="font-size: 13px;"></div>
+                                <div id="current_image_preview" class="mt-2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Actions -->
+                    <div class="row mt-3 pt-3 border-top">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-submit-main me-2" id="updateMedicineBtn">Update Medicine</button>
+                            <a href="{{ route('medicine.index') }}" class="btn btn-cancel-main">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Reusable Quick Add Modal for Category / Brand / Unit -->
+<div class="modal fade" id="quickAddModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            <div class="modal-header" style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0; padding: 16px 20px;">
+                <h5 class="modal-title fw-bold" id="quickAddModalTitle" style="color: #1e293b; font-size: 16px;">Add New</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 20px;">
+                <input type="hidden" id="quickAddType">
+                <div class="mb-3">
+                    <label class="form-label fw-bold" style="font-size: 13.5px;">Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="quickAddName" placeholder="Enter name">
+                    <span class="text-danger error-quick-add d-block mt-1" style="font-size: 12px;"></span>
+                </div>
+                <div class="mb-2" id="quickAddDescGroup">
+                    <label class="form-label fw-bold" style="font-size: 13.5px;">Description / Short Name</label>
+                    <input type="text" class="form-control" id="quickAddDesc" placeholder="Optional details">
+                </div>
+            </div>
+            <div class="modal-footer" style="background-color: #f8fafc; border-top: 1px solid #e2e8f0; padding: 12px 20px;">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" data-dismiss="modal" style="background-color: #cfece0; border-color: #b5e4d2; color: #1e293b; padding: 7px 20px; border-radius: 50px; font-weight: 600;">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm" id="saveQuickAddBtn" style="background-color: #f89884; border-color: #f89884; padding: 7px 24px; border-radius: 50px; font-weight: 600;">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/additional-methods.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token');
+        const branchId = localStorage.getItem('selectedBranchId');
+        const id = $('#medicine_id').val();
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <!-- Select2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        if ($.fn.select2) {
+            $('.select2').select2({ width: '100%' });
+        }
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-
-    <script>
-      
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleBtn = document.getElementById('toggle_btn');
-            toggleBtn.addEventListener('click', function() {
-                document.body.classList.toggle('mini-sidebar');
-            });
+        // Image file name preview
+        $('#image').on('change', function() {
+            if (this.files && this.files[0]) {
+                $('#image_name_preview').text('Selected: ' + this.files[0].name);
+            }
         });
 
-        function nextStep() {
-            var validator = $("#medicineForm").validate();
-            if (validator.element("#categoryDropdown") && validator.element("[name='name']")) {
-                document.getElementById('step-1').style.display = 'none';
-                document.getElementById('step-2').style.display = 'block';
-            }
-        }
-
-        function prevStep() {
-            document.getElementById('step-2').style.display = 'none';
-            document.getElementById('step-1').style.display = 'block';
-        }
-
-        $(document).ready(function() {
-            const token = localStorage.getItem('authToken');
-            if ($('select#gst_option').length) {
-                $('#gst_option').select2({
-                    placeholder: "Select GST Option",
-                    width: '100%'
-                });
-
-                $('#product_gst').select2({
-                    placeholder: "Select GST",
-                    allowClear: true,
-                    closeOnSelect: false,
-                    width: '100%'
-                });
-            }
-
-            // Initialize form validation
-            $('#medicineForm').validate({
-                ignore: ":hidden:not(.datetimepicker)", // Ignore hidden fields except datetimepicker
-                rules: {
-                    category_id: {
-                        required: true
-                    },
-                    name: {
-                        required: true,
-                        minlength: 3
-                    },
-                    description: {
-                        required: true,
-                        minlength: 3
-                    },
-                    unit: {
-                        required: true
-                    },
-                    medicine_unit: {
-                        required: true
-                    },
-                    quantity: {
-                        required: true,
-                        digits: true
-                    },
-                    manufacture_date: {
-                        required: true
-                    },
-                    batch_no: {
-                        required: true
-                    },
-                    expiry_date: {
-                        required: true
-                    },
-                    // status: {
-                    //     required: true
-                    // }
-                },
-                messages: {
-                    category_id: {
-                        required: "Please select a category"
-                    },
-                    name: {
-                        required: "Please enter the medicine name",
-                        minlength: "Medicine name must be at least 3 characters long"
-                    },
-                    description: {
-                        required: "Please enter the medicine description",
-                        minlength: "Medicine description must be at least 3 characters long"
-                    },
-                    unit: {
-                        required: "Please enter the price"
-                    },
-                    medicine_unit: {
-                        required: "Please select a unit"
-                    },
-                    quantity: {
-                        required: "Please enter the quantity",
-                        digits: "Quantity must be a number"
-                    },
-                    manufacture_date: {
-                        required: "Please enter the manufacture date"
-                    },
-                    batch_no: {
-                        required: "Please enter the batch number"
-                    },
-                    expiry_date: {
-                        required: "Please enter the expiry date"
-                    },
-                    // status: {
-                    //     required: "Please select a status"
-                    // }
-                },
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
+        // 1. Load Dropdowns
+        function loadCategories(selectedId = null) {
+            return $.ajax({
+                url: '{{ url("api/categories") }}',
+                type: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                data: { branch_id: branchId },
+                success: function(res) {
+                    if (res.status && res.categories) {
+                        let html = '<option value="">Select or Add Category</option>';
+                        res.categories.forEach(c => {
+                            html += `<option value="${c.id}">${c.name}</option>`;
+                        });
+                        $('#category_id').html(html);
+                        if (selectedId) $('#category_id').val(selectedId).trigger('change');
+                    }
                 }
             });
+        }
 
-            $('#gst_option').on('change', function() {
-                if ($(this).val() === 'With GST') {
-                    $('#product_gst_div').show();
-                    $('#product_gst').attr('required', true);
-                } else {
-                    $('#product_gst_div').hide();
-                    $('#product_gst').attr('required', false).val('').trigger('change');
+        function loadBrands(selectedId = null) {
+            return $.ajax({
+                url: '{{ url("api/brands") }}',
+                type: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                data: { branch_id: branchId },
+                success: function(res) {
+                    if (res.status && res.brands) {
+                        let html = '<option value="">Select or Add Brand</option>';
+                        res.brands.forEach(b => {
+                            html += `<option value="${b.id}">${b.name}</option>`;
+                        });
+                        $('#brand_id').html(html);
+                        if (selectedId) $('#brand_id').val(selectedId).trigger('change');
+                    }
                 }
             });
+        }
 
-            function fetchMedicineUnits() {
-                let branchId = localStorage.getItem('selectedBranchId');
-                return $.ajax({
-                    url: '/api/medicine-units',
-                    type: 'GET',
-                    data: {
-                        branch_id: branchId
-                    },
-                    headers: {
-                        "Authorization": "Bearer " + token
-                    },
-                    success: function(response) {
-                        let unitDropdown = $('#medicine_unit_dropdown');
-                        unitDropdown.empty().append('<option value="">Select Unit</option>');
-                        if (response.status && response.data) {
-                            response.data.forEach(function(unit) {
-                                unitDropdown.append(
-                                    `<option value="${unit.unit}">${unit.unit}</option>`
-                                );
-                            });
-                        }
-                        unitDropdown.select2({
-                            placeholder: "Select Unit",
-                            allowClear: true,
-                            width: '100%'
+        function loadStockUnits(selectedId = null) {
+            return $.ajax({
+                url: '{{ url("api/stock-units") }}',
+                type: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                success: function(res) {
+                    if (res.status && res.stock_units) {
+                        let html = '<option value="">Select or Add Stock Unit</option>';
+                        res.stock_units.forEach(u => {
+                            html += `<option value="${u.id}">${u.name} (${u.short_name || u.name})</option>`;
                         });
-                    },
-                    error: function(xhr) {
-                        console.error("Error loading medicine units:", xhr.responseText);
+                        $('#stock_unit_id').html(html);
+                        if (selectedId) $('#stock_unit_id').val(selectedId).trigger('change');
                     }
-                });
-            }
-
-            function fetchTaxRates(callback) {
-                let branchId = localStorage.getItem('selectedBranchId');
-                $.ajax({
-                    url: '/api/tax-rates',
-                    type: 'GET',
-                    data: { branch_id: branchId },
-                    headers: { "Authorization": "Bearer " + token },
-                    success: function(data) {
-                        let gstDropdown = $('#product_gst');
-                        gstDropdown.empty().append('<option value="">Select GST</option>');
-                        
-                        let taxRates = Array.isArray(data) ? data : (data.data || []);
-                        window.taxRatesList = taxRates; // Store for mapping
-                        $.each(taxRates, function(index, tax) {
-                            if (tax.status === 'active') {
-                                gstDropdown.append(`<option value="${tax.id}">${tax.tax_name} (${tax.tax_rate}%)</option>`);
-                            }
-                        });
-
-                        ensureProductGstSelect2();
-
-                        if (callback) callback();
-                    },
-                    error: function(xhr) {
-                        console.error("Error loading tax rates:", xhr.responseText);
-                    }
-                });
-            }
-
-
-
-
-            let pathParts = window.location.pathname.split('/');
-            let medicineId = pathParts[pathParts.length - 1];
-            $("#medicineId").val(medicineId);
-
-            // Fetch categories and tax rates first, then medicine details
-            $.when(fetchCategories(), fetchTaxRates(), fetchMedicineUnits()).done(function() {
-                fetchMedicineDetails(medicineId);
+                }
             });
+        }
 
-           
-            function fetchCategories() {
-                let branchId = localStorage.getItem('selectedBranchId'); // ✅ from localStorage
-
-                return $.ajax({
-                    url: '/api/categories',
-                    type: 'GET',
-                    headers: {
-                        "Authorization": "Bearer " + token
-                    },
-                    data: {
-                        branch_id: branchId
-                    }, // ✅ send branch_id
-                    success: function(response) {
-                        var categoryDropdown = $('select[name="category_id"]');
-
-                        if (categoryDropdown.length === 0) {
-                            console.error("Dropdown not found! Check your HTML.");
-                            return;
+        // 2. Fetch Medicine details and prefill
+        $.when(loadCategories(), loadBrands(), loadStockUnits()).done(function() {
+            $.ajax({
+                url: `{{ url('api/medicines') }}/${id}`,
+                type: 'GET',
+                headers: { 'Authorization': 'Bearer ' + token },
+                success: function(res) {
+                    if (res.medicine) {
+                        const m = res.medicine;
+                        $('#service_type').val(m.service_type || 'Medicine').trigger('change');
+                        $('#category_id').val(m.category_id).trigger('change');
+                        $('#brand_id').val(m.brand_id).trigger('change');
+                        $('#stock_unit_id').val(m.stock_unit_id).trigger('change');
+                        $('#name').val(m.name);
+                        $('#description').val(m.description);
+                        $('#quantity').val(m.quantity || 0);
+                        $('#low_stock_qty').val(m.low_stock_qty);
+                        $('#mrp').val(m.mrp || m.unit);
+                        $('#purchase_price').val(m.purchase_price);
+                        $('#stock_value').val(m.stock_value || 0);
+                        $('#status').val(m.status || 'active');
+                        $('#availablility').val(m.availablility || (m.quantity > 0 ? 'in_stock' : 'out_stock'));
+                        if (m.is_featured == 1 || m.is_featured === true) {
+                            $('#is_featured').prop('checked', true);
                         }
+                        $('#expiry_date').val(m.expiry_date);
+                        $('#pack').val(m.pack);
+                        $('#hsn_code').val(m.hsn_code);
+                        $('#gst_option').val(m.gst_option || 'Without GST').trigger('change');
 
-                        categoryDropdown.empty().append('<option value="">Select Category</option>');
-
-                        if (!response || response.length === 0) {
-                            console.warn("No categories found for this branch.");
-                            return;
-                        }
-
-                        // Store temporarily in case needed later
-                        window.categoryList = response;
-
-                        // Populate dropdown
-                        $.each(response, function(index, category) {
-                            let name = category.name;
-                            let formattedName = name.charAt(0).toUpperCase() + name.slice(1);
-
-                            categoryDropdown.append(
-                                `<option value="${category.id}">${formattedName}</option>`
-                            );
-                        });
-
-                        // Initialize Select2
-                        categoryDropdown.select2({
-                            placeholder: "Select Category",
-                            allowClear: true,
-                            width: '100%'
-                        });
-
-                        // Set placeholder for search field
-                        categoryDropdown.on('select2:open', function() {
-                            $('.select2-search__field').attr('placeholder', 'Search Category');
-                        });
-                    },
-                    error: function(xhr) {
-                        console.error("API Error:", xhr.status, xhr.responseText);
-                        alert('Failed to load categories.');
-                    }
-                });
-            }
-
-
-            function fetchMedicineDetails(medicineId) {
-                $.ajax({
-                    url: '/api/medicines/' + medicineId,
-                    type: 'GET',
-                    headers: {
-                        "Authorization": "Bearer " + token
-                    },
-                    success: function(data) {
-                        let medicine = data.medicine;
-
-                        $('#name').val(medicine.name);
-                        $('#description').val(medicine.description);
-                        $('#unit').val(medicine.unit);
-                        $('#medicine_unit_dropdown').val(medicine.medicine_unit).trigger('change');
-                        $('#quantity').val(medicine.quantity);
-                        $('#manufacture_date').val(medicine.manufacture_date);
-                        $('#batch_no').val(medicine.batch_no);
-                        $('#gst_option').val(medicine.gst_option || 'Without GST').trigger('change');
-                        let selectedGst = medicine.product_gst;
-                        if (typeof selectedGst === 'string') {
-                            try {
-                                selectedGst = JSON.parse(selectedGst);
-                            } catch (e) {
-                                selectedGst = selectedGst.split(',').map(v => v.trim());
-                            }
-                        }
-                        if (selectedGst && Array.isArray(selectedGst)) {
-                            let mappedGstIds = [];
-                            $.each(selectedGst, function(i, item) {
-                                if (typeof item === 'object' && item !== null) {
-                                    // Try to find matching ID from window.taxRates
-                                    let match = (window.taxRates || []).find(t => 
-                                        t.tax_name === item.tax_name && 
-                                        parseFloat(t.tax_rate) === parseFloat(item.tax_rate)
-                                    );
-                                    if (match) mappedGstIds.push(String(match.id));
-                                } else {
-                                    mappedGstIds.push(String(item));
+                        if (m.barcode) {
+                            const codes = m.barcode.split(',');
+                            codes.forEach(c => {
+                                const trimC = c.trim();
+                                if (trimC && !barcodesList.includes(trimC)) {
+                                    barcodesList.push(trimC);
                                 }
                             });
-                            $('#product_gst').val(mappedGstIds).trigger('change');
-                        } else if (selectedGst) {
-                            $('#product_gst').val(String(selectedGst)).trigger('change');
+                            renderBarcodeChips();
                         }
-                        $('#expiry_date').val(medicine.expiry_date);
 
-                        // ✅ Now that categories are loaded and select2 initialized, set selected value
-                        $('#categoryDropdown').val(medicine.category_id).trigger('change');
-
-                        // Optional: preview image
-                        if (medicine.image) {
-                            $('#imagePreview')
-                                .attr('src', medicine.image)
-                                .attr('onerror',
-                                    "this.onerror=null;this.src='{{ asset('admin/assets/img/default.webp') }}';"
-                                )
-                                .show();
-                            $('#imagePreviewContainer').show();
-                        } else {
-                            $('#imagePreview').attr('src',
-                                "{{ asset('admin/assets/img/default.webp') }}").show();
-                            $('#imagePreviewContainer').show();
+                        if (m.image) {
+                            $('#current_image_preview').html(`
+                                <div class="d-flex align-items-center gap-2 mt-2 p-2 border rounded-pill" style="background:#f8fafc; max-width: 250px;">
+                                    <img src="${m.image}" alt="Image" style="height: 45px; width: 45px; object-fit: cover; border-radius: 50%;">
+                                    <span class="text-muted" style="font-size: 12px;">Current Image</span>
+                                </div>
+                            `);
                         }
-                    },
-                    error: function() {
-                        alert('Failed to fetch medicine details.');
+
+                        detectPackagingPattern($('#pack').val());
                     }
-                });
-            }
-
-
-
-
-
-            $("#medicineForm").submit(function(e) {
-                e.preventDefault();
-
-                if ($('#medicineForm').valid()) {
-
-                    let manufactureDate = new Date($('#manufacture_date').val());
-                    let expiryDate = new Date($('#expiry_date').val());
-
-                  
-
-                    var formData = new FormData(this);
-                    formData.append('_method', 'PUT');
-
-                    $.ajax({
-                        url: '/api/medicines/' + medicineId,
-                        type: 'POST',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function(response) {
-                            $('#editmedicinesuccessMessage').text(response.message ||
-                                'Medicine updated successfully').show();
-                            $('#medicineForm')[0].reset();
-                            setTimeout(function() {
-                                window.location.href = "{{ route('medicine.index') }}";
-                            }, 1500);
-                        },
-                        error: function(xhr) {
-                            var errorMessage = '';
-                            if (xhr.status === 422) { // Validation error
-                                var errors = xhr.responseJSON.errors;
-                                $.each(errors, function(key, messages) {
-                                    errorMessage += messages[0] + '<br>';
-                                });
-                            }
-                            $('#editmedicineerrorMessage').html(errorMessage).show();
-                        }
-                    });
                 }
             });
         });
-    </script>
+
+        // 3. Auto-Calculate Stock Value & Availability
+        function updateStockCalculations() {
+            const qty = parseFloat($('#quantity').val()) || 0;
+            const purchasePrice = parseFloat($('#purchase_price').val()) || parseFloat($('#mrp').val()) || 0;
+            const stockVal = (qty * purchasePrice).toFixed(2);
+            $('#stock_value').val(stockVal);
+
+            if (qty > 0) {
+                $('#availablility').val('in_stock');
+            } else {
+                $('#availablility').val('out_stock');
+            }
+        }
+
+        $('#quantity, #purchase_price, #mrp').on('input change', updateStockCalculations);
+
+        // 4. Product Type Switching
+        $('#service_type').on('change', function() {
+            const isService = $(this).val() === 'Services';
+            if (isService) {
+                $('#product_name_label').html('Service name <span class="text-danger">*</span>');
+                $('#brand_container, #quantity_container, #low_stock_qty_container, #stock_unit_container, #purchase_price_container, #stock_value_container, #availability_container, #expiry_date_container, #pack_container, #pack_conversion_card').hide();
+                $('#rate_container label').text('Service Charge');
+                $('#hsn_code_label').text('SAC Code');
+            } else {
+                $('#product_name_label').html('Product name <span class="text-danger">*</span>');
+                $('#brand_container, #quantity_container, #low_stock_qty_container, #stock_unit_container, #purchase_price_container, #stock_value_container, #availability_container, #expiry_date_container, #pack_container').show();
+                $('#rate_container label').text('MRP');
+                $('#hsn_code_label').text('HSN Code');
+                detectPackagingPattern($('#pack').val());
+            }
+        });
+
+        // 5. GST Toggle
+        $('#gst_option').on('change', function() {
+            if ($(this).val() === 'With GST') {
+                $('#gst_dropdown_container').show();
+            } else {
+                $('#gst_dropdown_container').hide();
+                $('#product_gst').val(null).trigger('change');
+            }
+        });
+
+        // 6. Barcode Management
+        let barcodesList = [];
+
+        function renderBarcodeChips() {
+            let chipsHtml = '';
+            let hiddenHtml = '';
+            barcodesList.forEach((code, index) => {
+                chipsHtml += `
+                    <span class="barcode-chip">
+                        <i class="fas fa-barcode me-1 text-muted"></i> ${code}
+                        <i class="fas fa-times remove-barcode" data-index="${index}" title="Remove"></i>
+                    </span>
+                `;
+                hiddenHtml += `<input type="hidden" name="barcodes[]" value="${code}">`;
+            });
+            $('#barcode_chips_container').html(chipsHtml);
+            $('#hidden_barcodes_container').html(hiddenHtml);
+            if (barcodesList.length > 0) {
+                $('#barcode_input').val(barcodesList[0]);
+            }
+        }
+
+        $('#addBarcodeBtn').on('click', function() {
+            const val = $('#barcode_input').val().trim();
+            if (!val) return;
+            if (!barcodesList.includes(val)) {
+                barcodesList.push(val);
+                renderBarcodeChips();
+            }
+        });
+
+        $('#barcode_input').on('keypress', function(e) {
+            if (e.which === 13) {
+                e.preventDefault();
+                $('#addBarcodeBtn').click();
+            }
+        });
+
+        $('#generateBarcodeBtn').on('click', function() {
+            const generated = 'MED' + Math.floor(1000000000 + Math.random() * 9000000000);
+            $('#barcode_input').val(generated);
+            if (!barcodesList.includes(generated)) {
+                barcodesList.push(generated);
+                renderBarcodeChips();
+            }
+        });
+
+        $('#scanBarcodeBtn').on('click', function() {
+            const scanned = prompt('Simulated Barcode Scanner: Scan or enter barcode below');
+            if (scanned && scanned.trim()) {
+                const clean = scanned.trim();
+                $('#barcode_input').val(clean);
+                if (!barcodesList.includes(clean)) {
+                    barcodesList.push(clean);
+                    renderBarcodeChips();
+                }
+            }
+        });
+
+        $(document).on('click', '.remove-barcode', function() {
+            const idx = $(this).data('index');
+            barcodesList.splice(idx, 1);
+            renderBarcodeChips();
+        });
+
+        // 7. Packaging helper
+        function detectPackagingPattern(val) {
+            if (!val) {
+                $('#pack_conversion_card').slideUp(150);
+                return;
+            }
+            const match = val.match(/(\d+)\s*[*xX]\s*(\d+)/);
+            if (match) {
+                const strips = parseInt(match[1]) || 1;
+                const tabsPerStrip = parseInt(match[2]) || 10;
+                $('#pack_formula_badge').text(`${strips} Strips × ${tabsPerStrip} Tabs = ${strips * tabsPerStrip} Tabs / Box`);
+                $('#ui_pack_factor').val(tabsPerStrip);
+                $('#pack_conversion_card').slideDown(150);
+            } else {
+                $('#pack_conversion_card').slideUp(150);
+            }
+        }
+
+        $('#pack').on('input change', function() {
+            detectPackagingPattern($(this).val());
+        });
+
+        $('#ui_billed_qty, #ui_pack_factor').on('input', function() {
+            const packs = parseFloat($('#ui_billed_qty').val()) || 0;
+            const factor = parseFloat($('#ui_pack_factor').val()) || 1;
+            const total = packs * factor;
+            $('#ui_stock_qty').val(total);
+            if (total > 0 && confirm(`Update main Stock field to ${total} units?`)) {
+                $('#quantity').val(total).trigger('change');
+            }
+        });
+
+        // 8. Quick Add Modal
+        $('#quickAddCategoryBtn').on('click', function() {
+            openQuickAdd('category', 'Add New Category', 'Category Name', true);
+        });
+
+        $('#quickAddBrandBtn').on('click', function() {
+            openQuickAdd('brand', 'Add New Brand', 'Brand Name', true);
+        });
+
+        $('#quickAddUnitBtn').on('click', function() {
+            openQuickAdd('stock_unit', 'Add Stock Unit', 'Unit Name (e.g. Strip, Box, Tab)', true, 'Short Name (e.g. STRIP, TAB)');
+        });
+
+        function openQuickAdd(type, title, placeholder, showDesc, descLabel = 'Description') {
+            $('#quickAddType').val(type);
+            $('#quickAddModalTitle').text(title);
+            $('#quickAddName').val('').attr('placeholder', placeholder);
+            $('#quickAddDesc').val('');
+            $('#quickAddDescGroup label').text(descLabel);
+            $('.error-quick-add').text('');
+            const modalEl = document.getElementById('quickAddModal');
+            const bsModal = new bootstrap.Modal(modalEl);
+            bsModal.show();
+        }
+
+        $('#saveQuickAddBtn').on('click', function() {
+            const type = $('#quickAddType').val();
+            const name = $('#quickAddName').val().trim();
+            const desc = $('#quickAddDesc').val().trim();
+
+            if (!name) {
+                $('.error-quick-add').text('Name is required');
+                return;
+            }
+
+            let url = '';
+            let payload = {};
+
+            if (type === 'category') {
+                url = '{{ url("api/categories") }}';
+                payload = { name: name, description: desc, branch_id: branchId };
+            } else if (type === 'brand') {
+                url = '{{ url("api/brands") }}';
+                payload = { name: name, description: desc, branch_id: branchId };
+            } else if (type === 'stock_unit') {
+                url = '{{ url("api/stock-units") }}';
+                payload = { name: name, short_name: desc || name };
+            }
+
+            $('#saveQuickAddBtn').prop('disabled', true).text('Saving...');
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' },
+                data: payload,
+                success: function(res) {
+                    $('#saveQuickAddBtn').prop('disabled', false).text('Save');
+                    bootstrap.Modal.getInstance(document.getElementById('quickAddModal')).hide();
+
+                    if (type === 'category') {
+                        loadCategories(res.category ? res.category.id : null);
+                    } else if (type === 'brand') {
+                        loadBrands(res.brand ? res.brand.id : null);
+                    } else if (type === 'stock_unit') {
+                        loadStockUnits(res.stock_unit ? res.stock_unit.id : null);
+                    }
+                },
+                error: function(err) {
+                    $('#saveQuickAddBtn').prop('disabled', false).text('Save');
+                    $('.error-quick-add').text(err.responseJSON ? err.responseJSON.message : 'Error creating entry');
+                }
+            });
+        });
+
+        // 9. Form Submission
+        $('#medicineEditForm').on('submit', function(e) {
+            e.preventDefault();
+
+            if (barcodesList.length > 0) {
+                $('#barcode_input').val(barcodesList.join(','));
+            }
+
+            const form = document.getElementById('medicineEditForm');
+            const formData = new FormData(form);
+            formData.append('_method', 'PUT');
+
+            $('#updateMedicineBtn').prop('disabled', true).text('Updating...');
+
+            $.ajax({
+                url: `{{ url('api/medicines') }}/${id}`,
+                type: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
+                },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    if (res.status) {
+                        alert(res.message || 'Medicine updated successfully!');
+                        window.location.href = '{{ route("medicine.index") }}';
+                    } else {
+                        alert(res.message || 'Failed to update medicine.');
+                        $('#updateMedicineBtn').prop('disabled', false).text('Update Medicine');
+                    }
+                },
+                error: function(err) {
+                    $('#updateMedicineBtn').prop('disabled', false).text('Update Medicine');
+                    let msg = 'Error updating medicine.';
+                    if (err.responseJSON) {
+                        if (err.responseJSON.errors) {
+                            msg = Object.values(err.responseJSON.errors).flat().join('\n');
+                        } else if (err.responseJSON.message) {
+                            msg = err.responseJSON.message;
+                        }
+                    }
+                    alert(msg);
+                }
+            });
+        });
+    });
+</script>
 @endsection

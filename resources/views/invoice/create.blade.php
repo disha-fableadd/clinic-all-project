@@ -841,7 +841,7 @@
                     const gstOpt = (item.gst_option || '') ? ` data-gst-option="${item.gst_option}"` : '';
                     const productGst = (item.product_gst && (Array.isArray(item.product_gst) ? item.product_gst.length : true)) ? ` data-product-gst='${JSON.stringify(item.product_gst || [])}'` : '';
                     select.append(`
-                <option value="${item.id}" data-service-type="${item.service_type ?? ''}"${gstOpt}${productGst} ${isSelected}>${item.name}</option>
+                <option value="${item.id}" data-service-type="${item.service_type ?? ''}" data-stock="${item.quantity ?? 0}"${gstOpt}${productGst} ${isSelected}>${(type === 'medicine' ? (item.name + ' (Stock: ' + (item.quantity ?? 0) + (item.batch_no ? ' | Batch: ' + item.batch_no : '') + (item.mrp || item.unit ? ' | ₹' + (item.mrp || item.unit) : '') + ')') : item.name)}</option>
             `);
                 }
             });
@@ -1160,7 +1160,7 @@
                 if (isServiceChange && selectedItem) {
                     let price = '';
                     if (selectedType === 'medicine') {
-                        price = selectedItem.unit ?? '';
+                        price = selectedItem.mrp || selectedItem.unit || '';
                     } else if (selectedType === 'treatment') {
                         price = selectedItem.price ?? '';
                     } else if (selectedType === 'service') {
@@ -1168,7 +1168,7 @@
                     } else if (selectedType === 'therapy') {
                         price = selectedItem.cost ?? '';
                     } else if (selectedType === 'appointment') {
-                        price = selectedItem.unit ?? '';
+                        price = selectedItem.mrp || selectedItem.unit || '';
                     }
 
                     row.find('.price').val('');

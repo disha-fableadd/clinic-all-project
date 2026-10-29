@@ -5,28 +5,27 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Medicine;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Brand;
+use App\Models\StockUnit;
+use App\Models\ProductBarcode;
+use App\Models\TaxRate;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Models\TaxRate;
 
 class MedicineController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+        $this->middleware('auth:sanctum')->except(['exportCsv', 'getmedicine']);
     }
-
 
     public function exportCsv(Request $request)
     {
-        $branchId = $request->input('branch_id'); // ✅ Branch filter
+        $branchId = $request->input('branch_id');
 
-        $medicines = Medicine::with(['category'])->orderBy('name');
+        $medicines = Medicine::with(['category', 'brand', 'stockUnit'])->orderBy('name');
 
-        // ✅ Apply branch filter if provided
         if ($branchId) {
             $medicines->where('branch_id', $branchId);
         }
@@ -51,19 +50,23 @@ class MedicineController extends Controller
         $fullPath = $publicPath . $filename;
         $file = fopen($fullPath, 'w');
 
-        // CSV Header
         fputcsv($file, [
             'ID',
             'Medicine Name',
             'Category',
-            'Description',
-            'Unit',
+            'Brand',
+            'Stock Unit',
             'Quantity',
+            'Low Stock Qty',
+            'MRP',
+            'Purchase Price',
+            'Stock Value',
             'Batch No',
-            'Manufacture Date',
             'Expiry Date',
-            'Image URL',
-
+            'Barcode',
+            'Pack',
+            'HSN Code',
+            'Status',
             'Created At'
         ]);
 
@@ -73,15 +76,20 @@ class MedicineController extends Controller
                 $sr++,
                 $medicine->name,
                 $medicine->category->name ?? '',
-                $medicine->description,
-                $medicine->unit,
-                $medicine->quantity,
-                $medicine->batch_no,
-                $medicine->manufacture_date,
-                $medicine->expiry_date,
-                $medicine->image, // accessor provides full image URL
-
-                $medicine->created_at
+                $medicine->brand->name ?? '',
+                $medicine->stockUnit->name ?? ($medicine->medicine_unit ?? ''),
+                $medicine->quantity ?? 0,
+                $medicine->low_stock_qty ?? '',
+                $medicine->mrp ?? ($medicine->unit ?? 0),
+                $medicine->purchase_price ?? 0,
+                $medicine->stock_value ?? 0,
+                $medicine->batch_no ?? '',
+                $medicine->expiry_date ?? '',
+                $medicine->barcode ?? '',
+                $medicine->pack ?? '',
+                $medicine->hsn_code ?? '',
+                $medicine->status ?? 'active',
+                $medicine->created_at ? $medicine->created_at->format('Y-m-d H:i') : ''
             ]);
         }
 
@@ -95,58 +103,68 @@ class MedicineController extends Controller
         ]);
     }
 
-
-
-
-
     public function getmedicine(Request $request)
     {
-        $user = Auth::user(); // Get the logged-in user
+        $user = Auth::user();
 
-        if (!$user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        $query = Medicine::with(['category', 'brand', 'stockUnit']);
+
+        if ($user) {
+            $query->where(function ($q) use ($user) {
+                $q->where('user_id', $user->id)->orWhere('branch_id', $user->branch_id);
+            });
         }
 
-        $query = Medicine::where('user_id', $user->id);
-
-        // ✅ Filter by branch if provided
         if ($request->filled('branch_id')) {
             $query->where('branch_id', $request->branch_id);
         }
 
-        // Fetch medicines associated with the logged-in user and order by ID in descending order
-        $medicines = $query->orderBy('id', 'desc')->get();
+        $medicines = $query->orderBy('name', 'asc')->get();
 
         return response()->json(['medicines' => $medicines]);
     }
 
-
-   
-
     public function index(Request $request)
     {
-        $query = Medicine::with('category', 'branch'); // eager load relations
+        $query = Medicine::with(['category', 'brand', 'stockUnit', 'branch']);
 
-        // ✅ Filter by branch
         if ($request->filled('branch_id')) {
             $query->where('branch_id', $request->branch_id);
         }
 
         $mapMedicine = function ($medicine) {
+            $mrp = $medicine->mrp ?? ($medicine->unit ?? 0);
             return [
                 'id' => $medicine->id,
+                'service_type' => $medicine->service_type ?? 'Medicine',
                 'name' => $medicine->name,
                 'description' => $medicine->description,
                 'image' => $medicine->image,
-                'category_name' => $medicine->category->name ?? 'No category',
+                'category_id' => $medicine->category_id,
+                'category_name' => $medicine->category->name ?? 'N/A',
+                'brand_id' => $medicine->brand_id,
+                'brand_name' => $medicine->brand->name ?? 'N/A',
+                'stock_unit_id' => $medicine->stock_unit_id,
+                'stock_unit_name' => $medicine->stockUnit->name ?? ($medicine->medicine_unit ?? 'N/A'),
                 'branch_name' => $medicine->branch->name ?? 'N/A',
-                'quantity' => $medicine->quantity ?? 0,
-                'unit' => $medicine->unit ?? 'N/A',
-                'status' => $medicine->status ?? 'N/A',
-                'manufacture_date' => $medicine->manufacture_date ?? null,
+                'quantity' => (int) ($medicine->quantity ?? 0),
+                'low_stock_qty' => $medicine->low_stock_qty,
+                'unit' => (string) $mrp,
+                'mrp' => (float) $mrp,
+                'purchase_price' => (float) ($medicine->purchase_price ?? 0),
+                'stock_value' => (float) ($medicine->stock_value ?? 0),
+                'status' => $medicine->status ?? 'active',
+                'availablility' => $medicine->availablility ?? ($medicine->quantity > 0 ? 'in_stock' : 'out_stock'),
+                'is_featured' => (bool) $medicine->is_featured,
                 'batch_no' => $medicine->batch_no ?? 'N/A',
-                'expiry_date' => $medicine->expiry_date ?? null,
-                'created_at' => $medicine->created_at->toDateTimeString(),
+                'barcode' => $medicine->barcode,
+                'pack' => $medicine->pack,
+                'hsn_code' => $medicine->hsn_code,
+                'gst_option' => $medicine->gst_option,
+                'product_gst' => $medicine->product_gst,
+                'manufacture_date' => $medicine->manufacture_date,
+                'expiry_date' => $medicine->expiry_date,
+                'created_at' => $medicine->created_at ? $medicine->created_at->toDateTimeString() : null,
             ];
         };
 
@@ -160,12 +178,14 @@ class MedicineController extends Controller
                 $filteredQuery->where(function ($q) use ($searchValue) {
                     $q->where('name', 'like', '%' . $searchValue . '%')
                         ->orWhere('batch_no', 'like', '%' . $searchValue . '%')
-                        ->orWhere('unit', 'like', '%' . $searchValue . '%')
-                        ->orWhere('quantity', 'like', '%' . $searchValue . '%')
-                        ->orWhere('status', 'like', '%' . $searchValue . '%')
-                        ->orWhere('expiry_date', 'like', '%' . $searchValue . '%')
+                        ->orWhere('barcode', 'like', '%' . $searchValue . '%')
+                        ->orWhere('hsn_code', 'like', '%' . $searchValue . '%')
+                        ->orWhere('pack', 'like', '%' . $searchValue . '%')
                         ->orWhereHas('category', function ($c) use ($searchValue) {
                             $c->where('name', 'like', '%' . $searchValue . '%');
+                        })
+                        ->orWhereHas('brand', function ($b) use ($searchValue) {
+                            $b->where('name', 'like', '%' . $searchValue . '%');
                         });
                 });
             }
@@ -173,30 +193,12 @@ class MedicineController extends Controller
             $recordsTotal = (clone $query)->count();
             $recordsFiltered = (clone $filteredQuery)->count();
 
-            $columns = $request->input('columns', []);
-            $orderColumnIndex = $request->input('order.0.column');
-            $orderDir = $request->input('order.0.dir', 'asc');
-            $orderColumn = null;
-            if ($orderColumnIndex !== null && isset($columns[$orderColumnIndex]['data'])) {
-                $orderColumn = $columns[$orderColumnIndex]['data'];
-            }
-
-            $allowedOrderColumns = ['id', 'name', 'quantity', 'unit', 'batch_no', 'manufacture_date', 'expiry_date', 'status', 'created_at', 'updated_at'];
-            if ($orderColumn && in_array($orderColumn, $allowedOrderColumns, true)) {
-                $filteredQuery->orderBy($orderColumn, $orderDir === 'desc' ? 'desc' : 'asc');
-            } else {
-                $filteredQuery->orderBy('id', 'desc');
-            }
-
             $length = (int) $request->input('length', 10);
-            if ($length === -1) {
-                $length = $recordsFiltered > 0 ? $recordsFiltered : 10;
-            }
-            $length = $length > 0 ? $length : 10;
+            if ($length <= 0) $length = 10;
             $start = (int) $request->input('start', 0);
             $page = (int) floor($start / $length) + 1;
 
-            $medicines = $filteredQuery->forPage($page, $length)->get()->map($mapMedicine);
+            $medicines = $filteredQuery->orderBy('id', 'desc')->forPage($page, $length)->get()->map($mapMedicine);
 
             return response()->json([
                 'status' => true,
@@ -207,75 +209,22 @@ class MedicineController extends Controller
             ], 200);
         }
 
-        // Discharge-style pagination support (page/per_page)
-        if ($request->has('page') || $request->has('per_page')) {
-            $page = (int) $request->input('page', 1);
-            $perPage = (int) $request->input('per_page', 10);
-            $page = $page > 0 ? $page : 1;
-            $perPage = $perPage > 0 ? $perPage : 10;
-
-            $searchValue = $request->input('search');
-            $filteredQuery = clone $query;
-
-            if (!empty($searchValue)) {
-                $filteredQuery->where(function ($q) use ($searchValue) {
-                    $q->where('name', 'like', '%' . $searchValue . '%')
-                        ->orWhere('batch_no', 'like', '%' . $searchValue . '%')
-                        ->orWhere('unit', 'like', '%' . $searchValue . '%')
-                        ->orWhere('quantity', 'like', '%' . $searchValue . '%')
-                        ->orWhere('status', 'like', '%' . $searchValue . '%')
-                        ->orWhere('expiry_date', 'like', '%' . $searchValue . '%')
-                        ->orWhereHas('category', function ($c) use ($searchValue) {
-                            $c->where('name', 'like', '%' . $searchValue . '%');
-                        });
-                });
-            }
-
-            $recordsFiltered = (clone $filteredQuery)->count();
-            $medicines = $filteredQuery->orderBy('id', 'desc')->forPage($page, $perPage)->get()->map($mapMedicine);
-            $lastPage = (int) ceil($recordsFiltered / $perPage);
-
-            return response()->json([
-                'status' => true,
-                'data' => $medicines,
-                'pagination' => [
-                    'current_page' => $page,
-                    'last_page' => $lastPage > 0 ? $lastPage : 1,
-                    'per_page' => $perPage,
-                    'total' => $recordsFiltered,
-                ],
-            ], 200);
-        }
-
-        $medicines = $query->latest()->get()->map($mapMedicine);
+        $medicines = $query->orderBy('id', 'desc')->get()->map($mapMedicine);
 
         return response()->json([
             'status' => true,
-            'data' => $medicines
+            'medicines' => $medicines,
         ], 200);
     }
 
-
-
-
-
-
-
-
-
-    
-
-
-
     public function show($id)
     {
-        $medicine = Medicine::with('category')->find($id);
+        $medicine = Medicine::with(['category', 'brand', 'stockUnit', 'barcodes'])->find($id);
 
         if (!$medicine) {
-            return response()->json(['message' => 'Medicine not found'], 401);
+            return response()->json(['message' => 'Medicine not found'], 404);
         }
 
-        $medicineName = $medicine->name;
         $invoices = DB::table('invoices')->get();
         $medicineHistory = [];
 
@@ -290,8 +239,8 @@ class MedicineController extends Controller
                         $medicineHistory[] = [
                             'patient_name' => $patient ? $patient->fullname : 'Unknown',
                             'category' => $medicine->category ? $medicine->category->name : 'No Category',
-                            'quantity' => $item['quantity'],
-                            'price' => $item['price'],
+                            'quantity' => $item['quantity'] ?? 1,
+                            'price' => $item['price'] ?? 0,
                             'date' => $invoice->date,
                         ];
                     }
@@ -300,37 +249,46 @@ class MedicineController extends Controller
         }
 
         return response()->json([
+            'status' => true,
             'medicine' => $medicine,
             'history' => $medicineHistory,
         ]);
     }
 
-
-  
     public function store(Request $request)
     {
         $loggedInUserId = auth()->id();
 
         $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'branch_id' => 'required|exists:branches,id', // ✅ from local storage/frontend
             'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'branch_id' => 'nullable',
+            'service_type' => 'nullable|string',
+            'brand_id' => 'nullable|exists:brands,id',
+            'stock_unit_id' => 'nullable|exists:stock_units,id',
+            'quantity' => 'nullable|integer|min:0',
+            'low_stock_qty' => 'nullable|integer|min:0',
+            'mrp' => 'nullable|numeric|min:0',
+            'rate' => 'nullable|numeric|min:0',
+            'unit' => 'nullable',
+            'purchase_price' => 'nullable|numeric|min:0',
+            'batch_no' => 'nullable|string|max:100',
+            'barcode' => 'nullable|string|max:100',
+            'barcodes' => 'nullable|array',
+            'pack' => 'nullable|string|max:100',
+            'hsn_code' => 'nullable|string|max:100',
+            'gst_option' => 'nullable|string',
+            'product_gst' => 'nullable',
+            'status' => 'nullable|string|in:active,inactive',
+            'is_featured' => 'nullable',
+            'expiry_date' => 'nullable',
+            'manufacture_date' => 'nullable|date',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,avif,webp|max:4096',
             'description' => 'nullable|string',
-            'unit' => 'required|string|max:50',
-            'medicine_unit' => 'required|string|max:50',
-            'quantity' => 'required|integer|min:0',
-            'manufacture_date' => 'required|date',
-            'batch_no' => 'required|string|max:100',
-            'gst_option' => 'required|string|in:Without GST,With GST',
-            'product_gst' => 'nullable|array',
-            'product_gst.*' => 'nullable',
-            'expiry_date' => 'required|date|after_or_equal:manufacture_date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,avif,webp|max:2048',
         ]);
 
         try {
             $imagePath = null;
-
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $destinationPath = public_path('uploads/medicines');
@@ -341,54 +299,94 @@ class MedicineController extends Controller
 
                 $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
                 $image->move($destinationPath, $filename);
-
                 $imagePath = 'uploads/medicines/' . $filename;
             }
-            $gstDetails = [];
-            $gstOption = str_replace(' ', '_', strtolower($request->gst_option));
-            if ($gstOption === 'with_gst' && !empty($request->product_gst)) {
-                $taxItems = is_array($request->product_gst) ? $request->product_gst : [$request->product_gst];
-                $price = (float)str_replace(',', '', $request->unit);
 
+            // MRP normalization
+            $mrp = $request->input('mrp') ?? ($request->input('rate') ?? ($request->input('unit') ?? 0));
+            $unitStr = (string) $mrp;
+
+            // Purchase price & Stock value
+            $purchasePrice = $request->input('purchase_price') ? (float)$request->input('purchase_price') : null;
+            $qty = (int) ($request->input('quantity') ?? 0);
+            $stockVal = $request->input('stock_value') 
+                ? (float)$request->input('stock_value') 
+                : round($qty * ($purchasePrice ?: (float)$mrp), 2);
+
+            // GST normalization
+            $gstDetails = null;
+            $gstOption = $request->input('gst_option', 'Without GST');
+            if (in_array(strtolower($gstOption), ['with gst', 'with_gst']) && !empty($request->product_gst)) {
+                $taxItems = is_array($request->product_gst) ? $request->product_gst : [$request->product_gst];
+                $gstDetails = [];
                 foreach ($taxItems as $item) {
-                    $tax = null;
                     if (is_numeric($item)) {
                         $tax = TaxRate::find($item);
-                    } else {
-                        if (preg_match('/^(.*?)\s*\((.*?)\s*%\)$/', $item, $matches)) {
-                            $name = trim($matches[1]);
-                            $rate = trim($matches[2]);
-                            $tax = TaxRate::where('tax_name', $name)->where('tax_rate', $rate)->first();
+                        if ($tax) {
+                            $gstDetails[] = [
+                                'tax_name' => $tax->tax_name,
+                                'tax_rate' => number_format($tax->tax_rate, 2, '.', ''),
+                                'tax_amount' => round(((float)$mrp * $tax->tax_rate) / 100, 2),
+                            ];
                         }
-                    }
-
-                    if ($tax) {
-                        $taxAmount = ($price * $tax->tax_rate) / 100;
-                        $gstDetails[] = [
-                            'tax_name' => $tax->tax_name,
-                            'tax_rate' => number_format($tax->tax_rate, 2, '.', ''),
-                            'tax_amount' => (float)$taxAmount,
-                        ];
                     }
                 }
             }
-            // ✅ Save with branch_id
+
+            // Expiry date format normalization
+            $expiryDate = $request->input('expiry_date');
+            if ($expiryDate && preg_match('/^\d{4}-\d{2}$/', $expiryDate)) {
+                $expiryDate = $expiryDate . '-01';
+            }
+
+            // Stock unit name
+            $stockUnitName = $request->input('medicine_unit');
+            if ($request->filled('stock_unit_id')) {
+                $su = StockUnit::find($request->stock_unit_id);
+                if ($su) $stockUnitName = $su->name;
+            }
+
             $medicine = Medicine::create([
                 'user_id' => $loggedInUserId,
-                'branch_id' => $request->branch_id, // ✅ from frontend/local storage
+                'branch_id' => $request->input('branch_id') ?: (auth()->user()->branch_id ?? null),
+                'service_type' => $request->input('service_type', 'Medicine'),
                 'category_id' => $request->category_id,
+                'brand_id' => $request->input('brand_id'),
+                'stock_unit_id' => $request->input('stock_unit_id'),
                 'name' => $request->name,
-                'description' => $request->description,
-                'unit' => $request->unit,
-                'medicine_unit' => $request->medicine_unit,
-                'quantity' => $request->quantity,
-                'manufacture_date' => $request->manufacture_date,
-                'batch_no' => $request->batch_no,
-                'gst_option' => $request->gst_option,
-                'product_gst' => $gstDetails ? $gstDetails : null,
-                'expiry_date' => $request->expiry_date,
+                'description' => $request->input('description'),
+                'unit' => $unitStr,
+                'mrp' => (float) $mrp,
+                'purchase_price' => $purchasePrice,
+                'stock_value' => $stockVal,
+                'medicine_unit' => $stockUnitName ?: 'Piece',
+                'quantity' => $qty,
+                'low_stock_qty' => $request->input('low_stock_qty'),
+                'batch_no' => $request->input('batch_no') ?: ('BAT' . date('ymd') . rand(10, 99)),
+                'barcode' => $request->input('barcode') ?: ('MED' . mt_rand(1000000000, 9999999999)),
+                'pack' => $request->input('pack'),
+                'hsn_code' => $request->input('hsn_code'),
+                'gst_option' => $gstOption,
+                'product_gst' => $gstDetails,
+                'status' => $request->input('status', 'active'),
+                'availablility' => $qty > 0 ? 'in_stock' : 'out_stock',
+                'is_featured' => $request->boolean('is_featured'),
+                'manufacture_date' => $request->input('manufacture_date') ?: now()->toDateString(),
+                'expiry_date' => $expiryDate ?: now()->addYears(2)->toDateString(),
                 'image' => $imagePath,
             ]);
+
+            // Save additional barcodes if provided
+            if ($request->has('barcodes') && is_array($request->barcodes)) {
+                foreach ($request->barcodes as $extraBarcode) {
+                    if (!empty($extraBarcode) && $extraBarcode !== $medicine->barcode) {
+                        ProductBarcode::create([
+                            'medicine_id' => $medicine->id,
+                            'barcode' => $extraBarcode,
+                        ]);
+                    }
+                }
+            }
 
             return response()->json([
                 'status' => true,
@@ -404,146 +402,138 @@ class MedicineController extends Controller
         }
     }
 
-
-
-    // Update a medicine
     public function update(Request $request, $id)
     {
         $medicine = Medicine::findOrFail($id);
 
-        // Validate the request
         $request->validate([
-            'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
-            'unit' => 'required',
-            'medicine_unit' => 'required|string|max:50',
-            // 'status' => 'required|in:active,inactive',
-            // 'description' => 'required|string|max:255',
-            'quantity' => 'required|integer',
-            'manufacture_date' => 'required|date',
-            'batch_no' => 'required|string|max:100',
-            'gst_option' => 'required|string|in:Without GST,With GST',
-            'product_gst' => 'nullable|array',
-            'product_gst.*' => 'nullable',
-            'expiry_date' => 'required|date',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,avif,webp|max:2048',
+            'category_id' => 'required|exists:categories,id',
+            'service_type' => 'nullable|string',
+            'brand_id' => 'nullable|exists:brands,id',
+            'stock_unit_id' => 'nullable|exists:stock_units,id',
+            'quantity' => 'nullable|integer|min:0',
+            'low_stock_qty' => 'nullable|integer|min:0',
+            'mrp' => 'nullable|numeric|min:0',
+            'rate' => 'nullable|numeric|min:0',
+            'unit' => 'nullable',
+            'purchase_price' => 'nullable|numeric|min:0',
+            'batch_no' => 'nullable|string|max:100',
+            'barcode' => 'nullable|string|max:100',
+            'barcodes' => 'nullable|array',
+            'pack' => 'nullable|string|max:100',
+            'hsn_code' => 'nullable|string|max:100',
+            'gst_option' => 'nullable|string',
+            'product_gst' => 'nullable',
+            'status' => 'nullable|string|in:active,inactive',
+            'is_featured' => 'nullable',
+            'expiry_date' => 'nullable',
+            'manufacture_date' => 'nullable|date',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,avif,webp|max:4096',
+            'description' => 'nullable|string',
         ]);
 
+        try {
+            $imagePath = $medicine->getRawOriginal('image');
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $destinationPath = public_path('uploads/medicines');
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-
-            // Define the path where the image should be stored
-            $destinationPath = public_path('uploads/medicines');
-
-            // Create directory if it doesn't exist
-            if (!File::exists($destinationPath)) {
-                File::makeDirectory($destinationPath, 0755, true);
-            }
-
-            // Generate a unique filename
-            $filename = time() . '_' . $image->getClientOriginalName();
-
-            // Move the uploaded file to the destination directory
-            $image->move($destinationPath, $filename);
-
-            // Store the relative path for database
-            $medicine->image = 'uploads/medicines/' . $filename;
-        }
-        $gstDetails = [];
-        $gstOption = str_replace(' ', '_', strtolower($request->gst_option));
-        if ($gstOption === 'with_gst' && !empty($request->product_gst)) {
-            $taxItems = is_array($request->product_gst) ? $request->product_gst : [$request->product_gst];
-            $price = (float)str_replace(',', '', $request->unit ?? $medicine->unit);
-
-            foreach ($taxItems as $item) {
-                $tax = null;
-                if (is_numeric($item)) {
-                    $tax = TaxRate::find($item);
-                } else {
-                    if (preg_match('/^(.*?)\s*\((.*?)\s*%\)$/', $item, $matches)) {
-                        $name = trim($matches[1]);
-                        $rate = trim($matches[2]);
-                        $tax = TaxRate::where('tax_name', $name)->where('tax_rate', $rate)->first();
-                    }
+                if (!File::exists($destinationPath)) {
+                    File::makeDirectory($destinationPath, 0755, true);
                 }
 
-                if ($tax) {
-                    $taxAmount = ($price * $tax->tax_rate) / 100;
-                    $gstDetails[] = [
-                        'tax_name' => $tax->tax_name,
-                        'tax_rate' => number_format($tax->tax_rate, 2, '.', ''),
-                        'tax_amount' => (float)$taxAmount,
-                    ];
-                }
+                $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move($destinationPath, $filename);
+                $imagePath = 'uploads/medicines/' . $filename;
             }
+
+            $mrp = $request->input('mrp') ?? ($request->input('rate') ?? ($request->input('unit') ?? $medicine->mrp));
+            $purchasePrice = $request->filled('purchase_price') ? (float)$request->purchase_price : $medicine->purchase_price;
+            $qty = $request->filled('quantity') ? (int)$request->quantity : (int)$medicine->quantity;
+            $stockVal = $request->filled('stock_value') 
+                ? (float)$request->stock_value 
+                : round($qty * ($purchasePrice ?: (float)$mrp), 2);
+
+            $expiryDate = $request->input('expiry_date', $medicine->expiry_date);
+            if ($expiryDate && preg_match('/^\d{4}-\d{2}$/', $expiryDate)) {
+                $expiryDate = $expiryDate . '-01';
+            }
+
+            $stockUnitName = $request->input('medicine_unit', $medicine->medicine_unit);
+            if ($request->filled('stock_unit_id')) {
+                $su = StockUnit::find($request->stock_unit_id);
+                if ($su) $stockUnitName = $su->name;
+            }
+
+            $medicine->update([
+                'service_type' => $request->input('service_type', $medicine->service_type ?: 'Medicine'),
+                'category_id' => $request->category_id,
+                'brand_id' => $request->input('brand_id', $medicine->brand_id),
+                'stock_unit_id' => $request->input('stock_unit_id', $medicine->stock_unit_id),
+                'name' => $request->name,
+                'description' => $request->input('description', $medicine->description),
+                'unit' => (string) $mrp,
+                'mrp' => (float) $mrp,
+                'purchase_price' => $purchasePrice,
+                'stock_value' => $stockVal,
+                'medicine_unit' => $stockUnitName,
+                'quantity' => $qty,
+                'low_stock_qty' => $request->input('low_stock_qty', $medicine->low_stock_qty),
+                'batch_no' => $request->input('batch_no', $medicine->batch_no),
+                'barcode' => $request->input('barcode', $medicine->barcode),
+                'pack' => $request->input('pack', $medicine->pack),
+                'hsn_code' => $request->input('hsn_code', $medicine->hsn_code),
+                'gst_option' => $request->input('gst_option', $medicine->gst_option),
+                'status' => $request->input('status', $medicine->status ?: 'active'),
+                'availablility' => $qty > 0 ? 'in_stock' : 'out_stock',
+                'is_featured' => $request->has('is_featured') ? $request->boolean('is_featured') : $medicine->is_featured,
+                'manufacture_date' => $request->input('manufacture_date', $medicine->manufacture_date),
+                'expiry_date' => $expiryDate,
+                'image' => $imagePath,
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Medicine updated successfully.',
+                'medicine' => $medicine,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Failed to update medicine.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-        // Update medicine details
-        $medicine->update([
-            'category_id' => $request->category_id,
-            'name' => $request->name,
-            'unit' => $request->unit,
-            'medicine_unit' => $request->medicine_unit,
-            // 'status' => $request->status,
-            'description' => $request->description,
-            'quantity' => $request->quantity,
-            'manufacture_date' => $request->manufacture_date,
-            'batch_no' => $request->batch_no,
-            'gst_option' => $request->gst_option,
-            'product_gst' => $gstDetails ? $gstDetails : null,
-            'expiry_date' => $request->expiry_date,
-            'image' => $medicine->image,
-        ]);
-
-        return response()->json([
-            'message' => 'Medicine updated successfully',
-            'medicine' => $medicine,
-        ], 200);
-    }
-
-
-
-
-    public function updateQuantity(Request $request, $id)
-    {
-        $medicine = Medicine::findOrFail($id);
-
-        $request->validate([
-            'quantity' => 'required|integer|min:0',
-        ]);
-
-        $medicine->update([
-            'quantity' => $request->quantity,
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Quantity updated successfully',
-            'medicine' => $medicine,
-        ], 200);
     }
 
     public function destroy($id)
     {
         $medicine = Medicine::findOrFail($id);
-
-        // Check if medicine is associated with any patient_medicine records
-        if ($medicine->patientMedicines()->exists()) {
-            return response()->json([
-                'message' => 'This medicine is assigned to a patient. Please remove it from patient records first.'
-            ], 409); // 409 Conflict
-        }
-
         $medicine->delete();
 
-        return response()->json(['message' => 'Medicine deleted successfully'], 200);
+        return response()->json([
+            'status' => true,
+            'message' => 'Medicine deleted successfully.',
+        ]);
+    }
+
+    public function updateQuantity(Request $request, $id)
+    {
+        $request->validate([
+            'quantity' => 'required|integer|min:0',
+        ]);
+
+        $medicine = Medicine::findOrFail($id);
+        $medicine->quantity = $request->quantity;
+        $medicine->availablility = $request->quantity > 0 ? 'in_stock' : 'out_stock';
+        $medicine->stock_value = round($request->quantity * ($medicine->purchase_price ?: ($medicine->mrp ?: 0)), 2);
+        $medicine->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Stock quantity updated successfully.',
+            'medicine' => $medicine,
+        ]);
     }
 }
-
-
-
-
-
-
-
-

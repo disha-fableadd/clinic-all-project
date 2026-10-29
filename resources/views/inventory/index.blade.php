@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     .swal-confirm-btn {
         color: rgb(58, 58, 58) !important;
@@ -205,7 +205,7 @@
 
         $(document).ready(function() {
             let branchId = localStorage.getItem('selectedBranchId');
-            let token = sessionStorage.getItem('token');
+            let token = localStorage.getItem('token') || sessionStorage.getItem('token');
             let userId = sessionStorage.getItem('user_id');
             let inventoryTable;
 

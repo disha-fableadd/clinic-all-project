@@ -889,7 +889,7 @@
                 if (isServiceChange && selectedItem) {
                     let price = '';
                     if (selectedType === 'medicine') {
-                        price = selectedItem.unit ?? '';
+                        price = selectedItem.mrp || selectedItem.unit || '';
                     } else if (selectedType === 'treatment') {
                         price = selectedItem.price ?? '';
                     } else if (selectedType === 'service') {
@@ -897,7 +897,7 @@
                     } else if (selectedType === 'therapy') {
                         price = selectedItem.cost ?? '';
                     } else if (selectedType === 'appointment') {
-                        price = selectedItem.unit ?? '';
+                        price = selectedItem.mrp || selectedItem.unit || '';
                     }
 
                     row.find('.price').val('');

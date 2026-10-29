@@ -453,12 +453,12 @@
 
                 @if ($hasMedicinePermission || $hasPatientMedicinePermission || $isAdmin)
                     <li
-                        class="submenu {{ request()->routeIs('medicine.*', 'patient_medicine.*', 'category.*', 'medicine_unit.*', 'codemaster.*') ? 'active' : '' }}">
+                        class="submenu {{ request()->routeIs('medicine.*', 'patient_medicine.*', 'category.*', 'brand.*', 'medicine_unit.*', 'codemaster.*') ? 'active' : '' }}">
                         <a href="#"><i class="fa fa-pills"></i> <span>Medicines</span><span
                                 class="menu-arrow"></span></a>
 
                         <ul
-                            style="{{ request()->routeIs('medicine.*', 'patient_medicine.*', 'category.*', 'medicine_unit.*', 'codemaster.*') ? 'display: block;' : 'display: none;' }}">
+                            style="{{ request()->routeIs('medicine.*', 'patient_medicine.*', 'category.*', 'brand.*', 'medicine_unit.*', 'codemaster.*') ? 'display: block;' : 'display: none;' }}">
                             @if (app('hasPermission')(4, 'view'))
                                 <li
                                     class="menu-link1 {{ request()->routeIs('medicine.index') ? 'active' : '' }} mt-1">
@@ -491,7 +491,13 @@
                             @endif
 
                             <li
-                                class="menu-link1 {{ request()->routeIs('medicine_unit.*') ? 'active' : '' }} mt-1">
+                                class="menu-link1 {{ request()->routeIs('brand.*') ? 'active' : '' }} mt-1">
+                                <a href="{{ route('brand.index') }}">
+                                    <i class="fa fa-tag"></i>
+                                    <span style="padding-left: 5px;">Brands</span>
+                                </a>
+                            </li>
+                            <li class="menu-link1 {{ request()->routeIs('medicine_unit.*') ? 'active' : '' }} mt-1">
                                 <a href="{{ route('medicine_unit.index') }}">
                                     <i class="fa fa-medkit"></i>
                                     <span style="padding-left: 5px;">Medicine Units</span>
@@ -1239,6 +1245,10 @@
 
                         <a href="{{ route('invoice.index') }}"> <i class="fa fa-file-invoice"></i>
                             <span>Invoice</span></a>
+                    </li>
+                    <li class="menu-link {{ request()->routeIs('account_ledger.*') ? 'active' : '' }}">
+                        <a href="{{ route('account_ledger.index') }}"> <i class="fa fa-book"></i>
+                            <span>Account Ledger</span></a>
 
                     </li>
                 @endif
@@ -1431,3 +1441,4 @@
         });
     });
 </script>
+
