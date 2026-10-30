@@ -324,6 +324,13 @@
             .ai-summary-row { flex-direction: column; }
             .ai-totals { width: 100%; }
         }
+        .page-wrapper {
+            padding-top: 70px !important;
+        }
+        .page-wrapper > .content,
+        .content {
+            padding-top: 22px !important;
+        }
     </style>
 <div class="page-wrapper" >
     <div class="content ai-bill-page">

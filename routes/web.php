@@ -235,12 +235,22 @@ Route::middleware(['session.auth', 'check.permission'])->group(function () {
     // Purchase Bill
     Route::get('/purchase-list', [PurchaseController::class, 'purchase_list'])->name('purchase.lists');
     Route::get('/add-purchase', [PurchaseController::class, 'add_purchase'])->name('purchase.add');
+    Route::post('/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
     Route::get('/edit-purchase/{id}', [PurchaseController::class, 'edit_purchase'])->name('purchase.edit');
+    Route::post('/purchase/update/{id}', [PurchaseController::class, 'update'])->name('purchase.update');
+    Route::post('/purchase/make-payment', [PurchaseController::class, 'makePaymentSubmit'])->name('purchase.make-payment');
+    Route::get('/api/purchase/payment-history/{id}', [PurchaseController::class, 'getPaymentHistory'])->name('purchase.payment_history');
+    Route::match(['post', 'delete'], '/api/purchase/delete/{id}', [PurchaseController::class, 'deletePurchase'])->name('purchase.delete');
+    Route::get('/purchase-details/{id}', [PurchaseController::class, 'purchase_details'])->name('purchase.details');
     Route::get('/purchase-invoice/{id}', [PurchaseController::class, 'purchase_invoice'])->name('purchase.invoice');
+    Route::get('/export-purchase', [PurchaseController::class, 'exportPurchaseExcel'])->name('purchase.export');
+    Route::get('/export-purchase-pdf', [PurchaseController::class, 'exportPurchasePdf'])->name('purchase.export_pdf');
+    Route::post('/vendor/ajax-store', [PurchaseController::class, 'storeVendorAjax'])->name('vendor.ajax_store');
+    Route::post('/medicines/ajax-store', [PurchaseController::class, 'storeMedicineAjax'])->name('medicines.ajax_store');
+    Route::post('/banks/ajax-store', [PurchaseController::class, 'storeBankAjax'])->name('banks.ajax_store');
     Route::get('/ai-purchase-bill', [PurchaseAiBillController::class, 'index'])->name('purchase.ai-bill');
     Route::post('/ai-purchase-bill/parse', [PurchaseAiBillController::class, 'parse'])->name('purchase.ai-bill.parse');
     Route::post('/ai-purchase-bill/merge', [PurchaseAiBillController::class, 'mergePages'])->name('purchase.ai-bill.merge');
-    Route::post('/banks/ajax-store', [PurchaseController::class, 'storeBankAjax'])->name('banks.ajax_store');
 
     //medicine unit
     Route::get('medicine_unit', [MedicineUnitController::class, 'index'])->name('medicine_unit.index');

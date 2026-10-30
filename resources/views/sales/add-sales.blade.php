@@ -450,7 +450,7 @@
             <div class="d-flex align-items-center gap-3 flex-wrap">
                 <h4 class="page-title mb-0" style="font-weight: 700; font-size: 21px; color: #1e293b;">Add Sale</h4>
                 
-                <div class="d-inline-flex align-items-center gap-2 border-start ps-3">
+                <div class="d-inline-flex align-items-center gap-2 border-start ps-3" style="margin-left:15px">
                     <div class="form-check form-check-inline mb-0">
                         <input class="form-check-input" type="radio" name="gst_option" id="radioNoGst" value="without_gst">
                         <label class="form-check-label" for="radioNoGst" style="font-size: 13px; font-weight: 600;">No GST</label>

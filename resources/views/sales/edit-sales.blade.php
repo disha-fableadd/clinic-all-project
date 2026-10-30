@@ -369,7 +369,7 @@
                     Edit Sale Bill <span style="color: #f89884;">#{{ $order->order_number ?? $order->id }}</span>
                 </h4>
 
-                <div class="d-inline-flex align-items-center gap-2 border-start ps-3">
+                <div class="d-inline-flex align-items-center gap-2 border-start ps-3" style="margin-left:15px">
                     <div class="form-check form-check-inline mb-0">
                         <input class="form-check-input" type="radio" name="gst_option" id="radioNoGst" value="without_gst" {{ in_array(strtolower($order->gst_option ?? ''), ['without_gst', 'without gst']) ? 'checked' : '' }}>
                         <label class="form-check-label" for="radioNoGst" style="font-size: 13px; font-weight: 600; cursor: pointer;">No GST</label>
@@ -382,7 +382,7 @@
             </div>
 
             <div class="d-flex align-items-center gap-2">
-                <a href="{{ route('sales.invoice', $order->id) }}" class="btn btn-submit-main" style="padding: 7px 20px !important; font-size: 13px;" target="_blank">
+                <a href="{{ route('sales.invoice', $order->id) }}" class="btn btn-submit-main" style="padding: 7px 20px !important; font-size: 13px;margin-right:15px" target="_blank">
                     <i class="fas fa-print me-1"></i> Print Invoice
                 </a>
                 <a href="{{ route('sales.list') }}" class="btn-back-main">

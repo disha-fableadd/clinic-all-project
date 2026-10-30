@@ -59,6 +59,13 @@
             display: none !important;
         }
     }
+    .page-wrapper {
+        padding-top: 70px !important;
+    }
+    .page-wrapper > .content,
+    .content {
+        padding-top: 22px !important;
+    }
 </style>
 
 <div class="page-wrapper">
