@@ -650,6 +650,10 @@ Route::get('/get_orders', [\App\Http\Controllers\Api\SalesController::class, 'ge
 Route::get('/getsalseById/{id}', [\App\Http\Controllers\Api\SalesController::class, 'getsalseById']);
 Route::match(['post', 'delete'], '/sales/delete/{id}', [\App\Http\Controllers\Api\SalesController::class, 'delete']);
 Route::post('/sales/make-payment', [\App\Http\Controllers\Api\SalesController::class, 'makePaymentSubmit'])->name('api.sales.make-payment');
+Route::get('/sales/documentation/{order_id}', [\App\Http\Controllers\Api\SalesController::class, 'getDocumentation']);
+Route::post('/sales/documentation/store', [\App\Http\Controllers\Api\SalesController::class, 'storeDocumentation']);
+Route::get('/sales/payment-history/{order_id}', [\App\Http\Controllers\Api\SalesController::class, 'getPaymentHistory']);
+Route::post('/sales/delete-multiple', [\App\Http\Controllers\Api\SalesController::class, 'deleteMultiple']);
 
 // Purchase API Routes
 Route::post('/purchase_order', [\App\Http\Controllers\Api\PurchaseController::class, 'purchase_order']);

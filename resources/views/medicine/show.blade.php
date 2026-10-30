@@ -110,7 +110,7 @@
                                             </p>
                                             <hr class="margin-text">
                                             <p class="text-dark margin-text">
-                                                <strong>₹ Price : </strong>
+                                                <strong><i class="fas fa-money-bill-wave icon-style1"></i> Price : </strong>
                                                 <span id="medicine_unit"></span>
                                             </p>
                                             <hr class="margin-text">

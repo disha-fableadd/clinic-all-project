@@ -1078,7 +1078,7 @@
                             <li class="sidebar-module {{ request()->routeIs('sms.template') ? 'active' : '' }}">
                                 <a href="{{ route('sms.template') }}" class="{{ request()->routeIs('sms.template') ? 'active' : '' }}">
                                     <i class="fa fa-store icons"></i>
-                                    <span>Shop Settings</span>
+                                    <span>Settings</span>
                                 </a>
                             </li>
                         @endif
@@ -1098,22 +1098,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (app('hasPermission')(37, 'view') && Route::has('email.index'))
-                            <li class="sidebar-module {{ request()->routeIs('email.index') ? 'active' : '' }}">
-                                <a href="{{ route('email.index') }}" class="{{ request()->routeIs('email.index') ? 'active' : '' }}">
-                                    <i class="fa fa-envelope icons"></i>
-                                    <span>Email Settings</span>
-                                </a>
-                            </li>
-                        @endif
-                        @if (app('hasPermission')(38, 'view') && Route::has('sms.index'))
-                            <li class="sidebar-module {{ request()->routeIs('sms.index') ? 'active' : '' }}">
-                                <a href="{{ route('sms.index') }}" class="{{ request()->routeIs('sms.index') ? 'active' : '' }}">
-                                    <i class="fa fa-sms icons"></i>
-                                    <span>SMS Settings</span>
-                                </a>
-                            </li>
-                        @endif
+                     
                         @if (Route::has('calender.index'))
                             <li class="sidebar-module {{ request()->routeIs('calender.index') ? 'active' : '' }}">
                                 <a href="{{ route('calender.index') }}" class="{{ request()->routeIs('calender.index') ? 'active' : '' }}">

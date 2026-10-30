@@ -222,8 +222,15 @@ Route::middleware(['session.auth', 'check.permission'])->group(function () {
     Route::get('/sales', [SalesController::class, 'sales_list'])->name('sales.list');
     Route::get('/add-sales', [SalesController::class, 'pos'])->name('sales.add');
     Route::get('/edit-sales/{id}', [SalesController::class, 'edit_sales'])->name('sales.edit');
+    Route::post('/edit-sales/{id}', [SalesController::class, 'update_sales_payment'])->name('sales.update_payment');
     Route::get('/sales-invoice/{id}', [SalesController::class, 'salse_invoice'])->name('sales.invoice');
     Route::get('/sales-details/{id}', [SalesController::class, 'sales_details'])->name('sales.details');
+    Route::post('/sales/make-payment', [\App\Http\Controllers\Api\SalesController::class, 'makePaymentSubmit'])->name('web.sales.make-payment');
+    Route::get('/api/sales/documentation/{order_id}', [\App\Http\Controllers\Api\SalesController::class, 'getDocumentation']);
+    Route::post('/api/sales/documentation/store', [\App\Http\Controllers\Api\SalesController::class, 'storeDocumentation']);
+    Route::get('/api/sales/payment-history/{order_id}', [\App\Http\Controllers\Api\SalesController::class, 'getPaymentHistory']);
+    Route::post('/api/sales/delete-multiple', [\App\Http\Controllers\Api\SalesController::class, 'deleteMultiple']);
+    Route::match(['post', 'delete'], '/api/sales/delete/{id}', [\App\Http\Controllers\Api\SalesController::class, 'delete']);
 
     // Purchase Bill
     Route::get('/purchase-list', [PurchaseController::class, 'purchase_list'])->name('purchase.lists');
