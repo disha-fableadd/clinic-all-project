@@ -58,8 +58,8 @@
 
     @php
         $patient = $order->patients->first();
-        $patientName = $patient ? $patient->name : ($order->patient_name ?? 'Walk-in Patient');
-        $patientPhone = $patient ? ($patient->phone_number ?? $patient->phone) : ($order->patient_phone ?? '-');
+        $patientName = $patient ? ($patient->fullname ?? $patient->name) : ($order->patient_name ?? 'Walk-in Patient');
+        $patientPhone = $patient ? ($patient->phone ?? $patient->phone_number) : ($order->patient_phone ?? '-');
         $isPaid = strtolower($order->payment_status) == 'paid' || ($order->remaining_amount <= 0 && $order->total_amount > 0);
     @endphp
 
@@ -119,11 +119,11 @@
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <td><strong>{{ $item->product ? $item->product->name : ($item->custom_product_name ?? 'Medicine') }}</strong></td>
-                                    <td>{{ $item->batch_no ?? '-' }}</td>
+                                    <td>{{ $item->batch_number ?? ($item->batch_no ?? '-') }}</td>
                                     <td>{{ $item->expiry_date ?? '-' }}</td>
                                     <td class="text-center">{{ $item->quantity }}</td>
-                                    <td class="text-end">₹{{ number_format($item->unit_price, 2) }}</td>
-                                    <td class="text-end font-weight-bold">₹{{ number_format($item->subtotal, 2) }}</td>
+                                    <td class="text-end">₹{{ number_format((float)($item->price ?? ($item->unit_price ?? ($item->mrp ?? 0))), 2) }}</td>
+                                    <td class="text-end font-weight-bold">₹{{ number_format((float)($item->total_amount ?? ($item->subtotal ?? (($item->quantity ?? 1) * ($item->price ?? 0)))), 2) }}</td>
                                 </tr>
                             @empty
                                 <tr>
@@ -140,15 +140,15 @@
                         <div class="p-3 rounded" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px !important;">
                             <div class="d-flex justify-content-between mb-2">
                                 <span>Grand Total:</span>
-                                <strong>₹{{ number_format($order->total_amount, 2) }}</strong>
+                                <strong>₹{{ number_format((float)$order->total_amount, 2) }}</strong>
                             </div>
                             <div class="d-flex justify-content-between mb-2 text-success">
                                 <span>Total Paid:</span>
-                                <strong>₹{{ number_format($order->paid_amount ?? ($order->payment_status == 'paid' ? $order->total_amount : 0), 2) }}</strong>
+                                <strong>₹{{ number_format((float)($order->paid_amount ?? ($order->payment_status == 'paid' ? $order->total_amount : max(0, $order->total_amount - ($order->remaining_amount ?? 0)))), 2) }}</strong>
                             </div>
                             <div class="d-flex justify-content-between text-danger">
                                 <span>Remaining Due:</span>
-                                <strong>₹{{ number_format($order->remaining_amount ?? 0, 2) }}</strong>
+                                <strong>₹{{ number_format((float)($order->remaining_amount ?? 0), 2) }}</strong>
                             </div>
                         </div>
                     </div>
@@ -174,15 +174,15 @@
                             @forelse($order->payments as $payment)
                                 <tr>
                                     <td>{{ date('d-M-Y', strtotime($payment->payment_date ?? $payment->created_at)) }}</td>
-                                    <td>{{ ucfirst($payment->payment_mode ?? 'Cash') }}</td>
-                                    <td><strong class="text-success">₹{{ number_format($payment->amount, 2) }}</strong></td>
-                                    <td>{{ $payment->notes ?? '-' }}</td>
+                                    <td>{{ ucfirst($payment->payment_method ?? ($payment->payment_mode ?? 'Cash')) }}</td>
+                                    <td><strong class="text-success">₹{{ number_format((float)($payment->payment_amount ?? ($payment->amount ?? 0)), 2) }}</strong></td>
+                                    <td>{{ $payment->remarks ?? ($payment->notes ?? '-') }}</td>
                                 </tr>
                             @empty
                                 <tr>
                                     <td>{{ date('d-M-Y', strtotime($order->order_date ?? $order->created_at)) }}</td>
                                     <td>{{ ucfirst($order->payment_method ?? 'Cash') }}</td>
-                                    <td><strong class="text-success">₹{{ number_format($order->total_amount - ($order->remaining_amount ?? 0), 2) }}</strong></td>
+                                    <td><strong class="text-success">₹{{ number_format(max(0, (float)$order->total_amount - (float)($order->remaining_amount ?? 0)), 2) }}</strong></td>
                                     <td>Initial Bill Payment</td>
                                 </tr>
                             @endforelse
@@ -195,4 +195,3 @@
 </div>
 </div>
 @endsection
-

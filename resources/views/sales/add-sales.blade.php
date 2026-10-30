@@ -4,6 +4,13 @@
 
 @section('content')
 <style>
+
+    #btnGenerateBill {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
     /* Theme color palette */
     :root {
         --theme-orange: #f89884;
@@ -124,38 +131,58 @@
         border: none;
     }
 
-    /* Payment Mode Buttons */
+    /* Payment Mode Grid (Pharmacy ERP Style) */
     .pay-mode-container {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
         gap: 12px !important;
-        flex-wrap: wrap;
-        margin-bottom: 16px;
+        margin-bottom: 12px;
+    }
+    @media (max-width: 991px) {
+        .pay-mode-container {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    @media (max-width: 576px) {
+        .pay-mode-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
     .pay-mode-btn {
-        flex: 1 1 130px;
-        min-height: 44px;
-        border: 1.5px solid #cbd5e1;
-        border-radius: 50px !important;
+        min-height: 52px;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 12px !important;
         background: #ffffff;
         font-size: 13px;
-        font-weight: 600;
-        color: #000000 !important;
-        display: inline-flex;
+        font-weight: 700;
+        color: #1e293b !important;
+        display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 5px;
         cursor: pointer;
-        transition: all 0.2s;
-        padding: 8px 16px;
+        transition: all 0.2s ease;
+        padding: 8px 12px;
+        text-align: center;
     }
-    .pay-mode-btn.active {
-        background-color: #cfece0 !important;
-        border-color: #10b981 !important;
-        color: #000000 !important;
-        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+    .pay-mode-btn i, .pay-mode-btn svg {
+        font-size: 18px;
+        color: #f89884;
+        transition: color 0.2s ease;
     }
     .pay-mode-btn:hover {
         border-color: #f89884;
+        background: #fff8f7;
+    }
+    .pay-mode-btn.active {
+        background-color: #f89884 !important;
+        border-color: #f89884 !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 14px rgba(248, 152, 132, 0.35);
+    }
+    .pay-mode-btn.active i, .pay-mode-btn.active svg {
+        color: #ffffff !important;
     }
 
     /* Bottom actions gap */
@@ -627,42 +654,138 @@
                         </div>
                     </div>
 
-                    <!-- Payment Mode Section -->
+                    <!-- Payment Mode Section (Pharmacy ERP Style) -->
                     <div class="mb-3">
                         <div class="d-flex align-items-center gap-1 mb-2">
-                            <i class="far fa-folder-open text-warning"></i>
-                            <span style="font-size: 13px; font-weight: 700; color: #1e293b;">Payment Mode</span>
+                            <i class="far fa-folder-open" style="color: #f89884; font-size: 16px; margin-right:10px"></i>
+                            <span style="font-size: 13.5px; font-weight: 700; color: #1e293b;">Payment Mode</span>
                         </div>
                         <div class="pay-mode-container">
                             <div class="pay-mode-btn" data-mode="pay_later">
-                                <i class="fas fa-clock text-warning"></i> Pay Later
+                                <i class="far fa-clock"></i>
+                                <span>Pay Later</span>
                             </div>
                             <div class="pay-mode-btn active" data-mode="cash">
-                                <i class="fas fa-money-bill-wave text-success"></i> Cash
+                                <i class="far fa-money-bill-alt"></i>
+                                <span>Cash</span>
                             </div>
                             <div class="pay-mode-btn" data-mode="debit">
-                                <i class="fas fa-credit-card text-info"></i> Debit
+                                <i class="far fa-credit-card"></i>
+                                <span>Debit</span>
                             </div>
                             <div class="pay-mode-btn" data-mode="cash_online">
-                                <i class="fas fa-wallet text-primary"></i> Cash+Online
+                                <i class="far fa-money-bill-alt"></i>
+                                <span>Cash+Online</span>
                             </div>
                             <div class="pay-mode-btn" data-mode="upi">
-                                <i class="fas fa-qrcode text-danger"></i> UPI Paid
+                                <i class="fas fa-qrcode"></i>
+                                <span>UPI Paid</span>
                             </div>
                         </div>
+
+                        <!-- Cancel Button on the right -->
+                        <div class="d-flex justify-content-end mb-2">
+                            <button type="button" class="btn btn-sm" id="btnCancelPayment" style="border: 1.5px solid #ef4444; color: #ef4444; border-radius: 8px; font-weight: 600; font-size: 12px; padding: 4px 18px; background: transparent;">
+                                Cancel
+                            </button>
+                        </div>
                         <input type="hidden" name="payment_method" id="payment_method" value="cash">
+
+                        <!-- Payment Details Section -->
+                        <div id="paymentDetailsSection" class="p-3 mb-3 rounded-4" style="background: #ffffff; border: 1.5px solid #e2e8f0;">
+                            <!-- Paid Type Row -->
+                            <div class="row g-3 mb-2" id="paidTypeRow">
+                                <div class="col-12">
+                                    <div class="form-group-compact">
+                                        <label>Paid Type</label>
+                                        <select name="paid_type" id="paid_type" class="form-control" style="border-radius: 50px !important;">
+                                            <option value="full" selected>Fully</option>
+                                            <option value="partial">Partially</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Single Payment Amounts (Cash, Debit, UPI) -->
+                            <div class="row g-3 mb-2" id="singleAmountRow">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group-compact">
+                                        <label>Enter Amount</label>
+                                        <input type="number" step="0.01" min="0" class="form-control" name="enter_amount" id="enter_amount" value="0.00" style="border-radius: 50px !important;">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group-compact">
+                                        <label>Pending Amount</label>
+                                        <input type="text" class="form-control" name="pending_amount" id="pending_amount" value="0.00" readonly style="border-radius: 50px !important; background-color: #f8fafc;">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cash + Online Amounts -->
+                            <div id="cashOnlineAmountRow" class="d-none">
+                                <div class="row g-3 mb-2">
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group-compact">
+                                            <label>Cash Amount</label>
+                                            <input type="number" step="0.01" min="0" class="form-control" name="cash_amount" id="cash_amount" value="0.00" style="border-radius: 50px !important;">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group-compact">
+                                            <label>Online Amount</label>
+                                            <input type="number" step="0.01" min="0" class="form-control" name="online_amount" id="online_amount" value="0.00" style="border-radius: 50px !important;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mb-2">
+                                    <div class="col-12">
+                                        <div class="form-group-compact">
+                                            <label>Pending Amount</label>
+                                            <input type="text" class="form-control" name="cash_online_pending" id="cash_online_pending" value="0.00" readonly style="border-radius: 50px !important; background-color: #f8fafc;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bank Selection Row (for Debit, UPI, Cash+Online) -->
+                            <div class="row g-3 d-none" id="bankSelectionRow">
+                                <div class="col-12">
+                                    <div class="form-group-compact">
+                                        <div class="d-flex justify-content-between align-items-center mb-1">
+                                            <label class="mb-0">Select Bank</label>
+                                            <button type="button" class="btn btn-sm" id="btnOpenAddBankModal" style="background-color: #f89884; color: #ffffff; border-radius: 50px; font-size: 11.5px; padding: 4px 16px; font-weight: 600; border: none;">+ Add Bank</button>
+                                        </div>
+                                        <select name="bank_id" id="bank_id" class="form-control select2" style="border-radius: 50px !important; width: 100%;">
+                                            <option value="">Select Bank</option>
+                                            @foreach($banks as $b)
+                                                <option value="{{ $b->id }}">{{ $b->bank_name ?? $b->name }} ({{ $b->account_number ?? '' }})</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Bottom Action Buttons -->
-                    <div class="bottom-actions-wrap">
-                        <button type="button" class="btn btn-submit-main flex-fill d-flex justify-content-between align-items-center py-2 px-4" id="btnGenerateBill" onclick="submitSale(false)">
-                            <span>Total Amount : <span id="footerTotalAmount">₹0.00</span></span>
-                            <span>Generate Bill <i class="fas fa-arrow-right ms-1"></i></span>
-                        </button>
-                        <button type="button" class="btn btn-submit-main flex-fill py-2 px-4 text-center" id="btnGenerateBillNew" onclick="submitSale(true)">
-                            <i class="fas fa-plus me-1"></i> Generate Bill & New Sale
-                        </button>
-                    </div>
+                    <!-- Bottom Action Buttons (Pharmacy ERP Side-by-Side Style) -->
+                   <div class="d-flex justify-content-end mt-3">
+    <button type="button"
+        class="btn btn-submit-main py-2 px-4 d-flex justify-content-between align-items-center gap-3"
+        id="btnGenerateBill"
+        onclick="submitSale(false)">
+
+        <span>
+            Total Amount : <span id="footerTotalAmount">₹0.00</span>
+        </span>
+
+        <span class="text-nowrap">
+            Generate Bill <i class="fas fa-arrow-right ms-1"></i>
+        </span>
+
+    </button>
+</div>
+                    
                 </div>
             </div>
         </form>
@@ -925,9 +1048,54 @@
 
 @endsection
 
+<!-- Modal: Add Bank Modal -->
+<div class="modal fade" id="addBankModal" tabindex="-1" aria-labelledby="addBankModalLabel" aria-hidden="true" style="z-index: 1060;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.15);">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background: #ffffff; border-bottom: 1.5px solid #f1f5f9; padding: 16px 24px;">
+                <h5 class="modal-title font-weight-bold" id="addBankModalLabel" style="color: #1e293b; font-size: 18px; margin: 0;">Add New Bank</h5>
+                <button type="button" class="btn-close-modal" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <form id="addBankForm">
+                @csrf
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6 col-12">
+                            <label class="form-label" style="font-weight: 600; font-size: 12.5px;">Bank Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="ajax_bank_name" name="bank_name" required placeholder="e.g. State Bank of India" style="border-radius: 50px !important;">
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label class="form-label" style="font-weight: 600; font-size: 12.5px;">Account Number <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="ajax_account_number" name="account_number" required placeholder="Account Number" style="border-radius: 50px !important;">
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label class="form-label" style="font-weight: 600; font-size: 12.5px;">IFSC Code</label>
+                            <input type="text" class="form-control" id="ajax_ifsc_code" name="ifsc_code" placeholder="IFSC Code" style="border-radius: 50px !important;">
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <label class="form-label" style="font-weight: 600; font-size: 12.5px;">Branch Name</label>
+                            <input type="text" class="form-control" id="ajax_branch_name" name="branch_name" placeholder="Branch Name" style="border-radius: 50px !important;">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" style="font-weight: 600; font-size: 12.5px;">Opening Balance</label>
+                            <input type="number" step="0.01" min="0" class="form-control" id="ajax_opening_balance" name="opening_balance" value="0.00" style="border-radius: 50px !important;">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer p-3 bg-white d-flex justify-content-end gap-2" style="border-top: 1.5px solid #f1f5f9;">
+                    <button type="button" class="btn btn-modal-cancel" data-dismiss="modal" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-submit-main" id="saveBankBtn">Save Bank</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @section('scripts')
 <script>
     var allMedicines = @json($medicines);
+    var allTaxRates = @json($taxes ?? []);
     var selectedItems = [];
     var saleAuthToken = (typeof token !== 'undefined' && token) ? token : (localStorage.getItem('token') || '');
     var saleBranchId = localStorage.getItem('selectedBranchId') || 1;
@@ -1208,11 +1376,202 @@
             $('#quickAddPatientModal').modal('hide');
         });
 
-        // Payment Mode
-        $('.pay-mode-btn').on('click', function() {
+        // Helper to get current computed grand total
+        function getCurrentGrandTotal() {
+            let subtotal = 0;
+            selectedItems.forEach(i => {
+                const qty = parseFloat(i.qty) || 1;
+                const price = parseFloat(i.price) || 0;
+                const discPercent = parseFloat(i.discount_percent) || 0;
+                const lineBase = qty * price * (1 - (discPercent / 100));
+
+                let itemGst = 0;
+                if (isGstSelected()) {
+                    const taxes = getItemTaxes(i);
+                    taxes.forEach(t => {
+                        itemGst += (lineBase * (parseFloat(t.tax_rate) || 0)) / 100;
+                    });
+                }
+                subtotal += (lineBase + itemGst);
+            });
+
+            const shipping = parseFloat($('#shipping_charges').val()) || 0;
+            const misc = parseFloat($('#misc_charges').val()) || 0;
+            const discPercent = parseFloat($('#overall_disc_percent').val()) || 0;
+            let discRate = parseFloat($('#overall_disc_rate').val()) || 0;
+
+            if (discPercent > 0) {
+                discRate = subtotal * (discPercent / 100);
+            }
+
+            return Math.max(0, subtotal + shipping + misc - discRate);
+        }
+
+        // Update Payment Details fields
+        function updatePaymentAmounts() {
+            const grandTotal = getCurrentGrandTotal();
+            const mode = $('#payment_method').val() || 'cash';
+            const paidType = $('#paid_type').val() || 'full';
+
+            // Highlight active button
             $('.pay-mode-btn').removeClass('active');
-            $(this).addClass('active');
+            $(`.pay-mode-btn[data-mode="${mode}"]`).addClass('active');
+
+            if (mode === 'pay_later') {
+                $('#paymentDetailsSection').addClass('d-none');
+                $('#enter_amount').val('0.00');
+                $('#pending_amount').val(grandTotal.toFixed(2));
+                $('#cash_amount').val('0.00');
+                $('#online_amount').val('0.00');
+                $('#cash_online_pending').val(grandTotal.toFixed(2));
+                return;
+            }
+
+            $('#paymentDetailsSection').removeClass('d-none');
+
+            // Bank Row visibility
+            if (mode === 'debit' || mode === 'upi' || mode === 'cash_online') {
+                $('#bankSelectionRow').removeClass('d-none');
+            } else {
+                $('#bankSelectionRow').addClass('d-none');
+            }
+
+            // Amount Inputs configuration
+            if (mode === 'cash_online') {
+                $('#singleAmountRow').addClass('d-none');
+                $('#cashOnlineAmountRow').removeClass('d-none');
+
+                if (paidType === 'full') {
+                    const half = (grandTotal / 2);
+                    $('#cash_amount').val(half.toFixed(2));
+                    $('#online_amount').val((grandTotal - half).toFixed(2));
+                    $('#cash_online_pending').val('0.00');
+                } else {
+                    const c = parseFloat($('#cash_amount').val()) || 0;
+                    const o = parseFloat($('#online_amount').val()) || 0;
+                    const rem = Math.max(0, grandTotal - (c + o));
+                    $('#cash_online_pending').val(rem.toFixed(2));
+                }
+            } else {
+                $('#cashOnlineAmountRow').addClass('d-none');
+                $('#singleAmountRow').removeClass('d-none');
+
+                if (paidType === 'full') {
+                    $('#enter_amount').val(grandTotal.toFixed(2)).prop('readonly', true);
+                    $('#pending_amount').val('0.00');
+                } else {
+                    $('#enter_amount').prop('readonly', false);
+                    const enterVal = parseFloat($('#enter_amount').val()) || 0;
+                    const rem = Math.max(0, grandTotal - enterVal);
+                    $('#pending_amount').val(rem.toFixed(2));
+                }
+            }
+        }
+
+        // Init on page load
+        updatePaymentAmounts();
+
+        // Payment Mode buttons click
+        $('.pay-mode-btn').on('click', function() {
             $('#payment_method').val($(this).data('mode'));
+            updatePaymentAmounts();
+        });
+
+        // Paid type change
+        $('#paid_type').on('change', function() {
+            const pt = $(this).val();
+            const grandTotal = getCurrentGrandTotal();
+            if (pt === 'full') {
+                $('#enter_amount').val(grandTotal.toFixed(2)).prop('readonly', true);
+                $('#pending_amount').val('0.00');
+                const half = (grandTotal / 2);
+                $('#cash_amount').val(half.toFixed(2));
+                $('#online_amount').val((grandTotal - half).toFixed(2));
+                $('#cash_online_pending').val('0.00');
+            } else {
+                $('#enter_amount').prop('readonly', false);
+            }
+            updatePaymentAmounts();
+        });
+
+        // Enter amount input
+        $('#enter_amount').on('input', function() {
+            const grandTotal = getCurrentGrandTotal();
+            const enterVal = parseFloat($(this).val()) || 0;
+            const rem = Math.max(0, grandTotal - enterVal);
+            $('#pending_amount').val(rem.toFixed(2));
+        });
+
+        // Cash amount / Online amount input
+        $('#cash_amount, #online_amount').on('input', function() {
+            const grandTotal = getCurrentGrandTotal();
+            const c = parseFloat($('#cash_amount').val()) || 0;
+            const o = parseFloat($('#online_amount').val()) || 0;
+            const rem = Math.max(0, grandTotal - (c + o));
+            $('#cash_online_pending').val(rem.toFixed(2));
+        });
+
+        // Cancel button
+        $('#btnCancelPayment').on('click', function(e) {
+            e.preventDefault();
+            $('#payment_method').val('cash');
+            $('#paid_type').val('full');
+            $('#bank_id').val('').trigger('change');
+            $('#cash_amount').val('0.00');
+            $('#online_amount').val('0.00');
+            updatePaymentAmounts();
+        });
+
+        // Open Add Bank modal
+        $('#btnOpenAddBankModal').on('click', function(e) {
+            e.preventDefault();
+            $('#addBankModal').modal('show');
+        });
+
+        // Save Bank via AJAX
+        $('#saveBankBtn').on('click', function() {
+            const name = $('#ajax_bank_name').val().trim();
+            const acct = $('#ajax_account_number').val().trim();
+            if (!name || !acct) {
+                alert('Please fill in Bank Name and Account Number.');
+                return;
+            }
+            const btn = $(this);
+            btn.prop('disabled', true).text('Saving...');
+            $.ajax({
+                url: '{{ route("banks.ajax_store") }}',
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                data: {
+                    bank_name: name,
+                    account_number: acct,
+                    ifsc_code: $('#ajax_ifsc_code').val(),
+                    branch_name: $('#ajax_branch_name').val(),
+                    opening_balance: $('#ajax_opening_balance').val() || 0
+                },
+                success: function(res) {
+                    btn.prop('disabled', false).text('Save Bank');
+                    if (res.status && res.bank) {
+                        const b = res.bank;
+                        const newOpt = new Option(`${b.bank_name || b.name} (${b.account_number})`, b.id, true, true);
+                        $('#bank_id').append(newOpt).trigger('change');
+                        $('#addBankModal').modal('hide');
+                        document.getElementById('addBankForm').reset();
+                        if (typeof toastr !== 'undefined') {
+                            toastr.success('Bank added successfully!');
+                        }
+                    } else {
+                        alert(res.message || 'Error saving bank');
+                    }
+                },
+                error: function(xhr) {
+                    btn.prop('disabled', false).text('Save Bank');
+                    alert(xhr.responseJSON ? xhr.responseJSON.message : 'Error adding bank');
+                }
+            });
         });
 
         // Product Search Autocomplete
@@ -1285,6 +1644,55 @@
         return '{{ url("/") }}/' + trimmed.replace(/^\/+/, '');
     }
 
+        function isGstSelected() {
+        const val = $('input[name="gst_option"]:checked').val();
+        return val === 'with_gst' || val === 'gst' || val === 'With GST' || $('#radioGst').is(':checked');
+    }
+
+    function getItemTaxes(item) {
+        if (!isGstSelected()) {
+            return [];
+        }
+
+        let gstList = null;
+        if (item.product_gst) {
+            if (typeof item.product_gst === 'string') {
+                try {
+                    gstList = JSON.parse(item.product_gst);
+                } catch (e) {}
+            } else if (Array.isArray(item.product_gst)) {
+                gstList = item.product_gst;
+            }
+        }
+        if (Array.isArray(gstList) && gstList.length > 0) {
+            return gstList.map(t => ({
+                tax_name: t.tax_name || 'CGST',
+                tax_rate: parseFloat(t.tax_rate) || 0
+            }));
+        }
+
+        if (item.gst_percent && parseFloat(item.gst_percent) > 0) {
+            const found = (allTaxRates || []).find(t => parseFloat(t.tax_rate) === parseFloat(item.gst_percent));
+            const taxName = found ? found.tax_name : ((allTaxRates && allTaxRates[0]) ? allTaxRates[0].tax_name : 'CGST');
+            return [{
+                tax_name: taxName,
+                tax_rate: parseFloat(item.gst_percent)
+            }];
+        }
+
+        if (allTaxRates && allTaxRates.length > 0) {
+            return allTaxRates.map(t => ({
+                tax_name: t.tax_name || 'CGST',
+                tax_rate: parseFloat(t.tax_rate) || 0
+            }));
+        }
+
+        return [{
+            tax_name: 'CGST',
+            tax_rate: 12
+        }];
+    }
+
     function addItemToSale(med) {
         const existing = selectedItems.find(i => i.id == med.id);
         if (existing) {
@@ -1301,7 +1709,8 @@
                 price: parseFloat(med.mrp || med.unit || med.purchase_price || 0),
                 discount_percent: 0,
                 discount_rate: 0,
-                gst_percent: (med.gst_option === 'With GST' ? 12 : 0),
+                gst_percent: (med.gst_option === 'With GST' ? 12 : (med.gst_option ? 12 : 0)),
+                product_gst: med.product_gst || null,
                 is_custom: 0,
             });
         }
@@ -1326,8 +1735,26 @@
 
         let cardsHtml = '';
         selectedItems.forEach((item, idx) => {
-            const lineTotal = item.qty * item.price * (1 - (item.discount_percent / 100));
-            const discRate = (item.qty * item.price) * (item.discount_percent / 100);
+            const qty = parseFloat(item.qty) || 1;
+            const price = parseFloat(item.price) || 0;
+            const discPercent = parseFloat(item.discount_percent) || 0;
+            const lineBase = qty * price * (1 - (discPercent / 100));
+            const discRate = (qty * price) * (discPercent / 100);
+
+            let lineGstAmount = 0;
+            let badgesHtml = '';
+            const itemTaxes = getItemTaxes(item);
+
+            if (itemTaxes.length > 0) {
+                badgesHtml = itemTaxes.map(t => {
+                    const tRate = parseFloat(t.tax_rate) || 0;
+                    const tAmt = (lineBase * tRate) / 100;
+                    lineGstAmount += tAmt;
+                    return `<span class="badge item-gst-badge" style="background-color: #f8fafc; color: #1e293b; font-weight: 600; border-left: 3px solid #10b981; border-radius: 4px; padding: 4px 8px; font-size: 11px; border: 1px solid #e2e8f0; border-left: 3px solid #10b981; text-transform: none;">${t.tax_name}: ${tRate.toFixed(2)}% (₹${tAmt.toFixed(2)})</span>`;
+                }).join(' ');
+            }
+
+            const lineTotal = lineBase + lineGstAmount;
 
             let thumbContent = '';
             if (item.image && typeof item.image === 'string' && item.image.trim() !== '') {
@@ -1349,12 +1776,12 @@
                             ${thumbContent}
                         </div>
 
-                        <!-- Product Title and Stock badge (with space to inputs) -->
+                        <!-- Product Title and Stock badge + GST badge (with space to inputs) -->
                         <div class="item-card-info-col">
                             <strong style="font-size: 14.5px; color: #1e293b; display: block; line-height: 1.3;" class="mb-1">${item.name}</strong>
-                            <div class="d-flex align-items-center" style="gap: 6px;">
+                            <div class="d-flex align-items-center flex-wrap" style="gap: 6px;">
                                 <span class="badge" style="background-color: #cfece0; color: #1f513f; font-weight: 600; border-radius: 50px; padding: 3px 8px; font-size: 11px;">Stock: ${item.stock || 0}</span>
-                                ${item.gst_percent ? `<span class="badge ml-1" style="background-color: #f1f5f9; color: #475569; font-weight: 600; border-radius: 50px; padding: 3px 8px; font-size: 11px;">GST: ${item.gst_percent}%</span>` : ''}
+                                ${badgesHtml}
                             </div>
                         </div>
 
@@ -1398,10 +1825,11 @@
                             <input type="number" step="0.01" min="0" class="form-control form-control-sm item-disc-rate pill-input text-center" value="${discRate.toFixed(2)}">
                         </div>
 
-                        <!-- Large Line Total -->
-                        <div class="item-card-field text-end" style="min-width: 90px; flex-shrink: 0;">
+                        <!-- Large Line Total with INCL. GST -->
+                        <div class="item-card-field text-end" style="min-width: 95px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center;">
                             <label class="card-input-label">&nbsp;</label>
-                            <div class="item-card-total-val" style="font-size: 19px; line-height: 38px;">₹${lineTotal.toFixed(2)}</div>
+                            <div class="item-card-total-val" style="font-size: 19px; line-height: 1.2;">₹${lineTotal.toFixed(2)}</div>
+                            ${isGstSelected() && lineGstAmount > 0 ? `<div style="font-size: 9.5px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px;">INCL. GST</div>` : ''}
                         </div>
 
                         <!-- Delete Action -->
@@ -1501,7 +1929,19 @@
     function recalcTotals() {
         let subtotal = 0;
         selectedItems.forEach(i => {
-            subtotal += i.qty * i.price * (1 - (i.discount_percent / 100));
+            const qty = parseFloat(i.qty) || 1;
+            const price = parseFloat(i.price) || 0;
+            const discPercent = parseFloat(i.discount_percent) || 0;
+            const lineBase = qty * price * (1 - (discPercent / 100));
+
+            let itemGst = 0;
+            if (isGstSelected()) {
+                const taxes = getItemTaxes(i);
+                taxes.forEach(t => {
+                    itemGst += (lineBase * (parseFloat(t.tax_rate) || 0)) / 100;
+                });
+            }
+            subtotal += (lineBase + itemGst);
         });
 
         const shipping = parseFloat($('#shipping_charges').val()) || 0;
@@ -1519,9 +1959,16 @@
         $('#displaySubtotal').text('₹' + subtotal.toFixed(2));
         $('#displayGrandTotal').text('₹' + grandTotal.toFixed(2));
         $('#footerTotalAmount').text('₹' + grandTotal.toFixed(2));
+        if (typeof updatePaymentAmounts === 'function') {
+            updatePaymentAmounts();
+        }
     }
 
     $('#shipping_charges, #misc_charges, #overall_disc_percent, #overall_disc_rate').on('input', recalcTotals);
+    $('input[name="gst_option"]').on('change', function() {
+        renderItemsCards();
+        recalcTotals();
+    });
 
     // Form Submit
     function submitSale(isNewAfter = false) {
@@ -1532,7 +1979,19 @@
 
         let subtotal = 0;
         selectedItems.forEach(i => {
-            subtotal += i.qty * i.price * (1 - (i.discount_percent / 100));
+            const qty = parseFloat(i.qty) || 1;
+            const price = parseFloat(i.price) || 0;
+            const discPercent = parseFloat(i.discount_percent) || 0;
+            const lineBase = qty * price * (1 - (discPercent / 100));
+
+            let itemGst = 0;
+            if (isGstSelected()) {
+                const taxes = getItemTaxes(i);
+                taxes.forEach(t => {
+                    itemGst += (lineBase * (parseFloat(t.tax_rate) || 0)) / 100;
+                });
+            }
+            subtotal += (lineBase + itemGst);
         });
 
         const shipping = parseFloat($('#shipping_charges').val()) || 0;
@@ -1555,6 +2014,11 @@
             order_date: $('#order_date').val(),
             gst_option: $('input[name="gst_option"]:checked').val(),
             payment_method: $('#payment_method').val(),
+            paid_type: $('#paid_type').val() || 'full',
+            enter_amount: parseFloat($('#enter_amount').val()) || 0,
+            cash_amount: parseFloat($('#cash_amount').val()) || 0,
+            online_amount: parseFloat($('#online_amount').val()) || 0,
+            bank_id: $('#bank_id').val() || null,
             shipping: shipping,
             misc_charges: misc,
             discount: discRate,
@@ -1562,17 +2026,43 @@
             total: grandTotal,
             remarks: $('#remarks').val(),
             branch_id: saleBranchId,
-            items: selectedItems.map(i => ({
-                product_id: i.id,
-                name: i.name,
-                batch_no: i.batch_no,
-                expiry_date: i.expiry_date,
-                quantity: i.qty,
-                price: i.price,
-                discount_percent: i.discount_percent,
-                gst_percent: i.gst_percent,
-                total: i.qty * i.price * (1 - (i.discount_percent / 100)),
-            })),
+            items: selectedItems.map(i => {
+                const qty = parseFloat(i.qty) || 1;
+                const price = parseFloat(i.price) || 0;
+                const discPercent = parseFloat(i.discount_percent) || 0;
+                const lineBase = qty * price * (1 - (discPercent / 100));
+
+                let lineGst = 0;
+                let taxesDetail = [];
+                if (isGstSelected()) {
+                    const taxes = getItemTaxes(i);
+                    taxes.forEach(t => {
+                        const r = parseFloat(t.tax_rate) || 0;
+                        const a = (lineBase * r) / 100;
+                        lineGst += a;
+                        taxesDetail.push({
+                            tax_name: t.tax_name,
+                            tax_rate: r,
+                            tax_amount: a
+                        });
+                    });
+                }
+                return {
+                    product_id: i.id,
+                    name: i.name,
+                    batch_no: i.batch_no,
+                    expiry_date: i.expiry_date,
+                    quantity: qty,
+                    price: price,
+                    mrp: price,
+                    discount_percent: discPercent,
+                    discount_price: (qty * price) * (discPercent / 100),
+                    product_gst_details: taxesDetail,
+                    product_gst_total: lineGst,
+                    gst_percent: taxesDetail.length > 0 ? taxesDetail[0].tax_rate : 0,
+                    total: lineBase + lineGst
+                };
+            }),
         };
 
         $('#btnGenerateBill, #btnGenerateBillNew').prop('disabled', true);
