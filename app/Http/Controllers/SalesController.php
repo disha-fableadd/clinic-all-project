@@ -58,7 +58,8 @@ class SalesController extends Controller
         $banks = BankMaster::where('status', 1)->where('isDeleted', 0)->get();
         $medicines = Medicine::orderBy('name', 'asc')->get();
 
-        return view('sales.add-sales', compact('categories', 'brands', 'taxes', 'patients', 'banks', 'medicines'));
+        $stockUnits = \App\Models\StockUnit::all();
+        return view('sales.add-sales', compact('categories', 'brands', 'taxes', 'patients', 'banks', 'medicines', 'stockUnits'));
     }
 
     public function add_sales(Request $request)
