@@ -356,7 +356,7 @@
                     <small class="text-muted">Standard Project Print / PDF Format</small>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('sales.list') }}" class="btn btn-outline-secondary pill-btn">
+                    <a href="{{ route('sales.list') }}" class="btn btn-outline-secondary pill-btn" style="margin-right:10px">
                         <i class="fa fa-arrow-left me-1"></i> Back to Bills
                     </a>
                     <button onclick="window.print()" class="btn btn-clinic-primary pill-btn">
