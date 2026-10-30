@@ -4,38 +4,45 @@
 
 @section('content')
 <style>
-    /* Clinic Theme: #f89884 and #cfece0 with 50% pill radius */
-    .single-sale-card {
-        border: 1px solid #e2e8f0;
-        border-radius: 20px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-        background: #ffffff;
-        margin-bottom: 20px;
-    }
-    .single-sale-card .card-body {
-        padding: 20px 24px;
+    /* Theme color palette */
+    :root {
+        --theme-orange: #f89884;
+        --theme-orange-hover: #e58774;
+        --theme-mint: #cfece0;
+        --theme-mint-hover: #bce7d6;
+        --theme-dark: #1e293b;
     }
 
-    /* Compact Form Groups */
+    .single-sale-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+        background: #ffffff;
+        margin-bottom: 24px;
+    }
+    .single-sale-card .card-body {
+        padding: 24px 28px !important;
+    }
+
     .form-group-compact {
-        margin-bottom: 10px !important;
+        margin-bottom: 14px !important;
     }
     .form-group-compact label {
         font-size: 12px;
         font-weight: 600;
-        color: #212b36;
-        margin-bottom: 4px;
+        color: #334155;
+        margin-bottom: 5px;
         display: block;
         white-space: nowrap;
     }
+
     .form-control, .form-select,
-    .form-control[readonly], .form-control:disabled,
-    .table input.form-control, .table select.form-select {
-        height: 38px !important;
+    .form-control[readonly], .form-control:disabled {
+        height: 40px !important;
         border: 1.5px solid #cbd5e1 !important;
         border-radius: 50px !important;
-        padding: 6px 16px !important;
-        font-size: 13px !important;
+        padding: 6px 18px !important;
+        font-size: 13.5px !important;
         color: #000000 !important;
         background-color: #ffffff;
         transition: border-color 0.2s, box-shadow 0.2s;
@@ -43,37 +50,41 @@
     .form-control:focus, .form-select:focus {
         border-color: #f89884 !important;
         box-shadow: 0 0 0 3px rgba(248, 152, 132, 0.25) !important;
+        color: #000000 !important;
         outline: none;
+    }
+    .form-control::placeholder, .form-select::placeholder, textarea.form-control::placeholder {
+        color: #94a3b8 !important;
     }
 
     /* Select2 Alignment & 50% Radius */
     .select2-container .select2-selection--single {
-        height: 38px !important;
+        height: 40px !important;
         border: 1.5px solid #cbd5e1 !important;
         border-radius: 50px !important;
         display: flex !important;
         align-items: center !important;
-        padding-left: 6px;
+        padding-left: 8px;
     }
     .select2-container--default .select2-selection--single .select2-selection__rendered {
-        line-height: 36px !important;
-        padding-left: 8px !important;
+        line-height: 38px !important;
+        padding-left: 10px !important;
         color: #000000 !important;
-        font-size: 13px !important;
+        font-size: 13.5px !important;
     }
     .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 36px !important;
-        right: 12px !important;
+        height: 38px !important;
+        right: 14px !important;
     }
 
-    /* Pill Buttons */
+    /* Buttons */
     .btn-submit-main {
         background-color: #f89884 !important;
         border: none !important;
         color: #ffffff !important;
         font-weight: 600;
         font-size: 13.5px;
-        padding: 10px 24px !important;
+        padding: 10px 26px !important;
         border-radius: 50px !important;
         box-shadow: 0 2px 6px rgba(248, 152, 132, 0.35);
         transition: all 0.2s;
@@ -90,7 +101,7 @@
         border-radius: 50px !important;
         font-weight: 600;
         font-size: 13px;
-        padding: 6px 18px !important;
+        padding: 7px 20px !important;
         transition: all 0.2s;
         text-decoration: none;
         display: inline-flex;
@@ -105,7 +116,7 @@
         color: #ffffff !important;
         border-radius: 50px !important;
         font-size: 11px;
-        padding: 1px 10px;
+        padding: 2px 10px;
         font-weight: 600;
         float: right;
         cursor: pointer;
@@ -114,34 +125,64 @@
     }
 
     /* Payment Mode Buttons */
+    .pay-mode-container {
+        display: flex;
+        gap: 12px !important;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+    }
     .pay-mode-btn {
-        flex: 1;
+        flex: 1 1 130px;
         min-height: 44px;
-        border: 1.5px solid #e2e8f0;
-        border-radius: 50px;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 50px !important;
         background: #ffffff;
-        font-size: 12.5px;
+        font-size: 13px;
         font-weight: 600;
-        color: #475569;
+        color: #000000 !important;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 8px;
         cursor: pointer;
         transition: all 0.2s;
-        padding: 6px 14px;
+        padding: 8px 16px;
     }
     .pay-mode-btn.active {
         background-color: #cfece0 !important;
-        border-color: #f89884 !important;
+        border-color: #10b981 !important;
         color: #000000 !important;
-        box-shadow: 0 0 0 2px rgba(248, 152, 132, 0.3);
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
     }
     .pay-mode-btn:hover {
         border-color: #f89884;
     }
 
-    /* Product search dropdown results */
+    /* Bottom actions gap */
+    .bottom-actions-wrap {
+        display: flex;
+        gap: 16px !important;
+        flex-wrap: wrap;
+        margin-top: 14px;
+    }
+
+    /* Search input wrap */
+    .search-input-wrap {
+        position: relative;
+    }
+    .search-input-wrap .search-icon {
+        position: absolute;
+        top: 50%;
+        left: 18px;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 15px;
+        pointer-events: none;
+    }
+    .search-input-wrap input {
+        padding-left: 46px !important;
+        height: 44px !important;
+    }
     #searchDropdownResults {
         position: absolute;
         top: 100%;
@@ -166,24 +207,212 @@
         background: #fbf5f4;
     }
 
-    /* Search Input with Icon */
-    .search-input-wrap {
-        position: relative;
+    /* BEAUTIFUL UNIFIED ITEM CARD (One clean, perfectly aligned row) */
+    .sale-item-card {
+        background: #ffffff;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 14px 14px;
+        margin-bottom: 12px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+        transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .search-input-wrap .search-icon {
-        position: absolute;
-        top: 50%;
-        left: 16px;
-        transform: translateY(-50%);
-        color: #94a3b8;
-        font-size: 14px;
-        pointer-events: none;
+    .sale-item-card:hover {
+        border-color: #f89884;
+        box-shadow: 0 4px 12px rgba(248, 152, 132, 0.12);
     }
-    .search-input-wrap input {
-        padding-left: 42px !important;
+    .item-card-thumb {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+        border-radius: 12px;
+        background: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        overflow: hidden;
+        /* margin-right: 14px; */
     }
-    .form-control::placeholder, .form-select::placeholder, textarea.form-control::placeholder {
-        color: #94a3b8 !important;
+    .item-card-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    .item-card-info-col {
+        min-width: 170px;
+        flex: 2;
+        /* margin-right: 14px; */
+    }
+    .item-card-field {
+        /* margin-right: 12px; */
+    }
+    .item-card-field:last-child {
+        margin-right: 0;
+    }
+    .card-input-label {
+        font-size: 10.5px;
+        font-weight: 700;
+        color: #64748b;
+        margin-bottom: 4px;
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+    .pill-input {
+        border-radius: 50px !important;
+        height: 38px !important;
+        border: 1.5px solid #cbd5e1 !important;
+        font-size: 13px !important;
+        color: #000000 !important;
+        background: #ffffff;
+        padding: 6px 14px !important;
+        width: 100%;
+    }
+    .pill-input:focus {
+        border-color: #f89884 !important;
+        box-shadow: 0 0 0 2px rgba(248, 152, 132, 0.2) !important;
+        outline: none;
+    }
+
+    /* Stepper Pill */
+    .qty-stepper-pill {
+        display: inline-flex;
+        align-items: center;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 50px;
+        background: #ffffff;
+        height: 38px;
+        padding: 0 4px;
+        width: 100%;
+    }
+    .stepper-btn {
+        width: 28px;
+        height: 28px;
+        border: none;
+        background: transparent;
+        color: #f89884;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background 0.15s;
+    }
+    .stepper-btn:hover {
+        background: #fff3f0;
+    }
+    .stepper-input {
+        border: none !important;
+        outline: none !important;
+        text-align: center;
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #000000;
+        width: calc(100% - 56px);
+        background: transparent;
+    }
+
+    /* Delete Button */
+    .btn-card-delete {
+        width: 38px;
+        height: 38px;
+        border: 1px solid #fee2e2;
+        background: #fff5f5;
+        color: #ef4444;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        flex-shrink: 0;
+    }
+    .btn-card-delete:hover {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+    .item-card-total-val {
+        font-size: 21px;
+        font-weight: 800;
+        color: #f89884;
+        letter-spacing: -0.5px;
+        white-space: nowrap;
+    }
+
+    /* MODAL DESIGN */
+    #addMedicationModal .modal-content {
+        border-radius: 20px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+    #addMedicationModal .modal-header {
+        background: #ffffff;
+        border-bottom: 1.5px solid #f1f5f9;
+        padding: 16px 26px;
+    }
+    #addMedicationModal .modal-body {
+        padding: 24px 28px !important;
+    }
+    #addMedicationModal .form-control,
+    #addMedicationModal .form-select,
+    #addMedicationModal input,
+    #addMedicationModal select {
+        height: 40px !important;
+        border-radius: 50px !important;
+        color: #000000 !important;
+        border: 1.5px solid #cbd5e1 !important;
+    }
+    #addMedicationModal textarea.form-control {
+        height: auto !important;
+        border-radius: 14px !important;
+        color: #000000 !important;
+    }
+    #addMedicationModal label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 5px;
+        display: block;
+    }
+    .btn-close-modal {
+        background: transparent !important;
+        border: none !important;
+        font-size: 20px !important;
+        line-height: 1 !important;
+        color: #f89884 !important;
+        cursor: pointer !important;
+        padding: 4px 8px !important;
+        transition: transform 0.15s, color 0.15s;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        outline: none !important;
+    }
+    .btn-close-modal:hover {
+        transform: scale(1.18);
+        color: #e58774 !important;
+    }
+    .btn-modal-cancel {
+        background-color: #64748b !important;
+        color: #ffffff !important;
+        border-radius: 50px !important;
+        padding: 9px 28px !important;
+        font-weight: 600 !important;
+        font-size: 13.5px !important;
+        border: none !important;
+        cursor: pointer;
+    }
+    .btn-modal-cancel:hover {
+        background-color: #475569 !important;
+        color: #ffffff !important;
     }
 </style>
 
@@ -216,11 +445,11 @@
         <form id="addSaleForm">
             @csrf
 
-            <!-- SINGLE UNIFIED CARD FOR ALL SALE FIELDS (Compact & No Excess Space) -->
+            <!-- SINGLE UNIFIED CARD FOR ALL SALE FIELDS -->
             <div class="card single-sale-card">
                 <div class="card-body">
-                    <!-- Patient Row 1 (5 Columns) -->
-                    <div class="row">
+                    <!-- Patient Row 1 -->
+                    <div class="row g-3 mb-2">
                         <div class="col-lg-3 col-md-4 col-12">
                             <div class="form-group-compact">
                                 <label>
@@ -252,7 +481,7 @@
                         <div class="col-lg-3 col-md-3 col-12">
                             <div class="form-group-compact">
                                 <label><i class="fas fa-phone text-muted me-1"></i> Patient Phone</label>
-                                <input type="text" class="form-control" name="patient_phone" id="patient_phone" placeholder="Patient number">
+                                <input type="text" class="form-control" name="patient_phone" id="patient_phone" placeholder="Phone number">
                             </div>
                         </div>
 
@@ -277,45 +506,45 @@
                         <div class="col-lg-2 col-md-1 col-12">
                             <div class="form-group-compact">
                                 <label><i class="fas fa-heartbeat text-danger me-1"></i> B.P</label>
-                                <input type="text" class="form-control" name="patient_bp" id="patient_bp" placeholder="e.g. 120/80">
+                                <input type="text" class="form-control" name="patient_bp" id="patient_bp" placeholder="120/80">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Patient Row 2 (6 Columns) -->
-                    <div class="row mt-1 mb-2">
+                    <!-- Row 2: Vitals & Bill Date -->
+                    <div class="row g-3 mb-2">
                         <div class="col-lg-2 col-md-4 col-6">
                             <div class="form-group-compact">
                                 <label><i class="fas fa-thermometer-half text-warning me-1"></i> Temperature</label>
-                                <input type="text" class="form-control" name="patient_temperature" id="patient_temperature" placeholder="Temperature">
+                                <input type="text" class="form-control" name="patient_temperature" id="patient_temperature" placeholder="e.g. 98.6">
                             </div>
                         </div>
 
                         <div class="col-lg-2 col-md-4 col-6">
                             <div class="form-group-compact">
                                 <label><i class="fas fa-wave-square text-success me-1"></i> Pulse</label>
-                                <input type="text" class="form-control" name="patient_pulse" id="patient_pulse" placeholder="Pulse">
+                                <input type="text" class="form-control" name="patient_pulse" id="patient_pulse" placeholder="e.g. 72">
                             </div>
                         </div>
 
                         <div class="col-lg-2 col-md-4 col-12">
                             <div class="form-group-compact">
                                 <label><i class="fas fa-file-medical-alt text-muted me-1"></i> Patient History</label>
-                                <input type="text" class="form-control" name="patient_history" id="patient_history" placeholder="Patient History">
+                                <input type="text" class="form-control" name="patient_history" id="patient_history" placeholder="Patient history">
                             </div>
                         </div>
 
                         <div class="col-lg-2 col-md-4 col-12">
                             <div class="form-group-compact">
                                 <label><i class="fas fa-stethoscope text-muted me-1"></i> Patient Complaint</label>
-                                <input type="text" class="form-control" name="patient_complaint" id="patient_complaint" placeholder="Patient Complaint">
+                                <input type="text" class="form-control" name="patient_complaint" id="patient_complaint" placeholder="Patient complaint">
                             </div>
                         </div>
 
                         <div class="col-lg-2 col-md-4 col-12">
                             <div class="form-group-compact">
                                 <label><i class="fas fa-vial text-muted me-1"></i> Advice for Lab tests</label>
-                                <input type="text" class="form-control" name="advice_for_lab_tests" id="advice_for_lab_tests" placeholder="Advice for Lab tests">
+                                <input type="text" class="form-control" name="advice_for_lab_tests" id="advice_for_lab_tests" placeholder="Advice for lab tests">
                             </div>
                         </div>
 
@@ -327,13 +556,13 @@
                         </div>
                     </div>
 
-                    <hr style="margin: 14px 0; border-color: #e2e8f0;">
+                    <hr style="margin: 16px 0; border-color: #e2e8f0;">
 
                     <!-- Total items bar & + Add Product button -->
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span style="font-weight: 700; font-size: 14px; color: #1e293b;" id="itemsCountBadge">Total items : 0</span>
-                        <button type="button" class="btn btn-submit-main btn-sm py-1 px-3" id="addProductModalBtn">
-                            <i class="fas fa-plus me-1"></i> Add Custom Product
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge" style="background-color: #f8fafc; border: 1.5px solid #cbd5e1; color: #1e293b; font-size: 13.5px; font-weight: 700; border-radius: 50px; padding: 7px 18px;" id="itemsCountBadge">Total items : 0</span>
+                        <button type="button" class="btn btn-submit-main" id="addProductModalBtn" style="border-radius: 50px; padding: 8px 22px; font-weight: 600; font-size: 13px;">
+                            <i class="fas fa-plus me-1"></i> Add Product
                         </button>
                     </div>
 
@@ -344,37 +573,16 @@
                         <div id="searchDropdownResults"></div>
                     </div>
 
-                    <!-- Products Table -->
-                    <div class="table-responsive mb-3">
-                        <table class="table table-bordered align-middle mb-0" id="saleItemsTable">
-                            <thead style="background-color: #cfece0; color: #1e293b; font-size: 12.5px;">
-                                <tr>
-                                    <th style="width: 40px;">#</th>
-                                    <th>Medicine / Product</th>
-                                    <th style="width: 120px;">Batch</th>
-                                    <th style="width: 120px;">Expiry</th>
-                                    <th style="width: 75px;" class="text-center">Stock</th>
-                                    <th style="width: 80px;" class="text-center">Qty</th>
-                                    <th style="width: 100px;" class="text-end">Price (₹)</th>
-                                    <th style="width: 80px;" class="text-center">Disc %</th>
-                                    <th style="width: 80px;" class="text-center">GST %</th>
-                                    <th style="width: 110px;" class="text-end">Total (₹)</th>
-                                    <th style="width: 50px;" class="text-center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="saleItemsBody">
-                                <tr id="noItemRow">
-                                    <td colspan="11" class="text-center py-4 text-muted">
-                                        <i class="fas fa-pills fa-2x mb-2 d-block" style="color: #f89884;"></i>
-                                        Search medicines above or scan barcode to add to bill
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <!-- PRODUCTS LIST (CLEAN UNIFIED CARD FORMAT) -->
+                    <div id="saleItemsContainer" class="mb-3">
+                        <div id="noItemBox" class="text-center py-5 rounded-4" style="background: #ffffff; border: 1.5px dashed #cbd5e1;">
+                            <i class="fas fa-pills fa-3x mb-2 d-block" style="color: #f89884;"></i>
+                            <div class="fw-bold" style="color: #64748b; font-size: 14.5px;">Search medicines above or scan barcode to add to bill</div>
+                        </div>
                     </div>
 
                     <!-- Charges Row: Shipping, Misc, Disc %, Disc Rate, Remarks -->
-                    <div class="row align-items-center mb-2">
+                    <div class="row g-3 align-items-center mb-2">
                         <div class="col-lg-2 col-md-4 col-6">
                             <div class="form-group-compact">
                                 <label>Shipping Charges</label>
@@ -408,14 +616,14 @@
                     </div>
 
                     <!-- Subtotal & Grand Total Display -->
-                    <div class="d-flex justify-content-between align-items-center py-2 px-3 mb-3 rounded" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                    <div class="d-flex justify-content-between align-items-center py-3 px-4 mb-3 rounded-4" style="background: #f8fafc; border: 1.5px solid #e2e8f0;">
                         <div>
-                            <span class="text-muted" style="font-size: 13.5px;">Subtotal:</span>
-                            <strong style="color: #1e293b; font-size: 14px;" class="ms-1" id="displaySubtotal">₹0.00</strong>
+                            <span class="text-muted" style="font-size: 13.5px; font-weight: 600;">Subtotal:</span>
+                            <strong style="color: #1e293b; font-size: 15px;" class="ms-1" id="displaySubtotal">₹0.00</strong>
                         </div>
                         <div>
                             <span style="font-size: 14.5px; font-weight: 700; color: #1e293b;">Grand Total:</span>
-                            <span style="font-size: 18px; font-weight: 800; color: #f89884;" class="ms-1" id="displayGrandTotal">₹0.00</span>
+                            <span style="font-size: 20px; font-weight: 800; color: #f89884;" class="ms-1" id="displayGrandTotal">₹0.00</span>
                         </div>
                     </div>
 
@@ -425,7 +633,7 @@
                             <i class="far fa-folder-open text-warning"></i>
                             <span style="font-size: 13px; font-weight: 700; color: #1e293b;">Payment Mode</span>
                         </div>
-                        <div class="d-flex gap-2 flex-wrap">
+                        <div class="pay-mode-container">
                             <div class="pay-mode-btn" data-mode="pay_later">
                                 <i class="fas fa-clock text-warning"></i> Pay Later
                             </div>
@@ -446,12 +654,12 @@
                     </div>
 
                     <!-- Bottom Action Buttons -->
-                    <div class="d-flex gap-2 flex-wrap">
+                    <div class="bottom-actions-wrap">
                         <button type="button" class="btn btn-submit-main flex-fill d-flex justify-content-between align-items-center py-2 px-4" id="btnGenerateBill" onclick="submitSale(false)">
                             <span>Total Amount : <span id="footerTotalAmount">₹0.00</span></span>
                             <span>Generate Bill <i class="fas fa-arrow-right ms-1"></i></span>
                         </button>
-                        <button type="button" class="btn btn-submit-main flex-fill py-2 px-4" id="btnGenerateBillNew" onclick="submitSale(true)">
+                        <button type="button" class="btn btn-submit-main flex-fill py-2 px-4 text-center" id="btnGenerateBillNew" onclick="submitSale(true)">
                             <i class="fas fa-plus me-1"></i> Generate Bill & New Sale
                         </button>
                     </div>
@@ -464,23 +672,25 @@
 <!-- Modal: Quick Add Patient -->
 <div class="modal fade" id="quickAddPatientModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none;">
-            <div class="modal-header" style="background: #f89884; color: #fff; padding: 16px 24px;">
-                <h5 class="modal-title font-weight-bold" style="color: #fff;"><i class="fas fa-user-plus me-2"></i> Add Patient</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+            <div class="modal-header" style="background: #ffffff; border-bottom: 1.5px solid #f1f5f9; padding: 16px 24px;">
+                <h5 class="modal-title font-weight-bold" style="color: #1e293b; font-size: 18px;">Add Patient</h5>
+                <button type="button" class="btn-close-modal" data-dismiss="modal" data-bs-dismiss="modal">
+                    <i class="fa fa-times"></i>
+                </button>
             </div>
             <form id="quickPatientForm">
                 @csrf
                 <div class="modal-body p-4">
-                    <div class="form-group-compact">
+                    <div class="form-group-compact mb-3">
                         <label>Patient Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="quick_patient_name" id="quick_patient_name" required placeholder="Full Name">
                     </div>
-                    <div class="form-group-compact">
+                    <div class="form-group-compact mb-3">
                         <label>Phone Number <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" name="quick_patient_phone" id="quick_patient_phone" required placeholder="10-digit mobile">
                     </div>
-                    <div class="row">
+                    <div class="row g-3">
                         <div class="col-6">
                             <div class="form-group-compact">
                                 <label>Age</label>
@@ -499,8 +709,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer p-3 bg-light d-flex justify-content-between">
-                    <button type="button" class="btn btn-back-main" data-bs-dismiss="modal">Cancel</button>
+                <div class="modal-footer p-3 bg-white d-flex justify-content-end gap-3" style="border-top: 1.5px solid #f1f5f9;">
+                    <button type="button" class="btn btn-modal-cancel" data-dismiss="modal" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-submit-main">Save Patient</button>
                 </div>
             </form>
@@ -508,98 +718,447 @@
     </div>
 </div>
 
-<!-- Modal: Add Custom Product -->
-<div class="modal fade" id="addCustomProductModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none;">
-            <div class="modal-header" style="background: #f89884; color: #fff; padding: 16px 24px;">
-                <h5 class="modal-title font-weight-bold" style="color: #fff;"><i class="fas fa-pills me-2"></i> Add Custom Product</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+<!-- Modal: Add Medication (Aligned Grid & Proper Cancel / Close Button) -->
+<div class="modal fade" id="addMedicationModal" tabindex="-1" aria-labelledby="addMedicationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center">
+                <h5 class="modal-title font-weight-bold" id="addMedicationModalLabel" style="color: #1e293b; font-size: 19px; margin: 0;">Add Medication</h5>
+                <button type="button" class="btn-close-modal" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
             </div>
-            <form id="customProductForm">
-                <div class="modal-body p-4">
-                    <div class="form-group-compact">
-                        <label>Medicine / Product Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="custom_product_name" required placeholder="Medicine Name">
+            <form id="addMedicationForm" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <!-- Row 1: Product Type, Category, Medicine Name, Brand -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>Product Type</label>
+                            <select class="form-control" name="service_type" id="modal_service_type">
+                                <option value="Medicine" selected>Medicine</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>
+                                Category <span class="text-danger">*</span>
+                                <button type="button" class="btn-add-pill" id="modalQuickAddCategoryBtn">+ Add Category</button>
+                            </label>
+                            <select class="form-control select2" name="category_id" id="modal_category_id" required>
+                                <option value="">Choose category</option>
+                                @foreach($categories as $cat)
+                                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>Medicine Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="name" id="modal_name" required placeholder="Medicine name">
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>
+                                Brand
+                                <button type="button" class="btn-add-pill" id="modalQuickAddBrandBtn">+ Add Brand</button>
+                            </label>
+                            <select class="form-control select2" name="brand_id" id="modal_brand_id">
+                                <option value="">No brand</option>
+                                @foreach($brands as $brand)
+                                    <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group-compact">
-                                <label>Batch No</label>
-                                <input type="text" class="form-control" id="custom_batch_no" placeholder="Batch">
-                            </div>
+
+                    <!-- Row 2: Stock, Stock Unit, GST Option, MRP -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>Stock <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="quantity" id="modal_quantity" value="0" min="0" required>
                         </div>
-                        <div class="col-6">
-                            <div class="form-group-compact">
-                                <label>Expiry Date</label>
-                                <input type="date" class="form-control" id="custom_expiry_date">
-                            </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>
+                                Stock Unit
+                                <button type="button" class="btn-add-pill" id="modalQuickAddUnitBtn">+ Add Unit</button>
+                            </label>
+                            <select class="form-control select2" name="stock_unit_id" id="modal_stock_unit_id">
+                                <option value="">Choose Stock Unit</option>
+                                @if(isset($stockUnits))
+                                    @foreach($stockUnits as $su)
+                                        <option value="{{ $su->id }}">{{ $su->name }} ({{ $su->short_name ?? $su->unit_code ?? $su->name }})</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>GST Option</label>
+                            <select class="form-control" name="gst_option" id="modal_gst_option">
+                                <option value="Without GST" selected>Without GST</option>
+                                <option value="With GST">With GST</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>MRP</label>
+                            <input type="number" step="0.01" min="0" class="form-control" name="mrp" id="modal_mrp" placeholder="0.00">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group-compact">
-                                <label>Price (₹) <span class="text-danger">*</span></label>
-                                <input type="number" step="0.01" class="form-control" id="custom_price" required placeholder="0.00">
+
+                    <!-- Row 3: Purchase Price, Stock Value, Expiry Date, Pack -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>Purchase Price</label>
+                            <input type="number" step="0.01" min="0" class="form-control" name="purchase_price" id="modal_purchase_price" placeholder="0.00">
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>Stock Value</label>
+                            <input type="number" step="0.01" class="form-control" name="stock_value" id="modal_stock_value" value="0.00" readonly style="background-color: #f8fafc;">
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>Expiry Date</label>
+                            <input type="date" class="form-control" name="expiry_date" id="modal_expiry_date">
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>Pack</label>
+                            <input type="text" class="form-control" name="pack" id="modal_pack" placeholder="e.g. 10 tablets">
+                        </div>
+                    </div>
+
+                    <!-- Row 4: HSN Code, Barcode, Stock Status -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>HSN Code</label>
+                            <input type="text" class="form-control" name="hsn_code" id="modal_hsn_code" placeholder="Enter HSN">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <label>Barcode</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="text" class="form-control flex-grow-1" name="barcode" id="modal_barcode" placeholder="Enter Barcode">
+                                <button type="button" class="btn btn-sm btn-dark" id="modalAddBarcodeBtn" style="border-radius: 50px; padding: 7px 16px; font-weight: 600; flex-shrink: 0;">Add</button>
+                                <button type="button" class="btn btn-sm btn-submit-main" id="modalGenBarcodeBtn" style="border-radius: 50px; padding: 7px 16px; font-weight: 600; flex-shrink: 0;">Auto</button>
+                                <button type="button" class="btn btn-sm" id="modalScanBarcodeBtn" style="border-radius: 50px; border: 1.5px solid #f89884; color: #f89884; width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <i class="fas fa-camera"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="col-6">
-                            <div class="form-group-compact">
-                                <label>GST %</label>
-                                <select class="form-control" id="custom_gst">
-                                    <option value="0">0%</option>
-                                    <option value="5">5%</option>
-                                    <option value="12" selected>12%</option>
-                                    <option value="18">18%</option>
-                                    <option value="28">28%</option>
-                                </select>
-                            </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>Stock Status</label>
+                            <select class="form-control" name="availablility" id="modal_availability">
+                                <option value="in_stock" selected>In Stock</option>
+                                <option value="out_stock">Out Of Stock</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Row 5: Status, Product Images, Description -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>Status</label>
+                            <select class="form-control" name="status" id="modal_status">
+                                <option value="active" selected>Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label>Product Images</label>
+                            <input type="file" class="form-control" name="image" id="modal_image" accept="image/*">
+                        </div>
+                        <div class="col-lg-6 col-md-12 col-12">
+                            <label>Description</label>
+                            <textarea class="form-control" name="description" id="modal_description" rows="1" placeholder="Description"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Row 6: Batch Number, Manufacturing Date, COA Documents -->
+                    <div class="row g-3">
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <label>Batch Number</label>
+                            <input type="text" class="form-control" name="batch_no" id="modal_batch_no" placeholder="Batch number">
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <label>Manufacturing Date</label>
+                            <input type="date" class="form-control" name="manufacturing_date" id="modal_mfg_date">
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <label>COA Documents (PDF)</label>
+                            <input type="file" class="form-control" name="coa_document" id="modal_coa_doc" accept="application/pdf">
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer p-3 bg-light d-flex justify-content-between">
-                    <button type="button" class="btn btn-back-main" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-submit-main">Add to Bill</button>
+
+                <div class="modal-footer p-3 bg-white d-flex justify-content-end gap-3" style="border-top: 1.5px solid #f1f5f9;">
+                    <button type="button" class="btn btn-modal-cancel" data-dismiss="modal" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-submit-main" id="saveMedicationBtn">Save Medication</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
+<!-- Modal: Quick Add (Category, Brand, Unit) -->
+<div class="modal fade" id="quickAddSubModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+            <div class="modal-header" style="background: #ffffff; border-bottom: 1.5px solid #f1f5f9; padding: 16px 24px;">
+                <h5 class="modal-title font-weight-bold" id="quickAddSubModalTitle" style="color: #1e293b; font-size: 18px;">Add</h5>
+                <button type="button" class="btn-close-modal" data-dismiss="modal" data-bs-dismiss="modal">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <input type="hidden" id="quickAddSubType">
+                <div class="form-group-compact mb-3">
+                    <label>Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="quickAddSubName" placeholder="Enter name">
+                </div>
+                <div class="form-group-compact">
+                    <label>Description / Short Code</label>
+                    <input type="text" class="form-control" id="quickAddSubDesc" placeholder="Enter description or code">
+                </div>
+                <small class="text-danger error-quick-add-sub mt-2 d-block"></small>
+            </div>
+            <div class="modal-footer p-3 bg-white d-flex justify-content-end gap-3" style="border-top: 1.5px solid #f1f5f9;">
+                <button type="button" class="btn btn-modal-cancel" data-dismiss="modal" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-submit-main" id="saveQuickAddSubBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@endsection
+
+@section('scripts')
 <script>
-    const allMedicines = @json($medicines);
-    let selectedItems = [];
-    // CSRF handled directly in ajax
-    const branchId = '{{ session("selectedBranchId") ?? (Auth::user()->branch_id ?? 1) }}';
+    var allMedicines = @json($medicines);
+    var selectedItems = [];
+    var saleAuthToken = (typeof token !== 'undefined' && token) ? token : (localStorage.getItem('token') || '');
+    var saleBranchId = localStorage.getItem('selectedBranchId') || 1;
 
     $(document).ready(function() {
-        if ($.fn.select2) {
+        if ($('.select2').length) {
             $('.select2').select2({ width: '100%' });
         }
-    });
 
-    // Populate patient fields on change
-    $('#patient_id').on('change', function() {
-        const sel = $(this).find('option:selected');
-        const pId = sel.val();
-        if (pId) {
-            $('#patient_phone').val(sel.data('phone') || '');
-            $('#patient_age').val(sel.data('age') || '');
-            if (sel.data('sex')) $('#patient_sex').val(sel.data('sex'));
-            $('#patient_bp').val(sel.data('bp') || '');
-            $('#patient_temperature').val(sel.data('temp') || '');
-            $('#patient_pulse').val(sel.data('pulse') || '');
-            $('#patient_history').val(sel.data('history') || '');
-            $('#patient_complaint').val(sel.data('complaint') || '');
-            $('#advice_for_lab_tests').val(sel.data('lab') || '');
+        // Modal Close handlers (works reliably with data-dismiss, data-bs-dismiss and cancel buttons across Bootstrap 4/5)
+        $(document).on('click', '[data-dismiss="modal"], [data-bs-dismiss="modal"], .btn-modal-cancel, .btn-close-modal', function(e) {
+            e.preventDefault();
+            const $m = $(this).closest('.modal');
+            const mEl = $m[0];
+            if (mEl) {
+                try {
+                    if (window.bootstrap && bootstrap.Modal) {
+                        const bModal = bootstrap.Modal.getInstance(mEl) || new bootstrap.Modal(mEl);
+                        bModal.hide();
+                    }
+                } catch(err) {}
+                try {
+                    if (typeof $m.modal === 'function') {
+                        $m.modal('hide');
+                    }
+                } catch(err) {}
+                $m.removeClass('show').hide();
+                $('body').removeClass('modal-open').css({ overflow: '', paddingRight: '' });
+                $('.modal-backdrop').remove();
+            }
+        });
 
-            // Also fetch from API in real-time to guarantee fresh decrypted patient vitals and details
-            if (!pId.startsWith('NEW_')) {
-                const token = localStorage.getItem('token');
+        // Auto calculate stock value in medication modal
+        $('#modal_quantity, #modal_purchase_price, #modal_mrp').on('input change', function() {
+            const q = parseFloat($('#modal_quantity').val()) || 0;
+            const p = parseFloat($('#modal_purchase_price').val()) || parseFloat($('#modal_mrp').val()) || 0;
+            $('#modal_stock_value').val((q * p).toFixed(2));
+            $('#modal_availability').val(q > 0 ? 'in_stock' : 'out_stock');
+        });
+
+        // Barcode Auto Generate in modal
+        $('#modalGenBarcodeBtn').on('click', function() {
+            const autoCode = 'MED' + Math.floor(100000 + Math.random() * 900000);
+            $('#modal_barcode').val(autoCode);
+        });
+
+        // Quick add Category/Brand/Unit handlers
+        $('#modalQuickAddCategoryBtn').on('click', function() {
+            $('#quickAddSubType').val('category');
+            $('#quickAddSubModalTitle').text('Add Category');
+            $('#quickAddSubName').val('');
+            $('#quickAddSubDesc').val('');
+            $('.error-quick-add-sub').text('');
+            $('#quickAddSubModal').modal('show');
+        });
+
+        $('#modalQuickAddBrandBtn').on('click', function() {
+            $('#quickAddSubType').val('brand');
+            $('#quickAddSubModalTitle').text('Add Brand');
+            $('#quickAddSubName').val('');
+            $('#quickAddSubDesc').val('');
+            $('.error-quick-add-sub').text('');
+            $('#quickAddSubModal').modal('show');
+        });
+
+        $('#modalQuickAddUnitBtn').on('click', function() {
+            $('#quickAddSubType').val('unit');
+            $('#quickAddSubModalTitle').text('Add Stock Unit');
+            $('#quickAddSubName').val('');
+            $('#quickAddSubDesc').val('').attr('placeholder', 'Short code (e.g. TAB, BOX)');
+            $('.error-quick-add-sub').text('');
+            $('#quickAddSubModal').modal('show');
+        });
+
+        $('#saveQuickAddSubBtn').on('click', function() {
+            const type = $('#quickAddSubType').val();
+            const name = $('#quickAddSubName').val().trim();
+            const desc = $('#quickAddSubDesc').val().trim();
+
+            if (!name) {
+                $('.error-quick-add-sub').text('Name is required');
+                return;
+            }
+
+            let endpoint = '';
+            let payload = { name: name, branch_id: saleBranchId };
+
+            if (type === 'category') {
+                endpoint = '{{ url("api/categories") }}';
+                payload.description = desc;
+            } else if (type === 'brand') {
+                endpoint = '{{ url("api/brands") }}';
+                payload.description = desc;
+            } else if (type === 'unit') {
+                endpoint = '{{ url("api/stock-units") }}';
+                payload.short_name = desc;
+                payload.status = 'active';
+            }
+
+            const $btn = $(this);
+            $btn.prop('disabled', true).text('Saving...');
+
+            $.ajax({
+                url: endpoint,
+                type: 'POST',
+                headers: { 'Authorization': 'Bearer ' + saleAuthToken, 'Accept': 'application/json' },
+                data: payload,
+                success: function(res) {
+                    $btn.prop('disabled', false).text('Save');
+                    $('#quickAddSubModal').modal('hide');
+
+                    if (type === 'category') {
+                        const newId = (res.category && res.category.id) ? res.category.id : res.id;
+                        const opt = new Option(name, newId, true, true);
+                        $('#modal_category_id').append(opt).trigger('change');
+                    } else if (type === 'brand') {
+                        const newId = (res.brand && res.brand.id) ? res.brand.id : res.id;
+                        const opt = new Option(name, newId, true, true);
+                        $('#modal_brand_id').append(opt).trigger('change');
+                    } else if (type === 'unit') {
+                        const newId = (res.stock_unit && res.stock_unit.id) ? res.stock_unit.id : res.id;
+                        const opt = new Option(`${name} (${desc || name})`, newId, true, true);
+                        $('#modal_stock_unit_id').append(opt).trigger('change');
+                    }
+                },
+                error: function(err) {
+                    $btn.prop('disabled', false).text('Save');
+                    let msg = 'Error saving item';
+                    if (err.responseJSON) {
+                        msg = err.responseJSON.message || Object.values(err.responseJSON.errors || {}).flat().join(', ') || msg;
+                    }
+                    $('.error-quick-add-sub').text(msg);
+                }
+            });
+        });
+
+        // Open Add Medication Modal
+        $('#addProductModalBtn').on('click', function() {
+            $('#addMedicationForm')[0].reset();
+            $('#modal_stock_value').val('0.00');
+            $('#addMedicationModal').modal('show');
+        });
+
+        // Submit Medication Modal -> AUTO SELECT INTO BILL
+        $('#addMedicationForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const form = document.getElementById('addMedicationForm');
+            const formData = new FormData(form);
+            formData.append('branch_id', saleBranchId);
+
+            $('#saveMedicationBtn').prop('disabled', true).text('Saving...');
+
+            $.ajax({
+                url: '{{ url("api/medicines") }}',
+                type: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + saleAuthToken,
+                    'Accept': 'application/json'
+                },
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(res) {
+                    $('#saveMedicationBtn').prop('disabled', false).text('Save Medication');
+                    if (res.status || res.medicine || res.id) {
+                        const newMed = res.medicine || res.data || {
+                            id: res.id || ('MED_' + Date.now()),
+                            name: $('#modal_name').val(),
+                            image: res.image || '',
+                            batch_no: $('#modal_batch_no').val() || '',
+                            expiry_date: $('#modal_expiry_date').val() || '',
+                            quantity: parseFloat($('#modal_quantity').val()) || 0,
+                            mrp: parseFloat($('#modal_mrp').val()) || 0,
+                            purchase_price: parseFloat($('#modal_purchase_price').val()) || 0,
+                            gst_option: $('#modal_gst_option').val()
+                        };
+                        if (res.image && !newMed.image) newMed.image = res.image;
+
+                        allMedicines.unshift(newMed);
+                        addItemToSale(newMed);
+
+                        $('#addMedicationModal').modal('hide');
+                        form.reset();
+
+                        if (typeof toastr !== 'undefined') {
+                            toastr.success('Medicine created and added to sale bill!', 'Success');
+                        } else {
+                            alert('Medicine created and added to sale bill!');
+                        }
+                    } else {
+                        alert(res.message || 'Failed to save medication');
+                    }
+                },
+                error: function(xhr) {
+                    $('#saveMedicationBtn').prop('disabled', false).text('Save Medication');
+                    let msg = 'Failed to create medication.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        msg = xhr.responseJSON.message;
+                    }
+                    alert(msg);
+                }
+            });
+        });
+
+        // Patient selection auto-fetch
+        $('#patient_id').on('change', function() {
+            const opt = $(this).find(':selected');
+            const pId = opt.val();
+
+            if (!pId) {
+                $('#patient_phone, #patient_age, #patient_bp, #patient_temperature, #patient_pulse, #patient_history, #patient_complaint, #advice_for_lab_tests').val('');
+                $('#patient_sex').val('Male');
+                return;
+            }
+
+            $('#patient_phone').val(opt.data('phone') || '');
+            $('#patient_age').val(opt.data('age') || '');
+            $('#patient_sex').val(opt.data('sex') || 'Male');
+            $('#patient_bp').val(opt.data('bp') || '');
+            $('#patient_temperature').val(opt.data('temp') || '');
+            $('#patient_pulse').val(opt.data('pulse') || '');
+            $('#patient_history').val(opt.data('history') || '');
+            $('#patient_complaint').val(opt.data('complaint') || '');
+            $('#advice_for_lab_tests').val(opt.data('lab') || '');
+
+            if (!opt.data('history') && !opt.data('complaint') && !pId.startsWith('NEW_')) {
                 $.ajax({
                     url: '/api/patient/' + pId,
                     type: 'GET',
-                    headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+                    headers: saleAuthToken ? { 'Authorization': 'Bearer ' + saleAuthToken } : {},
                     success: function(res) {
                         if (res && res.patient) {
                             const p = res.patient;
@@ -616,132 +1175,115 @@
                     }
                 });
             }
-        }
-    });
-
-    // Quick add patient modal
-    $('#quickAddPatientBtn').on('click', function(e) {
-        e.preventDefault();
-        $('#quickPatientForm')[0].reset();
-        const myModal = new bootstrap.Modal(document.getElementById('quickAddPatientModal'));
-        myModal.show();
-    });
-
-    $('#quickPatientForm').on('submit', function(e) {
-        e.preventDefault();
-        const name = $('#quick_patient_name').val().trim();
-        const phone = $('#quick_patient_phone').val().trim();
-        const age = $('#quick_patient_age').val();
-        const gender = $('#quick_patient_gender').val();
-
-        if (!name || !phone) {
-            alert('Please fill in patient name and phone.');
-            return;
-        }
-
-        const newId = 'NEW_' + Date.now();
-        const newOption = new Option(`${name} (${phone})`, newId, true, true);
-        $(newOption).data('phone', phone).data('age', age).data('sex', gender);
-        $('#patient_id').append(newOption).trigger('change');
-
-        $('#patient_phone').val(phone);
-        $('#patient_age').val(age);
-        $('#patient_sex').val(gender);
-
-        bootstrap.Modal.getInstance(document.getElementById('quickAddPatientModal')).hide();
-    });
-
-    // Add custom product modal
-    $('#addProductModalBtn').on('click', function() {
-        $('#customProductForm')[0].reset();
-        const myModal = new bootstrap.Modal(document.getElementById('addCustomProductModal'));
-        myModal.show();
-    });
-
-    $('#customProductForm').on('submit', function(e) {
-        e.preventDefault();
-        const name = $('#custom_product_name').val().trim();
-        const batch = $('#custom_batch_no').val().trim();
-        const expiry = $('#custom_expiry_date').val();
-        const price = parseFloat($('#custom_price').val()) || 0;
-        const gst = parseFloat($('#custom_gst').val()) || 0;
-
-        selectedItems.push({
-            id: 'CUSTOM_' + Date.now(),
-            name: name,
-            batch_no: batch,
-            expiry_date: expiry,
-            stock: 999,
-            qty: 1,
-            price: price,
-            discount_percent: 0,
-            gst_percent: gst,
-            is_custom: 1,
         });
 
-        renderTable();
-        bootstrap.Modal.getInstance(document.getElementById('addCustomProductModal')).hide();
-    });
-
-    // Payment method selector
-    $('.pay-mode-btn').on('click', function() {
-        $('.pay-mode-btn').removeClass('active');
-        $(this).addClass('active');
-        $('#payment_method').val($(this).data('mode'));
-    });
-
-    // Search Autocomplete
-    $('#productSearchInput').on('keyup focus', function() {
-        const query = $(this).val().toLowerCase().trim();
-        const resultsBox = $('#searchDropdownResults');
-        if (query.length < 1) {
-            resultsBox.hide().empty();
-            return;
-        }
-
-        const matches = allMedicines.filter(m => 
-            (m.name && m.name.toLowerCase().includes(query)) ||
-            (m.barcode && m.barcode.toLowerCase().includes(query)) ||
-            (m.batch_no && m.batch_no.toLowerCase().includes(query))
-        );
-
-        if (matches.length === 0) {
-            resultsBox.html('<div class="p-3 text-center text-muted">No medicines found. Click "+ Add Custom Product" above.</div>').show();
-            return;
-        }
-
-        let html = '';
-        matches.slice(0, 15).forEach(m => {
-            html += `
-                <div class="search-result-item" data-id="${m.id}">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <strong style="color: #1e293b;">${m.name}</strong>
-                        <span class="badge" style="background-color: #cfece0; color: #1f513f;">Stock: ${m.quantity || 0}</span>
-                    </div>
-                    <div class="text-muted" style="font-size: 12px;">
-                        Price: ₹${parseFloat(m.mrp || m.purchase_price || 0).toFixed(2)} | Batch: ${m.batch_no || 'N/A'} | Exp: ${m.expiry_date || 'N/A'}
-                    </div>
-                </div>
-            `;
+        // Quick Add Patient
+        $('#quickAddPatientBtn').on('click', function(e) {
+            e.preventDefault();
+            $('#quickPatientForm')[0].reset();
+            $('#quickAddPatientModal').modal('show');
         });
-        resultsBox.html(html).show();
-    });
 
-    $(document).on('click', function(e) {
-        if (!$(e.target).closest('#productSearchInput, #searchDropdownResults').length) {
+        $('#quickPatientForm').on('submit', function(e) {
+            e.preventDefault();
+            const name = $('#quick_patient_name').val().trim();
+            const phone = $('#quick_patient_phone').val().trim();
+            const age = $('#quick_patient_age').val();
+            const gender = $('#quick_patient_gender').val();
+
+            if (!name || !phone) {
+                alert('Please fill in patient name and phone.');
+                return;
+            }
+
+            const newId = 'NEW_' + Date.now();
+            const newOption = new Option(`${name} (${phone})`, newId, true, true);
+            $(newOption).data('phone', phone).data('age', age).data('sex', gender);
+            $('#patient_id').append(newOption).trigger('change');
+
+            $('#patient_phone').val(phone);
+            $('#patient_age').val(age);
+            $('#patient_sex').val(gender);
+
+            $('#quickAddPatientModal').modal('hide');
+        });
+
+        // Payment Mode
+        $('.pay-mode-btn').on('click', function() {
+            $('.pay-mode-btn').removeClass('active');
+            $(this).addClass('active');
+            $('#payment_method').val($(this).data('mode'));
+        });
+
+        // Product Search Autocomplete
+        $('#productSearchInput').on('keyup focus', function() {
+            const query = $(this).val().toLowerCase().trim();
+            const resultsBox = $('#searchDropdownResults');
+            if (query.length < 1) {
+                resultsBox.hide().empty();
+                return;
+            }
+
+            const matches = allMedicines.filter(m => 
+                (m.name && m.name.toLowerCase().includes(query)) ||
+                (m.barcode && m.barcode.toLowerCase().includes(query)) ||
+                (m.batch_no && m.batch_no.toLowerCase().includes(query))
+            );
+
+            if (matches.length === 0) {
+                resultsBox.html('<div class="p-3 text-center text-muted">No medicines found. Click "+ Add Product" to add new.</div>').show();
+                return;
+            }
+
+            let html = '';
+            matches.slice(0, 15).forEach(m => {
+                const imgU = resolveMedicineImageUrl(m.image);
+                html += `
+                    <div class="search-result-item d-flex align-items-center" data-id="${m.id}" style="padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #f1f5f9;">
+                        <div style="width: 38px; height: 38px; border-radius: 10px; background: #f8fafc; border: 1.5px solid #e2e8f0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-right: 12px; overflow: hidden;">
+                            ${imgU ? `<img src="${imgU}" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none';">` : `<i class="fas fa-pills text-muted" style="font-size: 14px;"></i>`}
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <strong style="color: #1e293b; font-size: 13.5px;">${m.name}</strong>
+                                <span class="badge" style="background-color: #cfece0; color: #1f513f; font-weight: 600; border-radius: 50px; font-size: 11px;">Stock: ${m.quantity || 0}</span>
+                            </div>
+                            <div class="text-muted" style="font-size: 11.5px;">
+                                Price: ₹${parseFloat(m.mrp || m.purchase_price || 0).toFixed(2)} | Batch: ${m.batch_no || 'N/A'} | Exp: ${m.expiry_date || 'N/A'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            resultsBox.html(html).show();
+        });
+
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('#productSearchInput, #searchDropdownResults').length) {
+                $('#searchDropdownResults').hide();
+            }
+        });
+
+        $(document).on('click', '.search-result-item', function() {
+            const id = $(this).data('id');
+            const med = allMedicines.find(m => m.id == id);
+            if (med) {
+                addItemToSale(med);
+            }
+            $('#productSearchInput').val('');
             $('#searchDropdownResults').hide();
-        }
+        });
     });
 
-    $(document).on('click', '.search-result-item', function() {
-        const id = $(this).data('id');
-        const med = allMedicines.find(m => m.id == id);
-        if (med) {
-            addItemToSale(med);
+    function resolveMedicineImageUrl(img) {
+        if (!img || typeof img !== 'string') return '';
+        const trimmed = img.trim();
+        if (trimmed === '') return '';
+        if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('data:')) {
+            return trimmed;
         }
-        $('#productSearchInput').val('');
-        $('#searchDropdownResults').hide();
-    });
+        return '{{ url("/") }}/' + trimmed.replace(/^\/+/, '');
+    }
 
     function addItemToSale(med) {
         const existing = selectedItems.find(i => i.id == med.id);
@@ -751,80 +1293,209 @@
             selectedItems.push({
                 id: med.id,
                 name: med.name,
+                image: resolveMedicineImageUrl(med.image),
                 batch_no: med.batch_no || '',
                 expiry_date: med.expiry_date || '',
                 stock: med.quantity || 0,
                 qty: 1,
                 price: parseFloat(med.mrp || med.unit || med.purchase_price || 0),
                 discount_percent: 0,
+                discount_rate: 0,
                 gst_percent: (med.gst_option === 'With GST' ? 12 : 0),
                 is_custom: 0,
             });
         }
-        renderTable();
+        renderItemsCards();
     }
 
-    function renderTable() {
+    // RENDER ITEMS IN A SINGLE BEAUTIFULLY ALIGNED ROW
+    function renderItemsCards() {
+        const container = $('#saleItemsContainer');
+
         if (selectedItems.length === 0) {
-            $('#saleItemsBody').html(`
-                <tr id="noItemRow">
-                    <td colspan="11" class="text-center py-4 text-muted">
-                        <i class="fas fa-pills fa-2x mb-2 d-block" style="color: #f89884;"></i>
-                        Search medicines above or scan barcode to add to bill
-                    </td>
-                </tr>
+            container.html(`
+                <div id="noItemBox" class="text-center py-5 rounded-4" style="background: #ffffff; border: 1.5px dashed #cbd5e1;">
+                    <i class="fas fa-pills fa-3x mb-2 d-block" style="color: #f89884;"></i>
+                    <div class="fw-bold" style="color: #64748b; font-size: 14.5px;">Search medicines above or scan barcode to add to bill</div>
+                </div>
             `);
             $('#itemsCountBadge').text('Total items : 0');
             recalcTotals();
             return;
         }
 
-        let rows = '';
+        let cardsHtml = '';
         selectedItems.forEach((item, idx) => {
             const lineTotal = item.qty * item.price * (1 - (item.discount_percent / 100));
-            rows += `
-                <tr data-index="${idx}">
-                    <td class="text-center">${idx + 1}</td>
-                    <td><strong>${item.name}</strong></td>
-                    <td><input type="text" class="form-control form-control-sm item-batch" value="${item.batch_no}" style="height: 32px !important; font-size: 12.5px;"></td>
-                    <td><input type="text" class="form-control form-control-sm item-expiry" value="${item.expiry_date}" style="height: 32px !important; font-size: 12.5px;"></td>
-                    <td class="text-center"><span class="badge" style="background: #f1f5f9; color: #475569;">${item.stock}</span></td>
-                    <td><input type="number" min="1" class="form-control form-control-sm item-qty text-center" value="${item.qty}" style="height: 32px !important;"></td>
-                    <td><input type="number" step="0.01" min="0" class="form-control form-control-sm item-price text-end" value="${item.price.toFixed(2)}" style="height: 32px !important;"></td>
-                    <td><input type="number" min="0" max="100" class="form-control form-control-sm item-disc text-center" value="${item.discount_percent}" style="height: 32px !important;"></td>
-                    <td><input type="number" min="0" class="form-control form-control-sm item-gst text-center" value="${item.gst_percent}" style="height: 32px !important;"></td>
-                    <td class="fw-bold line-total text-end">₹${lineTotal.toFixed(2)}</td>
-                    <td class="text-center">
-                        <button type="button" class="btn btn-sm btn-outline-danger btn-remove-item" style="border-radius: 50px; width: 30px; height: 30px; padding: 0;"><i class="fas fa-trash"></i></button>
-                    </td>
-                </tr>
+            const discRate = (item.qty * item.price) * (item.discount_percent / 100);
+
+            let thumbContent = '';
+            if (item.image && typeof item.image === 'string' && item.image.trim() !== '') {
+                thumbContent = `
+                    <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
+                    <div style="display:none; width:100%; height:100%; align-items:center; justify-content:center;">
+                        <i class="fas fa-pills text-muted" style="font-size: 22px;"></i>
+                    </div>
+                `;
+            } else {
+                thumbContent = `<i class="fas fa-pills text-muted" style="font-size: 22px;"></i>`;
+            }
+
+            cardsHtml += `
+                <div class="sale-item-card" data-index="${idx}">
+                    <div class="d-flex align-items-center flex-wrap" style="gap: 8px;">
+                        <!-- Thumbnail Box (with space to name) -->
+                        <div class="item-card-thumb">
+                            ${thumbContent}
+                        </div>
+
+                        <!-- Product Title and Stock badge (with space to inputs) -->
+                        <div class="item-card-info-col">
+                            <strong style="font-size: 14.5px; color: #1e293b; display: block; line-height: 1.3;" class="mb-1">${item.name}</strong>
+                            <div class="d-flex align-items-center" style="gap: 6px;">
+                                <span class="badge" style="background-color: #cfece0; color: #1f513f; font-weight: 600; border-radius: 50px; padding: 3px 8px; font-size: 11px;">Stock: ${item.stock || 0}</span>
+                                ${item.gst_percent ? `<span class="badge ml-1" style="background-color: #f1f5f9; color: #475569; font-weight: 600; border-radius: 50px; padding: 3px 8px; font-size: 11px;">GST: ${item.gst_percent}%</span>` : ''}
+                            </div>
+                        </div>
+
+                        <!-- BATCH NO -->
+                        <div class="item-card-field" style="flex: 1; min-width: 120px;">
+                            <label class="card-input-label">BATCH NO</label>
+                            <input type="text" class="form-control form-control-sm item-batch pill-input" value="${item.batch_no || ''}">
+                        </div>
+
+                        <!-- EXP -->
+                        <div class="item-card-field" style="flex: 1; min-width: 125px;">
+                            <label class="card-input-label">EXP</label>
+                            <input type="text" class="form-control form-control-sm item-expiry pill-input" value="${item.expiry_date || ''}" placeholder="YYYY-MM-DD">
+                        </div>
+
+                        <!-- QTY Stepper -->
+                        <div class="item-card-field" style="width: 105px; flex-shrink: 0;">
+                            <label class="card-input-label">QTY</label>
+                            <div class="qty-stepper-pill">
+                                <button type="button" class="stepper-btn qty-minus">-</button>
+                                <input type="number" min="1" class="item-qty stepper-input" value="${item.qty}">
+                                <button type="button" class="stepper-btn qty-plus">+</button>
+                            </div>
+                        </div>
+
+                        <!-- MRP -->
+                        <div class="item-card-field" style="flex: 1; min-width: 95px;">
+                            <label class="card-input-label">MRP</label>
+                            <input type="number" step="0.01" min="0" class="form-control form-control-sm item-price pill-input text-center" value="${item.price.toFixed(2)}">
+                        </div>
+
+                        <!-- DISC % -->
+                        <div class="item-card-field" style="width: 80px; flex-shrink: 0;">
+                            <label class="card-input-label">DISC %</label>
+                            <input type="number" min="0" max="100" step="0.01" class="form-control form-control-sm item-disc pill-input text-center" value="${item.discount_percent}">
+                        </div>
+
+                        <!-- DISC RATE -->
+                        <div class="item-card-field" style="flex: 1; min-width: 95px;">
+                            <label class="card-input-label">DISC RATE</label>
+                            <input type="number" step="0.01" min="0" class="form-control form-control-sm item-disc-rate pill-input text-center" value="${discRate.toFixed(2)}">
+                        </div>
+
+                        <!-- Large Line Total -->
+                        <div class="item-card-field text-end" style="min-width: 90px; flex-shrink: 0;">
+                            <label class="card-input-label">&nbsp;</label>
+                            <div class="item-card-total-val" style="font-size: 19px; line-height: 38px;">₹${lineTotal.toFixed(2)}</div>
+                        </div>
+
+                        <!-- Delete Action -->
+                        <div style="flex-shrink: 0;">
+                            <label class="card-input-label">&nbsp;</label>
+                            <button type="button" class="btn-card-delete btn-remove-item" title="Remove Item">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             `;
         });
 
-        $('#saleItemsBody').html(rows);
+        container.html(cardsHtml);
         $('#itemsCountBadge').text(`Total items : ${selectedItems.length}`);
         recalcTotals();
     }
 
-    $(document).on('input', '.item-qty, .item-price, .item-disc, .item-gst', function() {
-        const row = $(this).closest('tr');
-        const idx = row.data('index');
-        const item = selectedItems[idx];
-        if (item) {
-            item.qty = parseInt(row.find('.item-qty').val()) || 1;
-            item.price = parseFloat(row.find('.item-price').val()) || 0;
-            item.discount_percent = parseFloat(row.find('.item-disc').val()) || 0;
-            item.gst_percent = parseFloat(row.find('.item-gst').val()) || 0;
-            const lineTot = item.qty * item.price * (1 - (item.discount_percent / 100));
-            row.find('.line-total').text('₹' + lineTot.toFixed(2));
-            recalcTotals();
+    // Stepper Plus / Minus Click Handlers
+    $(document).on('click', '.qty-minus', function() {
+        const card = $(this).closest('.sale-item-card');
+        const idx = card.data('index');
+        if (selectedItems[idx] && selectedItems[idx].qty > 1) {
+            selectedItems[idx].qty -= 1;
+            renderItemsCards();
         }
     });
 
+    $(document).on('click', '.qty-plus', function() {
+        const card = $(this).closest('.sale-item-card');
+        const idx = card.data('index');
+        if (selectedItems[idx]) {
+            selectedItems[idx].qty += 1;
+            renderItemsCards();
+        }
+    });
+
+    // Inputs change on cards
+    $(document).on('input', '.item-qty', function() {
+        const card = $(this).closest('.sale-item-card');
+        const idx = card.data('index');
+        const val = parseInt($(this).val()) || 1;
+        if (selectedItems[idx]) {
+            selectedItems[idx].qty = val;
+            renderItemsCards();
+        }
+    });
+
+    $(document).on('input', '.item-price', function() {
+        const card = $(this).closest('.sale-item-card');
+        const idx = card.data('index');
+        const val = parseFloat($(this).val()) || 0;
+        if (selectedItems[idx]) {
+            selectedItems[idx].price = val;
+            renderItemsCards();
+        }
+    });
+
+    $(document).on('input', '.item-disc', function() {
+        const card = $(this).closest('.sale-item-card');
+        const idx = card.data('index');
+        const val = parseFloat($(this).val()) || 0;
+        if (selectedItems[idx]) {
+            selectedItems[idx].discount_percent = Math.min(100, Math.max(0, val));
+            renderItemsCards();
+        }
+    });
+
+    $(document).on('input', '.item-disc-rate', function() {
+        const card = $(this).closest('.sale-item-card');
+        const idx = card.data('index');
+        const rate = parseFloat($(this).val()) || 0;
+        if (selectedItems[idx]) {
+            const base = selectedItems[idx].qty * selectedItems[idx].price;
+            selectedItems[idx].discount_percent = base > 0 ? (rate / base) * 100 : 0;
+            renderItemsCards();
+        }
+    });
+
+    $(document).on('input', '.item-batch', function() {
+        const idx = $(this).closest('.sale-item-card').data('index');
+        if (selectedItems[idx]) selectedItems[idx].batch_no = $(this).val();
+    });
+
+    $(document).on('input', '.item-expiry', function() {
+        const idx = $(this).closest('.sale-item-card').data('index');
+        if (selectedItems[idx]) selectedItems[idx].expiry_date = $(this).val();
+    });
+
     $(document).on('click', '.btn-remove-item', function() {
-        const idx = $(this).closest('tr').data('index');
+        const idx = $(this).closest('.sale-item-card').data('index');
         selectedItems.splice(idx, 1);
-        renderTable();
+        renderItemsCards();
     });
 
     function recalcTotals() {
@@ -890,7 +1561,7 @@
             subtotal: subtotal,
             total: grandTotal,
             remarks: $('#remarks').val(),
-            branch_id: branchId,
+            branch_id: saleBranchId,
             items: selectedItems.map(i => ({
                 product_id: i.id,
                 name: i.name,
@@ -911,7 +1582,7 @@
             type: 'POST',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Authorization': 'Bearer ' + (typeof token !== 'undefined' ? token : ''),
+                'Authorization': 'Bearer ' + saleAuthToken,
                 'Accept': 'application/json'
             },
             data: payload,

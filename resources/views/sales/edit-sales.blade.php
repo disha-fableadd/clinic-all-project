@@ -1,18 +1,14 @@
 @extends('layout.app')
 
-@section('title', 'Edit Sale #' . ($order->order_number ?? $order->id))
+@section('title', 'Sale Bill Details')
 
 @section('content')
 <style>
     .single-sale-card {
-        border: 1px solid #e2e8f0;
+        border: none;
         border-radius: 20px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
         background: #ffffff;
-        margin-bottom: 20px;
-    }
-    .single-sale-card .card-body {
-        padding: 20px 24px;
     }
     .form-group-compact {
         margin-bottom: 10px !important;
@@ -26,20 +22,14 @@
         white-space: nowrap;
     }
     .form-control, .form-select,
-    .form-control[readonly], .form-control:disabled,
-    .table input.form-control, .table select.form-select {
+    .form-control[readonly], .form-control:disabled {
         height: 38px !important;
         border: 1.5px solid #cbd5e1 !important;
         border-radius: 50px !important;
         padding: 6px 16px !important;
         font-size: 13px !important;
         color: #000000 !important;
-        background-color: #ffffff;
-    }
-    .form-control:focus, .form-select:focus {
-        border-color: #f89884 !important;
-        box-shadow: 0 0 0 3px rgba(248, 152, 132, 0.25) !important;
-        outline: none;
+        background-color: #f8fafc;
     }
     .btn-submit-main {
         background-color: #f89884 !important;
@@ -64,28 +54,65 @@
         display: inline-flex;
         align-items: center;
     }
-    .pay-mode-btn {
-        flex: 1;
-        min-height: 44px;
-        border: 1.5px solid #e2e8f0;
-        border-radius: 50px;
+
+    /* ITEM CARD FORMAT (Matching Image 1) */
+    .sale-item-card {
         background: #ffffff;
-        font-size: 12.5px;
-        font-weight: 600;
-        color: #475569;
-        display: inline-flex;
+        border: 1.5px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 14px 14px;
+        margin-bottom: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .item-card-thumb {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+        border-radius: 12px;
+        background: #f8fafc;
+        border: 1.5px solid #e2e8f0;
+        display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
-        padding: 6px 14px;
+        flex-shrink: 0;
+        overflow: hidden;
+        /* margin-right: 14px; */
     }
-    .pay-mode-btn.active {
-        background-color: #cfece0 !important;
-        border-color: #f89884 !important;
+    .item-card-info-col {
+        min-width: 170px;
+        flex: 2;
+        /* margin-right: 14px; */
+    }
+    .item-card-field {
+        /* margin-right: 12px; */
+    }
+    .item-card-field:last-child {
+        margin-right: 0;
+    }
+    .card-input-label {
+        font-size: 10.5px;
+        font-weight: 700;
+        color: #64748b;
+        margin-bottom: 4px;
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+    }
+    .pill-input {
+        border-radius: 50px !important;
+        height: 38px !important;
+        border: 1.5px solid #cbd5e1 !important;
+        font-size: 13px !important;
         color: #000000 !important;
+        background: #f8fafc;
+        padding: 6px 14px !important;
     }
-    .form-control::placeholder, .form-select::placeholder, textarea.form-control::placeholder {
-        color: #94a3b8 !important;
+    .item-card-total {
+        font-size: 20px;
+        font-weight: 800;
+        color: #f89884;
+        letter-spacing: -0.5px;
     }
 </style>
 
@@ -114,7 +141,7 @@
             $patientPhone = $patient ? ($patient->phone_number ?? $patient->phone) : ($order->patient_phone ?? '-');
         @endphp
 
-        <!-- SINGLE UNIFIED CARD (Same Compact Layout) -->
+        <!-- SINGLE UNIFIED CARD -->
         <div class="card single-sale-card">
             <div class="card-body">
                 <!-- Row 1: Patient details -->
@@ -193,41 +220,90 @@
 
                 <hr style="margin: 14px 0; border-color: #e2e8f0;">
 
-                <!-- Items Table -->
-                <div class="table-responsive mb-3">
-                    <table class="table table-bordered align-middle mb-0">
-                        <thead style="background-color: #cfece0; color: #1e293b; font-size: 12.5px;">
-                            <tr>
-                                <th style="width: 40px;">#</th>
-                                <th>Medicine / Product</th>
-                                <th>Batch</th>
-                                <th>Expiry</th>
-                                <th style="width: 80px;" class="text-center">Qty</th>
-                                <th style="width: 100px;" class="text-end">Price (₹)</th>
-                                <th style="width: 80px;" class="text-center">GST %</th>
-                                <th style="width: 110px;" class="text-end">Total (₹)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php $i = 1; @endphp
-                            @forelse($order->order_items as $item)
-                                <tr>
-                                    <td class="text-center">{{ $i++ }}</td>
-                                    <td><strong>{{ $item->product ? $item->product->name : ($item->custom_product_name ?? 'Medicine') }}</strong></td>
-                                    <td>{{ $item->batch_no ?? '-' }}</td>
-                                    <td>{{ $item->expiry_date ?? '-' }}</td>
-                                    <td class="text-center">{{ $item->quantity }}</td>
-                                    <td class="text-end">₹{{ number_format($item->unit_price, 2) }}</td>
-                                    <td class="text-center">{{ $item->tax_rate ?? 0 }}%</td>
-                                    <td class="text-end fw-bold">₹{{ number_format($item->subtotal, 2) }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="8" class="text-center py-3 text-muted">No items in this order</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                <!-- Total items bar -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge" style="background-color: #f8fafc; border: 1.5px solid #e2e8f0; color: #1e293b; font-size: 13.5px; font-weight: 700; border-radius: 50px; padding: 6px 16px;">
+                        Total items : {{ count($order->order_items ?? []) }}
+                    </span>
+                </div>
+
+                <!-- ITEMS LIST (CARD FORMAT - Clean Single Row) -->
+                <div class="mb-3">
+                    @forelse($order->order_items as $item)
+                        @php
+                            $prodName = $item->product ? $item->product->name : ($item->custom_product_name ?? 'Medicine');
+                            $lineTot = $item->subtotal ?? ($item->quantity * $item->unit_price);
+                            $discPercent = $item->discount_percent ?? 0;
+                            $discRate = ($item->quantity * $item->unit_price) * ($discPercent / 100);
+                            $rawImg = $item->product ? ($item->product->image ?? null) : null;
+                            $imgSrc = null;
+                            if (!empty($rawImg)) {
+                                $trimmed = trim($rawImg);
+                                if (str_starts_with($trimmed, 'http://') || str_starts_with($trimmed, 'https://') || str_starts_with($trimmed, 'data:')) {
+                                    $imgSrc = $trimmed;
+                                } else {
+                                    $imgSrc = url(ltrim($trimmed, '/'));
+                                }
+                            }
+                        @endphp
+                        <div class="sale-item-card">
+                            <div class="d-flex align-items-center flex-wrap" style="gap: 8px;">
+                                <!-- Thumbnail -->
+                                <div class="item-card-thumb">
+                                    @if($imgSrc)
+                                        <img src="{{ $imgSrc }}" alt="{{ $prodName }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+                                        <div style="display:none; width:100%; height:100%; align-items:center; justify-content:center;">
+                                            <i class="fas fa-pills text-muted" style="font-size: 22px;"></i>
+                                        </div>
+                                    @else
+                                        <i class="fas fa-pills text-muted" style="font-size: 22px;"></i>
+                                    @endif
+                                </div>
+
+                                <!-- Medicine Name -->
+                                <div class="item-card-info-col">
+                                    <strong style="font-size: 14.5px; color: #1e293b; display: block; line-height: 1.3;" class="mb-1">{{ $prodName }}</strong>
+                                    @if($item->tax_rate)
+                                        <span class="badge" style="background-color: #f1f5f9; color: #64748b; font-weight: 600; border-radius: 50px; font-size: 11px; padding: 3px 8px;">GST: {{ $item->tax_rate }}%</span>
+                                    @endif
+                                </div>
+
+                                <!-- Single Row Inputs with explicit margins -->
+                                <div class="item-card-field" style="min-width: 115px; flex: 1;">
+                                    <label class="card-input-label">BATCH NO</label>
+                                    <input type="text" class="form-control form-control-sm pill-input" value="{{ $item->batch_no ?? '-' }}" readonly>
+                                </div>
+                                <div class="item-card-field" style="min-width: 125px; flex: 1;">
+                                    <label class="card-input-label">EXP</label>
+                                    <input type="text" class="form-control form-control-sm pill-input" value="{{ $item->expiry_date ?? '-' }}" readonly>
+                                </div>
+                                <div class="item-card-field" style="width: 85px; flex-shrink: 0;">
+                                    <label class="card-input-label text-center">QTY</label>
+                                    <input type="text" class="form-control form-control-sm pill-input text-center" value="{{ $item->quantity }}" readonly>
+                                </div>
+                                <div class="item-card-field" style="min-width: 95px; flex: 1;">
+                                    <label class="card-input-label text-center">MRP</label>
+                                    <input type="text" class="form-control form-control-sm pill-input text-center" value="₹{{ number_format($item->unit_price, 2) }}" readonly>
+                                </div>
+                                <div class="item-card-field" style="width: 80px; flex-shrink: 0;">
+                                    <label class="card-input-label text-center">DISC %</label>
+                                    <input type="text" class="form-control form-control-sm pill-input text-center" value="{{ $discPercent }}%" readonly>
+                                </div>
+                                <div class="item-card-field" style="min-width: 95px; flex: 1;">
+                                    <label class="card-input-label text-center">DISC RATE</label>
+                                    <input type="text" class="form-control form-control-sm pill-input text-center" value="₹{{ number_format($discRate, 2) }}" readonly>
+                                </div>
+                                <div class="item-card-field text-end" style="min-width: 90px; flex-shrink: 0;">
+                                    <label class="card-input-label text-end">TOTAL</label>
+                                    <div class="item-card-total" style="font-size: 19px; line-height: 38px;">₹{{ number_format($lineTot, 2) }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-4 text-muted bg-light rounded-4">
+                            No items found in this order
+                        </div>
+                    @endforelse
                 </div>
 
                 <!-- Charges & Summary -->
@@ -258,30 +334,27 @@
                     </div>
                 </div>
 
-                <!-- Totals -->
+                <!-- Subtotal & Grand Total -->
                 <div class="d-flex justify-content-between align-items-center py-2 px-3 mb-3 rounded" style="background: #f8fafc; border: 1px solid #e2e8f0;">
                     <div>
                         <span class="text-muted" style="font-size: 13.5px;">Subtotal:</span>
-                        <strong style="color: #1e293b; font-size: 14px;" class="ms-1">₹{{ number_format($order->subtotal ?? $order->total_amount, 2) }}</strong>
+                        <strong style="color: #1e293b; font-size: 14px;" class="ms-1">₹{{ number_format($order->subtotal ?? 0, 2) }}</strong>
                     </div>
                     <div>
                         <span style="font-size: 14.5px; font-weight: 700; color: #1e293b;">Grand Total:</span>
-                        <span style="font-size: 18px; font-weight: 800; color: #f89884;" class="ms-1">₹{{ number_format($order->total_amount, 2) }}</span>
+                        <span style="font-size: 18px; font-weight: 800; color: #f89884;" class="ms-1">₹{{ number_format($order->total_amount ?? 0, 2) }}</span>
                     </div>
                 </div>
 
-                <!-- Payment Status Bar -->
-                <div class="d-flex justify-content-between align-items-center p-3 rounded" style="background: #cfece0; border: 1px solid #b5e4d2;">
-                    <div>
-                        <strong>Payment Method:</strong> {{ ucfirst($order->payment_method ?? 'Cash') }} | 
-                        <strong>Status:</strong> <span class="badge" style="background: #155724; color: #fff;">{{ strtoupper($order->payment_status ?? 'PAID') }}</span>
+                <!-- Payment Info -->
+                <div class="mb-3">
+                    <div class="d-flex align-items-center gap-1 mb-2">
+                        <i class="far fa-folder-open text-warning"></i>
+                        <span style="font-size: 13px; font-weight: 700; color: #1e293b;">Payment Mode</span>
                     </div>
-                    <div>
-                        <strong>Paid Amount:</strong> ₹{{ number_format($order->paid_amount ?? ($order->payment_status == 'paid' ? $order->total_amount : 0), 2) }}
-                        @if(($order->remaining_amount ?? 0) > 0)
-                            | <strong class="text-danger">Due:</strong> ₹{{ number_format($order->remaining_amount, 2) }}
-                        @endif
-                    </div>
+                    <span class="badge" style="background-color: #cfece0; color: #000000; font-size: 13px; font-weight: 600; border-radius: 50px; padding: 8px 18px;">
+                        <i class="fas fa-check-circle text-success me-1"></i> {{ ucfirst(str_replace('_', ' ', $order->payment_method ?? 'Cash')) }}
+                    </span>
                 </div>
             </div>
         </div>
