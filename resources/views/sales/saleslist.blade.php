@@ -200,25 +200,39 @@
         gap: 6px;
     }
 
+    /* Page Spacing Fix */
+    .page-wrapper {
+        padding-top: 70px !important;
+    }
+    .page-wrapper > .content,
+    .content {
+        padding-top: 22px !important;
+    }
+
     /* Show Per Page Dropdown (50% Radius Pill) */
     .per-page-select {
-        height: 34px !important;
+        height: 38px !important;
         border-radius: 50px !important;
-        padding: 2px 28px 2px 14px !important;
-        font-size: 12.5px !important;
-        display: inline-block;
-        width: auto;
+        padding: 4px 8px !important;
+        font-size: 13px !important;
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
         border: 1.5px solid #cbd5e1 !important;
         outline: none;
         background-color: #ffffff;
+        text-align: center;
+        cursor: pointer;
     }
     .per-page-select:focus {
         border-color: #f89884 !important;
+        box-shadow: 0 0 0 3px rgba(248, 152, 132, 0.25) !important;
     }
 
     /* Table & Status Badges (Coral Header Matching Appointment / Followup / Purchase) */
     .custom-table, .table-sales {
-        width: 100%;
+        width: 100% !important;
         min-width: 950px;
         border-collapse: separate;
         border-spacing: 0;
@@ -259,6 +273,20 @@
         padding-bottom: 0 !important;
         margin-bottom: 0 !important;
         width: 100% !important;
+    }
+    .table-responsive::-webkit-scrollbar {
+        height: 8px;
+    }
+    .table-responsive::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 10px;
+    }
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+    }
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+        background: #f89884;
     }
 
     /* Payment Badges (50% Radius Pill) */
@@ -428,7 +456,7 @@
                 </div>
 
                 <!-- Filter Bar Container -->
-                <div class="p-3 mb-4 rounded-4" style="background: #f8fafc; border: 1.5px solid #e2e8f0;">
+                <div class="p-3 mb-4 rounded-4" style="background: #f8fafc; border: 1.5px solid #e2e8f0; overflow: hidden;">
                     <div class="row g-2 align-items-center">
                         <!-- Search sales input -->
                         <div class="col-xl-3 col-lg-3 col-md-6 col-12">
@@ -439,7 +467,7 @@
                         </div>
 
                         <!-- Patient Filter -->
-                        <div class="col-xl-2 col-lg-2 col-md-4 col-6">
+                        <div class="col-xl-2 col-lg-2 col-md-3 col-6">
                             <select id="filterPatient" class="sales-filter-select select2">
                                 <option value="">All Patient</option>
                                 @foreach($patients as $p)
@@ -449,7 +477,7 @@
                         </div>
 
                         <!-- Month Filter -->
-                        <div class="col-xl-2 col-lg-2 col-md-4 col-6">
+                        <div class="col-xl-2 col-lg-2 col-md-3 col-6">
                             <select id="filterMonth" class="sales-filter-select select2">
                                 <option value="">All Months</option>
                                 @for($m = 1; $m <= 12; $m++)
@@ -461,7 +489,7 @@
                         </div>
 
                         <!-- Year Filter -->
-                        <div class="col-xl-2 col-lg-2 col-md-4 col-6">
+                        <div class="col-xl-2 col-lg-2 col-md-3 col-6">
                             <select id="filterYear" class="sales-filter-select select2">
                                 <option value="">All Years</option>
                                 @foreach($years as $yr)
@@ -471,15 +499,15 @@
                         </div>
 
                         <!-- Delete All Button -->
-                        <div class="col-xl-2 col-lg-2 col-md-4 col-6">
-                            <button type="button" class="btn w-100 fw-bold" id="deleteAllSalesBtn" style="height: 38px !important; border-radius: 50px !important; background-color: #f89884 !important; border-color: #f89884 !important; color: #ffffff !important;">
+                        <div class="col-xl-2 col-lg-2 col-md-3 col-6">
+                            <button type="button" class="btn w-100 fw-bold" id="deleteAllSalesBtn" style="height: 38px !important; border-radius: 50px !important; background-color: #f89884 !important; border-color: #f89884 !important; color: #ffffff !important; white-space: nowrap; font-size: 12.5px !important; padding: 6px 10px !important;">
                                 <i class="fas fa-trash-alt me-1"></i> Delete All
                             </button>
                         </div>
 
                         <!-- Show Per Page Selector -->
-                        <div class="col-xl-1 col-lg-1 col-md-4 col-6">
-                            <select id="perPageSelect" class="sales-filter-select per-page-select text-center" title="Show per page">
+                        <div class="col-xl-1 col-lg-1 col-md-2 col-6">
+                            <select id="perPageSelect" class="per-page-select text-center" title="Show per page">
                                 <option value="10" selected>10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -937,8 +965,8 @@
                                 <a class="dropdown-item" href="/sales-invoice/${order.id}">
                                     <i class="fas fa-eye" style="color: #64748b; width: 16px; text-align: center;"></i> <span>Invoice</span>
                                 </a>
-                                <a class="dropdown-item" href="javascript:void(0);" onclick="window.open('/sales-invoice/${order.id}?print=1', '_blank');">
-                                    <i class="fas fa-print" style="color: #64748b; width: 16px; text-align: center;"></i> <span>Print</span>
+                                <a class="dropdown-item" href="/sales-invoice/${order.id}?download_pdf=1" target="_blank">
+                                    <i class="fas fa-file-pdf" style="color: #64748b; width: 16px; text-align: center;"></i> <span>Download PDF</span>
                                 </a>
                                 <a class="dropdown-item" href="/sales-details/${order.id}">
                                     <i class="fas fa-file-alt" style="color: #64748b; width: 16px; text-align: center;"></i> <span>Patient Details</span>

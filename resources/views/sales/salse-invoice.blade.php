@@ -359,14 +359,15 @@
                     <a href="{{ route('sales.list') }}" class="btn btn-outline-secondary pill-btn" style="margin-right:10px">
                         <i class="fa fa-arrow-left me-1"></i> Back to Bills
                     </a>
-                    <button onclick="window.print()" class="btn btn-clinic-primary pill-btn">
-                        <i class="fa fa-print me-1"></i> Print Invoice
+                    <button onclick="downloadPDF()" class="btn btn-clinic-primary pill-btn" id="downloadPdfBtn">
+                        <i class="fa fa-download me-1"></i> Download PDF
                     </button>
+                   
                 </div>
             </div>
 
             <!-- Authentic Clinic A4 Receipt Container -->
-            <div class="invoice-wrapper">
+            <div class="invoice-wrapper" id="invoiceWrapper">
                 <!-- Clinic Header Table -->
                 <table class="header-table">
                     <tr>
@@ -639,14 +640,53 @@
     </div>
 </div>
 
-@if(request('print') == 1)
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
+    function downloadPDF() {
+        const btn = document.getElementById('downloadPdfBtn');
+        const origHtml = btn ? btn.innerHTML : '';
+        if (btn) {
+            btn.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i> Downloading...';
+            btn.disabled = true;
+        }
+
+        const element = document.getElementById('invoiceWrapper');
+        const opt = {
+            margin:       [6, 6, 6, 6],
+            filename:     'Sale_Invoice_{{ $billNo }}.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, logging: false },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(function() {
+            if (btn) {
+                btn.innerHTML = origHtml;
+                btn.disabled = false;
+            }
+        }).catch(function(err) {
+            console.error(err);
+            if (btn) {
+                btn.innerHTML = origHtml;
+                btn.disabled = false;
+            }
+            window.print();
+        });
+    }
+
+    @if(request('download_pdf') == 1)
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            downloadPDF();
+        }, 600);
+    });
+    @elseif(request('print') == 1)
     window.addEventListener('load', function() {
         setTimeout(function() {
             window.print();
         }, 500);
     });
+    @endif
 </script>
-@endif
 
 @endsection

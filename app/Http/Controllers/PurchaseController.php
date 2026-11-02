@@ -816,7 +816,10 @@ class PurchaseController extends Controller
     {
         $invoice = PurchaseInvoice::with(['vendor', 'purchases.medicine', 'payments'])->findOrFail($id);
         $setting = Setting::first();
-        return view('purchase.purchase_invoice', compact('invoice', 'setting'));
+        $settings = Setting::all()->pluck('value', 'key')->toArray();
+        $branchId = $invoice->branch_id ?? session('selectedBranchId') ?? optional(Auth::user())->branch_id ?? 1;
+        // $branch = \App\Models\Branch::find($branchId);
+        return view('purchase.purchase_invoice', compact('invoice', 'setting', 'settings'));
     }
 
     /**
