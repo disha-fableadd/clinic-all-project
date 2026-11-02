@@ -113,17 +113,19 @@
 
     /* Standard Clinic A4 Paper Wrapper (Matches Sales & Treatment PDFs) */
     .invoice-wrapper {
-        width: 195mm;
+        width: 190mm;
+        max-width: 190mm;
         margin: 0 auto;
-        padding: 16px 18px;
+        padding: 14px 16px;
         background-color: #fff;
-        border: 1.5px solid #222;
+        border: none;
+        border-radius: 8px;
         box-sizing: border-box;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-size: 12px;
+        font-size: 11.5px;
         color: #222;
-        line-height: 1.4;
+        line-height: 1.35;
     }
 
     .header-table {
@@ -132,24 +134,24 @@
     }
 
     .clinic-title {
-        font-size: 17px;
+        font-size: 16px;
         font-weight: bold;
         color: #1a4d36;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-bottom: 3px;
+        margin-bottom: 2px;
     }
 
     .clinic-sub {
-        font-size: 11px;
+        font-size: 10.5px;
         color: #444;
-        line-height: 1.35;
+        line-height: 1.3;
     }
 
     .header-divider {
         border: none;
-        border-top: 1.5px solid #222;
-        margin: 12px 0 14px 0;
+        border-top: 1.5px solid #1e293b;
+        margin: 8px 0 10px 0;
     }
 
     .details-container {
@@ -160,7 +162,7 @@
     }
 
     .details-box {
-        padding: 9px 12px;
+        padding: 6px 10px;
         vertical-align: top;
     }
 
@@ -175,13 +177,13 @@
 
     .section-heading {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-size: 11.5px;
+        font-size: 11px;
         font-weight: bold;
         color: #0c4b33;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        margin-bottom: 6px;
-        padding-bottom: 3px;
+        margin-bottom: 4px;
+        padding-bottom: 2px;
         border-bottom: 1px dashed #c4ddd1;
     }
 
@@ -189,24 +191,24 @@
         width: 100%;
         border-collapse: collapse;
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-size: 11.5px;
+        font-size: 11px;
     }
 
     .info-table td,
     .info-table th {
-        padding: 2.5px 0;
+        padding: 2px 0;
         vertical-align: top;
-        font-size: 11.5px;
+        font-size: 11px;
     }
 
     .info-label {
-        width: 115px;
+        width: 110px;
         color: #4b5563;
         font-weight: normal;
     }
 
     .info-sep {
-        width: 12px;
+        width: 10px;
         color: #4b5563;
         text-align: center;
     }
@@ -218,13 +220,13 @@
     .section-banner {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         color: #1f2937;
-        font-size: 12px;
+        font-size: 11px;
         font-weight: bold;
         text-align: center;
-        padding: 6px 0;
-        letter-spacing: 0.8px;
-        margin-top: 14px;
-        margin-bottom: 6px;
+        padding: 4px 0;
+        letter-spacing: 0.6px;
+        margin-top: 8px;
+        margin-bottom: 4px;
         text-transform: uppercase;
     }
 
@@ -233,7 +235,7 @@
         border-collapse: collapse;
         margin-top: 0;
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-size: 11.5px;
+        font-size: 11px;
     }
 
     .invoice-box th {
@@ -241,18 +243,18 @@
         color: #0c4b33;
         font-weight: bold;
         text-align: center !important;
-        padding: 6px 7px;
+        padding: 5px 6px;
         border: 1px solid #b8dfd0;
-        font-size: 11px;
+        font-size: 10.5px;
         letter-spacing: 0.3px;
         vertical-align: middle !important;
     }
 
     .invoice-box td {
-        padding: 6px 7px;
+        padding: 5px 6px;
         border: 1px solid #d5e5dd;
         color: #333;
-        font-size: 11px;
+        font-size: 10.5px;
         vertical-align: middle !important;
     }
 
@@ -263,25 +265,25 @@
     .totals-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 8px;
+        margin-top: 6px;
         border: 1px solid #d0e4dc;
     }
 
     .totals-table td {
-        padding: 6px 8px;
+        padding: 3px 6px;
     }
 
     .declaration-signatory {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 10px;
+        margin-top: 8px;
         border: 1px solid #d0e4dc;
         background-color: #f7faf8;
         table-layout: fixed;
     }
 
     .declaration-signatory td {
-        padding: 10px;
+        padding: 6px 8px;
         vertical-align: top;
     }
 
@@ -293,34 +295,34 @@
     .signatory-cell {
         width: 45%;
         position: relative;
-        height: 85px;
+        height: 55px;
         vertical-align: top !important;
     }
 
     .signatory-company {
         text-align: right;
-        font-size: 10.5px;
+        font-size: 10px;
         color: #0c4b33;
         font-weight: bold;
     }
 
     .signatory-bottom {
         position: absolute;
-        bottom: 8px;
-        right: 10px;
+        bottom: 4px;
+        right: 8px;
         text-align: right;
-        font-size: 10px;
+        font-size: 9.5px;
         color: #0c4b33;
     }
 
     .footer-note {
-        margin-top: 12px;
-        padding-top: 8px;
+        margin-top: 6px;
+        padding-top: 4px;
         border-top: 1px dashed #c0d8cd;
         text-align: center;
-        font-size: 10.5px;
+        font-size: 9.5px;
         color: #666;
-        line-height: 1.4;
+        line-height: 1.35;
     }
 
     /* Print Styles */
@@ -682,21 +684,41 @@
         }
 
         const element = document.getElementById('invoiceWrapper');
+        const prevShadow = element.style.boxShadow;
+        const prevBorder = element.style.border;
+        const prevRadius = element.style.borderRadius;
+        element.style.boxShadow = 'none';
+        element.style.borderRadius = '0';
+        element.style.border = '2px solid #1e293b';
+
         const opt = {
-            margin:       [6, 6, 6, 6],
+            margin:       [6, 8, 6, 8],
             filename:     'Purchase_Invoice_{{ $billNo }}.pdf',
             image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true, logging: false },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            html2canvas:  { 
+                scale: 2, 
+                useCORS: true, 
+                logging: false,
+                scrollY: 0,
+                scrollX: 0
+            },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
         };
 
         html2pdf().set(opt).from(element).save().then(function() {
+            element.style.boxShadow = prevShadow;
+            element.style.border = prevBorder;
+            element.style.borderRadius = prevRadius;
             if (btn) {
                 btn.innerHTML = origHtml;
                 btn.disabled = false;
             }
         }).catch(function(err) {
             console.error(err);
+            element.style.boxShadow = prevShadow;
+            element.style.border = prevBorder;
+            element.style.borderRadius = prevRadius;
             if (btn) {
                 btn.innerHTML = origHtml;
                 btn.disabled = false;
