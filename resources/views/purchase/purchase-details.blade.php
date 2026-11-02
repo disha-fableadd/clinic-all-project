@@ -205,10 +205,18 @@
                                         <td>{{ $idx + 1 }}</td>
                                         <td class="fw-semibold text-dark">
                                             {{ optional($pItem->medicine)->name ?? ($pItem->item ?: 'Medicine Item') }}
+                                            @if(optional($pItem->medicine)->quantity !== null)
+                                                <br><small class="text-muted"><i class="fas fa-boxes me-1"></i>Current Stock: <strong>{{ optional($pItem->medicine)->quantity }}</strong></small>
+                                            @endif
                                         </td>
                                         <td>{{ $pItem->batch_no ?? '-' }}</td>
                                         <td>{{ $pItem->exp_date ? date('d-M-Y', strtotime($pItem->exp_date)) : '-' }}</td>
-                                        <td class="text-center fw-bold">{{ $pItem->quantity }}</td>
+                                        <td class="text-center fw-bold">
+                                            {{ $pItem->quantity }}
+                                            @if((int)($pItem->free_quantity ?? 0) > 0)
+                                                <br><small class="text-success fw-semibold">(+{{ $pItem->free_quantity }} Free)</small>
+                                            @endif
+                                        </td>
                                         <td class="text-end">₹{{ number_format($pItem->price ?? 0, 2) }}</td>
                                         <td class="text-center">{{ $pItem->discount_percent ? ($pItem->discount_percent . '%') : '-' }}</td>
                                         <td class="text-end fw-bold">₹{{ number_format($pItem->amount_total ?? 0, 2) }}</td>

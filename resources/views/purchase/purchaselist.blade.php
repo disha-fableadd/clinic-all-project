@@ -166,7 +166,7 @@
 
     .custom-table {
         width: 100%;
-        min-width: 1250px !important;
+        min-width: 950px;
         border-collapse: separate;
         border-spacing: 0;
     }
@@ -459,9 +459,6 @@
                                 <th>Bill Number</th>
                                 <th>Purchase Date</th>
                                 <th>Vendor Name</th>
-                                <th>Medicine Name</th>
-                                <th>Stock / Qty</th>
-                                <th>Expiry Date</th>
                                 <th>Due Date</th>
                                 <th>Interest Amount</th>
                                 <th>Grand Total</th>
@@ -508,100 +505,24 @@
                                     <td>
                                         <span class="fw-semibold text-dark">{{ $vendorName }}</span>
                                     </td>
-                                    <!-- Medicine Name -->
+                                    
                                     <td>
-                                        @if($p->purchases && $p->purchases->count() > 0)
-                                            @foreach($p->purchases as $item)
-                                                @php
-                                                    $medName = optional($item->medicine)->name ?? ($item->item_name ?: 'N/A');
-                                                    $batch = $item->batch_no ?: (optional($item->medicine)->batch_no ?: '-');
-                                                @endphp
-                                                <div class="{{ !$loop->last ? 'mb-2 pb-1 border-bottom' : '' }}">
-                                                    <strong class="text-dark" style="font-size: 13px;">{{ $medName }}</strong>
-                                                    @if($batch && $batch !== '-')
-                                                        <br><small class="text-muted"><i class="fas fa-barcode"></i> Batch: {{ $batch }}</small>
-                                                    @endif
-                                                </div>
-                                            @endforeach
+                                        @if($p->due_date)
+                                            <span class="{{ $isOverdue ? 'text-danger fw-bold' : 'text-success fw-semibold' }}">{{ $dueDate }}</span>
+                                            @if($isOverdue)
+                                                <span class="badge bg-danger ms-1" style="border-radius: 50px; font-size: 10px; padding: 2px 8px;">Overdue</span>
+                                            @endif
                                         @else
-                                            <span class="text-muted">-</span>
+                                            <span>-</span>
                                         @endif
                                     </td>
-                                    <!-- Stock / Qty -->
-                                    <td>
-                                        @if($p->purchases && $p->purchases->count() > 0)
-                                            @foreach($p->purchases as $item)
-                                                @php
-                                                    $qty = (int)($item->quantity ?? 0);
-                                                    $free = (int)($item->free_quantity ?? 0);
-                                                    $currStock = $item->medicine ? (int)$item->medicine->quantity : null;
-                                                    $lowStockThreshold = $item->medicine ? (int)($item->medicine->low_stock_qty ?: 10) : 10;
-                                                    $isLow = $currStock !== null && $currStock <= $lowStockThreshold;
-                                                @endphp
-                                                <div class="{{ !$loop->last ? 'mb-2 pb-1 border-bottom' : '' }}">
-                                                    <span class="badge" style="background-color: #f1f5f9; color: #1e293b; font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 6px;" title="Purchased Quantity">+{{ $qty }}</span>
-                                                    @if($free > 0)
-                                                        <small class="text-success fw-semibold ms-1">(+{{ $free }} Free)</small>
-                                                    @endif
-                                                    @if($currStock !== null)
-                                                        <div style="font-size: 11.5px; margin-top: 2px;">
-                                                            <span class="text-muted">Stock: <strong>{{ $currStock }}</strong></span>
-                                                            @if($isLow)
-                                                                <span class="badge ms-1" style="background-color: #ea5455; color: #fff; border-radius: 4px; font-size: 10px; padding: 2px 6px;">Low Stock</span>
-                                                            @endif
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            @endforeach
-                                        @else
-                                            <span class="text-muted">-</span>
-                                        @endif
-                                    </td>
-                                    <!-- Expiry Date -->
-                                    <td>
-                                        @if($p->purchases && $p->purchases->count() > 0)
-                                            @foreach($p->purchases as $item)
-                                                @php
-                                                    $exp = $item->exp_date ?: (optional($item->medicine)->expiry_date ?: null);
-                                                    $expDisplay = '-';
-                                                    $expBadge = '';
-                                                    if ($exp) {
-                                                        $ts = strtotime($exp);
-                                                        if ($ts) {
-                                                            $m = date('m/Y', $ts);
-                                                            $today = time();
-                                                            $diff = ($ts - $today) / 86400;
-                                                            if ($diff < 0) {
-                                                                $expDisplay = "<span style='color: #ea5455; font-weight: 700;'>{$m}</span>";
-                                                                $expBadge = "<span class='badge ms-1' style='background-color: #dc2626; color: #fff; border-radius: 4px; font-size: 10px; padding: 2px 6px;'>Expired</span>";
-                                                            } elseif ($diff <= 60) {
-                                                                $expDisplay = "<span style='color: #ea5455; font-weight: 700;'>{$m}</span>";
-                                                                $expBadge = "<span class='badge ms-1' style='background-color: #ea5455; color: #fff; border-radius: 4px; font-size: 10px; padding: 2px 6px;'>Expiring</span>";
-                                                            } else {
-                                                                $expDisplay = "<span class='text-dark fw-semibold'>{$m}</span>";
-                                                            }
-                                                        }
-                                                    }
-                                                @endphp
-                                                <div class="{{ !$loop->last ? 'mb-2 pb-1 border-bottom' : '' }}">
-                                                    {!! $expDisplay !!} {!! $expBadge !!}
-                                                </div>
-                                            @endforeach
-                                        @else
-                                            <span class="text-muted">-</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <span>{{ $dueDate }}</span>
-                                        @if($isOverdue)
-                                            <span class="badge bg-danger ms-1" style="border-radius: 50px; font-size: 10px; padding: 2px 8px;">Overdue</span>
-                                        @endif
-                                    </td>
-                                    <td>₹{{ number_format($interestAmt, 2) }}</td>
+                                    <td>{{ $interestAmt != 0 ? ('₹' . number_format($interestAmt, 2)) : '-' }}</td>
                                     <td class="fw-bold">₹{{ number_format($grandTotal, 2) }}</td>
-                                    <td class="fw-bold" style="color: #f89884;">₹{{ number_format($finalPayable, 2) }}</td>
+                                    <td class="fw-bold text-success">₹{{ number_format($finalPayable, 2) }}</td>
                                     <td>
-                                        @if($remaining <= 0 || $status === 'completed')
+                                        @if($remaining < 0)
+                                            <span class="badge-status" style="background-color: #fee2e2; color: #dc2626;">Extra Paid: ₹{{ number_format(abs($remaining), 2) }}</span>
+                                        @elseif($remaining <= 0 || $status === 'completed')
                                             <span class="badge-status badge-paid">Completed</span>
                                         @elseif($status === 'partially' || ($p->paid > 0 && $remaining > 0))
                                             <span class="badge-status badge-partially">Partially</span>
@@ -666,7 +587,7 @@
                                 </tr>
                             @empty
                                 <tr id="noDataRow">
-                                    <td colspan="12" class="text-center py-5 text-muted">
+                                    <td colspan="9" class="text-center py-5 text-muted">
                                         <i class="fas fa-box-open fa-3x mb-2 d-block" style="color: #cbd5e1;"></i>
                                         No purchase records found.
                                     </td>
@@ -1077,7 +998,7 @@ $(document).ready(function() {
 
         if (visibleCount === 0) {
             if (!$('#tempNoDataRow').length) {
-                $('#purchaseTableBody').append('<tr id="tempNoDataRow"><td colspan="12" class="text-center py-4 text-muted">No matching purchase records found.</td></tr>');
+                $('#purchaseTableBody').append('<tr id="tempNoDataRow"><td colspan="9" class="text-center py-4 text-muted">No matching purchase records found.</td></tr>');
             }
         } else {
             $('#tempNoDataRow').remove();

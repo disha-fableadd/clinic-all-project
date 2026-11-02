@@ -397,7 +397,7 @@
                                 </div>
                                 <div class="col-lg-1 col-md-4 col-6">
                                     <div class="form-group-compact">
-                                        <label>Purchase Type</label>
+                                        <label>Type</label>
                                         <input type="text" name="purchase_type[]" class="form-control purchase-type-input" value="Local" placeholder="Local / Other">
                                     </div>
                                 </div>

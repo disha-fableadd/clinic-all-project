@@ -50,17 +50,12 @@ class PackHelper
         $isTabOrCap = preg_match('/\b(TAB|TABS|TABLET|TABLETS|CAP|CAPS|CAPSULE|CAPSULES|PEARLS|PIL|PILLS)\b/i', $nameUpper)
             || preg_match('/(TAB|TA|T|CAP|CAPS|C)$/i', $packUpper);
 
-        if ($isTabOrCap && ! $isLiquidOrPiece) {
-            if (preg_match('/(?:(\d+)\s*[*xX:]\s*)?(\d+)/', $packUpper, $m)) {
-                $factor = max(1, (int) $m[2]);
-                $unit = preg_match('/\b(CAP|CAPS|CAPSULE|CAPSULES)\b/i', $nameUpper) ? 'CAP' : 'TAB';
-            }
-        } elseif (! $isLiquidOrPiece && preg_match('/(?:(\d+)\s*[*xX:]\s*)?(\d+)/', $packUpper, $m) && ! str_contains($packUpper, 'ML') && ! str_contains($packUpper, 'GM') && ! str_contains($packUpper, 'M')) {
-            $second = (int) $m[2];
-            if ($second > 1) {
-                $factor = $second;
-                $unit = 'TAB';
-            }
+        // Keep factor as 1 so purchase quantity and rate match the printed bill exactly
+        $factor = 1;
+        if (preg_match('/\b(CAP|CAPS|CAPSULE|CAPSULES)\b/i', $nameUpper)) {
+            $unit = 'CAP';
+        } elseif ($isTabOrCap) {
+            $unit = 'TAB';
         }
 
         $stockQty = $billedQty * $factor;

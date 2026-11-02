@@ -1409,8 +1409,16 @@
         }
 
         // Update Payment Details fields
-        function updatePaymentAmounts() {
-            const grandTotal = getCurrentGrandTotal();
+        function updatePaymentAmounts(gTotal) {
+            let grandTotal;
+            if (typeof gTotal !== 'undefined' && gTotal !== null && !isNaN(gTotal)) {
+                grandTotal = parseFloat(gTotal);
+            } else {
+                grandTotal = parseFloat($('#displayGrandTotal').text().replace(/[^\d.]/g, '')) || 0;
+                if (grandTotal === 0 && typeof getCurrentGrandTotal === 'function') {
+                    grandTotal = getCurrentGrandTotal();
+                }
+            }
             const mode = $('#payment_method').val() || 'cash';
             const paidType = $('#paid_type').val() || 'full';
 
@@ -1468,6 +1476,9 @@
                 }
             }
         }
+
+        window.updatePaymentAmounts = updatePaymentAmounts;
+        window.getCurrentGrandTotal = getCurrentGrandTotal;
 
         // Init on page load
         updatePaymentAmounts();
@@ -1960,8 +1971,10 @@
         $('#displaySubtotal').text('₹' + subtotal.toFixed(2));
         $('#displayGrandTotal').text('₹' + grandTotal.toFixed(2));
         $('#footerTotalAmount').text('₹' + grandTotal.toFixed(2));
-        if (typeof updatePaymentAmounts === 'function') {
-            updatePaymentAmounts();
+        if (typeof window.updatePaymentAmounts === 'function') {
+            window.updatePaymentAmounts(grandTotal);
+        } else if (typeof updatePaymentAmounts === 'function') {
+            updatePaymentAmounts(grandTotal);
         }
     }
 

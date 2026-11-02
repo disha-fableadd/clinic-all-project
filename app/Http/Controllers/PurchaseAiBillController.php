@@ -248,21 +248,46 @@ class PurchaseAiBillController extends Controller
     private function matchProduct(string $name, string $hsn, Collection $products): ?array
     {
         $needle = $this->normalizeName($name);
-        $hsn = trim($hsn);
+        if ($needle === '') {
+            return null;
+        }
+
+        $needleWords = preg_split('/[^a-zA-Z0-9]+/', strtolower(trim($name)), -1, PREG_SPLIT_NO_EMPTY);
+        $needleFirstWord = $needleWords[0] ?? '';
 
         $best = null;
         $bestScore = 0;
 
         foreach ($products as $product) {
-            $haystack = $this->normalizeName((string) $product['name']);
+            $pName = (string) $product['name'];
+            $haystack = $this->normalizeName($pName);
+            if ($haystack === '') {
+                continue;
+            }
+
+            // Exact normalized match
+            if ($needle === $haystack) {
+                return $product;
+            }
+
+            // Primary drug / first word check to prevent matching unrelated drugs (e.g. Pantoprazole vs Paracetamol)
+            $productWords = preg_split('/[^a-zA-Z0-9]+/', strtolower(trim($pName)), -1, PREG_SPLIT_NO_EMPTY);
+            $productFirstWord = $productWords[0] ?? '';
+            if ($needleFirstWord !== '' && $productFirstWord !== '' && $needleFirstWord !== $productFirstWord) {
+                if (!str_starts_with($needleFirstWord, $productFirstWord) && !str_starts_with($productFirstWord, $needleFirstWord)) {
+                    continue; // Skip: different drug completely
+                }
+            }
+
             similar_text($needle, $haystack, $percent);
             $nameScore = (float) $percent;
 
-            if ($needle !== '' && $haystack !== '' && (str_contains($haystack, $needle) || str_contains($needle, $haystack))) {
-                $nameScore = max($nameScore, 88);
+            if (str_contains($haystack, $needle) || str_contains($needle, $haystack)) {
+                $nameScore = max($nameScore, 90);
             }
 
-            if ($hsn !== '' && ! empty($product['hsn_code']) && trim((string) $product['hsn_code']) === $hsn) {
+            // Only add HSN bonus if the drug name is already highly similar
+            if ($nameScore >= 80 && $hsn !== '' && !empty($product['hsn_code']) && trim((string) $product['hsn_code']) === trim($hsn)) {
                 $nameScore += 10;
             }
 
@@ -272,7 +297,7 @@ class PurchaseAiBillController extends Controller
             }
         }
 
-        return $bestScore >= 68 ? $best : null;
+        return $bestScore >= 85 ? $best : null;
     }
 
     private function normalizeName(string $val): string

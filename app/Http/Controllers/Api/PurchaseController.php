@@ -101,13 +101,24 @@ class PurchaseController extends Controller
                 $total = (float) ($p['total'] ?? ($qty * $price));
 
                 $productId = !empty($p['id']) && is_numeric($p['id']) ? (int) $p['id'] : null;
-                $productName = $p['name'] ?? ($p['item'] ?? 'Medicine');
+                $productName = !empty($p['name']) ? trim($p['name']) : (!empty($p['product_name']) ? trim($p['product_name']) : (!empty($p['item']) ? trim($p['item']) : null));
+
+                if (!$productName && !empty($p['id']) && !is_numeric($p['id'])) {
+                    $productName = trim((string) $p['id']);
+                }
+                if (!$productName && !empty($p['extraction_metadata']['name'])) {
+                    $productName = trim((string) $p['extraction_metadata']['name']);
+                }
+                if (!$productName) {
+                    $productName = 'Medicine Item';
+                }
 
                 // If product already exists in medicines table
                 $med = null;
                 if ($productId) {
                     $med = Medicine::find($productId);
-                } elseif (!empty($productName)) {
+                }
+                if (!$med && !empty($productName)) {
                     $med = Medicine::where('name', $productName)->first();
                 }
 

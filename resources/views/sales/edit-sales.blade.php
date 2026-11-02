@@ -1034,6 +1034,7 @@
 
     // Update Payment Inputs based on Grand Total and Mode
     function updatePaymentAmounts(gTotal) {
+        window.updatePaymentAmounts = updatePaymentAmounts;
         if (typeof gTotal === 'undefined') {
             const subtotal = parseFloat($('#displaySubtotal').text().replace(/[^\d.]/g, '')) || 0;
             const shipping = parseFloat($('#shipping_charges').val()) || 0;
