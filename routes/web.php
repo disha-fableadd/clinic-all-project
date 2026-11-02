@@ -253,6 +253,8 @@ Route::middleware(['session.auth', 'check.permission'])->group(function () {
     Route::get('/ai-purchase-bill', [PurchaseAiBillController::class, 'index'])->name('purchase.ai-bill');
     Route::post('/ai-purchase-bill/parse', [PurchaseAiBillController::class, 'parse'])->name('purchase.ai-bill.parse');
     Route::post('/ai-purchase-bill/merge', [PurchaseAiBillController::class, 'mergePages'])->name('purchase.ai-bill.merge');
+    Route::post('/api/purchase_order', [\App\Http\Controllers\Api\PurchaseController::class, 'purchase_order'])->name('purchase.order');
+    Route::get('/api/get-payment-details', [\App\Http\Controllers\Api\AccountLedgerController::class, 'getPaymentDetails'])->name('purchase.payment_details');
 
     //medicine unit
     Route::get('medicine_unit', [MedicineUnitController::class, 'index'])->name('medicine_unit.index');

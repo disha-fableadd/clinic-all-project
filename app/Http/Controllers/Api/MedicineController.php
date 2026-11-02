@@ -283,12 +283,31 @@ class MedicineController extends Controller
         }
 
         // 2. Fetch Clinical Invoices (Visit Billing)
+        // Only match invoices of type 'medicine' OR items that explicitly match this medicine's name
         $invoices = DB::table('invoices')->where('patient_id', '>', 0)->orderBy('date', 'desc')->get();
         foreach ($invoices as $invoice) {
             $details = is_string($invoice->types_details) ? json_decode($invoice->types_details, true) : $invoice->types_details;
             if (is_array($details)) {
+                $isMedicineInvoice = isset($invoice->type) && strtolower($invoice->type) === 'medicine';
+                $medName = trim((string)($medicine->name ?? ''));
+
                 foreach ($details as $item) {
-                    if (isset($item['id']) && $item['id'] == $id) {
+                    $itemName = trim((string)($item['name'] ?? ''));
+                    $isNameMatch = ($itemName !== '' && $medName !== '' && strcasecmp($itemName, $medName) === 0);
+                    $isIdMatch = isset($item['id']) && (int)$item['id'] === (int)$id;
+
+                    // Match logic:
+                    // 1) If it is a medicine invoice, match by id or name
+                    // 2) If it is a clinical service/treatment invoice, ONLY match if the item name explicitly matches the medicine name
+                    //    (Prevents Treatment #5 like "Root Canal Treatment" from colliding with Medicine #5)
+                    $matched = false;
+                    if ($isMedicineInvoice) {
+                        $matched = ($isIdMatch && ($itemName === '' || $isNameMatch)) || $isNameMatch;
+                    } else {
+                        $matched = $isNameMatch;
+                    }
+
+                    if ($matched) {
                         $patient = DB::table('patients')->find($invoice->patient_id);
                         $qty = (int) ($item['quantity'] ?? 1);
                         $totalSold += $qty;
@@ -301,7 +320,7 @@ class MedicineController extends Controller
                             'patient_name' => $patient ? $patient->fullname : 'Unknown',
                             'patient_phone' => $patient ? ($patient->phone ?: '-') : '-',
                             'category' => $medicine->category ? $medicine->category->name : 'No Category',
-                            'batch_no' => $medicine->batch_no ?: 'N/A',
+                            'batch_no' => $item['batch_no'] ?? ($medicine->batch_no ?: 'N/A'),
                             'quantity' => $qty,
                             'price' => (float) ($item['price'] ?? 0),
                             'total_amount' => (float) ($qty * ($item['price'] ?? 0)),

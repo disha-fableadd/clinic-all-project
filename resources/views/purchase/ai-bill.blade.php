@@ -645,7 +645,7 @@
     </div>
 @endsection
 
-@push('js')
+@section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 if (typeof pdfjsLib !== 'undefined') {
@@ -1957,4 +1957,4 @@ if (typeof pdfjsLib !== 'undefined') {
         
 })();
 </script>
-@endpush
+@endsection

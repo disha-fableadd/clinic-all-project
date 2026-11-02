@@ -191,8 +191,11 @@ class PurchaseController extends Controller
             }
             if (!$vendorId) {
                 $vendor = Supplier::create([
+                    'user_id' => $userId ?: 1,
                     'name' => $request->vendor_id,
+                    'contact_person' => $request->vendor_id ?? 'Supplier',
                     'phone' => $request->vendor_phone ?? '0000000000',
+                    'address' => $request->vendor_address ?? 'Supplier Address',
                     'branch_id' => $branchId,
                 ]);
                 $vendorId = $vendor->id;
@@ -286,18 +289,22 @@ class PurchaseController extends Controller
 
                 if (!$med) {
                     $med = Medicine::create([
+                        'user_id' => $userId ?: 1,
                         'name' => $productName,
                         'service_type' => 'Medicine',
-                        'category_id' => $item['category_id'] ?? null,
-                        'brand_id' => $item['brand_id'] ?? null,
+                        'category_id' => !empty($item['category_id']) ? $item['category_id'] : 1,
+                        'brand_id' => !empty($item['brand_id']) ? $item['brand_id'] : null,
                         'quantity' => $qty,
                         'purchase_price' => $rate,
-                        'mrp' => $mrp,
-                        'unit' => $mrp,
+                        'mrp' => $mrp > 0 ? $mrp : $rate,
+                        'unit' => (string) ($mrp > 0 ? $mrp : ($rate > 0 ? $rate : '100.00')),
+                        'medicine_unit' => $item['medicine_unit'] ?? ($item['pack'] ?? 'Box'),
                         'stock_value' => $qty * $rate,
                         'availablility' => 'in_stock',
-                        'batch_no' => $item['batch_no'] ?? null,
-                        'expiry_date' => !empty($item['expiry_date']) ? date('Y-m-d', strtotime($item['expiry_date'])) : null,
+                        'batch_no' => !empty($item['batch_no']) ? $item['batch_no'] : ('BAT' . date('ymd') . rand(10, 99)),
+                        'expiry_date' => !empty($item['expiry_date']) ? date('Y-m-d', strtotime($item['expiry_date'])) : now()->addYears(2)->toDateString(),
+                        'manufacture_date' => !empty($item['mfg_date']) ? date('Y-m-d', strtotime($item['mfg_date'])) : now()->toDateString(),
+                        'gst_option' => $request->gst_option ?? 'Without GST',
                         'branch_id' => $branchId,
                         'status' => 'active',
                     ]);
@@ -580,18 +587,22 @@ class PurchaseController extends Controller
 
                 if (!$med) {
                     $med = Medicine::create([
+                        'user_id' => $userId ?: 1,
                         'name' => $productName,
                         'service_type' => 'Medicine',
-                        'category_id' => $item['category_id'] ?? null,
-                        'brand_id' => $item['brand_id'] ?? null,
+                        'category_id' => !empty($item['category_id']) ? $item['category_id'] : 1,
+                        'brand_id' => !empty($item['brand_id']) ? $item['brand_id'] : null,
                         'quantity' => $qty,
                         'purchase_price' => $rate,
-                        'mrp' => $mrp,
-                        'unit' => $mrp,
+                        'mrp' => $mrp > 0 ? $mrp : $rate,
+                        'unit' => (string) ($mrp > 0 ? $mrp : ($rate > 0 ? $rate : '100.00')),
+                        'medicine_unit' => $item['medicine_unit'] ?? ($item['pack'] ?? 'Box'),
                         'stock_value' => $qty * $rate,
                         'availablility' => 'in_stock',
-                        'batch_no' => $item['batch_no'] ?? null,
-                        'expiry_date' => !empty($item['expiry_date']) ? date('Y-m-d', strtotime($item['expiry_date'])) : null,
+                        'batch_no' => !empty($item['batch_no']) ? $item['batch_no'] : ('BAT' . date('ymd') . rand(10, 99)),
+                        'expiry_date' => !empty($item['expiry_date']) ? date('Y-m-d', strtotime($item['expiry_date'])) : now()->addYears(2)->toDateString(),
+                        'manufacture_date' => !empty($item['mfg_date']) ? date('Y-m-d', strtotime($item['mfg_date'])) : now()->toDateString(),
+                        'gst_option' => $request->gst_option ?? 'Without GST',
                         'branch_id' => $branchId,
                         'status' => 'active',
                     ]);

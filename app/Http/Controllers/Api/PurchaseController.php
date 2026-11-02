@@ -35,7 +35,7 @@ class PurchaseController extends Controller
             DB::beginTransaction();
 
             $branchId = $request->branch_id ?? session('selectedBranchId') ?? optional(Auth::user())->branch_id ?? 1;
-            $userId = optional(Auth::user())->id;
+            $userId = optional(Auth::user())->id ?: (auth()->id() ?: 1);
 
             // 1. Resolve or Create Vendor / Supplier
             $vendorId = null;
@@ -49,6 +49,8 @@ class PurchaseController extends Controller
                 $vendor = Supplier::firstOrCreate(
                     ['name' => $request->vendor_id],
                     [
+                        'user_id' => $userId ?: 1,
+                        'contact_person' => $request->vendor_id ?? 'Supplier',
                         'phone' => $request->vendor_phone ?? '0000000000',
                         'email' => $request->vendor_email ?? null,
                         'gst_number' => $request->vendor_gstin ?? null,
@@ -110,20 +112,45 @@ class PurchaseController extends Controller
                 }
 
                 if (!$med) {
+                    $expDate = null;
+                    if (!empty($p['exp_date'])) {
+                        $rawExp = $p['exp_date'];
+                        if (preg_match('/^\d{4}-\d{2}$/', $rawExp)) {
+                            $expDate = $rawExp . '-01';
+                        } else {
+                            $time = strtotime($rawExp);
+                            $expDate = $time ? date('Y-m-d', $time) : null;
+                        }
+                    }
+                    if (!$expDate) {
+                        $expDate = now()->addYears(2)->toDateString();
+                    }
+
+                    $mfgDate = !empty($p['mfg_date']) ? date('Y-m-d', strtotime($p['mfg_date'])) : now()->toDateString();
+                    $batchNo = !empty($p['batch_no']) ? $p['batch_no'] : ('BAT' . date('ymd') . rand(10, 99));
+                    $categoryId = !empty($p['category_id']) && is_numeric($p['category_id']) ? (int)$p['category_id'] : 1;
+                    $unitStr = (string) ($mrp > 0 ? $mrp : ($price > 0 ? $price : '100.00'));
+                    $gstOption = !empty($request->gst_option) ? $request->gst_option : 'Without GST';
+
                     // Create new medicine record
                     $med = Medicine::create([
+                        'user_id' => $userId ?: 1,
                         'name' => $productName,
                         'service_type' => 'Medicine',
-                        'category_id' => $p['category_id'] ?? null,
-                        'brand_id' => $p['brand_id'] ?? null,
+                        'category_id' => $categoryId,
+                        'brand_id' => !empty($p['brand_id']) && is_numeric($p['brand_id']) ? (int)$p['brand_id'] : null,
                         'quantity' => $totalQty,
                         'purchase_price' => $price,
-                        'mrp' => $mrp,
-                        'unit' => $mrp,
-                        'stock_value' => $totalQty * $price,
+                        'mrp' => $mrp > 0 ? $mrp : $price,
+                        'unit' => $unitStr,
+                        'medicine_unit' => $p['medicine_unit'] ?? ($p['pack'] ?? 'Box'),
+                        'stock_value' => $totalQty * ($price ?: ($mrp ?: 0)),
                         'availablility' => 'in_stock',
-                        'batch_no' => $p['batch_no'] ?? null,
-                        'expiry_date' => !empty($p['exp_date']) ? date('Y-m-d', strtotime($p['exp_date'])) : null,
+                        'batch_no' => $batchNo,
+                        'barcode' => 'MED' . mt_rand(1000000000, 9999999999),
+                        'expiry_date' => $expDate,
+                        'manufacture_date' => $mfgDate,
+                        'gst_option' => $gstOption,
                         'pack' => $p['pack'] ?? null,
                         'hsn_code' => $p['hsn_code'] ?? null,
                         'branch_id' => $branchId,
@@ -196,8 +223,10 @@ class PurchaseController extends Controller
             DB::commit();
 
             return response()->json([
+                'success' => true,
                 'status' => true,
                 'message' => 'Purchase saved successfully and inventory stock updated!',
+                'purchase_id' => $purchaseInvoice->id,
                 'invoice_id' => $purchaseInvoice->id,
                 'invoice_number' => $purchaseInvoice->invoice_number,
                 'invoice_url' => url('purchase-invoice/' . $purchaseInvoice->id),
@@ -206,6 +235,7 @@ class PurchaseController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
+                'success' => false,
                 'status' => false,
                 'message' => 'Error saving purchase: ' . $e->getMessage()
             ], 500);
