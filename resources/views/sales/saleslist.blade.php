@@ -176,9 +176,11 @@
 
     .table-responsive {
         overflow-x: auto !important;
-        overflow-y: visible !important;
-        min-height: 420px;
-        padding-bottom: 120px;
+        -webkit-overflow-scrolling: touch;
+        min-height: auto !important;
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+        width: 100% !important;
     }
 
     /* Payment Badges (50% Radius Pill) */
@@ -250,17 +252,14 @@
 
     .action-menu-box {
         display: none;
-        position: absolute !important;
-        top: calc(100% + 4px) !important;
-        right: 0 !important;
-        left: auto !important;
+        position: fixed !important;
         min-width: 175px !important;
         padding: 6px 0;
         border-radius: 12px !important;
         background: #ffffff !important;
         border: 1px solid #e8ebed;
         box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
-        z-index: 99999 !important;
+        z-index: 999999 !important;
     }
     .action-menu-box.show {
         display: block !important;
@@ -1093,6 +1092,7 @@
             }
             e.preventDefault();
             e.stopPropagation();
+            const $btn = $(this).is('.action-menu-toggle') ? $(this) : $(this).find('.action-menu-toggle');
             const $wrap = $(this).closest('.action-dropdown-wrap');
             const $box = $wrap.find('.action-menu-box');
             const isShown = $box.hasClass('show');
@@ -1103,7 +1103,33 @@
             if (!isShown) {
                 $box.addClass('show');
                 $wrap.addClass('active');
+                const rect = $btn[0].getBoundingClientRect();
+                const menuWidth = $box.outerWidth() || 175;
+                const menuHeight = $box.outerHeight() || 220;
+                const windowHeight = $(window).height();
+                let topPos = rect.bottom + 4;
+                if (topPos + menuHeight > windowHeight && rect.top > menuHeight) {
+                    topPos = rect.top - menuHeight - 4;
+                }
+                let leftPos = rect.right - menuWidth;
+                if (leftPos < 10) leftPos = 10;
+                $box.css({
+                    'position': 'fixed',
+                    'top': topPos + 'px',
+                    'left': leftPos + 'px',
+                    'right': 'auto',
+                    'bottom': 'auto'
+                });
             }
+        });
+
+        $(window).on('scroll resize', function() {
+            $('.action-menu-box').removeClass('show');
+            $('.action-dropdown-wrap').removeClass('active');
+        });
+        $('.table-responsive').on('scroll', function() {
+            $('.action-menu-box').removeClass('show');
+            $('.action-dropdown-wrap').removeClass('active');
         });
 
         // Close when clicking anywhere outside

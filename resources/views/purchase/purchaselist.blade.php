@@ -143,8 +143,8 @@
     .table-responsive {
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch;
-        min-height: 380px !important;
-        padding-bottom: 120px !important;
+        min-height: auto !important;
+        padding-bottom: 0 !important;
         margin-bottom: 0 !important;
         width: 100% !important;
     }
@@ -249,14 +249,11 @@
 
     .action-menu-box {
         display: none;
-        position: absolute !important;
-        top: calc(100% + 4px) !important;
-        right: 0 !important;
-        left: auto !important;
+        position: fixed !important;
         background: #ffffff !important;
         border: 1.5px solid #e2e8f0 !important;
         border-radius: 14px !important;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12) !important;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15) !important;
         padding: 6px 0 !important;
         min-width: 175px !important;
         z-index: 999999 !important;
@@ -957,6 +954,7 @@ $(document).ready(function() {
         if ($(e.target).closest('.action-menu-box').length) {
             return;
         }
+        e.preventDefault();
         e.stopPropagation();
         var $btn = $(this).is('.action-menu-toggle') ? $(this) : $(this).find('.action-menu-toggle');
         var $wrap = $(this).closest('.action-dropdown-wrap');
@@ -969,7 +967,33 @@ $(document).ready(function() {
         if (!wasVisible) {
             $wrap.addClass('active');
             $menu.addClass('show');
+            var rect = $btn[0].getBoundingClientRect();
+            var menuWidth = $menu.outerWidth() || 175;
+            var menuHeight = $menu.outerHeight() || 220;
+            var windowHeight = $(window).height();
+            var topPos = rect.bottom + 4;
+            if (topPos + menuHeight > windowHeight && rect.top > menuHeight) {
+                topPos = rect.top - menuHeight - 4;
+            }
+            var leftPos = rect.right - menuWidth;
+            if (leftPos < 10) leftPos = 10;
+            $menu.css({
+                'position': 'fixed',
+                'top': topPos + 'px',
+                'left': leftPos + 'px',
+                'right': 'auto',
+                'bottom': 'auto'
+            });
         }
+    });
+
+    $(window).on('scroll resize', function() {
+        $('.action-menu-box').removeClass('show');
+        $('.action-dropdown-wrap').removeClass('active');
+    });
+    $('.table-responsive').on('scroll', function() {
+        $('.action-menu-box').removeClass('show');
+        $('.action-dropdown-wrap').removeClass('active');
     });
 
     // Close action dropdown menu when clicking any item inside it
