@@ -948,21 +948,12 @@ if (typeof pdfjsLib !== 'undefined') {
         const isTabOrCap = /\b(TAB|TABS|TABLET|TABLETS|CAP|CAPS|CAPSULE|CAPSULES|PEARLS|PIL|PILLS)\b/i.test(nameUpper)
             || /(TAB|TA|T|CAP|CAPS|C)$/i.test(packUpper);
 
-        if (isTabOrCap && !isLiquidOrPiece) {
-            const m = packUpper.match(/(?:(\d+)\s*[*xX:]\s*)?(\d+)/);
-            if (m) {
-                factor = Math.max(1, parseInt(m[2], 10) || 1);
-                unit = /\b(CAP|CAPS|CAPSULE|CAPSULES)\b/i.test(nameUpper) ? 'CAP' : 'TAB';
-            }
-        } else if (!isLiquidOrPiece) {
-            const m = packUpper.match(/(?:(\d+)\s*[*xX:]\s*)?(\d+)/);
-            if (m && !packUpper.includes('ML') && !packUpper.includes('GM') && !packUpper.includes('M')) {
-                const second = parseInt(m[2], 10) || 1;
-                if (second > 1) {
-                    factor = second;
-                    unit = 'TAB';
-                }
-            }
+        // Default factor to 1 so purchase quantity and rate match the printed bill exactly
+        factor = 1;
+        if (/\b(CAP|CAPS|CAPSULE|CAPSULES)\b/i.test(nameUpper)) {
+            unit = 'CAP';
+        } else if (isTabOrCap) {
+            unit = 'TAB';
         }
 
         const stockQty = round2(billedQty * factor);
@@ -1701,11 +1692,14 @@ if (typeof pdfjsLib !== 'undefined') {
 
             productsPayload.push({
                 extraction_metadata: metadata,
-                id: productId || name,
+                id: productId || null,
+                name: name,
+                item: name,
+                product_name: name,
                 category_id: row.querySelector('.js-category').value,
-                price: unitMrp > 0 ? unitMrp : (unitRate > 0 ? unitRate : billRate),
-                rate: unitRate > 0 ? unitRate : billRate,
-                quantity: stockQty,
+                price: billRate > 0 ? billRate : (unitRate > 0 ? unitRate : billMrp),
+                rate: billRate > 0 ? billRate : unitRate,
+                quantity: billedQty,
                 discount_percent: parseFloat(row.querySelector('.js-discount-percent').value) || 0,
                 discount_amount: discountAmount,
                 free_quantity: parseFloat(row.querySelector('.js-free-qty').value) || 0,

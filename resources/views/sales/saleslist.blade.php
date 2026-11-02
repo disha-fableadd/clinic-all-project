@@ -45,6 +45,73 @@
         box-shadow: 0 2px 8px rgba(248, 152, 132, 0.4);
     }
 
+    /* Card Header Matching Appointment / Followup / Purchase */
+    .card-header {
+        background-color: #f89884 !important;
+        border-bottom: none !important;
+        padding: 16px 24px !important;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .btn-hdr {
+        background: #ffffff !important;
+        color: #f89884 !important;
+        border: none !important;
+        font-weight: 700;
+        border-radius: 50px !important;
+        padding: 8px 18px;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        transition: all 0.2s ease;
+    }
+    .btn-hdr:hover {
+        background: #fff5f2 !important;
+        color: #e2725b !important;
+        transform: translateY(-1px);
+    }
+    .table-container-card {
+        border-radius: 20px !important;
+        border: 1.5px solid #e2e8f0;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+        background: #ffffff;
+        overflow: hidden !important;
+    }
+
+    /* KPI Summary Pills */
+    .kpi-pill {
+        border-radius: 50px !important;
+        padding: 9px 22px;
+        font-weight: 700;
+        font-size: 13.5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        white-space: nowrap;
+        flex: 1 1 200px;
+    }
+    .kpi-pill-coral {
+        border: 1.5px solid #f89884;
+        background: #fff5f2;
+        color: #d9534f;
+    }
+    .kpi-pill-green {
+        border: 1.5px solid #28c76f;
+        background: #f0fff4;
+        color: #15803d;
+    }
+    .kpi-pill-pending {
+        border: 1.5px solid #ea5455;
+        background: #fff5f5;
+        color: #dc2626;
+    }
+
     /* Main Card */
     .sales-card {
         border: none;
@@ -149,29 +216,40 @@
         border-color: #f89884 !important;
     }
 
-    /* Table & Status Badges (50% Radius Pill) */
-    .table-sales {
+    /* Table & Status Badges (Coral Header Matching Appointment / Followup / Purchase) */
+    .custom-table, .table-sales {
         width: 100%;
-        border-collapse: collapse;
+        min-width: 950px;
+        border-collapse: separate;
+        border-spacing: 0;
         font-size: 13px;
     }
-    .table-sales th {
-        background-color: #f8fafc;
-        color: #334155;
+    .custom-table thead tr th, .table-sales thead tr th, .table-sales th {
+        background-color: #f89884 !important;
+        color: #ffffff !important;
         font-weight: 700;
-        border-bottom: 2px solid #e2e8f0;
-        padding: 12px 10px;
-        vertical-align: middle;
+        font-size: 13px;
+        padding: 12px 14px;
+        border: none;
         white-space: nowrap;
+        vertical-align: middle;
     }
-    .table-sales td {
-        padding: 12px 10px;
+    .custom-table thead tr th:first-child, .table-sales thead tr th:first-child {
+        border-top-left-radius: 12px;
+    }
+    .custom-table thead tr th:last-child, .table-sales thead tr th:last-child {
+        border-top-right-radius: 12px;
+    }
+    .custom-table tbody td, .table-sales tbody td, .table-sales td {
+        padding: 12px 14px;
+        font-size: 13px;
+        color: #1e293b;
         vertical-align: middle;
         border-bottom: 1px solid #f1f5f9;
-        color: #1e293b;
+        white-space: nowrap;
     }
-    .table-sales tr:hover td {
-        background-color: #fafbfc;
+    .custom-table tbody tr:hover td, .table-sales tbody tr:hover td, .table-sales tr:hover td {
+        background-color: #fff9f8;
     }
 
     .table-responsive {
@@ -310,133 +388,138 @@
 </style>
 
 <div class="page-wrapper">
-    <div class="content">
+    <div class="content px-3 px-md-4 pt-3 pb-4">
 
-        <!-- Without / With GST Bills Toggle Sub-Tabs (50% Radius Pill) -->
-        <div class="gst-tabs">
-            <div class="gst-tab-item" data-gst="without_gst">Without GST Bills</div>
-            <div class="gst-tab-item active" data-gst="with_gst">With GST Bills</div>
-        </div>
+        <!-- Card Header Matching Appointment / Followup / Purchase -->
+        <div class="card border-0 mb-4 table-container-card overflow-hidden">
+            <div class="card-header">
+                <h3 class="card-title d-inline-block text-white mb-0" style="font-weight: 700; font-size: 19px;">
+                    <i class="fa fa-shopping-bag px-2"></i> Sale Bills
+                </h3>
 
-        <!-- Main Content Card -->
-        <div class="sales-card">
-            <!-- Filter Bar Row (50% Radius Pill) -->
-            <div class="row g-2 align-items-center mb-3">
-                <!-- Search sales input -->
-                <div class="col-lg-2 col-md-4 col-12">
-                    <div class="position-relative">
-                        <input type="text" id="salesSearchInput" class="sales-filter-input" placeholder="Search sales...">
-                    </div>
-                </div>
-
-                <!-- Patient Filter -->
-                <div class="col-lg-2 col-md-4 col-6">
-                    <select id="filterPatient" class="sales-filter-select">
-                        <option value="">All Patient</option>
-                        @foreach($patients as $p)
-                            <option value="{{ $p->id }}">{{ $p->fullname ?? $p->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Month Filter -->
-                <div class="col-lg-2 col-md-4 col-6">
-                    <select id="filterMonth" class="sales-filter-select">
-                        <option value="">All Months</option>
-                        @for($m = 1; $m <= 12; $m++)
-                            <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">
-                                {{ date('F', mktime(0, 0, 0, $m, 10)) }}
-                            </option>
-                        @endfor
-                    </select>
-                </div>
-
-                <!-- Year Filter -->
-                <div class="col-lg-2 col-md-4 col-6">
-                    <select id="filterYear" class="sales-filter-select">
-                        <option value="">All Years</option>
-                        @foreach($years as $yr)
-                            <option value="{{ $yr }}" {{ $yr == date('Y') ? 'selected' : '' }}>{{ $yr }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Date Range Picker -->
-                <!-- <div class="col-lg-2 col-md-4 col-6">
-                    <input type="text" id="filterDateRange" class="sales-filter-input" placeholder="Select Date Range" autocomplete="off">
-                </div> -->
-
-                <!-- Delete All Button -->
-                <div class="col-lg-2 col-md-4 col-12">
-                    <button type="button" class="btn w-100 fw-bold" id="deleteAllSalesBtn">
-                        <i class="fas fa-trash-alt me-1"></i> Delete All
-                    </button>
+                <div class="d-flex align-items-center gap-2 flex-wrap" style="gap:10px">
+                    <a href="{{ route('sales.add') }}" class="btn btn-hdr">
+                        <i class="fa fa-plus"></i> New Sale Bill
+                    </a>
                 </div>
             </div>
 
-            <!-- Summary Boxes Row (Pending, Paid, Total - 50% Radius Pill) -->
-            <div class="row g-3 mb-3">
-                <div class="col-md-4 col-12">
-                    <div class="summary-box-pending">
-                        Total Pending: <span id="summaryPendingAmount">&#8377;0.00</span>
+            <div class="card-body p-3 p-md-4">
+                <!-- Without / With GST Bills Toggle Sub-Tabs -->
+                <div class="gst-tabs mb-4">
+                    <div class="gst-tab-item" data-gst="without_gst">Without GST Bills</div>
+                    <div class="gst-tab-item active" data-gst="with_gst">With GST Bills</div>
+                </div>
+
+                <!-- KPI Summary Row Matching Purchase / Appointment -->
+                <div class="d-flex flex-wrap gap-3 mb-4" style="gap:10px">
+                    <div class="kpi-pill kpi-pill-pending">
+                        <span>Total Pending:</span>
+                        <span id="summaryPendingAmount">&#8377;0.00</span>
+                    </div>
+                    <div class="kpi-pill kpi-pill-green">
+                        <span>Total Paid:</span>
+                        <span id="summaryPaidAmount">&#8377;0.00</span>
+                    </div>
+                    <div class="kpi-pill kpi-pill-coral">
+                        <span>Total Sales:</span>
+                        <span id="summaryTotalAmount">&#8377;0.00</span>
                     </div>
                 </div>
-                <div class="col-md-4 col-12">
-                    <div class="summary-box-paid">
-                        Total Paid: <span id="summaryPaidAmount">&#8377;0.00</span>
+
+                <!-- Filter Bar Container -->
+                <div class="p-3 mb-4 rounded-4" style="background: #f8fafc; border: 1.5px solid #e2e8f0;">
+                    <div class="row g-2 align-items-center">
+                        <!-- Search sales input -->
+                        <div class="col-xl-3 col-lg-3 col-md-6 col-12">
+                            <div class="position-relative">
+                                <input type="text" id="salesSearchInput" class="sales-filter-input" placeholder="Search sales..." style="padding-left: 36px !important;">
+                                <i class="fas fa-search position-absolute" style="left: 14px; top: 12px; color: #94a3b8; font-size: 13px;"></i>
+                            </div>
+                        </div>
+
+                        <!-- Patient Filter -->
+                        <div class="col-xl-2 col-lg-2 col-md-4 col-6">
+                            <select id="filterPatient" class="sales-filter-select select2">
+                                <option value="">All Patient</option>
+                                @foreach($patients as $p)
+                                    <option value="{{ $p->id }}">{{ $p->fullname ?? $p->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Month Filter -->
+                        <div class="col-xl-2 col-lg-2 col-md-4 col-6">
+                            <select id="filterMonth" class="sales-filter-select select2">
+                                <option value="">All Months</option>
+                                @for($m = 1; $m <= 12; $m++)
+                                    <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">
+                                        {{ date('F', mktime(0, 0, 0, $m, 10)) }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+
+                        <!-- Year Filter -->
+                        <div class="col-xl-2 col-lg-2 col-md-4 col-6">
+                            <select id="filterYear" class="sales-filter-select select2">
+                                <option value="">All Years</option>
+                                @foreach($years as $yr)
+                                    <option value="{{ $yr }}" {{ $yr == date('Y') ? 'selected' : '' }}>{{ $yr }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Delete All Button -->
+                        <div class="col-xl-2 col-lg-2 col-md-4 col-6">
+                            <button type="button" class="btn w-100 fw-bold" id="deleteAllSalesBtn" style="height: 38px !important; border-radius: 50px !important; background-color: #f89884 !important; border-color: #f89884 !important; color: #ffffff !important;">
+                                <i class="fas fa-trash-alt me-1"></i> Delete All
+                            </button>
+                        </div>
+
+                        <!-- Show Per Page Selector -->
+                        <div class="col-xl-1 col-lg-1 col-md-4 col-6">
+                            <select id="perPageSelect" class="sales-filter-select per-page-select text-center" title="Show per page">
+                                <option value="10" selected>10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-12">
-                    <div class="summary-box-total">
-                        Total: <span id="summaryTotalAmount">&#8377;0.00</span>
+
+                <!-- Orders Table Container with Coral Header -->
+                <div class="table-responsive">
+                    <table class="table custom-table table-sales mb-0" id="salesTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 36px; text-align: center;">
+                                    <input type="checkbox" id="selectAllCheckbox" style="cursor: pointer; width: 16px; height: 16px;">
+                                </th>
+                                <th>Bill No</th>
+                                <th>Bill Date</th>
+                                <th>Patient Name</th>
+                                <th>Mobile Number</th>
+                                <th>Payment Mode</th>
+                                <th class="text-end">Total</th>
+                                <th class="text-center">Documentations</th>
+                                <th style="text-align: center; width: 60px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="salesTableBody">
+                            <!-- Populated via JavaScript dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Footer Pagination & Count -->
+                <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top flex-wrap gap-2" id="paginationWrap">
+                    <div id="tableInfoText" style="font-size: 13px; color: #64748b; font-weight: 500;">
+                        Showing 0 items
                     </div>
+                    <ul class="pagination pagination-sm mb-0" id="paginationList"></ul>
                 </div>
-            </div>
-
-            <!-- Show Per Page Selector & Info Bar -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="d-flex align-items-center gap-2" style="font-size: 13px; color: #475569;">
-                    <span>Show per page:</span>
-                    <select id="perPageSelect" class="form-select per-page-select">
-                        <option value="10" selected>10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                </div>
-                <div id="tableInfoText" style="font-size: 13px; color: #64748b; font-weight: 500;">
-                    Showing 0 items
-                </div>
-            </div>
-
-            <!-- Orders Table Container -->
-            <div class="table-responsive" style="overflow-x: auto;">
-                <table class="table-sales" id="salesTable">
-                    <thead>
-                        <tr>
-                            <th style="width: 36px; text-align: center;">
-                                <input type="checkbox" id="selectAllCheckbox" style="cursor: pointer; width: 16px; height: 16px;">
-                            </th>
-                            <th>Bill No</th>
-                            <th>Bill Date</th>
-                            <th>Patient Name</th>
-                            <th>Mobile Number</th>
-                            <th>Payment Mode</th>
-                            <th>Total</th>
-                            <th>Documentations</th>
-                            <th style="text-align: center; width: 60px;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="salesTableBody">
-                        <!-- Populated via JavaScript dynamically -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Pagination Container -->
-            <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2" id="paginationWrap">
-                <div id="paginationInfo" class="text-muted" style="font-size: 13px;"></div>
-                <ul class="pagination pagination-sm mb-0" id="paginationList"></ul>
             </div>
         </div>
 
