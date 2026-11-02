@@ -22,6 +22,35 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class AccountLedgerController extends Controller
 {
+    public function getPaymentDetails(Request $request)
+    {
+        $type = $request->input('type', 'vendor');
+        if ($type === 'customer') {
+            $type = 'patient';
+        }
+        $id = $request->input('id') ?: ($request->input('vendor_id') ?: $request->input('customer_id'));
+        $month = $request->input('month');
+        $year = $request->input('year');
+
+        if (!$id || $id === 'all') {
+            return response()->json([
+                'success' => true,
+                'status' => true,
+                'openingBalance' => 0.00,
+                'ledgerEntries' => [],
+                'paidInvoices' => [],
+                'pendingInvoices' => [],
+            ]);
+        }
+
+        $data = $this->compileLedgerData($type, $id, $month, $year);
+
+        return response()->json(array_merge([
+            'success' => true,
+            'status' => true,
+        ], $data));
+    }
+
     public function getLedgerDetails(Request $request)
     {
         $type = $request->input('type', 'patient'); // 'patient' or 'vendor'

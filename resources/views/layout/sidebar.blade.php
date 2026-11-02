@@ -575,8 +575,8 @@
                                                 <span>New Purchase Bill</span>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="/ai-purchase-bill">
+                                        <li class="{{ request()->routeIs('purchase.ai-bill') ? 'active' : '' }}">
+                                            <a href="{{ route('purchase.ai-bill') }}" class="{{ request()->routeIs('purchase.ai-bill') ? 'active' : '' }}">
                                                 <i class="fa fa-magic icons" style="color: #f97316;"></i>
                                                 <span style="color: #f97316; font-weight: 700;">AI Bill Upload</span>
                                             </a>

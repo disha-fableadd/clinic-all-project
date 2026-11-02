@@ -659,6 +659,7 @@ Route::post('/sales/delete-multiple', [\App\Http\Controllers\Api\SalesController
 
 // Purchase API Routes
 Route::post('/purchase_order', [\App\Http\Controllers\Api\PurchaseController::class, 'purchase_order']);
+Route::get('/get-payment-details', [\App\Http\Controllers\Api\AccountLedgerController::class, 'getPaymentDetails']);
 Route::get('/purchase_list', [\App\Http\Controllers\Api\PurchaseController::class, 'purchase_list']);
 Route::get('/purchase_get/{id}', [\App\Http\Controllers\Api\PurchaseController::class, 'showPurchase']);
 Route::match(['post', 'delete'], '/purchase_delete', [\App\Http\Controllers\Api\PurchaseController::class, 'purchase_delete']);

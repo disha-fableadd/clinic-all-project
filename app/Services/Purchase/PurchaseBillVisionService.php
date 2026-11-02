@@ -742,11 +742,37 @@ PROMPT;
 
     private function geminiKey(): string
     {
-        return trim((string) (config('services.gemini.key') ?: env('GEMINI_API_KEY', '')));
+        $key = trim((string) (config('services.gemini.key') ?: env('GEMINI_API_KEY', '')));
+        if ($key !== '') {
+            return $key;
+        }
+        try {
+            $cred = \Illuminate\Support\Facades\DB::table('ai_credentials')
+                ->where('service_name', 'gemini')
+                ->where('is_default', 1)
+                ->value('api_key');
+            if ($cred) {
+                return trim((string) $cred);
+            }
+        } catch (\Throwable $e) {}
+        return '';
     }
 
     private function openaiKey(): string
     {
-        return trim((string) (config('services.openai.key') ?: env('OPENAI_API_KEY', '')));
+        $key = trim((string) (config('services.openai.key') ?: env('OPENAI_API_KEY', '')));
+        if ($key !== '') {
+            return $key;
+        }
+        try {
+            $cred = \Illuminate\Support\Facades\DB::table('ai_credentials')
+                ->where('service_name', 'openai')
+                ->where('is_default', 1)
+                ->value('api_key');
+            if ($cred) {
+                return trim((string) $cred);
+            }
+        } catch (\Throwable $e) {}
+        return '';
     }
 }
