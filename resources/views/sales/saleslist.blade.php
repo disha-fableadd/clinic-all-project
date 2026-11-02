@@ -447,11 +447,11 @@
 <!-- ================= MODAL: Product Documentation ================= -->
 <div class="modal fade" id="documentationModal" tabindex="-1" aria-labelledby="documentationLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content" style="border-radius: 16px; overflow: hidden; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.18);">
-            <div class="modal-header d-flex justify-content-between align-items-center" style="background: #ffffff; border-bottom: 1.5px solid #f1f5f9; padding: 18px 24px;">
-                <h5 class="modal-title font-weight-bold" id="documentationLabel" style="color: #1e293b; font-size: 18px; margin: 0; font-weight: 700;">Product Documentation</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="color: #ef4444; font-size: 20px; border: none; background: transparent; cursor: pointer;">
-                    <i class="fa fa-times text-danger"></i>
+        <div class="modal-content" style="border-radius: 22px !important; overflow: hidden; border: none !important; box-shadow: 0 15px 35px rgba(0,0,0,0.12);">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #f89884; color: #ffffff; padding: 16px 24px; border-bottom: none;">
+                <h5 class="modal-title font-weight-bold" id="documentationLabel" style="color: #ffffff !important; font-size: 17px; margin: 0; font-weight: 700;"><i class="fas fa-file-alt me-2"></i> Product Documentation</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="color: #ffffff !important; opacity: 0.95 !important; font-size: 26px !important; font-weight: 300 !important; text-shadow: none !important; border: none !important; background: transparent !important; padding: 0 !important; cursor: pointer; line-height: 1;">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form id="documentationForm" enctype="multipart/form-data">
@@ -498,15 +498,15 @@
 <!-- ================= MODAL: Make Payment ================= -->
 <div class="modal fade" id="makePaymentModal" tabindex="-1" aria-labelledby="makePaymentLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;">
-        <div class="modal-content" style="border-radius: 16px; overflow: hidden; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.18);">
-            <div class="modal-header d-flex justify-content-between align-items-center" style="background: #ffffff; border-bottom: none; padding: 18px 24px 8px 24px;">
-                <div></div>
+        <div class="modal-content" style="border-radius: 22px !important; overflow: hidden; border: none !important; box-shadow: 0 15px 35px rgba(0,0,0,0.12);">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #f89884; color: #ffffff; padding: 16px 24px; border-bottom: none;">
+                <h5 class="modal-title font-weight-bold" style="color: #ffffff !important; font-size: 17px; margin: 0; font-weight: 700;"><i class="fas fa-hand-holding-usd me-2"></i> Record Payment</h5>
                 <div class="d-flex align-items-center gap-2">
-                    <button type="button" class="btn" id="btnOpenHistoryFromPayModal" style="background-color: #5a6a80; color: #ffffff; border-radius: 50px !important; font-size: 13px; font-weight: 600; padding: 7px 18px; border: none;">
-                        View Payment History
+                    <button type="button" class="btn" id="btnOpenHistoryFromPayModal" style="background-color: #ffffff; color: #f89884; border-radius: 50px !important; font-size: 12px; font-weight: 700; padding: 5px 16px; border: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                        <i class="fas fa-history me-1"></i> Payment History
                     </button>
-                    <button type="button" class="btn-close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="border:none; background:transparent; font-size: 18px; color: #ef4444; padding: 0 4px; cursor: pointer;">
-                        <i class="fa fa-times text-danger"></i>
+                    <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="color: #ffffff !important; opacity: 0.95 !important; font-size: 26px !important; font-weight: 300 !important; text-shadow: none !important; border: none !important; background: transparent !important; padding: 0 0 0 8px !important; cursor: pointer; line-height: 1;">
+                        <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
             </div>
@@ -594,49 +594,39 @@
     </div>
 </div>
 
-<!-- ================= MODAL: Payment History ================= -->
+<!-- ================= MODAL: Payment History (Matching Purchase Design) ================= -->
 <div class="modal fade" id="paymentHistoryModal" tabindex="-1" aria-labelledby="historyLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 500px;">
-        <div class="modal-content" style="border-radius: 16px; overflow: hidden; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.18);">
-            <div class="modal-header d-flex justify-content-between align-items-center" style="background: #ffffff; border-bottom: 1.5px solid #f1f5f9; padding: 16px 24px;">
-                <h5 class="modal-title font-weight-bold" id="historyLabel" style="color: #1e293b; font-size: 18px; margin: 0; font-weight: 700;">Payment History</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="border:none; background:transparent; font-size: 18px; color: #ef4444; padding: 0; cursor: pointer;">
-                    <i class="fa fa-times text-danger"></i>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 22px !important; overflow: hidden; border: none !important; box-shadow: 0 15px 35px rgba(0,0,0,0.12);">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #f89884; color: #ffffff; padding: 14px 22px; border-bottom: none;">
+                <h5 class="modal-title font-weight-bold" id="historyLabel" style="color: #ffffff !important; font-size: 17px; margin: 0; font-weight: 700;"><i class="fas fa-history me-2"></i> Payment History - <span id="phBillNo"></span></h5>
+                <button type="button" class="btn-close-custom text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="color: #ffffff !important; opacity: 0.95 !important; font-size: 20px !important; border: none !important; background: transparent !important; padding: 0 !important; cursor: pointer; line-height: 1;">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="modal-body p-4">
-                <!-- Loading spinner -->
-                <div id="paymentHistoryLoading" class="text-center py-3 text-muted">
-                    <i class="fas fa-spinner fa-spin fa-2x mb-2" style="color: #f89884;"></i>
-                    <div>Loading history...</div>
-                </div>
-
-                <!-- History Content Container -->
-                <div id="paymentHistoryContent" class="d-none">
-                    <!-- Payments List / No payments box -->
-                    <div id="paymentHistoryEntriesWrap">
-                        <!-- Injected via JS -->
-                    </div>
-
-                    <!-- 4-Row Summary Box -->
-                    <div style="border: 1.5px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin-top: 16px; background: #ffffff;">
-                        <div style="padding: 10px 16px; border-bottom: 1px solid #e2e8f0; font-size: 14px; color: #1e293b;">
-                            <strong>Order Total:</strong> <span style="font-weight: 700;" id="histOrderTotal">&#8377;0.00</span>
-                        </div>
-                        <div style="padding: 10px 16px; border-bottom: 1px solid #e2e8f0; font-size: 14px; color: #1e293b;">
-                            <strong>Total Paid:</strong> <span style="font-weight: 700;" id="histTotalPaid">&#8377;0.00</span>
-                        </div>
-                        <div style="padding: 10px 16px; border-bottom: 1px solid #e2e8f0; font-size: 14px; color: #1e293b;">
-                            <strong>Return Amount:</strong> <span style="font-weight: 700;" id="histReturnAmount">&#8377;0.00</span>
-                        </div>
-                        <div style="padding: 10px 16px; font-size: 14px; color: #1e293b;">
-                            <strong>Remaining:</strong> <span style="font-weight: 700;" id="histRemaining">&#8377;0.00</span>
-                        </div>
-                    </div>
+            <div class="modal-body p-3">
+                <div class="table-responsive rounded" style="border: 1.5px solid #e2e8f0; overflow: hidden;">
+                    <table class="table table-bordered mb-0" style="font-size: 13px;">
+                        <thead style="background-color: #f89884; color: #ffffff;">
+                            <tr>
+                                <th class="text-center" style="background-color: #f89884 !important; color: #ffffff !important; width: 45px;">#</th>
+                                <th style="background-color: #f89884 !important; color: #ffffff !important;">Payment Date</th>
+                                <th class="text-center" style="background-color: #f89884 !important; color: #ffffff !important;">Method</th>
+                                <th class="text-end" style="background-color: #f89884 !important; color: #ffffff !important;">Paid Amount</th>
+                                <th class="text-end" style="background-color: #f89884 !important; color: #ffffff !important;">Remaining</th>
+                                <th style="background-color: #f89884 !important; color: #ffffff !important;">Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody id="phTableBody">
+                            <tr>
+                                <td colspan="6" class="text-center py-3 text-muted">Loading payment records...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="modal-footer p-3 bg-white d-flex justify-content-start px-4" style="border-top: none;">
-                <button type="button" class="btn text-white fw-bold px-4" data-dismiss="modal" data-bs-dismiss="modal" style="background-color: #5a6a80; border-radius: 50px !important; padding: 8px 26px; font-size: 14px; border: none;">
+            <div class="modal-footer p-3 bg-white d-flex justify-content-end" style="border-top: none;">
+                <button type="button" class="btn text-white fw-bold px-4" data-dismiss="modal" data-bs-dismiss="modal" style="background-color: #707e94; border-radius: 50px !important; padding: 7px 24px; font-size: 13.5px; border: none;">
                     Close
                 </button>
             </div>
@@ -853,7 +843,7 @@
                                         <i class="fa fa-inr" style="color: #f89884; font-weight: bold; width: 16px; text-align: center;"></i> <span style="color: #f89884; font-weight: 700;">Pay</span>
                                     </a>
                                 ` : ''}
-                                <a class="dropdown-item open-history-btn" href="javascript:void(0);" data-id="${order.id}">
+                                <a class="dropdown-item open-history-btn" href="javascript:void(0);" data-id="${order.id}" data-bill="${order.invoice_number || ('#' + order.id)}">
                                     <i class="fas fa-history" style="color: #64748b; width: 16px; text-align: center;"></i> <span>History</span>
                                 </a>
                                 <a class="dropdown-item" href="/add-sales?patient_id=${encodeURIComponent(patId)}">
@@ -1125,6 +1115,15 @@
         });
 
         // Close when clicking any menu item
+        $(document).on('show.bs.modal', '.modal', function() {
+            $('.action-menu-box').removeClass('show');
+            $('.action-dropdown-wrap').removeClass('active');
+        });
+
+        $(document).on('click', '[data-dismiss="modal"], [data-bs-dismiss="modal"], .btn-close-custom', function() {
+            $(this).closest('.modal').modal('hide');
+        });
+
         $(document).on('click', '.action-menu-box .dropdown-item', function() {
             $('.action-menu-box').removeClass('show');
             $('.action-dropdown-wrap').removeClass('active');
@@ -1266,10 +1265,52 @@
             $('.action-menu-box').removeClass('show');
             $('.action-dropdown-wrap').removeClass('active');
             const orderId = $(this).data('id');
-            openPaymentHistoryModal(orderId);
+            const billNo = $(this).data('bill') || ('#' + orderId);
+            openPaymentHistoryModal(orderId, billNo);
         });
 
-        function openPaymentHistoryModal(orderId) {
+        function openPaymentHistoryModal(orderId, billNo) {
+            $('#phBillNo').text(billNo || ('#' + orderId));
+            $('#phTableBody').html('<tr><td colspan="6" class="text-center py-3 text-muted"><i class="fas fa-spinner fa-spin me-1"></i> Loading payments...</td></tr>');
+            $('#paymentHistoryModal').modal('show');
+
+            $.ajax({
+                url: '/api/sales/payment-history/' + orderId,
+                type: 'GET',
+                headers: { 'Authorization': 'Bearer ' + saleAuthToken },
+                success: function(res) {
+                    if (res.status && res.payments && res.payments.length > 0) {
+                        let html = '';
+                        res.payments.forEach((p, idx) => {
+                            const pDate = formatDateDisplay(p.payment_date || p.created_at);
+                            const pAmt = formatMoney(p.payment_amount);
+                            const pRem = formatMoney(p.remaining_amount !== undefined && p.remaining_amount !== null ? p.remaining_amount : 0);
+                            const pMode = p.payment_method ? p.payment_method.toUpperCase() : 'CASH';
+                            const pRemarks = p.remarks || (idx === 0 && res.payments.length === 1 ? 'Payment on sale generation' : '-');
+                            html += `
+                                <tr>
+                                    <td class="text-center fw-bold">${idx + 1}</td>
+                                    <td>${pDate}</td>
+                                    <td class="text-center"><span class="badge bg-light text-dark" style="border-radius: 50px; font-weight: 600; padding: 4px 10px;">${pMode}</span></td>
+                                    <td class="text-end fw-bold" style="color: #28c76f;">₹${pAmt}</td>
+                                    <td class="text-end fw-bold" style="color: #ea5455;">₹${pRem}</td>
+                                    <td>${pRemarks}</td>
+                                </tr>
+                            `;
+                        });
+                        $('#phTableBody').html(html);
+                    } else {
+                        $('#phTableBody').html('<tr><td colspan="6" class="text-center py-3 text-muted">No payment records found.</td></tr>');
+                    }
+                },
+                error: function() {
+                    $('#phTableBody').html('<tr><td colspan="6" class="text-center py-3 text-danger">Failed to fetch payment history.</td></tr>');
+                }
+            });
+            return;
+        }
+
+        function old_openPaymentHistoryModal(orderId) {
             $('#paymentHistoryModal').modal('show');
             $('#paymentHistoryLoading').removeClass('d-none');
             $('#paymentHistoryContent').addClass('d-none');

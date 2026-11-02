@@ -74,7 +74,7 @@
                 </h3>
                 <p class="text-muted mb-0" style="font-size: 14px;">Detailed vendor purchase bill and payment history</p>
             </div>
-            <div class="d-flex gap-2">
+            <div class="d-flex gap-2" style="gap:10px">
                 <a href="{{ route('purchase.lists') }}" class="btn btn-outline-secondary pill-btn" style="border-radius: 50px !important;">
                     <i class="fas fa-arrow-left"></i> Back to Bills
                 </a>

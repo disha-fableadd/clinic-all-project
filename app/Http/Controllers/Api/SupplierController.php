@@ -109,7 +109,7 @@ class SupplierController extends Controller
 
         $recordsTotal = (clone $query)->count();
 
-        $hasDataTable = $request->has('length') || $request->has('start') || $request->has('draw');
+        $hasDataTable = $request->has('length') || $request->has('start') || $request->has('draw') || $request->has('per_page') || $request->has('page');
 
         if ($hasDataTable) {
             $searchValue = $request->input('search.value', $request->input('search'));
@@ -129,19 +129,29 @@ class SupplierController extends Controller
 
             $recordsFiltered = (clone $filteredQuery)->count();
 
-            $length = (int) $request->input('length', 10);
+            $length = (int) $request->input('length', $request->input('per_page', 10));
             if ($length <= 0) $length = 10;
-            $start = (int) $request->input('start', 0);
-            $page = (int) floor($start / $length) + 1;
+
+            if ($request->has('page')) {
+                $page = (int) $request->input('page', 1);
+            } else {
+                $start = (int) $request->input('start', 0);
+                $page = (int) floor($start / $length) + 1;
+            }
 
             $suppliers = $filteredQuery->orderBy('id', 'desc')->forPage($page, $length)->get();
 
             return response()->json([
                 'status' => true,
-                'draw' => (int) $request->input('draw'),
+                'draw' => (int) $request->input('draw', 1),
                 'recordsTotal' => $recordsTotal,
                 'recordsFiltered' => $recordsFiltered,
                 'data' => $suppliers,
+                'pagination' => [
+                    'current_page' => $page,
+                    'per_page' => $length,
+                    'total' => $recordsFiltered
+                ]
             ], 200);
         }
 

@@ -142,6 +142,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('brands', BrandController::class);
     Route::apiResource('stock-units', StockUnitController::class);
     Route::get('/account-ledger/details', [ApiAccountLedgerController::class, 'getLedgerDetails']);
+    Route::get('/account-ledger/export-excel', [ApiAccountLedgerController::class, 'exportAccountLedgerExcel']);
+    Route::get('/account-ledger/export-pdf', [ApiAccountLedgerController::class, 'exportAccountLedgerPdf']);
     Route::apiResource('tax-rates', TaxRateController::class);
     // Route::apiResource('medicine-units', App\Http\Controllers\Api\MedicineUnitController::class);
     Route::apiResource('medicine-units', MedicineUnitController::class);

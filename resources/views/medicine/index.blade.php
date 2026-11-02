@@ -343,8 +343,10 @@
                             {
                                 data: "quantity",
                                 render: function (data, type, row) {
-                                    let badge = (row.low_stock_qty && row.quantity <= row.low_stock_qty) ? '<span class="badge bg-danger text-white ms-1" style="font-size:10px">Low</span>' : '';
-                                    return `<span class="d-none d-md-table-cell"><strong>${data ?? 0}</strong> ${row.stock_unit_name || ''} ${badge}</span>`;
+                                    let qty = (data !== null && data !== undefined) ? parseInt(data) : 0;
+                                    let lowStockThreshold = (row.low_stock_qty !== null && row.low_stock_qty !== undefined && row.low_stock_qty !== '') ? parseInt(row.low_stock_qty) : 10;
+                                    let badge = (qty <= lowStockThreshold) ? '<span class="badge ms-1" style="background-color: #ea5455; color: #fff; border-radius: 4px; font-size: 11px; padding: 3px 8px; font-weight: 500;">Low Stock</span>' : '';
+                                    return `<span class="d-none d-md-table-cell"><span style="border: 1px solid #ececec; padding: 3px 8px; border-radius: 4px; display: inline-block; font-weight: 600;">${qty}</span> ${badge}</span>`;
                                 },
                                 className: "d-none d-md-table-cell"
                             },
@@ -359,7 +361,28 @@
                             {
                                 data: "expiry_date",
                                 render: function (data, type, row) {
-                                    return `<span class="d-none d-md-table-cell">${data || 'N/A'}</span>`;
+                                    if (!data || data === 'N/A') {
+                                        return `<span class="d-none d-md-table-cell text-muted">N/A</span>`;
+                                    }
+                                    let dateObj = new Date(data);
+                                    if (isNaN(dateObj.getTime())) {
+                                        return `<span class="d-none d-md-table-cell">${data}</span>`;
+                                    }
+                                    let m = String(dateObj.getMonth() + 1).padStart(2, '0');
+                                    let y = dateObj.getFullYear();
+                                    let formattedDate = `${m}/${y}`;
+
+                                    let today = new Date();
+                                    today.setHours(0, 0, 0, 0);
+                                    let expiryThreshold = new Date(today);
+                                    expiryThreshold.setDate(today.getDate() + 60);
+
+                                    if (dateObj < today) {
+                                        return `<span class="d-none d-md-table-cell"><span style="color: #ea5455; font-weight: 600;">${formattedDate}</span> <span class="badge ms-1" style="background-color: #dc2626; color: #fff; border-radius: 4px; font-size: 10px; padding: 2px 6px; font-weight: 500;">Expired</span></span>`;
+                                    } else if (dateObj >= today && dateObj <= expiryThreshold) {
+                                        return `<span class="d-none d-md-table-cell"><span style="color: #ea5455; font-weight: 600;">${formattedDate}</span> <span class="badge ms-1" style="background-color: #ea5455; color: #fff; border-radius: 4px; font-size: 10px; padding: 2px 6px; font-weight: 500;">Expiring</span></span>`;
+                                    }
+                                    return `<span class="d-none d-md-table-cell">${formattedDate}</span>`;
                                 },
                                 className: "d-none d-md-table-cell"
                             },
@@ -397,17 +420,7 @@
                             }
                         ],
                         drawCallback: function () {
-                            if (!medicineTable) return;
-                            medicineTable.rows({ page: 'current' }).data().each(function (rowData) {
-                                if (parseInt(rowData.quantity) === 0) {
-                                    Swal.fire({
-                                        icon: 'warning',
-                                        title: 'Quantity Alert',
-                                        text: `The quantity for "${ucfirst(rowData.name)}" is 0. Please add stock.`,
-                                        confirmButtonText: 'OK'
-                                    });
-                                }
-                            });
+                            // Status indicators (Low Stock / Expiring) are cleanly displayed directly in table rows
                         }
                     })
                     .on('order.dt', () => eventFired('Order'))

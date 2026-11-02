@@ -530,7 +530,7 @@
                             </div>
 
 
-                            <div class="col-12 d-flex justify-content-end">
+                            <div class="col-12 d-flex justify-content-end" style="margin-top:10px">
                                 <button type="button" id="viewReferralBtn" class="btn btn-primary btn-rounded btn-hdr me-2">
                                     <i class="fas fa-eye"></i> View Referral Source
                                 </button>

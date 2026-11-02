@@ -137,25 +137,36 @@
         border: 1.5px solid #e2e8f0;
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
         background: #ffffff;
-        overflow: visible !important;
+        overflow: hidden !important;
     }
 
     .table-responsive {
-        overflow: visible;
-        min-height: auto !important;
-        padding-bottom: 0 !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        min-height: 380px !important;
+        padding-bottom: 120px !important;
         margin-bottom: 0 !important;
+        width: 100% !important;
     }
-    @media (max-width: 991px) {
-        .table-responsive {
-            overflow-x: auto !important;
-            overflow-y: visible !important;
-            padding-bottom: 0 !important;
-        }
+
+        .table-responsive::-webkit-scrollbar {
+        height: 8px;
+    }
+    .table-responsive::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 10px;
+    }
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 10px;
+    }
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+        background: #f89884;
     }
 
     .custom-table {
         width: 100%;
+        min-width: 1250px !important;
         border-collapse: separate;
         border-spacing: 0;
     }
@@ -451,6 +462,9 @@
                                 <th>Bill Number</th>
                                 <th>Purchase Date</th>
                                 <th>Vendor Name</th>
+                                <th>Medicine Name</th>
+                                <th>Stock / Qty</th>
+                                <th>Expiry Date</th>
                                 <th>Due Date</th>
                                 <th>Interest Amount</th>
                                 <th>Grand Total</th>
@@ -472,12 +486,16 @@
                                     $finalPayable = (float)($p->final_amount_after_interest ?? ($grandTotal + $interestAmt));
                                     $remaining = (float)($p->remaining_amount ?? 0);
                                     $vendorName = optional($p->vendor)->name ?? ($p->vendor_id ?: 'Unknown Vendor');
+                                    $medNames = $p->purchases ? $p->purchases->map(fn($item) => optional($item->medicine)->name ?? ($item->item_name ?? ''))->filter()->implode(' ') : '';
+                                    $batchNos = $p->purchases ? $p->purchases->map(fn($item) => $item->batch_no ?? optional($item->medicine)->batch_no)->filter()->implode(' ') : '';
                                 @endphp
                                 <tr class="purchase-row"
                                     data-id="{{ $p->id }}"
                                     data-bill="{{ $p->bill_no ?? $p->invoice_number }}"
                                     data-vendor-id="{{ $p->vendor_id }}"
                                     data-vendor-name="{{ strtolower($vendorName) }}"
+                                    data-medicines="{{ strtolower($medNames) }}"
+                                    data-batches="{{ strtolower($batchNos) }}"
                                     data-month="{{ $p->purchase_date ? date('m', strtotime($p->purchase_date)) : ($p->created_at ? $p->created_at->format('m') : '') }}"
                                     data-year="{{ $p->purchase_date ? date('Y', strtotime($p->purchase_date)) : ($p->created_at ? $p->created_at->format('Y') : '') }}"
                                     data-status="{{ $status }}"
@@ -492,6 +510,89 @@
                                     <td>{{ $pDate }}</td>
                                     <td>
                                         <span class="fw-semibold text-dark">{{ $vendorName }}</span>
+                                    </td>
+                                    <!-- Medicine Name -->
+                                    <td>
+                                        @if($p->purchases && $p->purchases->count() > 0)
+                                            @foreach($p->purchases as $item)
+                                                @php
+                                                    $medName = optional($item->medicine)->name ?? ($item->item_name ?: 'N/A');
+                                                    $batch = $item->batch_no ?: (optional($item->medicine)->batch_no ?: '-');
+                                                @endphp
+                                                <div class="{{ !$loop->last ? 'mb-2 pb-1 border-bottom' : '' }}">
+                                                    <strong class="text-dark" style="font-size: 13px;">{{ $medName }}</strong>
+                                                    @if($batch && $batch !== '-')
+                                                        <br><small class="text-muted"><i class="fas fa-barcode"></i> Batch: {{ $batch }}</small>
+                                                    @endif
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <!-- Stock / Qty -->
+                                    <td>
+                                        @if($p->purchases && $p->purchases->count() > 0)
+                                            @foreach($p->purchases as $item)
+                                                @php
+                                                    $qty = (int)($item->quantity ?? 0);
+                                                    $free = (int)($item->free_quantity ?? 0);
+                                                    $currStock = $item->medicine ? (int)$item->medicine->quantity : null;
+                                                    $lowStockThreshold = $item->medicine ? (int)($item->medicine->low_stock_qty ?: 10) : 10;
+                                                    $isLow = $currStock !== null && $currStock <= $lowStockThreshold;
+                                                @endphp
+                                                <div class="{{ !$loop->last ? 'mb-2 pb-1 border-bottom' : '' }}">
+                                                    <span class="badge" style="background-color: #f1f5f9; color: #1e293b; font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 6px;" title="Purchased Quantity">+{{ $qty }}</span>
+                                                    @if($free > 0)
+                                                        <small class="text-success fw-semibold ms-1">(+{{ $free }} Free)</small>
+                                                    @endif
+                                                    @if($currStock !== null)
+                                                        <div style="font-size: 11.5px; margin-top: 2px;">
+                                                            <span class="text-muted">Stock: <strong>{{ $currStock }}</strong></span>
+                                                            @if($isLow)
+                                                                <span class="badge ms-1" style="background-color: #ea5455; color: #fff; border-radius: 4px; font-size: 10px; padding: 2px 6px;">Low Stock</span>
+                                                            @endif
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
+                                    <!-- Expiry Date -->
+                                    <td>
+                                        @if($p->purchases && $p->purchases->count() > 0)
+                                            @foreach($p->purchases as $item)
+                                                @php
+                                                    $exp = $item->exp_date ?: (optional($item->medicine)->expiry_date ?: null);
+                                                    $expDisplay = '-';
+                                                    $expBadge = '';
+                                                    if ($exp) {
+                                                        $ts = strtotime($exp);
+                                                        if ($ts) {
+                                                            $m = date('m/Y', $ts);
+                                                            $today = time();
+                                                            $diff = ($ts - $today) / 86400;
+                                                            if ($diff < 0) {
+                                                                $expDisplay = "<span style='color: #ea5455; font-weight: 700;'>{$m}</span>";
+                                                                $expBadge = "<span class='badge ms-1' style='background-color: #dc2626; color: #fff; border-radius: 4px; font-size: 10px; padding: 2px 6px;'>Expired</span>";
+                                                            } elseif ($diff <= 60) {
+                                                                $expDisplay = "<span style='color: #ea5455; font-weight: 700;'>{$m}</span>";
+                                                                $expBadge = "<span class='badge ms-1' style='background-color: #ea5455; color: #fff; border-radius: 4px; font-size: 10px; padding: 2px 6px;'>Expiring</span>";
+                                                            } else {
+                                                                $expDisplay = "<span class='text-dark fw-semibold'>{$m}</span>";
+                                                            }
+                                                        }
+                                                    }
+                                                @endphp
+                                                <div class="{{ !$loop->last ? 'mb-2 pb-1 border-bottom' : '' }}">
+                                                    {!! $expDisplay !!} {!! $expBadge !!}
+                                                </div>
+                                            @endforeach
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
                                     </td>
                                     <td>
                                         <span>{{ $dueDate }}</span>
@@ -568,7 +669,7 @@
                                 </tr>
                             @empty
                                 <tr id="noDataRow">
-                                    <td colspan="9" class="text-center py-5 text-muted">
+                                    <td colspan="12" class="text-center py-5 text-muted">
                                         <i class="fas fa-box-open fa-3x mb-2 d-block" style="color: #cbd5e1;"></i>
                                         No purchase records found.
                                     </td>
@@ -598,9 +699,7 @@
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="fas fa-rupee-sign me-1"></i> Make Payment - <span id="mpBillNo"></span></h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close-custom" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" title="Close"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="purchase_id" id="mpPurchaseId">
@@ -708,9 +807,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><i class="fas fa-info-circle me-1"></i> Payment & Interest Details</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close-custom" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" title="Close"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body p-3">
                 <div class="table-responsive rounded" style="border: 1.5px solid #e2e8f0; overflow: hidden; min-height: auto !important; padding-bottom: 0 !important;">
@@ -769,9 +866,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><i class="fas fa-history me-1"></i> Payment History - <span id="phBillNo"></span></h5>
-                <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close-custom" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" title="Close"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
@@ -809,9 +904,7 @@
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="fas fa-university me-1"></i> Quick Add Bank Account</h5>
-                    <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close-custom" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" title="Close"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
@@ -879,6 +972,18 @@ $(document).ready(function() {
         }
     });
 
+    // Close action dropdown menu when clicking any item inside it
+    $(document).on('click', '.action-menu-box .dropdown-item, .action-menu-box a, .action-menu-box button', function() {
+        $('.action-menu-box').removeClass('show');
+        $('.action-dropdown-wrap').removeClass('active');
+    });
+
+    // When ANY modal opens, close all action dropdown menus immediately
+    $(document).on('show.bs.modal', '.modal', function() {
+        $('.action-menu-box').removeClass('show');
+        $('.action-dropdown-wrap').removeClass('active');
+    });
+
     $(document).on('click', function(e) {
         if (!$(e.target).closest('.action-dropdown-wrap').length) {
             $('.action-menu-box').removeClass('show');
@@ -915,7 +1020,9 @@ $(document).ready(function() {
             var rPaid = parseFloat($row.data('paid')) || 0;
             var rRemaining = parseFloat($row.data('remaining')) || 0;
 
-            var matchSearch = !search || rBill.includes(search) || rVendor.includes(search);
+            var rMeds = ($row.data('medicines') || '').toString().toLowerCase();
+            var rBatches = ($row.data('batches') || '').toString().toLowerCase();
+            var matchSearch = !search || rBill.includes(search) || rVendor.includes(search) || rMeds.includes(search) || rBatches.includes(search);
             var matchVendor = !vendorId || rVendorId === vendorId;
             var matchMonth = !month || rMonth === month;
             var matchYear = !year || rYear === year;
@@ -946,7 +1053,7 @@ $(document).ready(function() {
 
         if (visibleCount === 0) {
             if (!$('#tempNoDataRow').length) {
-                $('#purchaseTableBody').append('<tr id="tempNoDataRow"><td colspan="9" class="text-center py-4 text-muted">No matching purchase records found.</td></tr>');
+                $('#purchaseTableBody').append('<tr id="tempNoDataRow"><td colspan="12" class="text-center py-4 text-muted">No matching purchase records found.</td></tr>');
             }
         } else {
             $('#tempNoDataRow').remove();

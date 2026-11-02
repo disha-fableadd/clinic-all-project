@@ -936,10 +936,18 @@
                 contentType: false,
                 success: function(res) {
                     if (res.status) {
-                        alert('Medicine added successfully!');
-                        window.location.href = '{{ route("medicine.index") }}';
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Medicine added successfully!',
+                            icon: 'success',
+                            confirmButtonColor: '#f89884',
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.href = '{{ route("medicine.index") }}';
+                        });
                     } else {
-                        alert(res.message || 'Failed to save');
+                        Swal.fire('Error', res.message || 'Failed to save', 'error');
                         $('#submitMedicineBtn').prop('disabled', false).text('Submit');
                     }
                 },
@@ -949,10 +957,11 @@
                     if (err.responseJSON && err.responseJSON.message) {
                         msg = err.responseJSON.message;
                     }
-                    alert(msg);
+                    Swal.fire('Error', msg, 'error');
                 }
             });
         });
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

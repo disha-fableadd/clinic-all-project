@@ -217,6 +217,8 @@ Route::middleware(['session.auth', 'check.permission'])->group(function () {
 
     // Account Ledger
     Route::get('/account-ledger', [AccountLedgerController::class, 'index'])->name('account_ledger.index');
+    Route::get('/account-ledger/export-excel', [\App\Http\Controllers\Api\AccountLedgerController::class, 'exportAccountLedgerExcel'])->name('account_ledger.export_excel');
+    Route::get('/account-ledger/export-pdf', [\App\Http\Controllers\Api\AccountLedgerController::class, 'exportAccountLedgerPdf'])->name('account_ledger.export_pdf');
 
     // Sales Bill
     Route::get('/sales', [SalesController::class, 'sales_list'])->name('sales.list');

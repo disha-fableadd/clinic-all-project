@@ -1,4 +1,4 @@
-﻿@extends('layout.app')
+@extends('layout.app')
 <style>
     .swal-confirm-btn {
         color: rgb(58, 58, 58) !important;
@@ -169,15 +169,32 @@
                                     user_id: userId,
                                     page: page,
                                     per_page: perPage,
+                                    length: perPage,
+                                    start: data.start,
+                                    draw: data.draw,
                                     search: data.search?.value || ''
                                 },
                                 headers: { "Authorization": "Bearer " + token },
                                 success: function (response) {
+                                    let listData = [];
+                                    let totalCount = 0;
+
+                                    if (Array.isArray(response)) {
+                                        listData = response;
+                                        totalCount = response.length;
+                                    } else if (response && Array.isArray(response.data)) {
+                                        listData = response.data;
+                                        totalCount = response.recordsTotal ?? response.pagination?.total ?? response.data.length;
+                                    } else if (response && Array.isArray(response.suppliers)) {
+                                        listData = response.suppliers;
+                                        totalCount = response.suppliers.length;
+                                    }
+
                                     callback({
                                         draw: data.draw,
-                                        recordsTotal: response.pagination?.total || response.recordsTotal || 0,
-                                        recordsFiltered: response.pagination?.total || response.recordsFiltered || 0,
-                                        data: response.data || []
+                                        recordsTotal: totalCount,
+                                        recordsFiltered: totalCount,
+                                        data: listData
                                     });
                                 },
                                 error: function (xhr) {
@@ -194,44 +211,53 @@
                         columns: [
                             {
                                 data: "name",
+                                defaultContent: "N/A",
                                 render: function (data, type, row) {
-                                    return `<span class="view-supplier" data-id="${row.id}" style="cursor:pointer">${ucfirst(data)}</span>`;
+                                    let id = row ? row.id : '';
+                                    return `<span class="view-supplier" data-id="${id}" style="cursor:pointer">${ucfirst(data)}</span>`;
                                 }
                             },
                             {
                                 data: "contact_person",
+                                defaultContent: "N/A",
                                 render: function (data, type, row) {
-                                    return `<span class="view-supplier" data-id="${row.id}" style="cursor:pointer">${ucfirst(data)}</span>`;
+                                    let id = row ? row.id : '';
+                                    return `<span class="view-supplier" data-id="${id}" style="cursor:pointer">${ucfirst(data)}</span>`;
                                 }
                             },
                             {
                                 data: "phone",
+                                defaultContent: "N/A",
                                 render: function (data) { return ucfirst(data); },
                                 className: "d-none d-md-table-cell"
                             },
                             {
                                 data: "email",
+                                defaultContent: "N/A",
                                 render: function (data) { return ucfirst(data); },
                                 className: "d-none d-md-table-cell"
                             },
                             {
                                 data: "address",
+                                defaultContent: "N/A",
                                 render: function (data) { return ucfirst(data); },
                                 className: "d-none d-md-table-cell"
                             },
                             {
                                 data: "id",
+                                defaultContent: "",
                                 render: function (data, type, row) {
+                                    let id = row ? row.id : data;
                                     return `
                                         <div class="icon" style="cursor:pointer">
                                             @if (app('hasPermission')(12, 'view'))
-                                                <i class="fa fa-eye m-r-5 icon3 view-supplier" data-id="${row.id}"></i>
+                                                <i class="fa fa-eye m-r-5 icon3 view-supplier" data-id="${id}"></i>
                                             @endif
                                             @if (app('hasPermission')(12, 'update'))
-                                                <i class="fa fa-pencil m-r-5 icon1 edit-supplier" data-id="${row.id}"></i>
+                                                <i class="fa fa-pencil m-r-5 icon1 edit-supplier" data-id="${id}"></i>
                                             @endif
                                             @if (app('hasPermission')(12, 'delete'))
-                                                <i class="fa fa-trash-o m-r-5 icon2 delete-supplier" data-id="${row.id}"></i>
+                                                <i class="fa fa-trash-o m-r-5 icon2 delete-supplier" data-id="${id}"></i>
                                             @endif
                                         </div>
                                     `;
@@ -241,6 +267,7 @@
                             },
                             {
                                 data: null,
+                                defaultContent: "",
                                 render: function () {
                                     return `
                                         <button class="expand-btn">
