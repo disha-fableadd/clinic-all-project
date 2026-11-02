@@ -287,14 +287,17 @@ class SalesController extends Controller
             ]);
         }
 
+        $invoiceUrl = route('sales.invoice', $order->id);
         if ($request->ajax() || $request->wantsJson()) {
             return response()->json([
                 'status' => true,
                 'message' => 'Sale bill updated successfully!',
-                'redirect' => route('sales.list')
+                'order_id' => $order->id,
+                'invoice_url' => $invoiceUrl,
+                'redirect' => $invoiceUrl
             ]);
         }
 
-        return redirect()->route('sales.list')->with('success', 'Sale payment updated successfully!');
+        return redirect($invoiceUrl)->with('success', 'Sale bill updated successfully!');
     }
 }

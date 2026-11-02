@@ -228,36 +228,191 @@ class MedicineController extends Controller
         $medicine = Medicine::with(['category', 'brand', 'stockUnit', 'barcodes', 'documentations'])->find($id);
 
         if (!$medicine) {
-            return response()->json(['message' => 'Medicine not found'], 404);
+            return response()->json(['status' => false, 'message' => 'Medicine not found'], 404);
         }
 
-        $invoices = DB::table('invoices')->get();
         $medicineHistory = [];
+        $purchasesHistory = [];
+        $totalSold = 0;
+        $totalPurchased = 0;
 
+        // 1. Fetch Sales Bill Order Items (Orders from pharmacy POS & sales)
+        $orderItems = \App\Models\OrderItem::with(['order.patients'])
+            ->where('product_id', $id)
+            ->where('isDeleted', 0)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        foreach ($orderItems as $item) {
+            $order = $item->order;
+            if (!$order || $order->isDeleted) continue;
+
+            $patientName = 'Walk-in Patient';
+            $patientPhone = '-';
+            if ($order->patients && $order->patients->first()) {
+                $p = $order->patients->first();
+                $patientName = $p->fullname;
+                $patientPhone = $p->phone ?: '-';
+            } elseif ($order->user_id) {
+                $p = \App\Models\Patients::find($order->user_id);
+                if ($p) {
+                    $patientName = $p->fullname;
+                    $patientPhone = $p->phone ?: '-';
+                }
+            }
+
+            $qty = (int) ($item->quantity ?? 1);
+            $totalSold += $qty;
+            $orderDate = $order->order_date ? date('d-M-Y', strtotime($order->order_date)) : date('d-M-Y', strtotime($order->created_at));
+
+            $medicineHistory[] = [
+                'id' => $item->id,
+                'source' => 'Sales Bill',
+                'ref_no' => $order->order_number ?: ('ORD-' . $order->id),
+                'patient_name' => $patientName,
+                'patient_phone' => $patientPhone,
+                'category' => $medicine->category ? $medicine->category->name : 'No Category',
+                'batch_no' => $item->batch_number ?: ($medicine->batch_no ?: 'N/A'),
+                'quantity' => $qty,
+                'price' => (float) ($item->price ?? 0),
+                'total_amount' => (float) ($item->total_amount ?? ($qty * ($item->price ?? 0))),
+                'date' => $orderDate,
+                'view_url' => url('/sales-invoice/' . $order->id),
+                'timestamp' => strtotime($orderDate),
+            ];
+        }
+
+        // 2. Fetch Clinical Invoices (Visit Billing)
+        $invoices = DB::table('invoices')->where('patient_id', '>', 0)->orderBy('date', 'desc')->get();
         foreach ($invoices as $invoice) {
-            $details = json_decode($invoice->types_details, true);
-
+            $details = is_string($invoice->types_details) ? json_decode($invoice->types_details, true) : $invoice->types_details;
             if (is_array($details)) {
                 foreach ($details as $item) {
                     if (isset($item['id']) && $item['id'] == $id) {
                         $patient = DB::table('patients')->find($invoice->patient_id);
+                        $qty = (int) ($item['quantity'] ?? 1);
+                        $totalSold += $qty;
+                        $invDate = $invoice->date ? date('d-M-Y', strtotime($invoice->date)) : date('d-M-Y', strtotime($invoice->created_at));
 
                         $medicineHistory[] = [
+                            'id' => $invoice->id,
+                            'source' => 'Clinical Invoice',
+                            'ref_no' => 'INV-' . ($invoice->type_id ?? $invoice->id),
                             'patient_name' => $patient ? $patient->fullname : 'Unknown',
+                            'patient_phone' => $patient ? ($patient->phone ?: '-') : '-',
                             'category' => $medicine->category ? $medicine->category->name : 'No Category',
-                            'quantity' => $item['quantity'] ?? 1,
-                            'price' => $item['price'] ?? 0,
-                            'date' => $invoice->date,
+                            'batch_no' => $medicine->batch_no ?: 'N/A',
+                            'quantity' => $qty,
+                            'price' => (float) ($item['price'] ?? 0),
+                            'total_amount' => (float) ($qty * ($item['price'] ?? 0)),
+                            'date' => $invDate,
+                            'view_url' => null,
+                            'timestamp' => strtotime($invDate),
                         ];
                     }
                 }
             }
         }
 
+        // 3. Fetch Patient Medicine Prescriptions
+        $patientMeds = \App\Models\PatientMedicine::with('patient')
+            ->where('medicine_id', $id)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        foreach ($patientMeds as $pm) {
+            $patient = $pm->patient;
+            $qty = 1;
+            $pmDate = $pm->created_at ? date('d-M-Y', strtotime($pm->created_at)) : 'N/A';
+
+            $medicineHistory[] = [
+                'id' => $pm->id,
+                'source' => 'Prescription',
+                'ref_no' => 'RX-' . $pm->id,
+                'patient_name' => $patient ? $patient->fullname : 'Unknown',
+                'patient_phone' => $patient ? ($patient->phone ?: '-') : '-',
+                'category' => $medicine->category ? $medicine->category->name : 'No Category',
+                'batch_no' => $medicine->batch_no ?: 'N/A',
+                'quantity' => $qty,
+                'price' => (float) ($medicine->unit ?? $medicine->mrp ?? 0),
+                'total_amount' => (float) ($medicine->unit ?? $medicine->mrp ?? 0),
+                'date' => $pmDate,
+                'view_url' => null,
+                'timestamp' => strtotime($pm->created_at ?: now()),
+            ];
+        }
+
+        // Sort patient dispensing history latest first
+        usort($medicineHistory, fn($a, $b) => $b['timestamp'] <=> $a['timestamp']);
+
+        // 4. Fetch Vendor Purchase Invoices (Incoming Stock History)
+        $purchases = \App\Models\Purchases::with(['invoice.vendor'])
+            ->where('item', (string)$id)
+            ->where('isDeleted', 0)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        foreach ($purchases as $p) {
+            $inv = $p->invoice;
+            $qty = (int) ($p->quantity ?? 0);
+            $freeQty = (int) ($p->free_quantity ?? 0);
+            $totQty = $qty + $freeQty;
+            $totalPurchased += $totQty;
+
+            $vendorName = 'Vendor';
+            if ($inv && $inv->vendor) {
+                $vendorName = $inv->vendor->name;
+            } elseif ($p->vendor) {
+                $vendorName = $p->vendor->name;
+            }
+
+            $pDate = ($inv && $inv->created_at) ? date('d-M-Y', strtotime($inv->created_at)) : 'N/A';
+
+            $purchasesHistory[] = [
+                'id' => $p->id,
+                'bill_no' => ($inv && $inv->bill_no) ? $inv->bill_no : (($inv && $inv->invoice_number) ? $inv->invoice_number : ('PUR-' . $p->id)),
+                'vendor_name' => $vendorName,
+                'date' => $pDate,
+                'batch_no' => $p->batch_no ?: ($medicine->batch_no ?: 'N/A'),
+                'quantity' => $qty,
+                'free_quantity' => $freeQty,
+                'total_quantity' => $totQty,
+                'rate' => (float) ($p->mrp ?? ($medicine->purchase_price ?? 0)),
+                'total_amount' => (float) ($p->total ?? ($totQty * ($p->mrp ?? 0))),
+                'view_url' => $inv ? url('/purchase-details/' . $inv->id) : null,
+            ];
+        }
+
+        // Calculate Stock & Expiry Status
+        $currentStock = (int) ($medicine->quantity ?? 0);
+        $lowThreshold = (int) ($medicine->low_stock_qty ?: 10);
+        $isLowStock = $currentStock <= $lowThreshold;
+
+        $expiryStatus = 'normal';
+        if ($medicine->expiry_date) {
+            $expTimestamp = strtotime($medicine->expiry_date);
+            $now = time();
+            $diffDays = ($expTimestamp - $now) / 86400;
+            if ($diffDays < 0) {
+                $expiryStatus = 'expired';
+            } elseif ($diffDays <= 60) {
+                $expiryStatus = 'expiring';
+            }
+        }
+
         return response()->json([
             'status' => true,
             'medicine' => $medicine,
+            'summary' => [
+                'current_stock' => $currentStock,
+                'total_sold' => $totalSold,
+                'total_purchased' => $totalPurchased,
+                'is_low_stock' => $isLowStock,
+                'low_stock_qty' => $lowThreshold,
+                'expiry_status' => $expiryStatus,
+            ],
             'history' => $medicineHistory,
+            'purchases_history' => $purchasesHistory,
         ]);
     }
 

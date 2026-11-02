@@ -415,6 +415,59 @@
                             </li>
                         @endif
 
+                         {{-- Medicines --}}
+                        @if (app('hasPermission')(1, 'view'))
+                            <li class="submenu sidebar-module {{ request()->routeIs('medicine.*', 'category.*', 'brand.*', 'medicine_unit.*', 'symptoms.*') ? 'active' : '' }}">
+                                <a href="javascript:void(0);" class="{{ request()->routeIs('medicine.*', 'category.*', 'brand.*', 'medicine_unit.*', 'symptoms.*') ? 'subdrop active' : '' }}">
+                                    <i class="fa fa-pills icons"></i>
+                                    <span>Medicines</span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <ul style="{{ request()->routeIs('medicine.*', 'category.*', 'brand.*', 'medicine_unit.*', 'symptoms.*') ? 'display: block;' : 'display: none;' }}">
+                                    <li class="{{ request()->routeIs('medicine.index') ? 'active' : '' }}">
+                                        <a href="{{ route('medicine.index') }}" class="{{ request()->routeIs('medicine.index') ? 'active' : '' }}">
+                                            <i class="fa fa-pills icons"></i>
+                                            <span>All Medicines</span>
+                                        </a>
+                                    </li>
+                                    @if (app('hasPermission')(1, 'create'))
+                                        <li class="{{ request()->routeIs('medicine.create') ? 'active' : '' }}">
+                                            <a href="{{ route('medicine.create') }}" class="{{ request()->routeIs('medicine.create') ? 'active' : '' }}">
+                                                <i class="fa fa-plus-circle icons"></i>
+                                                <span>Add Medicine</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                    <li class="{{ request()->routeIs('category.index') ? 'active' : '' }}">
+                                        <a href="{{ route('category.index') }}" class="{{ request()->routeIs('category.index') ? 'active' : '' }}">
+                                            <i class="fa fa-tags icons"></i>
+                                            <span>Categories</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ request()->routeIs('brand.index') ? 'active' : '' }}">
+                                        <a href="{{ route('brand.index') }}" class="{{ request()->routeIs('brand.index') ? 'active' : '' }}">
+                                            <i class="fa fa-certificate icons"></i>
+                                            <span>Brands</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ request()->routeIs('medicine_unit.index') ? 'active' : '' }}">
+                                        <a href="{{ route('medicine_unit.index') }}" class="{{ request()->routeIs('medicine_unit.index') ? 'active' : '' }}">
+                                            <i class="fa fa-balance-scale icons"></i>
+                                            <span>Stock Units</span>
+                                        </a>
+                                    </li>
+                                    @if (app('hasPermission')(11, 'view'))
+                                        <li class="{{ request()->routeIs('symptoms.index') ? 'active' : '' }}">
+                                            <a href="{{ route('symptoms.index') }}" class="{{ request()->routeIs('symptoms.index') ? 'active' : '' }}">
+                                                <i class="fa fa-heartbeat icons"></i>
+                                                <span>Symptoms</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </li>
+                        @endif
+
                         {{-- Followup --}}
                         @if (app('hasPermission')(2, 'view'))
                             <li class="submenu sidebar-module {{ request()->routeIs('followup.*') ? 'active' : '' }}">
@@ -605,58 +658,7 @@
                             </li>
                         @endif
 
-                        {{-- Medicines --}}
-                        @if (app('hasPermission')(1, 'view'))
-                            <li class="submenu sidebar-module {{ request()->routeIs('medicine.*', 'category.*', 'brand.*', 'medicine_unit.*', 'symptoms.*') ? 'active' : '' }}">
-                                <a href="javascript:void(0);" class="{{ request()->routeIs('medicine.*', 'category.*', 'brand.*', 'medicine_unit.*', 'symptoms.*') ? 'subdrop active' : '' }}">
-                                    <i class="fa fa-pills icons"></i>
-                                    <span>Medicines</span>
-                                    <span class="menu-arrow"></span>
-                                </a>
-                                <ul style="{{ request()->routeIs('medicine.*', 'category.*', 'brand.*', 'medicine_unit.*', 'symptoms.*') ? 'display: block;' : 'display: none;' }}">
-                                    <li class="{{ request()->routeIs('medicine.index') ? 'active' : '' }}">
-                                        <a href="{{ route('medicine.index') }}" class="{{ request()->routeIs('medicine.index') ? 'active' : '' }}">
-                                            <i class="fa fa-pills icons"></i>
-                                            <span>All Medicines</span>
-                                        </a>
-                                    </li>
-                                    @if (app('hasPermission')(1, 'create'))
-                                        <li class="{{ request()->routeIs('medicine.create') ? 'active' : '' }}">
-                                            <a href="{{ route('medicine.create') }}" class="{{ request()->routeIs('medicine.create') ? 'active' : '' }}">
-                                                <i class="fa fa-plus-circle icons"></i>
-                                                <span>Add Medicine</span>
-                                            </a>
-                                        </li>
-                                    @endif
-                                    <li class="{{ request()->routeIs('category.index') ? 'active' : '' }}">
-                                        <a href="{{ route('category.index') }}" class="{{ request()->routeIs('category.index') ? 'active' : '' }}">
-                                            <i class="fa fa-tags icons"></i>
-                                            <span>Categories</span>
-                                        </a>
-                                    </li>
-                                    <li class="{{ request()->routeIs('brand.index') ? 'active' : '' }}">
-                                        <a href="{{ route('brand.index') }}" class="{{ request()->routeIs('brand.index') ? 'active' : '' }}">
-                                            <i class="fa fa-certificate icons"></i>
-                                            <span>Brands</span>
-                                        </a>
-                                    </li>
-                                    <li class="{{ request()->routeIs('medicine_unit.index') ? 'active' : '' }}">
-                                        <a href="{{ route('medicine_unit.index') }}" class="{{ request()->routeIs('medicine_unit.index') ? 'active' : '' }}">
-                                            <i class="fa fa-balance-scale icons"></i>
-                                            <span>Stock Units</span>
-                                        </a>
-                                    </li>
-                                    @if (app('hasPermission')(11, 'view'))
-                                        <li class="{{ request()->routeIs('symptoms.index') ? 'active' : '' }}">
-                                            <a href="{{ route('symptoms.index') }}" class="{{ request()->routeIs('symptoms.index') ? 'active' : '' }}">
-                                                <i class="fa fa-heartbeat icons"></i>
-                                                <span>Symptoms</span>
-                                            </a>
-                                        </li>
-                                    @endif
-                                </ul>
-                            </li>
-                        @endif
+                       
 
                     </ul>
                 </li>

@@ -713,10 +713,10 @@
 <div class="modal fade" id="addBankModal" tabindex="-1" aria-labelledby="addBankModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.15);">
-            <div class="modal-header" style="background: #ffffff; border-bottom: 1.5px solid #f1f5f9; padding: 16px 26px;">
-                <h5 class="modal-title font-weight-bold" id="addBankModalLabel" style="color: #1e293b; font-size: 18px; margin: 0; font-weight: 700;">Add Bank Account</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close" style="border:none; background:transparent; font-size: 18px; color: #ef4444; padding: 0 4px; cursor: pointer;">
-                    <i class="fa fa-times text-danger"></i>
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #f89884; color: #ffffff; padding: 16px 24px; border-bottom: none;">
+                <h5 class="modal-title font-weight-bold" id="addBankModalLabel" style="color: #ffffff !important; font-size: 17px; margin: 0; font-weight: 700;"><i class="fas fa-university me-2"></i> Add Bank Account</h5>
+                <button type="button" class="close text-white" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close" style="color: #ffffff !important; opacity: 0.95 !important; font-size: 26px !important; font-weight: 300 !important; text-shadow: none !important; border: none !important; background: transparent !important; padding: 0 !important; cursor: pointer; line-height: 1;">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body p-4">
@@ -1511,11 +1511,14 @@
                     if (res && res.status) {
                         Swal.fire({
                             title: 'Success!',
-                            text: 'Sale bill updated successfully!',
+                            text: res.message || 'Sale bill updated successfully!',
                             icon: 'success',
-                            confirmButtonColor: '#f89884'
+                            confirmButtonColor: '#f89884',
+                            confirmButtonText: 'View Invoice',
+                            timer: 2000,
+                            timerProgressBar: true
                         }).then(() => {
-                            window.location.href = res.redirect || '{{ route("sales.list") }}';
+                            window.location.href = res.invoice_url || res.redirect || ('/sales-invoice/' + (res.order_id || '{{ $order->id }}'));
                         });
                     } else {
                         Swal.fire('Error', res.message || 'Error updating sale bill', 'error');

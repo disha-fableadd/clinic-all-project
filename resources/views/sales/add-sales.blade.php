@@ -796,10 +796,10 @@
 <div class="modal fade" id="quickAddPatientModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-            <div class="modal-header" style="background: #ffffff; border-bottom: 1.5px solid #f1f5f9; padding: 16px 24px;">
-                <h5 class="modal-title font-weight-bold" style="color: #1e293b; font-size: 18px;">Add Patient</h5>
-                <button type="button" class="btn-close-modal" data-dismiss="modal" data-bs-dismiss="modal">
-                    <i class="fa fa-times"></i>
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #f89884; color: #ffffff; padding: 16px 24px; border-bottom: none;">
+                <h5 class="modal-title font-weight-bold" style="color: #ffffff !important; font-size: 17px; margin: 0; font-weight: 700;"><i class="fas fa-user-plus me-2"></i> Add Patient</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="color: #ffffff !important; opacity: 0.95 !important; font-size: 26px !important; font-weight: 300 !important; text-shadow: none !important; border: none !important; background: transparent !important; padding: 0 !important; cursor: pointer; line-height: 1;">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form id="quickPatientForm">
@@ -845,10 +845,10 @@
 <div class="modal fade" id="addMedicationModal" tabindex="-1" aria-labelledby="addMedicationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center">
-                <h5 class="modal-title font-weight-bold" id="addMedicationModalLabel" style="color: #1e293b; font-size: 19px; margin: 0;">Add Medication</h5>
-                <button type="button" class="btn-close-modal" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="fa fa-times"></i>
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #f89884; color: #ffffff; padding: 16px 24px; border-bottom: none;">
+                <h5 class="modal-title font-weight-bold" id="addMedicationModalLabel" style="color: #ffffff !important; font-size: 17px; margin: 0; font-weight: 700;"><i class="fas fa-pills me-2"></i> Add Medication</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="color: #ffffff !important; opacity: 0.95 !important; font-size: 26px !important; font-weight: 300 !important; text-shadow: none !important; border: none !important; background: transparent !important; padding: 0 !important; cursor: pointer; line-height: 1;">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form id="addMedicationForm" enctype="multipart/form-data">
@@ -1020,10 +1020,10 @@
 <div class="modal fade" id="quickAddSubModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-            <div class="modal-header" style="background: #ffffff; border-bottom: 1.5px solid #f1f5f9; padding: 16px 24px;">
-                <h5 class="modal-title font-weight-bold" id="quickAddSubModalTitle" style="color: #1e293b; font-size: 18px;">Add</h5>
-                <button type="button" class="btn-close-modal" data-dismiss="modal" data-bs-dismiss="modal">
-                    <i class="fa fa-times"></i>
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #f89884; color: #ffffff; padding: 16px 24px; border-bottom: none;">
+                <h5 class="modal-title font-weight-bold" id="quickAddSubModalTitle" style="color: #ffffff !important; font-size: 17px; margin: 0; font-weight: 700;"><i class="fas fa-plus-circle me-2"></i> Add</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="color: #ffffff !important; opacity: 0.95 !important; font-size: 26px !important; font-weight: 300 !important; text-shadow: none !important; border: none !important; background: transparent !important; padding: 0 !important; cursor: pointer; line-height: 1;">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body p-4">
@@ -1052,10 +1052,10 @@
 <div class="modal fade" id="addBankModal" tabindex="-1" aria-labelledby="addBankModalLabel" aria-hidden="true" style="z-index: 1060;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 10px 40px rgba(0,0,0,0.15);">
-            <div class="modal-header d-flex justify-content-between align-items-center" style="background: #ffffff; border-bottom: 1.5px solid #f1f5f9; padding: 16px 24px;">
-                <h5 class="modal-title font-weight-bold" id="addBankModalLabel" style="color: #1e293b; font-size: 18px; margin: 0;">Add New Bank</h5>
-                <button type="button" class="btn-close-modal" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="fa fa-times"></i>
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #f89884; color: #ffffff; padding: 16px 24px; border-bottom: none;">
+                <h5 class="modal-title font-weight-bold" id="addBankModalLabel" style="color: #ffffff !important; font-size: 17px; margin: 0; font-weight: 700;"><i class="fas fa-university me-2"></i> Add New Bank</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="color: #ffffff !important; opacity: 0.95 !important; font-size: 26px !important; font-weight: 300 !important; text-shadow: none !important; border: none !important; background: transparent !important; padding: 0 !important; cursor: pointer; line-height: 1;">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form id="addBankForm">
@@ -1093,6 +1093,7 @@
     </div>
 </div>
 @section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     var allMedicines = @json($medicines);
     var allTaxRates = @json($taxes ?? []);
@@ -2078,19 +2079,31 @@
             data: payload,
             success: function(res) {
                 if (res.status) {
-                    alert('Sale Bill created successfully! Invoice: ' + res.order_number);
-                    if (isNewAfter) {
-                        window.location.reload();
-                    } else {
-                        window.location.href = '{{ route("sales.list") }}';
-                    }
+                    Swal.fire({
+                        title: 'Success!',
+                        text: res.message || ('Sale Bill created successfully! Invoice: ' + (res.order_number || ('#' + res.order_id))),
+                        icon: 'success',
+                        confirmButtonColor: '#f89884',
+                        confirmButtonText: 'View Invoice',
+                        timer: 2000,
+                        timerProgressBar: true
+                    }).then(() => {
+                        const targetInvoice = res.invoice_url || ('/sales-invoice/' + res.order_id);
+                        if (isNewAfter) {
+                            window.open(targetInvoice, '_blank');
+                            window.location.reload();
+                        } else {
+                            window.location.href = targetInvoice;
+                        }
+                    });
                 } else {
-                    alert(res.message || 'Error creating sale bill');
+                    Swal.fire('Error', res.message || 'Error creating sale bill', 'error');
                     $('#btnGenerateBill, #btnGenerateBillNew').prop('disabled', false);
                 }
             },
             error: function(xhr) {
-                alert(xhr.responseJSON ? xhr.responseJSON.message : 'Error submitting sale');
+                const msg = xhr.responseJSON ? xhr.responseJSON.message : 'Error submitting sale';
+                Swal.fire('Error', msg, 'error');
                 $('#btnGenerateBill, #btnGenerateBillNew').prop('disabled', false);
             }
         });

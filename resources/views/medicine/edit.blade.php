@@ -1035,10 +1035,18 @@
                 contentType: false,
                 success: function(res) {
                     if (res.status) {
-                        alert(res.message || 'Medicine updated successfully!');
-                        window.location.href = '{{ route("medicine.index") }}';
+                        Swal.fire({
+                            title: 'Success!',
+                            text: res.message || 'Medicine updated successfully!',
+                            icon: 'success',
+                            confirmButtonColor: '#f89884',
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.href = '{{ route("medicine.index") }}';
+                        });
                     } else {
-                        alert(res.message || 'Failed to update medicine.');
+                        Swal.fire('Error', res.message || 'Failed to update medicine.', 'error');
                         $('#updateMedicineBtn').prop('disabled', false).text('Update Medicine');
                     }
                 },
@@ -1047,15 +1055,20 @@
                     let msg = 'Error updating medicine.';
                     if (err.responseJSON) {
                         if (err.responseJSON.errors) {
-                            msg = Object.values(err.responseJSON.errors).flat().join('\n');
+                            msg = Object.values(err.responseJSON.errors).flat().join('<br>');
                         } else if (err.responseJSON.message) {
                             msg = err.responseJSON.message;
                         }
                     }
-                    alert(msg);
+                    Swal.fire({
+                        title: 'Error',
+                        html: msg,
+                        icon: 'error'
+                    });
                 }
             });
         });
     });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

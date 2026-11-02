@@ -33,6 +33,13 @@
     .card-header{
         background-color:#f89884 !important; 
     }
+    #inventorytbl th:last-child,
+    #inventorytbl td:last-child,
+    #inventorytbl th:nth-child(7),
+    #inventorytbl td:nth-child(7) {
+        white-space: nowrap !important;
+        width: 1% !important;
+    }
     .btn-rounded{
         background-color: #fed9cf !important;
     }
@@ -105,7 +112,7 @@
                 <div class="modal-content">
                     <div class="modal-header" style="background-color: #f89884; color: white;">
                         <h5 class="modal-title" id="updateQuantityModalLabel">Update Medicine Quantity</h5>
-                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="background:none; border:none; font-size:26px; line-height:1; cursor:pointer;">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -172,10 +179,125 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 50px;">Cancel</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal" style="border-radius: 50px;">Cancel</button>
                             <button type="submit" class="btn btn-primary" style="border-radius: 50px;">Update</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock & Sales History Modal -->
+        <div class="modal fade" id="stockHistoryModal" tabindex="-1" role="dialog" aria-labelledby="stockHistoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div class="modal-content" style="border-radius: 18px; border: none; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+                    <div class="modal-header" style="background-color: #f89884; color: white; padding: 14px 22px;">
+                        <h5 class="modal-title fw-bold text-white d-flex align-items-center" id="stockHistoryModalLabel">
+                            <i class="fa fa-history me-2"></i> Stock & Sales History &mdash; <span id="histMedicineName" class="ms-1 fw-bold"></span>
+                        </h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close" style="background:none; border:none; font-size:26px; line-height:1; cursor:pointer;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-4" style="background-color: #fafbfc;">
+                        <!-- KPI Stat Cards -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3 col-6">
+                                <div class="card p-3 border-0 shadow-sm" style="border-radius: 12px; background: #fff5f2;">
+                                    <span class="text-muted" style="font-size: 11.5px; font-weight: 600; text-transform: uppercase;">Current Stock</span>
+                                    <h3 class="mb-0 fw-bold mt-1" id="histCurrentStock" style="color: #f89884;">0</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <div class="card p-3 border-0 shadow-sm" style="border-radius: 12px; background: #f0fdf4;">
+                                    <span class="text-muted" style="font-size: 11.5px; font-weight: 600; text-transform: uppercase;">Total Units Sold</span>
+                                    <h3 class="mb-0 fw-bold mt-1 text-success" id="histTotalSold">0</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <div class="card p-3 border-0 shadow-sm" style="border-radius: 12px; background: #f0f9ff;">
+                                    <span class="text-muted" style="font-size: 11.5px; font-weight: 600; text-transform: uppercase;">Total Purchased</span>
+                                    <h3 class="mb-0 fw-bold mt-1" id="histTotalPurchased" style="color: #0284c7;">0</h3>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <div class="card p-3 border-0 shadow-sm" style="border-radius: 12px; background: #faf5ff;">
+                                    <span class="text-muted" style="font-size: 11.5px; font-weight: 600; text-transform: uppercase;">Selling Price (MRP)</span>
+                                    <h3 class="mb-0 fw-bold mt-1" id="histPrice" style="color: #9333ea;">₹0.00</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tabs -->
+                        <ul class="nav nav-pills mb-3" id="modalHistoryTabs" role="tablist" style="gap: 8px;">
+                            <li class="nav-item">
+                                <button class="nav-link active modal-tab-btn" id="modal-patient-tab" type="button" style="border-radius: 50px; font-weight: 600; font-size: 12.5px; padding: 7px 18px; background-color: #f89884; color: #fff;">
+                                    <i class="fa fa-shopping-cart me-1"></i> Patient Sales & Dispensing (<span id="modalPatientCount">0</span>)
+                                </button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link modal-tab-btn" id="modal-vendor-tab" type="button" style="border-radius: 50px; font-weight: 600; font-size: 12.5px; padding: 7px 18px; background-color: #f1f5f9; color: #475569;">
+                                    <i class="fa fa-truck me-1"></i> Vendor Purchases / Stock In (<span id="modalVendorCount">0</span>)
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content bg-white p-3 border" style="border-radius: 14px;">
+                            <!-- Patient Sales Pane -->
+                            <div class="tab-pane fade show active" id="modalPatientPane">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped mb-0" id="modalPatientTable" style="width: 100%; font-size: 12px;">
+                                        <thead style="background-color: #cfece0; color: #1e293b;">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Date</th>
+                                                <th>Ref / Voucher</th>
+                                                <th>Patient Name</th>
+                                                <th>Phone</th>
+                                                <th>Batch</th>
+                                                <th>Qty Sold</th>
+                                                <th>Price (₹)</th>
+                                                <th>Total (₹)</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="modalPatientTableBody">
+                                            <tr><td colspan="10" class="text-center py-4 text-muted">No sales history found</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Vendor Purchases Pane -->
+                            <div class="tab-pane fade" id="modalVendorPane" style="display: none;">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped mb-0" id="modalVendorTable" style="width: 100%; font-size: 12px;">
+                                        <thead style="background-color: #cfece0; color: #1e293b;">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Date</th>
+                                                <th>Bill No</th>
+                                                <th>Vendor / Supplier</th>
+                                                <th>Batch</th>
+                                                <th>Qty In</th>
+                                                <th>Free Qty</th>
+                                                <th>Total Qty</th>
+                                                <th>Rate (₹)</th>
+                                                <th>Total (₹)</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="modalVendorTableBody">
+                                            <tr><td colspan="11" class="text-center py-4 text-muted">No purchase records found</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding: 10px 20px; background-color: #f8f9fa;">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal" style="border-radius: 50px; font-weight: 600; padding: 6px 22px;">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -313,20 +435,28 @@
                                 data: null,
                                 render: function (data, type, row) {
                                     return `
-                                        <button class="btn btn-primary btn-sm update-quantity-btn" 
-                                            data-id="${row.id}" 
-                                            data-name="${row.name}" 
-                                            data-category="${row.category_name ?? 'N/A'}"
-                                            data-batch="${row.batch_no ?? 'N/A'}"
-                                            data-quantity="${row.quantity ?? '0'}"
-                                            data-price="${row.unit ?? '0'}"
-                                            data-expiry="${row.expiry_date ?? 'N/A'}"
-                                            style="border-radius: 50px;">
-                                            <i class="fa fa-plus"></i> Add/edit Stock
-                                        </button>
+                                        <div class="d-inline-flex align-items-center flex-nowrap" style="white-space: nowrap; gap: 8px;">
+                                            <button class="btn btn-sm view-stock-history-btn" 
+                                                data-id="${row.id}" 
+                                                data-name="${row.name}"
+                                                style="background-color: #cfece0; color: #1e293b; border-radius: 50px; font-weight: 600; padding: 5px 14px; border: none; white-space: nowrap;">
+                                                <i class="fa fa-history text-success me-1"></i> History
+                                            </button>
+                                            <button class="btn btn-primary btn-sm update-quantity-btn" 
+                                                data-id="${row.id}" 
+                                                data-name="${row.name}" 
+                                                data-category="${row.category_name ?? 'N/A'}"
+                                                data-batch="${row.batch_no ?? 'N/A'}"
+                                                data-quantity="${row.quantity ?? '0'}"
+                                                data-price="${row.unit ?? '0'}"
+                                                data-expiry="${row.expiry_date ?? 'N/A'}"
+                                                style="border-radius: 50px; font-weight: 600; padding: 5px 14px; white-space: nowrap;">
+                                                <i class="fa fa-plus"></i> Add/edit Stock
+                                            </button>
+                                        </div>
                                     `;
                                 },
-                                className: "d-none d-md-table-cell",
+                                className: "d-none d-md-table-cell text-nowrap",
                                 orderable: false
                             },
                             {
@@ -401,17 +531,25 @@
                 let price = data.unit ?? '0';
                 let expiry = formatDate(data.expiry_date);
                 let actionBtn = `
-                    <button class="btn btn-primary btn-sm update-quantity-btn" 
-                        data-id="${data.id}" 
-                        data-name="${data.name}" 
-                        data-category="${data.category_name ?? 'N/A'}"
-                        data-batch="${data.batch_no ?? 'N/A'}"
-                        data-quantity="${data.quantity ?? '0'}"
-                        data-price="${data.unit ?? '0'}"
-                        data-expiry="${data.expiry_date ?? 'N/A'}"
-                        style="border-radius: 50px;">
-                        <i class="fa fa-plus"></i> Add/edit Stock
-                    </button>
+                    <div class="d-flex align-items-center flex-nowrap" style="white-space: nowrap; gap: 8px;">
+                        <button class="btn btn-sm view-stock-history-btn" 
+                            data-id="${data.id}" 
+                            data-name="${data.name}"
+                            style="background-color: #cfece0; color: #1e293b; border-radius: 50px; font-weight: 600; padding: 5px 14px; border: none; white-space: nowrap;">
+                            <i class="fa fa-history text-success me-1"></i> History
+                        </button>
+                        <button class="btn btn-primary btn-sm update-quantity-btn" 
+                            data-id="${data.id}" 
+                            data-name="${data.name}" 
+                            data-category="${data.category_name ?? 'N/A'}"
+                            data-batch="${data.batch_no ?? 'N/A'}"
+                            data-quantity="${data.quantity ?? '0'}"
+                            data-price="${data.unit ?? '0'}"
+                            data-expiry="${data.expiry_date ?? 'N/A'}"
+                            style="border-radius: 50px; font-weight: 600; padding: 5px 14px; white-space: nowrap;">
+                            <i class="fa fa-plus"></i> Add/edit Stock
+                        </button>
+                    </div>
                 `;
 
                 let detailsRow = `
@@ -504,6 +642,120 @@
                         });
                     }
                 });
+            });
+            // Tab switcher in Stock History Modal
+            $(document).on('click', '#modal-patient-tab', function() {
+                $(this).css({'background-color': '#f89884', 'color': '#ffffff'});
+                $('#modal-vendor-tab').css({'background-color': '#f1f5f9', 'color': '#475569'});
+                $('#modalPatientPane').addClass('show active').show();
+                $('#modalVendorPane').removeClass('show active').hide();
+            });
+
+            $(document).on('click', '#modal-vendor-tab', function() {
+                $(this).css({'background-color': '#f89884', 'color': '#ffffff'});
+                $('#modal-patient-tab').css({'background-color': '#f1f5f9', 'color': '#475569'});
+                $('#modalVendorPane').addClass('show active').show();
+                $('#modalPatientPane').removeClass('show active').hide();
+            });
+
+            // Click History Button
+            $(document).on('click', '.view-stock-history-btn', function() {
+                let medId = $(this).data('id');
+                let medName = $(this).data('name') || 'Medicine';
+
+                $('#histMedicineName').text(medName);
+                $('#histCurrentStock').text('...');
+                $('#histTotalSold').text('...');
+                $('#histTotalPurchased').text('...');
+                $('#histPrice').text('...');
+                $('#modalPatientTableBody').html('<tr><td colspan="10" class="text-center py-4"><span class="spinner-border spinner-border-sm text-primary"></span> Loading history...</td></tr>');
+                $('#modalVendorTableBody').html('<tr><td colspan="11" class="text-center py-4"><span class="spinner-border spinner-border-sm text-primary"></span> Loading purchases...</td></tr>');
+
+                $('#modal-patient-tab').trigger('click');
+                $('#stockHistoryModal').modal('show');
+
+                $.ajax({
+                    url: `/api/medicines/${medId}`,
+                    type: 'GET',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    success: function(res) {
+                        if (!res.status && !res.medicine) {
+                            $('#modalPatientTableBody').html('<tr><td colspan="10" class="text-center py-3 text-muted">No history found</td></tr>');
+                            return;
+                        }
+
+                        const med = res.medicine;
+                        const summary = res.summary || {};
+
+                        $('#histCurrentStock').text(summary.current_stock ?? med.quantity ?? 0);
+                        $('#histTotalSold').text(summary.total_sold ?? 0);
+                        $('#histTotalPurchased').text(summary.total_purchased ?? 0);
+                        $('#histPrice').text('₹' + parseFloat(med.mrp || med.unit || 0).toFixed(2));
+
+                        // Render Patient Sales
+                        const history = res.history || [];
+                        $('#modalPatientCount').text(history.length);
+                        if (history.length > 0) {
+                            let html = '';
+                            history.forEach((row, idx) => {
+                                let action = row.view_url 
+                                    ? `<a href="${row.view_url}" target="_blank" class="btn btn-sm" style="background:#cfece0; color:#1e293b; border-radius:50px; font-size:11px; font-weight:600;"><i class="fa fa-file-invoice text-success me-1"></i>Invoice</a>`
+                                    : '<span class="text-muted">-</span>';
+                                html += `<tr>
+                                    <td>${idx + 1}</td>
+                                    <td>${row.date}</td>
+                                    <td><strong>${row.ref_no}</strong></td>
+                                    <td><strong>${row.patient_name}</strong></td>
+                                    <td>${row.patient_phone}</td>
+                                    <td>${row.batch_no}</td>
+                                    <td><span class="badge bg-light text-dark fw-bold border">${row.quantity}</span></td>
+                                    <td>₹${parseFloat(row.price).toFixed(2)}</td>
+                                    <td class="text-success fw-bold">₹${parseFloat(row.total_amount).toFixed(2)}</td>
+                                    <td>${action}</td>
+                                </tr>`;
+                            });
+                            $('#modalPatientTableBody').html(html);
+                        } else {
+                            $('#modalPatientTableBody').html('<tr><td colspan="10" class="text-center py-4 text-muted">No patient sales or dispensing records found for this medicine.</td></tr>');
+                        }
+
+                        // Render Vendor Purchases
+                        const purchases = res.purchases_history || [];
+                        $('#modalVendorCount').text(purchases.length);
+                        if (purchases.length > 0) {
+                            let phtml = '';
+                            purchases.forEach((p, idx) => {
+                                let action = p.view_url 
+                                    ? `<a href="${p.view_url}" target="_blank" class="btn btn-sm" style="background:#cfece0; color:#1e293b; border-radius:50px; font-size:11px; font-weight:600;"><i class="fa fa-file-alt text-success me-1"></i>View Bill</a>`
+                                    : '<span class="text-muted">-</span>';
+                                phtml += `<tr>
+                                    <td>${idx + 1}</td>
+                                    <td>${p.date}</td>
+                                    <td><strong>${p.bill_no}</strong></td>
+                                    <td><strong>${p.vendor_name}</strong></td>
+                                    <td>${p.batch_no}</td>
+                                    <td><span class="badge bg-light text-dark fw-bold border">${p.quantity}</span></td>
+                                    <td>${p.free_quantity}</td>
+                                    <td class="fw-bold">${p.total_quantity}</td>
+                                    <td>₹${parseFloat(p.rate).toFixed(2)}</td>
+                                    <td class="text-primary fw-bold">₹${parseFloat(p.total_amount).toFixed(2)}</td>
+                                    <td>${action}</td>
+                                </tr>`;
+                            });
+                            $('#modalVendorTableBody').html(phtml);
+                        } else {
+                            $('#modalVendorTableBody').html('<tr><td colspan="11" class="text-center py-4 text-muted">No vendor purchase records found for this medicine.</td></tr>');
+                        }
+                    },
+                    error: function(err) {
+                        $('#modalPatientTableBody').html('<tr><td colspan="10" class="text-center py-3 text-danger">Failed to load history data.</td></tr>');
+                    }
+                });
+            });
+
+            // Reliable modal close handler for both x and Cancel buttons
+            $(document).on('click', '.modal .close, [data-dismiss="modal"], [data-bs-dismiss="modal"]', function() {
+                $(this).closest('.modal').modal('hide');
             });
         });
     </script>
