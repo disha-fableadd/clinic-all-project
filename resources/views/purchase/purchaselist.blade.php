@@ -572,9 +572,13 @@
                                                     <i class="fas fa-edit text-muted" style="width: 16px;"></i>
                                                     <span>Edit</span>
                                                 </a>
-                                                <a href="{{ route('purchase.invoice', $p->id) }}?print=1" target="_blank" class="dropdown-item">
-                                                    <i class="fas fa-print text-muted" style="width: 16px;"></i>
-                                                    <span>Print</span>
+                                                <a href="{{ route('purchase.invoice', $p->id) }}" class="dropdown-item">
+                                                    <i class="fas fa-file-invoice text-muted" style="width: 16px;"></i>
+                                                    <span>Invoice</span>
+                                                </a>
+                                                <a href="{{ route('purchase.invoice', $p->id) }}?download_pdf=1" target="_blank" class="dropdown-item">
+                                                    <i class="fas fa-file-pdf text-muted" style="width: 16px;"></i>
+                                                    <span>Download PDF</span>
                                                 </a>
                                                 <div class="dropdown-divider my-1" style="border-top: 1px solid #f1f5f9;"></div>
                                                 <a href="javascript:void(0);" class="dropdown-item text-danger delete-purchase-btn" data-id="{{ $p->id }}">

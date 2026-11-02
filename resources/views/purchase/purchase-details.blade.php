@@ -180,7 +180,7 @@
             </div>
 
             <!-- Ordered Medicines / Items -->
-            <div class="col-12">
+            <div class="col-12 mt-4">
                 <div class="detail-card">
                     <h5 class="mb-3 fw-bold text-dark d-flex align-items-center gap-2">
                         <i class="fas fa-pills" style="color: #f89884;"></i> Purchased Medicines & Items
