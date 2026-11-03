@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('sms_templates')) {
+            return;
+        }
+
         Schema::create('sms_templates', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');

@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('invoices', function (Blueprint $table) {
-            $table->string('payment_type')->nullable()->after('grand_total');
-        });
+        if (Schema::hasTable('invoices')) {
+            Schema::table('invoices', function (Blueprint $table) {
+                if (!Schema::hasColumn('invoices', 'payment_type')) {
+                    $table->string('payment_type')->nullable()->after('grand_total');
+                }
+            });
+        }
     }
 
     /**
@@ -21,8 +25,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('invoices', function (Blueprint $table) {
-            $table->dropColumn('payment_type');
-        });
+        if (Schema::hasTable('invoices')) {
+            Schema::table('invoices', function (Blueprint $table) {
+                if (Schema::hasColumn('invoices', 'payment_type')) {
+                    $table->dropColumn('payment_type');
+                }
+            });
+        }
     }
 };

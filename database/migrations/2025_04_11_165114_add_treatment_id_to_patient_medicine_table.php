@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('patient_medicine', function (Blueprint $table) {
-            $table->unsignedBigInteger('treatment_id')->nullable()->after('medicine_id');
-        });
+        if (Schema::hasTable('patient_medicine')) {
+            Schema::table('patient_medicine', function (Blueprint $table) {
+                if (!Schema::hasColumn('patient_medicine', 'treatment_id')) {
+                    $table->unsignedBigInteger('treatment_id')->nullable()->after('medicine_id');
+                }
+            });
+        }
     }
 
     /**
@@ -21,8 +25,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('patient_medicine', function (Blueprint $table) {
-            $table->dropColumn('treatment_id');
-        });
+        if (Schema::hasTable('patient_medicine')) {
+            Schema::table('patient_medicine', function (Blueprint $table) {
+                if (Schema::hasColumn('patient_medicine', 'treatment_id')) {
+                    $table->dropColumn('treatment_id');
+                }
+            });
+        }
     }
 };

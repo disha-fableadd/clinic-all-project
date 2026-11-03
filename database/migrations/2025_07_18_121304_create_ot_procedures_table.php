@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('ot_procedures')) {
+            return;
+        }
+
         Schema::create('ot_procedures', function (Blueprint $table) {
              $table->id(); // Primary Key
 

@@ -11,7 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::create('project_types', function (Blueprint $table) {
+         if (Schema::hasTable('project_types')) {
+            return;
+        }
+
+        Schema::create('project_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');              // Hospital HMS
             $table->string('code')->unique();    // hospital

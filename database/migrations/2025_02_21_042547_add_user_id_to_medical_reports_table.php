@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('medical_reports', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->after('id'); 
-        });
+        if (Schema::hasTable('medical_reports')) {
+            Schema::table('medical_reports', function (Blueprint $table) {
+                if (!Schema::hasColumn('medical_reports', 'user_id')) {
+                    $table->unsignedBigInteger('user_id')->nullable()->after('id');
+                }
+            });
+        }
     }
 
     /**
@@ -21,9 +25,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('medical_reports', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
-        });
+        if (Schema::hasTable('medical_reports')) {
+            Schema::table('medical_reports', function (Blueprint $table) {
+                if (Schema::hasColumn('medical_reports', 'user_id')) {
+                    $table->dropColumn('user_id');
+                }
+            });
+        }
     }
 };

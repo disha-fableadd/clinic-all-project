@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('invoices', function (Blueprint $table) {
-            $table->boolean('gst_enabled')->default(true)->after('payment_status');
-        });
+        if (Schema::hasTable('invoices')) {
+            Schema::table('invoices', function (Blueprint $table) {
+                if (!Schema::hasColumn('invoices', 'gst_enabled')) {
+                    $table->boolean('gst_enabled')->default(true)->after('payment_status');
+                }
+            });
+        }
     }
 
     /**
@@ -21,8 +25,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('invoices', function (Blueprint $table) {
-            $table->dropColumn('gst_enabled');
-        });
+        if (Schema::hasTable('invoices')) {
+            Schema::table('invoices', function (Blueprint $table) {
+                if (Schema::hasColumn('invoices', 'gst_enabled')) {
+                    $table->dropColumn('gst_enabled');
+                }
+            });
+        }
     }
 };

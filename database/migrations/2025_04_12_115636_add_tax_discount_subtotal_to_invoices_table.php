@@ -11,12 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('invoices', function (Blueprint $table) {
-            $table->bigInteger('subtotal')->default(0)->after('grand_total');
-            $table->bigInteger('tax')->default(0)->after('subtotal');
-            $table->bigInteger('discount')->default(0)->after('tax');
-          
-        });
+        if (Schema::hasTable('invoices')) {
+            Schema::table('invoices', function (Blueprint $table) {
+                if (!Schema::hasColumn('invoices', 'subtotal')) {
+                    $table->bigInteger('subtotal')->default(0)->after('grand_total');
+                }
+                if (!Schema::hasColumn('invoices', 'tax')) {
+                    $table->bigInteger('tax')->default(0)->after('subtotal');
+                }
+                if (!Schema::hasColumn('invoices', 'discount')) {
+                    $table->bigInteger('discount')->default(0)->after('tax');
+                }
+            });
+        }
     }
 
     /**
@@ -24,9 +31,15 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('invoices', function (Blueprint $table) {
-            $table->dropColumn(['tax', 'discount', 'subtotal']);
-
-        });
+        if (Schema::hasTable('invoices')) {
+            Schema::table('invoices', function (Blueprint $table) {
+                $cols = array_filter(['tax', 'discount', 'subtotal'], function($col) {
+                    return Schema::hasColumn('invoices', $col);
+                });
+                if (!empty($cols)) {
+                    $table->dropColumn($cols);
+                }
+            });
+        }
     }
 };

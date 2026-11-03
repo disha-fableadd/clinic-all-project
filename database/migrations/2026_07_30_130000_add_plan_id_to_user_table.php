@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user', function (Blueprint $table) {
-            // Add plan_id column as foreign key
-            $table->unsignedBigInteger('plan_id')->nullable()->after('branch_id');
-            
-        });
+        if (Schema::hasTable('user')) {
+            Schema::table('user', function (Blueprint $table) {
+                if (!Schema::hasColumn('user', 'plan_id')) {
+                    $table->unsignedBigInteger('plan_id')->nullable()->after('branch_id');
+                }
+            });
+        }
     }
 
     /**
@@ -23,12 +25,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('user', function (Blueprint $table) {
-            // Drop foreign key
-            $table->dropForeign(['plan_id']);
-            
-            // Drop column
-            $table->dropColumn('plan_id');
-        });
+        if (Schema::hasTable('user')) {
+            Schema::table('user', function (Blueprint $table) {
+                if (Schema::hasColumn('user', 'plan_id')) {
+                    $table->dropColumn('plan_id');
+                }
+            });
+        }
     }
 };

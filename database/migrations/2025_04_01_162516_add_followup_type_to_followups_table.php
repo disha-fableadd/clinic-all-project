@@ -11,16 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('followups', function (Blueprint $table) {
-            $table->enum('followup_type', [
-                'Regular followup ',
-                'Appointment related',
-                'Medicine related',
-                'Discharge related ',
-                'Report related',
-                'other'
-            ])->nullable()->after('followup_update'); // or choose the column after which you want to add
-        });
+        if (Schema::hasTable('followups')) {
+            Schema::table('followups', function (Blueprint $table) {
+                if (!Schema::hasColumn('followups', 'followup_type')) {
+                    $table->enum('followup_type', [
+                        'Regular followup ',
+                        'Appointment related',
+                        'Medicine related',
+                        'Discharge related ',
+                        'Report related',
+                        'other'
+                    ])->nullable()->after('followup_update');
+                }
+            });
+        }
     }
 
     /**
@@ -28,8 +32,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('followups', function (Blueprint $table) {
-            $table->dropColumn('followup_type');
-        });
+        if (Schema::hasTable('followups')) {
+            Schema::table('followups', function (Blueprint $table) {
+                if (Schema::hasColumn('followups', 'followup_type')) {
+                    $table->dropColumn('followup_type');
+                }
+            });
+        }
     }
 };
