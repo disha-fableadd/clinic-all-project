@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('radiology_reports', function (Blueprint $table) {
-             $table->string('converted_image')->nullable()->after('report_file');
-        });
+        if (Schema::hasTable('radiology_reports')) {
+            Schema::table('radiology_reports', function (Blueprint $table) {
+                if (!Schema::hasColumn('radiology_reports', 'converted_image')) {
+                    $table->string('converted_image')->nullable()->after('report_file');
+                }
+            });
+        }
     }
 
     /**
@@ -21,8 +25,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('radiology_reports', function (Blueprint $table) {
-            //
-        });
+        if (Schema::hasTable('radiology_reports')) {
+            Schema::table('radiology_reports', function (Blueprint $table) {
+                if (Schema::hasColumn('radiology_reports', 'converted_image')) {
+                    $table->dropColumn('converted_image');
+                }
+            });
+        }
     }
 };

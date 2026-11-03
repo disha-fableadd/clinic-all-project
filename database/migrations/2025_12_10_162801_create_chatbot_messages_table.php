@@ -11,6 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (Schema::hasTable('chatbot_messages')) {
+            return;
+        }
+
         Schema::create('chatbot_messages', function (Blueprint $table) {
             $table->id();
              $table->text('user_message');     // user question
