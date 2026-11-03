@@ -275,22 +275,16 @@
                                             <div class="form-group">
                                                 <label><i class="fas fa-city icon-style"></i> City <span
                                                         class="text-danger">*</span></label>
-                                                <select class="form-control select2" id="select-city" name="city" required>
-                                                    <option value="">Select City</option>
-                                                    <option value="Surat">Surat</option>
-                                                    <option value="Ahemdabad">Ahemdabad</option>
-                                                </select>
+                                                <input type="text" class="form-control" id="input-city" name="city"
+                                                    placeholder="Enter City" required>
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-6 col-lg-6">
                                             <div class="form-group">
                                                 <label><i class="fas fa-flag icon-style"></i> State <span
                                                         class="text-danger">*</span></label>
-                                                <select class="form-control select2" id="select-state" name="state"
-                                                    required>
-                                                    <option value="">Select State</option>
-                                                    <option value="Gujarat">Gujarat</option>
-                                                </select>
+                                                <input type="text" class="form-control" id="input-state" name="state"
+                                                    placeholder="Enter State" required>
                                             </div>
                                         </div>
                                     </div>
@@ -402,21 +396,7 @@
     <script>
 
 
-        $('#select-city').select2({
-            placeholder: "Select City",
-            width: '100%'
-        });
-        $('#select-city').on('select2:open', function () {
-            $('.select2-search__field').attr('placeholder', 'Search City');
-        });
 
-        $('#select-state').select2({
-            placeholder: "Select State",
-            width: '100%'
-        });
-        $('#select-state').on('select2:open', function () {
-            $('.select2-search__field').attr('placeholder', 'Search State');
-        });
 
         $('#select-shift').select2({
             placeholder: "Select Shift",
@@ -694,8 +674,8 @@
                         $('input[name="gender"][value="' + data.gender + '"]').prop('checked', true);
                         $('input[name="birth_date"]').val(data.birth_date);
                         $('input[name="address"]').val(data.address);
-                        $('select[name="city"]').val(data.city).trigger('change');
-                        $('select[name="state"]').val(data.state).trigger('change');
+                        $('input[name="city"]').val(data.city);
+                        $('input[name="state"]').val(data.state);
                         $('select[name="shift"]').val(data.shift).trigger('change');
 
                         $('input[name="salary"]').val(data.salary);
