@@ -102,6 +102,104 @@
             height: 540px;
         }
 
+        /* --- DASHBOARD EQUAL HEIGHTS & ALIGNMENT FIX --- */
+        .calender-apointment,
+        .dashboard-charts-row {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            align-items: stretch !important;
+            margin-bottom: 24px !important;
+        }
+
+        .calender-apointment > [class*="col-"],
+        .dashboard-charts-row > [class*="col-"] {
+            display: flex !important;
+            flex-direction: column !important;
+            margin-bottom: 20px !important;
+        }
+
+        .calender-apointment .card,
+        .dashboard-charts-row .card {
+            flex: 1 1 auto !important;
+            width: 100% !important;
+            height: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            margin-bottom: 0 !important;
+            border-radius: 12px !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+            background: #fff !important;
+        }
+
+        .calender-apointment .card-header,
+        .dashboard-charts-row .card-header {
+            min-height: 60px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 12px 20px !important;
+            background-color: transparent !important;
+            border-bottom: 1px solid #f0f0f0 !important;
+        }
+
+        .calender-apointment .card-body,
+        .dashboard-charts-row .card-body {
+            flex: 1 1 auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+            padding: 15px 20px !important;
+        }
+
+        .dashboard-scroll-body {
+            height: 460px !important;
+            max-height: 460px !important;
+            overflow-y: auto !important;
+        }
+
+        .calender-card {
+            height: 100% !important;
+            min-height: 520px !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        #calendar {
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 14px !important;
+            background-color: #fff !important;
+            border-radius: 12px !important;
+            height: 100% !important;
+            min-height: 520px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+        }
+
+        .chart-container {
+            flex: 1 1 auto !important;
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 430px !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        #appointmentStatusChart_admin,
+        .graph {
+            width: 100% !important;
+            height: 430px !important;
+            min-height: 430px !important;
+            flex: 1 1 auto !important;
+        }
+
+        #appointmentStatusChart_admin canvas {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        /* --- END DASHBOARD FIX --- */
+
+
         #appointmentStatusChart_admin canvas {
             position: absolute;
             left: 0px;
@@ -706,9 +804,9 @@
                 </div>
 
 
-                <div class="row calender-apointment">
-                    <div class="col-12 col-md-12 col-lg-6 col-xl-7">
-                        <div class="card">
+                <div class="row calender-apointment align-items-stretch">
+                    <div class="col-12 col-md-12 col-lg-6 col-xl-7 d-flex flex-column">
+                        <div class="card flex-fill h-100 d-flex flex-column">
                             <div class="card-header">
                                 <h4 class="card-title d-inline-block"><i class="fa fa-stethoscope icon-style1"
                                         aria-hidden="true"></i> Upcoming Appointments</h4>
@@ -718,7 +816,7 @@
                                             class="fas fa-arrow-right ml-1"></i></a>
                                 @endif
                             </div>
-                            <div class="card-body " style="height: 430px;overflow-y: scroll;">
+                            <div class="card-body flex-fill d-flex flex-column dashboard-scroll-body">
                                 <div class="table-responsive">
                                     <table class="table custom-table12 tbl1">
                                         <thead style="background-color:#22b428;" class="text-center">
@@ -816,8 +914,8 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-12 col-lg-6 col-xl-5">
-                        <div class="card calender-card">
+                    <div class="col-12 col-md-12 col-lg-6 col-xl-5 d-flex flex-column">
+                        <div class="card calender-card flex-fill h-100 d-flex flex-column">
 
                             <div id="calendar">
                                 <div class="status-container row p-1">
@@ -850,26 +948,25 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row dashboard-charts-row align-items-stretch">
 
-                    <div class="col-12 col-md-12 col-lg-6 col-xl-6">
-                        <div class="card">
-                            <div class="card-body height-card">
-                                <div class="chart-title">
-                                    <div>
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <h4><i class="fa fa-user-md icon-style1" aria-hidden="true"></i> Appointments
-                                            </h4>
-                                            <select id="appointmentFilter" class="form-control w-auto mt-2">
-                                                <option value="week">This Week</option>
-                                                <option value="month" selected>This Month</option>
-                                                <option value="year">This Year</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="chart-container w-100">
-                                            <div id="appointmentStatusChart_admin" class="graph"></div>
-                                        </div>
+                    <div class="col-12 col-md-12 col-lg-6 col-xl-6 d-flex flex-column">
+                        <div class="card flex-fill h-100 d-flex flex-column">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <h4 class="card-title mb-0"><i class="fa fa-user-md icon-style1" aria-hidden="true"></i> Appointments</h4>
+                                    <select id="appointmentFilter" class="form-control w-auto">
+                                        <option value="week">This Week</option>
+                                        <option value="month" selected>This Month</option>
+                                        <option value="year">This Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-body flex-fill d-flex flex-column">
+                                <div class="chart-container w-100 flex-fill d-flex flex-column">
+                                    <div id="appointmentStatusChart_admin" class="graph"></div>
+                                </div>
+                                
 
                                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -938,6 +1035,9 @@
                                                             };
 
                                                             appointmentChartInstance.setOption(option);
+                                                             window.addEventListener("resize", function() {
+                                                                 if (appointmentChartInstance) { appointmentChartInstance.resize(); }
+                                                             });
 
                                                             appointmentChartInstance.on('click', function(params) {
                                                                 const clickedStatus = data.statuses[params.dataIndex];
@@ -960,17 +1060,12 @@
                                                 });
                                             });
                                         </script>
-
-
-                                    </div>
-
-                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-12 col-lg-6 col-xl-6">
-                        <div class="card">
+                    <div class="col-12 col-md-12 col-lg-6 col-xl-6 d-flex flex-column">
+                        <div class="card flex-fill h-100 d-flex flex-column">
                             <div class="card-header">
                                 <h4 class="card-title d-inline-block"><i class="fa fa-user icon-style1"></i> New Patients
                                 </h4>
@@ -984,7 +1079,7 @@
 
 
                             </div>
-                            <div class="card-body" style="height: 445px;overflow-y: scroll;">
+                            <div class="card-body flex-fill d-flex flex-column dashboard-scroll-body">
                                 <div class="table-responsive">
                                     <table class="table custom-table patient-tbl">
                                         <thead style="background-color:#ff8e29;">
@@ -1165,11 +1260,10 @@
 
                 </div>
 
-                <div class="row">
+                <div class="row calender-apointment align-items-stretch">
 
-
-                    <div class="col-12 col-md-12 col-lg-12 col-xl-7">
-                        <div class="card">
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-7 d-flex flex-column">
+                        <div class="card flex-fill h-100 d-flex flex-column">
                             <div class="card-header">
                                 <h4 class="card-title d-inline-block"><i class="fa fa-stethoscope icon-style1"
                                         aria-hidden="true"></i>
@@ -1356,10 +1450,10 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-12 col-md-12 col-lg-12 col-xl-6">
-                        <div class="card">
-                            <div class="card-body height-card">
+                <div class="row dashboard-charts-row align-items-stretch">
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-6 d-flex flex-column">
+                        <div class="card flex-fill h-100 d-flex flex-column">
+                            <div class="card-body height-card flex-fill d-flex flex-column">
                                 <div class="chart-title">
                                     <div>
                                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -1447,6 +1541,9 @@
                                                             };
 
                                                             appointmentChartInstance.setOption(option);
+                                                             window.addEventListener("resize", function() {
+                                                                 if (appointmentChartInstance) { appointmentChartInstance.resize(); }
+                                                             });
 
                                                             // ? Handle click on bar chart
                                                             appointmentChartInstance.on('click', function(
@@ -1485,8 +1582,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-12 col-lg-12 col-xl-6">
-                        <div class="card">
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-6 d-flex flex-column">
+                        <div class="card flex-fill h-100 d-flex flex-column">
                             <div class="card-header">
                                 <h4 class="card-title d-inline-block"><i class="fa fa-user icon-style1"></i> New Patients
                                 </h4>
@@ -1500,7 +1597,7 @@
 
 
                             </div>
-                            <div class="card-body" style="height: 445px;overflow-y: scroll;">
+                            <div class="card-body flex-fill d-flex flex-column dashboard-scroll-body">
                                 <div class="table-responsive">
                                     <table class="table custom-table">
                                         <thead style="background-color:#ff8e29;">
@@ -1674,7 +1771,7 @@
                                             class="fas fa-arrow-right ml-1"></i></a>
                                 @endif
                             </div>
-                            <div class="card-body " style="height: 430px;overflow-y: scroll;">
+                            <div class="card-body flex-fill d-flex flex-column dashboard-scroll-body">
                                 <div class="table-responsive">
                                     <table class="table custom-table12 tbl1">
                                         <thead style="background-color:rgb(233 152 136);" class="text-center">
@@ -1936,6 +2033,9 @@
                                                             };
 
                                                             appointmentChartInstance.setOption(option);
+                                                             window.addEventListener("resize", function() {
+                                                                 if (appointmentChartInstance) { appointmentChartInstance.resize(); }
+                                                             });
 
                                                             appointmentChartInstance.on('click', function(
                                                                 params) {
@@ -1964,17 +2064,12 @@
                                                 });
                                             });
                                         </script>
-
-
-                                    </div>
-
-                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-12 col-lg-12 col-xl-6">
-                        <div class="card">
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-6 d-flex flex-column">
+                        <div class="card flex-fill h-100 d-flex flex-column">
                             <div class="card-header">
                                 <h4 class="card-title d-inline-block"><i class="fa fa-user icon-style1"></i> New Patients
                                 </h4>
@@ -1988,7 +2083,7 @@
 
 
                             </div>
-                            <div class="card-body" style="height: 445px;overflow-y: scroll;">
+                            <div class="card-body flex-fill d-flex flex-column dashboard-scroll-body">
                                 <div class="table-responsive">
                                     <table class="table custom-table">
                                         <thead style="background-color:#ff8e29;">
@@ -2176,7 +2271,7 @@
                                             class="fas fa-arrow-right ml-1"></i></a>
                                 @endif
                             </div>
-                            <div class="card-body " style="height: 430px;overflow-y: scroll;">
+                            <div class="card-body flex-fill d-flex flex-column dashboard-scroll-body">
                                 <div class="table-responsive">
                                     <table class="table custom-table12 tbl1">
                                         <thead style="background-color:rgb(233 152 136);" class="text-center">
